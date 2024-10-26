@@ -1,0 +1,27 @@
+[gd_scene load_steps=3 format=3 uid="uid://dfkwq6qwtxw25"]
+
+[ext_resource type="PackedScene" uid="uid://clfnjh8aelj66" path="res://scenes/prefabs/Player.tscn" id="1_7owxc"]
+[ext_resource type="PackedScene" uid="uid://bbj3at63gfo77" path="res://scenes/prefabs/Obstacle.tscn" id="2_k4yms"]
+
+[node name="Node2D" type="Node2D"]
+
+[node name="Player" parent="." instance=ExtResource("1_7owxc")]
+position = Vector2(384, 301)
+
+[node name="Camera2D" type="Camera2D" parent="Player"]
+position = Vector2(162, -215)
+position_smoothing_enabled = true
+
+[node name="Obstacles" type="Node" parent="."]
+
+[node name="Obstacle" parent="Obstacles" instance=ExtResource("2_k4yms")]
+position = Vector2(975, 262)
+scale = Vector2(2.33092, 1.47225)
+
+[node name="Obstacle2" parent="Obstacles" instance=ExtResource("2_k4yms")]
+position = Vector2(686, 528)
+scale = Vector2(2.35793, 4.02431)
+
+[node name="Obstacle3" parent="Obstacles" instance=ExtResource("2_k4yms")]
+position = Vector2(196, 43)
+scale = Vector2(2.35793, 4.02431)

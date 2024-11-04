@@ -35,7 +35,7 @@ public partial class Player : CharacterBody2D
 
         if (Input.IsActionPressed("ui_right"))
         {
-            inputDirection.X += 1;
+            inputDirection.X += 1 ;
         }
 
         // Normalize input direction to prevent faster diagonal movement

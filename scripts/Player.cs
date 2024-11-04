@@ -7,7 +7,7 @@ public partial class Player : CharacterBody2D
     [Export]
     private float _acceleration = 1200.0f;  // How quickly we reach max speed
     [Export]
-    private float _deceleration = 800.0f;   // How quickly we slow down
+    private float _deceleration =        800.0f;   // How quickly we slow down
 
     // Store the current velocity as a class field to maintain it between frames
     private Vector2 _currentVelocity = Vector2.Zero;
@@ -25,17 +25,17 @@ public partial class Player : CharacterBody2D
 
         if (Input.IsActionPressed("ui_down"))
         {
-            inputDirection.Y += 1;
+               inputDirection.Y += 1  ;
         }
 
         if (Input.IsActionPressed("ui_left"))
         {
-            inputDirection.X -= 1;
+             inputDirection.X -= 1;
         }
 
         if (Input.IsActionPressed("ui_right"))
         {
-            inputDirection.X += 1;
+            inputDirection.X += 1 ;
         }
 
         // Normalize input direction to prevent faster diagonal movement

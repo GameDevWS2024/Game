@@ -1,0 +1,36 @@
+name: CI
+
+on: push
+ 
+jobs:
+  format-and-build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'  # Adjust this to your target version
+
+      - name: Restore dependencies
+        run: dotnet restore
+        
+      - name: Run format checks
+        id: format
+        continue-on-error: true
+        run: |
+          if ! dotnet format Game.sln --no-restore --verify-no-changes --verbosity detailed; then
+            echo "::error::Code formatting check failed. Please run 'dotnet format Game.sln' locally."
+            exit 1
+          fi
+
+      - name: Build the project
+        id: build
+        run: dotnet build --no-restore  # Builds the project without restoring dependencies again
+
+      - name: Run tests
+        id: test
+        run: dotnet test --no-restore --verbosity normal  # Run your tests here
+

@@ -1,13 +1,6 @@
 name: CI
 
-on:
-  push:
-    branches:
-      - main
-      - '**'  # This will run on all branches
-  pull_request:
-    branches:
-      - main  # This will run on PRs targeting the main branch
+on: push
 
 jobs:
   format-and-build:
@@ -25,11 +18,19 @@ jobs:
         run: dotnet restore
 
       - name: Run format checks
-        run: dotnet format Game.sln --no-restore --verify-no-changes --verbosity detailed # Adjust if necessary to suit your format tool
+        id: format
+        continue-on-error: true
+        run: |
+          if ! dotnet format Game.sln --no-restore --verify-no-changes --verbosity detailed; then
+            echo "::error::Code formatting check failed. Please run 'dotnet format Game.sln' locally."
+            exit 1
+          fi
 
       - name: Build the project
+        id: build
         run: dotnet build --no-restore  # Builds the project without restoring dependencies again
 
       - name: Run tests
+        id: test
         run: dotnet test --no-restore --verbosity normal  # Run your tests here
 

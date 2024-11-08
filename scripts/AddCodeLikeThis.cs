@@ -1,6 +1,6 @@
 ﻿namespace Game.scripts;
 
-public class test
+public class AddCodeLikeThis
 {
     
 }

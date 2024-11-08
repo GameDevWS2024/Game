@@ -1,6 +1,6 @@
-﻿namespace Game.scripts;
+﻿namespace Game.Scripts;
 
 public class AddCodeLikeThis
 {
-    
+
 }

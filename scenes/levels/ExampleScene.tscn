@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://dfkwq6qwtxw25"]
+[gd_scene load_steps=5 format=3 uid="uid://dfkwq6qwtxw25"]
 
 [ext_resource type="PackedScene" uid="uid://clfnjh8aelj66" path="res://scenes/prefabs/Player.tscn" id="1_7owxc"]
 [ext_resource type="PackedScene" uid="uid://bbj3at63gfo77" path="res://scenes/prefabs/Obstacle.tscn" id="2_k4yms"]
 [ext_resource type="PackedScene" uid="uid://dkcg0yrtwyo0k" path="res://scenes/prefabs/PointLight.tscn" id="3_0raeo"]
+[ext_resource type="Script" path="res://scripts/Chat.cs" id="4_jkuxm"]
 
 [node name="Node2D" type="Node2D"]
 
@@ -17,14 +18,13 @@ color = Color(0.099986, 0.099986, 0.099986, 1)
 [node name="Player" parent="." instance=ExtResource("1_7owxc")]
 light_mask = 2
 visibility_layer = 2
-position = Vector2(407, 77)
+position = Vector2(415, 540)
 _maxSpeed = 250.0
 _acceleration = 1000.0
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
 light_mask = 2
 visibility_layer = 2
-position = Vector2(162, -215)
 position_smoothing_enabled = true
 
 [node name="Obstacle3" parent="." instance=ExtResource("2_k4yms")]
@@ -39,11 +39,36 @@ position = Vector2(703, 262)
 scale = Vector2(2.33092, 1.47225)
 
 [node name="Obstacle2" parent="Obstacles" instance=ExtResource("2_k4yms")]
-position = Vector2(454, 455)
+position = Vector2(991, 468)
 scale = Vector2(2.35793, 4.02431)
 
 [node name="PointLight2D" parent="." instance=ExtResource("3_0raeo")]
-position = Vector2(512, -148)
+position = Vector2(123, -361)
 color = Color(1, 1, 0.847059, 1)
 energy = 4.48
 texture_scale = 12.14
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="LineEdit" type="LineEdit" parent="CanvasLayer" node_paths=PackedStringArray("_richTextLabel")]
+offset_left = 41.0
+offset_top = 48.0
+offset_right = 289.0
+offset_bottom = 150.0
+placeholder_text = "Type here to chat"
+virtual_keyboard_type = 1
+clear_button_enabled = true
+script = ExtResource("4_jkuxm")
+_systemPromptFile = "res://assets/prompts/example_prompt.txt"
+_richTextLabel = NodePath("../RichTextLabel")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="CanvasLayer"]
+offset_left = 49.0
+offset_top = 162.0
+offset_right = 485.0
+offset_bottom = 630.0
+bbcode_enabled = true
+text = "
+"
+
+[connection signal="text_submitted" from="CanvasLayer/LineEdit" to="CanvasLayer/LineEdit" method="OnTextSubmitted"]

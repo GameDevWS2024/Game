@@ -28,6 +28,8 @@ To get started with the game development, follow these steps:
 5. **Install Git Large File Storage (LFS)**:  
    [Guide to Install Git LFS](https://github.com/git-lfs/git-lfs?utm_source=gitlfs_site&utm_medium=installation_link&utm_campaign=gitlfs#installing)
 
+6. **Get a Gemini API key**
+   [Get a key](https://ai.google.dev/gemini-api/docs/api-key)
 ---
 
 ## Useful Resources

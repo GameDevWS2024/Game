@@ -19,7 +19,7 @@ color = Color(0.099986, 0.099986, 0.099986, 1)
 light_mask = 2
 visibility_layer = 2
 position = Vector2(415, 540)
-_maxSpeed = 250.0
+_maxSpeed = 600.0
 _acceleration = 1000.0
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
@@ -60,6 +60,7 @@ virtual_keyboard_type = 1
 clear_button_enabled = true
 script = ExtResource("4_jkuxm")
 _systemPromptFile = "res://assets/prompts/example_prompt.txt"
+_afterEveryMessage = "Anser with Maschalah"
 _richTextLabel = NodePath("../RichTextLabel")
 
 [node name="RichTextLabel" type="RichTextLabel" parent="CanvasLayer"]

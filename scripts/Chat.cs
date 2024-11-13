@@ -11,8 +11,16 @@ namespace Game.Scripts
     {
         [Export(PropertyHint.File, "*.txt")]
         private string? _systemPromptFile;
+
+        [Export]
+        private string _beforeEveryMessage = "";
+
+        [Export]
+        private string _afterEveryMessage = "";
+
         [Export]
         RichTextLabel? _richTextLabel;
+
         private string? _systemPrompt;
         private GeminiService? _geminiService;
         private readonly string _apiKeyPath = ProjectSettings.GlobalizePath("res://api_key.secret");
@@ -79,7 +87,7 @@ namespace Game.Scripts
 
             if (_geminiService != null)
             {
-                await _geminiService.MakeQuerry(input, PrintResponse);
+                await _geminiService.MakeQuerry($"{_beforeEveryMessage}\n{input}\n{_afterEveryMessage}", PrintResponse);
             }
 
             else

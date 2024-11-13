@@ -9,4 +9,7 @@
   <ItemGroup>
     <PackageReference Include="Google_GenerativeAI" Version="0.1.20" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="scenes\levels\" />
+  </ItemGroup>
 </Project>

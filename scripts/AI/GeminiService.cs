@@ -47,7 +47,7 @@ namespace Game.Scripts.AI
             await _chat.SendMessageAsync(prompt);
         }
 
-        public async Task MakeQuerry(string input, Action<string> outputHandler)
+        public async Task? MakeQuerry(string input, Action<string> outputHandler)
         {
             try
             {

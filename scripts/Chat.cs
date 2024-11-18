@@ -11,6 +11,7 @@ namespace Game.Scripts;
 
 public partial class Chat : LineEdit
 {
+    [Export] private CharacterBody2D allie;
     [Export(PropertyHint.File, "*.txt")] private string? _systemPromptFile;
     [Export] RichTextLabel _richTextLabel = null!;
     private string? _systemPrompt;
@@ -205,13 +206,14 @@ public partial class Chat : LineEdit
     {
         GD.Print($"Submitted text: {input}");
 
-        if (input.Contains("follow"))
+        if (input.Equals("follow"))
         {
-            Node node = GetNode<CharacterBody2D>("../CharacterBody2D");
-            node.Call("switchFollowPlayer");
             GD.Print("switched follow mode");
-            _richTextLabel.Clear();
-            _richTextLabel.Text = "switched follow mode to " + node.Call("getFollowPlayer");
+            Node node = GetTree().Root.GetNode<CharacterBody2D>("TileMapLayer/Region/MeshInstance2D/allie1");
+            GD.Print(node.Name);
+            node.Call("SetFollowPlayer", true);
+             _richTextLabel.Clear();
+            _richTextLabel.Text = "switched follow mode to " + (string)node.Call("getFollowPlayer");
         }
         else if (input.Contains("style"))
         {
@@ -259,6 +261,7 @@ public partial class Chat : LineEdit
             {
                 _completed = false;
                 _task = _geminiService.MakeQuerry(input, PrintResponse);
+                // _geminiService.getChatHistory
                 // await _task!;
             }
             else

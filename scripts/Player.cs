@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 using Godot;
 
 namespace Game.Scripts;
@@ -11,7 +13,27 @@ public partial class Player : CharacterBody2D
     // Store the current velocity as a class field to maintain it between frames
     private Vector2 _currentVelocity = Vector2.Zero;
 
-    public override void _PhysicsProcess(double delta)
+    // Stats and Player initialization
+  
+    public PlayerStats Stats { get; private set; }
+    public void Attack(Player target)
+    {
+        int damage = Stats.Strength;
+        target.Stats.TakeDamage(damage);
+        GD.Print($"{Name} attacked {target.Name} for {damage} damage.");
+    }
+    public void DisplayStats()
+    {
+        GD.Print($"Name: {Name}");
+        GD.Print($"Health: {Stats.Health}");
+        GD.Print($"Strength: {Stats.Strength}");
+        GD.Print($"Speed: {Stats.Speed}");
+        GD.Print($"Mana: {Stats.Mana}");
+    }
+    
+    
+    
+public override void _PhysicsProcess(double delta)
     {
         Vector2 inputDirection = Vector2.Zero;
         float deltaFloat = (float)delta;

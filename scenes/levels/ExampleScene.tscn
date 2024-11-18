@@ -130,7 +130,8 @@ zoom = Vector2(0.8, 0.8)
 position_smoothing_enabled = true
 position_smoothing_speed = 7.0
 
-[node name="CharacterBody2D" type="CharacterBody2D" parent="TileMapLayer/Region/MeshInstance2D"]
+[node name="allie1" type="CharacterBody2D" parent="TileMapLayer/Region/MeshInstance2D"]
+unique_name_in_owner = true
 position = Vector2(0.55, 0.926165)
 scale = Vector2(0.001, 0.001)
 collision_layer = 3
@@ -138,7 +139,7 @@ collision_mask = 3
 script = ExtResource("5_3hn7i")
 _playerPath = NodePath("../Commander")
 
-[node name="NavigationAgent2D" type="NavigationAgent2D" parent="TileMapLayer/Region/MeshInstance2D/CharacterBody2D"]
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="TileMapLayer/Region/MeshInstance2D/allie1"]
 path_desired_distance = 1500.0
 target_desired_distance = 40.0
 path_max_distance = 1500.0
@@ -150,12 +151,12 @@ neighbor_distance = 200.0
 avoidance_layers = 3
 avoidance_mask = 3
 
-[node name="Sprite2D" type="Sprite2D" parent="TileMapLayer/Region/MeshInstance2D/CharacterBody2D"]
+[node name="Sprite2D" type="Sprite2D" parent="TileMapLayer/Region/MeshInstance2D/allie1"]
 position = Vector2(315, 135)
 texture = ExtResource("6_pjkiq")
 offset = Vector2(135, 0)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="TileMapLayer/Region/MeshInstance2D/CharacterBody2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TileMapLayer/Region/MeshInstance2D/allie1"]
 position = Vector2(454, 141)
 shape = SubResource("RectangleShape2D_7ww48")
 

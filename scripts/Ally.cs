@@ -9,18 +9,22 @@ public partial class Ally : CharacterBody2D
     [Export] private NodePath _playerPath;
     private CharacterBody2D _player;
     private NavigationAgent2D _navigationAgent;
-    private const float Speed = 150.0f;
+    
+    private const float Speed = 150.0f, DesiredDistance = 150f, AgentRadius = 100f;
     private Vector2 _velocity = Vector2.Zero;
     private const double Accel = 2;
+    
     private readonly Random _ran = new Random();
     private int _ctr = 0;
+    
     private Vector2 _playerGlobalPosition, _bounds, _targetPosition;
-    private Boolean _followPlayer = false, _debugPrint = false;
+    
+    private Boolean _followPlayer = true, _debugPrint = false;
 
-    public Ally(NodePath playerPath)
-    {
-        _playerPath = playerPath;
-    }
+   // public Ally(NodePath playerPath)
+   // {
+    //    _playerPath = playerPath;
+   // }
 
     public void GoTo(Vector2 loc)
     {
@@ -28,6 +32,7 @@ public partial class Ally : CharacterBody2D
         SetFollowPlayer(false);
         while (!_navigationAgent.IsTargetReached() || GlobalPosition.DistanceTo(_navigationAgent.GetTargetPosition()) < 50)
         {
+            _navigationAgent.SetTargetPosition(loc);
         }
         DecideWhatNow();
     }
@@ -44,7 +49,7 @@ public partial class Ally : CharacterBody2D
         // else if (TOO FAR FROM PLAYER)
         else
         {
-            SetFollowPlayer(true);
+           // SetFollowPlayer(true);
         }
     }
     public void SetFollowPlayer(Boolean follow)
@@ -52,9 +57,11 @@ public partial class Ally : CharacterBody2D
         _followPlayer = follow;
     }
 
-    public void SwitchFollowPlayer()
+    public Boolean SwitchFollowPlayer()
     {
         _followPlayer = !_followPlayer;
+        GD.Print(_followPlayer);
+        return _followPlayer;
     }
     public Boolean GetFollowPlayer()
     {
@@ -65,10 +72,10 @@ public partial class Ally : CharacterBody2D
     {
         _navigationAgent = GetNode<NavigationAgent2D>("NavigationAgent2D");
         _player = GetNode<CharacterBody2D>(_playerPath);
-        _bounds = new Vector2(450, 128);
+        _bounds = new Vector2(240, 120);
         _playerGlobalPosition = _player.GlobalPosition - _bounds;
-        _navigationAgent.PathDesiredDistance = 150;
-        _navigationAgent.Radius = 100;
+        _navigationAgent.PathDesiredDistance = DesiredDistance;
+        _navigationAgent.Radius = AgentRadius;
         if (_followPlayer)
         {
             _navigationAgent.SetTargetPosition(_playerGlobalPosition);
@@ -78,13 +85,13 @@ public partial class Ally : CharacterBody2D
     {
         _bounds = new Vector2(240, 120); //new Vector2(450, 128);
         _playerGlobalPosition = _player.GlobalPosition - _bounds;
-        Vector2 nextPosition = _navigationAgent.GetNextPathPosition();
+        Vector2 nextPosition = _navigationAgent.GetNextPathPosition(); // Get next location to step towards player
 
         // Update navigation as usual
-        if (_navigationAgent.IsTargetReached() ||
-            _navigationAgent.GetNextPathPosition().DistanceTo(_playerGlobalPosition) <
+        if (_navigationAgent.IsTargetReached() || // if is reached
+            _navigationAgent.GetNextPathPosition().DistanceTo(_playerGlobalPosition) < // or next step would be too far
             _navigationAgent.PathDesiredDistance &&
-            _navigationAgent.GetNextPathPosition().DistanceTo(GlobalPosition) < 10)
+            true) //_navigationAgent.GetNextPathPosition().DistanceTo(GlobalPosition) < 10) // or if it doesnt need to move far (tries to remove jittering around)
         {
             _ctr++;
             _velocity = Vector2.Zero;
@@ -93,10 +100,10 @@ public partial class Ally : CharacterBody2D
                 GD.Print("Reached position within tolerance - stopping. Updated target position to: " + _playerGlobalPosition + ". Dist: " + _navigationAgent.PathDesiredDistance);
             }
 
-            if (_ctr > 100)
+            if (_ctr > 100) // Element to get a random desired distance to make the following movement feel more natural
             {
                 _ctr = 0;
-                _navigationAgent.PathDesiredDistance = _ran.Next(180, 400);
+                _navigationAgent.PathDesiredDistance = _ran.Next(180, 200);
                 if (_debugPrint)
                 {
                     GD.Print(_navigationAgent.PathDesiredDistance + " new des. dist");

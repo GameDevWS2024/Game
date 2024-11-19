@@ -1,15 +1,12 @@
-[gd_scene load_steps=20 format=3 uid="uid://dfkwq6qwtxw25"]
+[gd_scene load_steps=11 format=3 uid="uid://dfkwq6qwtxw25"]
 
 [ext_resource type="PackedScene" uid="uid://clfnjh8aelj66" path="res://scenes/prefabs/Player.tscn" id="1_7owxc"]
 [ext_resource type="Texture2D" uid="uid://dweeg6vbxai1c" path="res://scenes/levels/bg.png" id="1_afw7h"]
 [ext_resource type="Shader" path="res://scenes/levels/ExampleScene.gdshader" id="1_kbklw"]
-[ext_resource type="PackedScene" uid="uid://bbj3at63gfo77" path="res://scenes/prefabs/Obstacle.tscn" id="2_k4yms"]
 [ext_resource type="PackedScene" uid="uid://dkcg0yrtwyo0k" path="res://scenes/prefabs/PointLight.tscn" id="3_0raeo"]
 [ext_resource type="Script" path="res://scripts/Chat.cs" id="4_jkuxm"]
-[ext_resource type="Script" path="res://scripts/Ally.cs" id="5_3hn7i"]
-[ext_resource type="Texture2D" uid="uid://cwes7vi2s0gjs" path="res://assets/allie.png" id="6_pjkiq"]
-[ext_resource type="Texture2D" uid="uid://4wumowwpchd5" path="res://assets/obstacles/tree.png" id="9_rlba6"]
-[ext_resource type="Texture2D" uid="uid://c1ny7wkwa38ry" path="res://assets/CORE/CORE.png" id="10_cpwqm"]
+[ext_resource type="PackedScene" uid="uid://b167i7npqa2mb" path="res://scenes/prefabs/Allie.tscn" id="5_l5nbp"]
+[ext_resource type="PackedScene" uid="uid://csb6x207vu85x" path="res://scenes/prefabs/Tree.tscn" id="7_njspg"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_8cl4m"]
 shader = ExtResource("1_kbklw")
@@ -17,28 +14,13 @@ shader = ExtResource("1_kbklw")
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_2qsjx"]
 polygon = PackedVector2Array(-2540, 2494, 2492, 2514, 2519, -2511, -2569, -2494)
 
-[sub_resource type="TileSet" id="TileSet_rvbeq"]
-tile_size = Vector2i(5, 5)
-physics_layer_0/collision_layer = 0
-physics_layer_0/collision_mask = 0
-navigation_layer_0/layers = 3
-
-[sub_resource type="NavigationPolygon" id="NavigationPolygon_7tqeb"]
-outlines = Array[PackedVector2Array]([PackedVector2Array(4.008, 4.03443, -5.99, 4.03443, -5.978, -4.74133, 4.006, -4.75536)])
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_7ww48"]
-size = Vector2(72, 148)
-
-[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_32v3l"]
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_mtrq3"]
-radius = 39.5628
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_b7f6i"]
-size = Vector2(64.8874, 64.3589)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_7i0lq"]
-size = Vector2(66.5529, 63.3333)
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_y1idm"]
+vertices = PackedVector2Array(-173.57, 361.93, -70.0625, 353.93, 175.43, 353.93, 10.4297, 384.57, -235.062, 384.57, 579.43, 306.93, 925.43, 636.57, 679.953, 636.57, 10.4297, 580.93, 333.953, 306.93, -419.062, 361.93, 2441.3, -2449.61, 2397.32, 2424.82, 925.43, 832.93, -2478.21, 2424.82, 679.953, 832.93, -268.57, 734.93, -514.062, 734.93, -2512.42, -2432.02, -514.062, 538.57, 579.43, 110.57, 333.953, 110.57, 175.43, 157.57, -70.0625, 157.57, -235.062, 580.93, -268.57, 538.57, -419.062, 165.57, -173.57, 165.57)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3, 4), PackedInt32Array(2, 5, 6, 7, 8, 3), PackedInt32Array(9, 5, 2), PackedInt32Array(10, 0, 4), PackedInt32Array(11, 12, 13, 6), PackedInt32Array(13, 12, 14, 15), PackedInt32Array(7, 15, 14, 16, 8), PackedInt32Array(17, 16, 14), PackedInt32Array(17, 14, 18, 19), PackedInt32Array(11, 6, 5, 20), PackedInt32Array(18, 11, 20, 21), PackedInt32Array(9, 2, 22, 21), PackedInt32Array(18, 21, 22, 23), PackedInt32Array(24, 8, 16), PackedInt32Array(24, 16, 25, 4), PackedInt32Array(10, 4, 25, 19), PackedInt32Array(10, 19, 18, 26), PackedInt32Array(26, 18, 23, 27), PackedInt32Array(27, 23, 1, 0)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-2569, -2488, -2534, 2481, 2453, 2481, 2498, -2506)])
+source_geometry_mode = 1
+source_geometry_group_name = &"navigation"
+agent_radius = 56.18
 
 [node name="Node2D" type="Node2D"]
 
@@ -60,14 +42,14 @@ occluder = SubResource("OccluderPolygon2D_2qsjx")
 occluder_light_mask = 3
 
 [node name="PointLight2D" parent="." instance=ExtResource("3_0raeo")]
-position = Vector2(876, 401)
+position = Vector2(139, 371)
 color = Color(0.365852, 0.353147, 9.62615e-08, 1)
 energy = 8.35
 shadow_enabled = true
 shadow_color = Color(0.0643274, 0.0646954, 0.0657012, 0)
-shadow_filter = 1
-shadow_filter_smooth = 10.6
-texture_scale = 30.0
+shadow_filter = 2
+shadow_filter_smooth = 2.3
+texture_scale = 43.45
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -94,148 +76,47 @@ text = "
 fit_content = true
 scroll_following = true
 
-[node name="TileMapLayer" type="TileMapLayer" parent="."]
-position = Vector2(-9.53674e-07, -7.62939e-06)
-scale = Vector2(0.5, 0.570093)
-enabled = false
-tile_set = SubResource("TileSet_rvbeq")
+[node name="allie1" parent="." instance=ExtResource("5_l5nbp")]
+unique_name_in_owner = true
+_targetDistanceVariation = 150
 
-[node name="Region" type="NavigationRegion2D" parent="TileMapLayer"]
-modulate = Color(0.389287, 0.389287, 0.389287, 1)
-self_modulate = Color(0.18359, 0.18359, 0.18359, 1)
-top_level = true
-light_mask = 3
-visibility_layer = 3
-position = Vector2(552, 129)
-scale = Vector2(500, 570.093)
-navigation_polygon = SubResource("NavigationPolygon_7tqeb")
-navigation_layers = 3
-travel_cost = 0.25
+[node name="Player" parent="." instance=ExtResource("1_7owxc")]
+unique_name_in_owner = true
+position = Vector2(473, 357)
 
-[node name="MeshInstance2D" type="MeshInstance2D" parent="TileMapLayer/Region"]
-
-[node name="Commander" parent="TileMapLayer/Region/MeshInstance2D" instance=ExtResource("1_7owxc")]
-light_mask = 4
-visibility_layer = 7
-position = Vector2(0.341, 0.44959)
-scale = Vector2(0.001, 0.001)
-slide_on_ceiling = false
-_maxSpeed = 250.0
-_acceleration = 1000.0
-
-[node name="Camera2D" type="Camera2D" parent="TileMapLayer/Region/MeshInstance2D/Commander"]
+[node name="Camera2D" type="Camera2D" parent="Player"]
 light_mask = 2
 visibility_layer = 2
+position = Vector2(249.5, 28.3081)
+scale = Vector2(0.5, 0.570093)
 zoom = Vector2(0.8, 0.8)
 position_smoothing_enabled = true
 position_smoothing_speed = 7.0
 
-[node name="allie1" type="CharacterBody2D" parent="TileMapLayer/Region/MeshInstance2D"]
-unique_name_in_owner = true
-position = Vector2(0.55, 0.926165)
-scale = Vector2(0.001, 0.001)
-collision_layer = 3
-collision_mask = 3
-script = ExtResource("5_3hn7i")
-_playerPath = NodePath("../Commander")
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
+visible = false
+position = Vector2(-26, -69)
+navigation_polygon = SubResource("NavigationPolygon_y1idm")
+metadata/_edit_lock_ = true
 
-[node name="NavigationAgent2D" type="NavigationAgent2D" parent="TileMapLayer/Region/MeshInstance2D/allie1"]
-path_desired_distance = 1500.0
-target_desired_distance = 40.0
-path_max_distance = 1500.0
-navigation_layers = 3
-simplify_path = true
-avoidance_enabled = true
-radius = 214.58
-neighbor_distance = 200.0
-avoidance_layers = 3
-avoidance_mask = 3
+[node name="Obstacles" type="Node" parent="."]
 
-[node name="Sprite2D" type="Sprite2D" parent="TileMapLayer/Region/MeshInstance2D/allie1"]
-position = Vector2(315, 135)
-texture = ExtResource("6_pjkiq")
-offset = Vector2(135, 0)
+[node name="Tree" parent="Obstacles" groups=["navigation"] instance=ExtResource("7_njspg")]
+position = Vector2(8, -2)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="TileMapLayer/Region/MeshInstance2D/allie1"]
-position = Vector2(454, 141)
-shape = SubResource("RectangleShape2D_7ww48")
+[node name="Tree2" parent="Obstacles" groups=["navigation"] instance=ExtResource("7_njspg")]
+position = Vector2(-436, 379)
 
-[node name="Obstacles" type="Node" parent="TileMapLayer/Region/MeshInstance2D"]
+[node name="Tree3" parent="Obstacles" groups=["navigation"] instance=ExtResource("7_njspg")]
+position = Vector2(758, 477)
 
-[node name="tree" parent="TileMapLayer/Region/MeshInstance2D/Obstacles" instance=ExtResource("2_k4yms")]
-position = Vector2(850, 450)
-scale = Vector2(2.33092, 1.47225)
-collision_layer = 3
-collision_mask = 3
-physics_material_override = SubResource("PhysicsMaterial_32v3l")
+[node name="Tree4" parent="Obstacles" groups=["navigation"] instance=ExtResource("7_njspg")]
+position = Vector2(-157, 225)
 
-[node name="NavigationObstacle2D" type="NavigationObstacle2D" parent="TileMapLayer/Region/MeshInstance2D/Obstacles/tree"]
-position = Vector2(229.094, 292.749)
-scale = Vector2(214.508, 387.226)
-radius = 100.0
-vertices = PackedVector2Array(0.00999999, -0.0385902, 0.21, -0.0894591, 0.194, -0.22277, -0.0179999, -0.257852, -0.148, -0.20523, -0.184, -0.0859509)
-affect_navigation_mesh = true
-carve_navigation_mesh = true
-avoidance_layers = 3
+[node name="Tree5" parent="Obstacles" groups=["navigation"] instance=ExtResource("7_njspg")]
+position = Vector2(-341, 6)
 
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="TileMapLayer/Region/MeshInstance2D/Obstacles/tree"]
-position = Vector2(236.387, 227.543)
-shape = SubResource("CircleShape2D_mtrq3")
-debug_color = Color(0.882353, 0, 0.0627451, 0.419608)
-
-[node name="TextureRect" type="TextureRect" parent="TileMapLayer/Region/MeshInstance2D/Obstacles/tree"]
-offset_left = 57.488
-offset_top = -67.9232
-offset_right = 1182.49
-offset_bottom = 1057.08
-scale = Vector2(0.3, 0.3)
-texture = ExtResource("9_rlba6")
-stretch_mode = 4
-
-[node name="Obstacle2" parent="TileMapLayer/Region/MeshInstance2D/Obstacles" instance=ExtResource("2_k4yms")]
-position = Vector2(991, 468)
-scale = Vector2(3, 3)
-
-[node name="NavigationObstacle2D2" type="NavigationObstacle2D" parent="TileMapLayer/Region/MeshInstance2D/Obstacles/Obstacle2"]
-scale = Vector2(212.05, 141.662)
-radius = 164.81
-vertices = PackedVector2Array(-0.165055, 0.242361, -0.190207, 0.00470603, -0.158768, -0.240008, 0.00628781, -0.298833, 0.165055, -0.232949, 0.187063, -0.0258832, 0.165055, 0.263538, 0.00785971, 0.282362)
-affect_navigation_mesh = true
-carve_navigation_mesh = true
-avoidance_layers = 3
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="TileMapLayer/Region/MeshInstance2D/Obstacles/Obstacle2"]
-position = Vector2(0.212067, -0.372742)
-shape = SubResource("RectangleShape2D_b7f6i")
-debug_color = Color(0.882671, 0, 0.228681, 0.42)
-
-[node name="TextureRect" type="TextureRect" parent="TileMapLayer/Region/MeshInstance2D/Obstacles/Obstacle2"]
-light_mask = 8
-visibility_layer = 8
-offset_left = -48.3333
-offset_top = -50.0
-offset_right = 451.667
-offset_bottom = 450.0
-scale = Vector2(0.2, 0.2)
-texture = ExtResource("10_cpwqm")
-
-[node name="Obstacle3" parent="TileMapLayer/Region/MeshInstance2D/Obstacles" instance=ExtResource("2_k4yms")]
-light_mask = 2
-visibility_layer = 2
-position = Vector2(400, 400)
-scale = Vector2(1.758, 3)
-
-[node name="NavigationObstacle2D3" type="NavigationObstacle2D" parent="TileMapLayer/Region/MeshInstance2D/Obstacles/Obstacle3"]
-scale = Vector2(284.414, 190.031)
-radius = 127.78
-vertices = PackedVector2Array(-0.112, 0.178918, -0.116, -0.168394, 0.11, -0.161377, 0.102, 0.168394)
-affect_navigation_mesh = true
-carve_navigation_mesh = true
-avoidance_layers = 3
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="TileMapLayer/Region/MeshInstance2D/Obstacles/Obstacle3"]
-position = Vector2(-1.13766, -0.33333)
-shape = SubResource("RectangleShape2D_7i0lq")
-debug_color = Color(1, 0, 0.0627451, 0.419608)
+[node name="Tree6" parent="Obstacles" groups=["navigation"] instance=ExtResource("7_njspg")]
+position = Vector2(412, -49)
 
 [connection signal="text_submitted" from="CanvasLayer/LineEdit" to="CanvasLayer/LineEdit" method="OnTextSubmitted"]

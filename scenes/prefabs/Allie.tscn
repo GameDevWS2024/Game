@@ -1,0 +1,28 @@
+[gd_scene load_steps=4 format=3 uid="uid://b167i7npqa2mb"]
+
+[ext_resource type="Script" path="res://scripts/Ally.cs" id="1_vknl8"]
+[ext_resource type="Texture2D" uid="uid://cwes7vi2s0gjs" path="res://assets/allie.png" id="2_r3b5x"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7ww48"]
+size = Vector2(72, 148)
+
+[node name="allie1" type="CharacterBody2D"]
+scale = Vector2(0.5, 0.570093)
+collision_layer = 3
+collision_mask = 3
+script = ExtResource("1_vknl8")
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+target_desired_distance = 978.51
+navigation_layers = 3
+avoidance_enabled = true
+avoidance_layers = 3
+avoidance_mask = 3
+debug_enabled = true
+debug_path_custom_point_size = 38.01
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_r3b5x")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_7ww48")

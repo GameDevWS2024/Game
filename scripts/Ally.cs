@@ -23,6 +23,8 @@ public partial class Ally : CharacterBody2D
         _currentTargetDistance = _minTargetDistance;
     }
 
+    
+
     public override void _Process(double delta)
     {
         if (_player == null)
@@ -59,4 +61,9 @@ public partial class Ally : CharacterBody2D
         FollowPlayer = false;
         _agent.SetTargetPosition(target);
     }
+
+    private void OnDetectFollowPlayerInstruction(bool follow, int speed) {
+        FollowPlayer = follow;
+        _speed = speed;
+    } 
 }

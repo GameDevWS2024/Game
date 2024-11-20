@@ -44,12 +44,12 @@ occluder_light_mask = 3
 [node name="PointLight2D" parent="." instance=ExtResource("3_0raeo")]
 position = Vector2(139, 371)
 color = Color(0.365852, 0.353147, 9.62615e-08, 1)
-energy = 8.35
+energy = 5.8
 shadow_enabled = true
 shadow_color = Color(0.0643274, 0.0646954, 0.0657012, 0)
 shadow_filter = 2
 shadow_filter_smooth = 2.3
-texture_scale = 43.45
+texture_scale = 20.39
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -119,4 +119,5 @@ position = Vector2(-341, 6)
 [node name="Tree6" parent="Obstacles" groups=["navigation"] instance=ExtResource("7_njspg")]
 position = Vector2(412, -49)
 
+[connection signal="FollowPlayerInstruction" from="CanvasLayer/LineEdit" to="allie1" method="OnDetectFollowPlayerInstruction"]
 [connection signal="text_submitted" from="CanvasLayer/LineEdit" to="CanvasLayer/LineEdit" method="OnTextSubmitted"]

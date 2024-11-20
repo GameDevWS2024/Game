@@ -8,6 +8,8 @@ using GenerativeAI.Methods;
 using GenerativeAI.Models;
 using GenerativeAI.Types;
 
+using Godot;
+
 namespace Game.Scripts.AI;
 
 public class GeminiService
@@ -44,14 +46,16 @@ public class GeminiService
 
     public async void SetSystemPrompt(string prompt)
     {
+        GD.Print(prompt);
         await _chat.SendMessageAsync(prompt);
     }
 
-    public async Task? MakeQuerry(string input, Action<string> outputHandler)
+    public async Task<string?> MakeQuerry(string input)
     {
+        GD.Print(input);
         try
         {
-            await _chat.StreamContentAsync(input, outputHandler);
+            return await _chat.SendMessageAsync(input);
         }
         catch (Exception ex)
         {

@@ -17,11 +17,6 @@ public partial class Ally : CharacterBody2D
 
     public override void _Ready()
     {
-        if (_pathFindingMovement == null)
-        {
-            throw new Exception("PathFinder not set for Ally");
-        }
-
         _chat.ResponseReceived += HandleResponse;
         _player = GetNode<Player>("%Player");
     }
@@ -30,7 +25,7 @@ public partial class Ally : CharacterBody2D
     {
         if (_followPlayer)
         {
-            _pathFindingMovement.GoTo(_player.GlobalPosition);
+            _pathFindingMovement.TargetPosition = _player.GlobalPosition;
         }
     }
 

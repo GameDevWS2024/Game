@@ -12,6 +12,8 @@ public partial class PathFindingMovement : Node
     [Export] NavigationAgent2D _agent;
     [Export] Sprite2D _sprite;
 
+    public Vector2 TargetPosition { get; set; }
+
     private bool _reachedTarget;
     private int _currentTargetDistance;
 
@@ -22,6 +24,8 @@ public partial class PathFindingMovement : Node
 
     public override void _PhysicsProcess(double delta)
     {
+        _agent.SetTargetPosition(TargetPosition);
+
         if (_debug)
         {
             float distance = _character.GlobalPosition.DistanceTo(_agent.TargetPosition);
@@ -50,10 +54,5 @@ public partial class PathFindingMovement : Node
             EmitSignal(SignalName.ReachedTarget);
             _reachedTarget = true;
         }
-    }
-
-    public void GoTo(Vector2 target)
-    {
-        _agent.SetTargetPosition(target);
     }
 }

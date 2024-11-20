@@ -4,7 +4,7 @@
     public int Strength { get; set; }
     public int Speed { get; set; }
     public int Mana { get; set; }
-    
+
     public PlayerStats(int health, int strength, int speed, int mana)
     {
         Health = health;
@@ -16,7 +16,10 @@
     public void TakeDamage(int damage)
     {
         Health -= damage;
-        if (Health < 0) Health = 0;
+        if (Health < 0)
+        {
+            Health = 0;
+        }
     }
 
     public void Heal(int amount)

@@ -34,6 +34,16 @@ public class GeminiService
                 throw new InvalidOperationException("API key file is empty");
             }
             _model = new GenerativeModel(apiKey);
+
+
+            _model.SafetySettings =
+            [
+                new SafetySetting { Category = HarmCategory.HARM_CATEGORY_HARASSMENT, Threshold = HarmBlockThreshold.BLOCK_NONE },
+                new SafetySetting { Category = HarmCategory.HARM_CATEGORY_HATE_SPEECH, Threshold = HarmBlockThreshold.BLOCK_NONE },
+                new SafetySetting { Category = HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT, Threshold = HarmBlockThreshold.BLOCK_NONE },
+                new SafetySetting { Category = HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT, Threshold = HarmBlockThreshold.BLOCK_NONE }
+            ];
+
             _chat = _model.StartChat(new StartChatParams());
         }
         catch (Exception ex) when (ex is not FileNotFoundException && ex is not ArgumentNullException)

@@ -14,7 +14,7 @@ public partial class Player : CharacterBody2D
     private Vector2 _currentVelocity = Vector2.Zero;
 
     // Stats and Player initialization
-  
+
     public PlayerStats Stats { get; private set; }
     public void Attack(Player target)
     {
@@ -30,10 +30,8 @@ public partial class Player : CharacterBody2D
         GD.Print($"Speed: {Stats.Speed}");
         GD.Print($"Mana: {Stats.Mana}");
     }
-    
-    
-    
-public override void _PhysicsProcess(double delta)
+
+    public override void _PhysicsProcess(double delta)
     {
         Vector2 inputDirection = Vector2.Zero;
         float deltaFloat = (float)delta;

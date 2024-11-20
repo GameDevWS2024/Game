@@ -72,6 +72,11 @@ namespace Game.Scripts
                     EmitSignal(SignalName.ResponseReceived, response);
                 }
 
+                else
+                {
+                    GD.Print("No response");
+                }
+
             }
 
             else

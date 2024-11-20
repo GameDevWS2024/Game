@@ -1,34 +1,37 @@
-using Game.Scripts;
-using System.Text.RegularExpressions;
 using System;
+using System.Text.RegularExpressions;
+
+using Game.Scripts;
 
 using Godot;
 
-public partial class Ally : Node2D
+public partial class Ally : CharacterBody2D
 {
-    [Export] PathFindingComponent _pathFinder;
     [Export] Chat _chat;
     [Export] RichTextLabel _responseField;
+    [Export] PathFindingMovement _pathFindingMovement;
 
-    bool _followPlayer = true;
-    int _motivation;
-
-    Player _player;
-
+    private bool _followPlayer = true;
+    private int _motivation;
+    private Player _player;
 
     public override void _Ready()
     {
+        if (_pathFindingMovement == null)
+        {
+            throw new Exception("PathFinder not set for Ally");
+        }
+
         _chat.ResponseReceived += HandleResponse;
         _player = GetNode<Player>("%Player");
     }
 
     public override void _PhysicsProcess(double delta)
     {
-        if (_followPlayer) {
-            _pathFinder.GoTo(_player.GlobalPosition);
+        if (_followPlayer)
+        {
+            _pathFindingMovement.GoTo(_player.GlobalPosition);
         }
-
-        GlobalPosition = _pathFinder.GlobalPosition;
     }
 
     private void HandleResponse(string response)
@@ -41,9 +44,9 @@ public partial class Ally : Node2D
 
         string pattern = @"MOTIVATION:\s*(\d+)";
         Regex regex = new Regex(pattern);
-        Match match = regex.Match(response);  // Match against responsePice, not pattern
+        Match match = regex.Match(response);
 
-        if (match.Success && match.Groups.Count > 1)  // Check match.Success
+        if (match.Success && match.Groups.Count > 1)
         {
             try
             {

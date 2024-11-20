@@ -1,69 +1,72 @@
+using Game.Scripts;
+using System.Text.RegularExpressions;
+using System;
+
 using Godot;
 
-public partial class Ally : CharacterBody2D
-    {
-    
-    [Export] private int _minTargetDistance = 300;
-    [Export] private int _targetDistanceVariation = 50;
-    [Export] private int _speed = 250; 
+public partial class Ally : Node2D
+{
+    [Export] PathFindingComponent _pathFinder;
+    [Export] Chat _chat;
+    [Export] RichTextLabel _responseField;
 
-    public bool ReachedTarget {get; private set;}
-    private bool FollowPlayer {get; set;} = true;
-    private NavigationAgent2D _agent;
-    private CharacterBody2D _player;
-    private Sprite2D _sprite; 
+    bool _followPlayer = true;
+    int _motivation;
 
-    private int _currentTargetDistance;
-    
+    Player _player;
+
+
     public override void _Ready()
     {
-        _agent = GetNode<NavigationAgent2D>("NavigationAgent2D");
-        _player = GetNode<CharacterBody2D>("%Player");
-        _sprite = GetNode<Sprite2D>("Sprite2D"); 
-        _currentTargetDistance = _minTargetDistance;
+        _chat.ResponseReceived += HandleResponse;
+        _player = GetNode<Player>("%Player");
     }
 
-    
-
-    public override void _Process(double delta)
+    public override void _PhysicsProcess(double delta)
     {
-        if (_player == null)
-        {
-            return;
+        if (_followPlayer) {
+            _pathFinder.GoTo(_player.GlobalPosition);
         }
 
-        if(FollowPlayer) {
-            _agent.SetTargetPosition(_player.GlobalPosition);
-        }
-        
-        if (GlobalPosition.DistanceTo(_agent.TargetPosition) > _currentTargetDistance)
-        {
-            ReachedTarget = false;
-            Vector2 curLoc = GlobalPosition;
-            Vector2 nextLoc = _agent.GetNextPathPosition();
-            Vector2 newVel = (nextLoc - curLoc).Normalized() * _speed;
-
-           if (newVel.X != 0){
-            _sprite.FlipH = newVel.X > 0;
-           }
-
-            Velocity = newVel;
-            MoveAndSlide();
-        }
-
-        else if (!ReachedTarget){
-            _currentTargetDistance = GD.RandRange(_minTargetDistance - _targetDistanceVariation/2, _minTargetDistance + _targetDistanceVariation/2);
-            ReachedTarget = true;
-        }
+        GlobalPosition = _pathFinder.GlobalPosition;
     }
 
-    public void GoTo(Vector2 target) {
-        FollowPlayer = false;
-        _agent.SetTargetPosition(target);
-    }
+    private void HandleResponse(string response)
+    {
+        if (_responseField != null)
+        {
+            _responseField.Text = response;
+        }
+        GD.Print($"Response: {response}");
 
-    private void OnDetectFollowPlayerInstruction(bool follow, int speed) {
-        FollowPlayer = follow;
-        _speed = speed;
-    } 
+        string pattern = @"MOTIVATION:\s*(\d+)";
+        Regex regex = new Regex(pattern);
+        Match match = regex.Match(response);  // Match against responsePice, not pattern
+
+        if (match.Success && match.Groups.Count > 1)  // Check match.Success
+        {
+            try
+            {
+                _motivation = int.Parse(match.Groups[1].Value);
+            }
+            catch (Exception ex)
+            {
+                GD.Print(ex);
+            }
+        }
+
+        if (response.Contains("FOLLOW"))
+        {
+            GD.Print("following");
+            _followPlayer = true;
+        }
+
+        if (response.Contains("STOP"))
+        {
+            GD.Print("stop");
+            _followPlayer = false;
+        }
+
+        GD.Print($"Motivation: {_motivation}");
+    }
 }

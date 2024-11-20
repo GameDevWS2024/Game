@@ -3,21 +3,15 @@ using System.IO;
 using System.Net.Mail;
 using System.Text.RegularExpressions;
 
-using Game.Scripts.AI;
-
 using Godot;
 namespace Game.Scripts
 {
     public partial class Chat : LineEdit
     {
+        [Signal] public delegate void ResponseReceivedEventHandler(string response);
+
         [Export(PropertyHint.File, "*.txt")]
         private string? _systemPromptFile;
-
-        [Export]
-        RichTextLabel? _richTextLabel;
-
-        [Signal] public delegate void FollowPlayerInstructionEventHandler(bool follow, int speed);
-        
 
         private string? _systemPrompt;
         private GeminiService? _geminiService;
@@ -25,50 +19,10 @@ namespace Game.Scripts
         private const string ChatPlaceholder = "Type here to chat";
         private const string EnterApiPlaceholder = "Enter API key";
 
-        private void HandleResponse(string response)
-        {
-            if (_richTextLabel != null)
-            {
-                _richTextLabel.Text =  response;
-            }
-            GD.Print($"Response: {response}");
-
-            string pattern = @"MOTIVATION:\s*(\d+)";
-            Regex regex = new Regex(pattern);
-            Match match = regex.Match(response);  // Match against responsePice, not pattern
-
-            int motivation = 5;
-
-            if (match.Success && match.Groups.Count > 1)  // Check match.Success
-            {
-                try
-                {
-                    motivation = int.Parse(match.Groups[1].Value);
-                }
-                catch (Exception ex)
-                {
-                    GD.Print(ex);
-                }
-            }
-
-            if (response.Contains("FOLLOW"))
-            {
-                    GD.Print("following");
-                EmitSignal(SignalName.FollowPlayerInstruction, true, motivation * 25);
-            }
-
-            if (response.Contains("STOP"))
-            {
-                GD.Print("stop");
-                EmitSignal(SignalName.FollowPlayerInstruction, false, motivation * 25);
-            }
-
-            GD.Print($"Motivation: {motivation}");
-        }
-
-
         public override void _Ready()
         {
+            TextSubmitted += OnTextSubmitted;
+
             string systemPromptAbsolutePath = ProjectSettings.GlobalizePath(_systemPromptFile);
 
             try
@@ -115,7 +69,7 @@ namespace Game.Scripts
                 string? response = await _geminiService.MakeQuerry(input);
                 if (response != null)
                 {
-                    HandleResponse(response);
+                    EmitSignal(SignalName.ResponseReceived, response);
                 }
 
             }

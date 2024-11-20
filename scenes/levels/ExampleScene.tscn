@@ -1,12 +1,14 @@
-[gd_scene load_steps=11 format=3 uid="uid://dfkwq6qwtxw25"]
+[gd_scene load_steps=14 format=3 uid="uid://dfkwq6qwtxw25"]
 
 [ext_resource type="PackedScene" uid="uid://clfnjh8aelj66" path="res://scenes/prefabs/Player.tscn" id="1_7owxc"]
 [ext_resource type="Texture2D" uid="uid://dweeg6vbxai1c" path="res://scenes/levels/bg.png" id="1_afw7h"]
 [ext_resource type="Shader" path="res://scenes/levels/ExampleScene.gdshader" id="1_kbklw"]
+[ext_resource type="Script" path="res://scripts/Ally.cs" id="1_x0lw5"]
 [ext_resource type="PackedScene" uid="uid://dkcg0yrtwyo0k" path="res://scenes/prefabs/PointLight.tscn" id="3_0raeo"]
-[ext_resource type="Script" path="res://scripts/Chat.cs" id="4_jkuxm"]
-[ext_resource type="PackedScene" uid="uid://b167i7npqa2mb" path="res://scenes/prefabs/Allie.tscn" id="5_l5nbp"]
 [ext_resource type="PackedScene" uid="uid://csb6x207vu85x" path="res://scenes/prefabs/Tree.tscn" id="7_njspg"]
+[ext_resource type="Script" path="res://scripts/Components/PathFindingComponent.cs" id="7_ptb2h"]
+[ext_resource type="Script" path="res://scripts/Chat.cs" id="7_qwssy"]
+[ext_resource type="Texture2D" uid="uid://cwes7vi2s0gjs" path="res://assets/allie.png" id="8_lowex"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_8cl4m"]
 shader = ExtResource("1_kbklw")
@@ -15,12 +17,15 @@ shader = ExtResource("1_kbklw")
 polygon = PackedVector2Array(-2540, 2494, 2492, 2514, 2519, -2511, -2569, -2494)
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_y1idm"]
-vertices = PackedVector2Array(-173.57, 361.93, -70.0625, 353.93, 175.43, 353.93, 10.4297, 384.57, -235.062, 384.57, 579.43, 306.93, 925.43, 636.57, 679.953, 636.57, 10.4297, 580.93, 333.953, 306.93, -419.062, 361.93, 2441.3, -2449.61, 2397.32, 2424.82, 925.43, 832.93, -2478.21, 2424.82, 679.953, 832.93, -268.57, 734.93, -514.062, 734.93, -2512.42, -2432.02, -514.062, 538.57, 579.43, 110.57, 333.953, 110.57, 175.43, 157.57, -70.0625, 157.57, -235.062, 580.93, -268.57, 538.57, -419.062, 165.57, -173.57, 165.57)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3, 4), PackedInt32Array(2, 5, 6, 7, 8, 3), PackedInt32Array(9, 5, 2), PackedInt32Array(10, 0, 4), PackedInt32Array(11, 12, 13, 6), PackedInt32Array(13, 12, 14, 15), PackedInt32Array(7, 15, 14, 16, 8), PackedInt32Array(17, 16, 14), PackedInt32Array(17, 14, 18, 19), PackedInt32Array(11, 6, 5, 20), PackedInt32Array(18, 11, 20, 21), PackedInt32Array(9, 2, 22, 21), PackedInt32Array(18, 21, 22, 23), PackedInt32Array(24, 8, 16), PackedInt32Array(24, 16, 25, 4), PackedInt32Array(10, 4, 25, 19), PackedInt32Array(10, 19, 18, 26), PackedInt32Array(26, 18, 23, 27), PackedInt32Array(27, 23, 1, 0)])
+vertices = PackedVector2Array(579.43, 306.93, 925.43, 636.57, 679.953, 636.57, 10.4297, 580.93, 10.4297, 384.57, -173.57, 361.93, 333.953, 306.93, -235.062, 384.57, 2441.3, -2449.61, 2397.32, 2424.82, 925.43, 832.93, -2478.21, 2424.82, 679.953, 832.93, -268.57, 734.93, -514.062, 734.93, -2512.42, -2432.02, -514.062, 538.57, -419.062, 361.93, 579.43, 110.57, 360.43, -24.4297, -173.57, 165.57, 114.953, 171.93, -235.062, 580.93, -268.57, 538.57, -419.062, 165.57, 360.43, 110.57, 114.953, -24.4297, 333.953, 171.93)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3, 4), PackedInt32Array(5, 6, 0, 4, 7), PackedInt32Array(8, 9, 10, 1), PackedInt32Array(10, 9, 11, 12), PackedInt32Array(2, 12, 11, 13, 3), PackedInt32Array(14, 13, 11), PackedInt32Array(14, 11, 15, 16), PackedInt32Array(17, 5, 7), PackedInt32Array(8, 1, 0, 18), PackedInt32Array(15, 8, 18, 19), PackedInt32Array(6, 5, 20, 21), PackedInt32Array(22, 3, 13), PackedInt32Array(22, 13, 23, 7), PackedInt32Array(17, 7, 23, 16), PackedInt32Array(17, 16, 15, 24), PackedInt32Array(18, 25, 19), PackedInt32Array(15, 19, 26), PackedInt32Array(24, 15, 26, 20), PackedInt32Array(20, 26, 21), PackedInt32Array(6, 21, 27)])
 outlines = Array[PackedVector2Array]([PackedVector2Array(-2569, -2488, -2534, 2481, 2453, 2481, 2498, -2506)])
 source_geometry_mode = 1
 source_geometry_group_name = &"navigation"
 agent_radius = 56.18
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0gjo4"]
+size = Vector2(71, 156)
 
 [node name="Node2D" type="Node2D"]
 
@@ -51,35 +56,6 @@ shadow_filter = 2
 shadow_filter_smooth = 2.3
 texture_scale = 20.39
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-
-[node name="LineEdit" type="LineEdit" parent="CanvasLayer" node_paths=PackedStringArray("_richTextLabel")]
-offset_left = -3.0
-offset_top = 83.0
-offset_right = 364.0
-offset_bottom = 185.0
-placeholder_text = "Type here to chat"
-virtual_keyboard_type = 1
-clear_button_enabled = true
-script = ExtResource("4_jkuxm")
-_systemPromptFile = "res://assets/prompts/example_prompt.txt"
-_richTextLabel = NodePath("../RichTextLabel")
-
-[node name="RichTextLabel" type="RichTextLabel" parent="CanvasLayer"]
-offset_left = 24.0
-offset_top = 198.0
-offset_right = 525.0
-offset_bottom = 847.0
-bbcode_enabled = true
-text = "
-"
-fit_content = true
-scroll_following = true
-
-[node name="allie1" parent="." instance=ExtResource("5_l5nbp")]
-unique_name_in_owner = true
-_targetDistanceVariation = 150
-
 [node name="Player" parent="." instance=ExtResource("1_7owxc")]
 unique_name_in_owner = true
 position = Vector2(473, 357)
@@ -102,7 +78,7 @@ metadata/_edit_lock_ = true
 [node name="Obstacles" type="Node" parent="."]
 
 [node name="Tree" parent="Obstacles" groups=["navigation"] instance=ExtResource("7_njspg")]
-position = Vector2(8, -2)
+position = Vector2(193, -184)
 
 [node name="Tree2" parent="Obstacles" groups=["navigation"] instance=ExtResource("7_njspg")]
 position = Vector2(-436, 379)
@@ -119,5 +95,42 @@ position = Vector2(-341, 6)
 [node name="Tree6" parent="Obstacles" groups=["navigation"] instance=ExtResource("7_njspg")]
 position = Vector2(412, -49)
 
-[connection signal="FollowPlayerInstruction" from="CanvasLayer/LineEdit" to="allie1" method="OnDetectFollowPlayerInstruction"]
-[connection signal="text_submitted" from="CanvasLayer/LineEdit" to="CanvasLayer/LineEdit" method="OnTextSubmitted"]
+[node name="Ally" type="Node2D" parent="." node_paths=PackedStringArray("_pathFinder", "_chat", "_responseField")]
+script = ExtResource("1_x0lw5")
+_pathFinder = NodePath("PathFindingMovement")
+_chat = NodePath("LineEdit")
+_responseField = NodePath("RichTextLabel")
+
+[node name="LineEdit" type="LineEdit" parent="Ally"]
+offset_left = 37.0
+offset_top = -145.0
+offset_right = 400.0
+offset_bottom = -85.0
+script = ExtResource("7_qwssy")
+_systemPromptFile = "res://assets/prompts/example_prompt.txt"
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Ally"]
+offset_left = 43.0
+offset_top = -75.0
+offset_right = 423.0
+offset_bottom = 119.0
+
+[node name="PathFindingMovement" type="CharacterBody2D" parent="Ally" node_paths=PackedStringArray("_agent", "_sprite")]
+script = ExtResource("7_ptb2h")
+_targetDistanceVariation = 150
+_agent = NodePath("NavigationAgent2D")
+_sprite = NodePath("Sprite2D")
+metadata/_edit_lock_ = true
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="Ally/PathFindingMovement"]
+debug_enabled = true
+debug_path_custom_color = Color(0.818464, 1.8771e-06, 3.85046e-07, 1)
+
+[node name="Sprite2D" type="Sprite2D" parent="Ally/PathFindingMovement"]
+texture = ExtResource("8_lowex")
+metadata/_edit_lock_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ally/PathFindingMovement"]
+position = Vector2(0, -1)
+shape = SubResource("RectangleShape2D_0gjo4")
+metadata/_edit_lock_ = true

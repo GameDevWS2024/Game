@@ -10,8 +10,6 @@ using GenerativeAI.Types;
 
 using Godot;
 
-namespace Game.Scripts.AI;
-
 public class GeminiService
 {
     private readonly GenerativeModel _model;

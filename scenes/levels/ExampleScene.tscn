@@ -14,12 +14,12 @@ shader = ExtResource("1_kbklw")
 polygon = PackedVector2Array(-2540, 2494, 2492, 2514, 2519, -2511, -2569, -2494)
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_y1idm"]
-vertices = PackedVector2Array(579.43, 306.93, 925.43, 636.57, 679.953, 636.57, 10.4297, 580.93, 10.4297, 384.57, -173.57, 361.93, 333.953, 306.93, -235.062, 384.57, 2441.3, -2449.61, 2397.32, 2424.82, 925.43, 832.93, -2478.21, 2424.82, 679.953, 832.93, -268.57, 734.93, -514.062, 734.93, -2512.42, -2432.02, -514.062, 538.57, -419.062, 361.93, 579.43, 110.57, 360.43, -24.4297, -173.57, 165.57, 114.953, 171.93, -235.062, 580.93, -268.57, 538.57, -419.062, 165.57, 360.43, 110.57, 114.953, -24.4297, 333.953, 171.93)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3, 4), PackedInt32Array(5, 6, 0, 4, 7), PackedInt32Array(8, 9, 10, 1), PackedInt32Array(10, 9, 11, 12), PackedInt32Array(2, 12, 11, 13, 3), PackedInt32Array(14, 13, 11), PackedInt32Array(14, 11, 15, 16), PackedInt32Array(17, 5, 7), PackedInt32Array(8, 1, 0, 18), PackedInt32Array(15, 8, 18, 19), PackedInt32Array(6, 5, 20, 21), PackedInt32Array(22, 3, 13), PackedInt32Array(22, 13, 23, 7), PackedInt32Array(17, 7, 23, 16), PackedInt32Array(17, 16, 15, 24), PackedInt32Array(18, 25, 19), PackedInt32Array(15, 19, 26), PackedInt32Array(24, 15, 26, 20), PackedInt32Array(20, 26, 21), PackedInt32Array(6, 21, 27)])
+vertices = PackedVector2Array(648.352, 213, 2346.63, -2355.46, 2304.35, 2331, 544.352, 714, 622.43, 309.68, 551.68, 45.5703, 455, 19.6484, 169.352, -159, 143.43, -255.68, 518.43, 617.32, 551.68, 380.43, 183.57, 617.32, 157.648, 714, 133.352, 668, 107.43, 571.32, 107.43, 764.68, 183.57, 810.68, 358.32, 45.5703, 143.43, -62.3203, 622.43, 116.32, 447.68, 546.57, 455, 406.352, 518.43, 810.68, 287.57, 116.32, 72.6797, 8.42969, 261.648, 213, -257.57, 217.68, -231.648, 121, -24, 34.3516, -736.648, 780, -253.352, 668, -227.43, 764.68, -762.57, 876.68, 351, 520.648, 358.32, 380.43, -2417.93, -2338.53, 72.6797, -326.43, -120.68, 8.42969, -257.57, 24.3203, -191.43, -62.3203, -328.32, -46.4297, -217.352, -159, -425, -72.3516, -762.57, 683.32, -227.43, 571.32, 447.68, 881.43, -2385.05, 2331, 351, 907.352, 254.32, 881.43, 36.6797, 835.43, -60, 861.352, 254.32, 546.57, 36.6797, 500.57, -156.68, 835.43, -833.32, 947.43, -328.32, 288.43, 287.57, 309.68, -60, 474.648, -833.32, 612.57, -425, 314.352, -156.68, 500.57, -521.68, 288.43, -592.43, 217.68, -930, 586.648, -618.352, 121, -1026.68, 612.57, -191.43, -255.68, -521.68, -46.4297, -930, 973.352, -1026.68, 947.43, -1097.43, 876.68, -1123.35, 780, -1097.43, 683.32, -592.43, 24.3203, -120.68, -326.43, -24, -352.352)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3, 4), PackedInt32Array(5, 6, 7, 8), PackedInt32Array(4, 3, 9, 10), PackedInt32Array(11, 12, 13, 14), PackedInt32Array(15, 13, 12, 16), PackedInt32Array(7, 6, 17, 18), PackedInt32Array(1, 0, 19), PackedInt32Array(10, 9, 20, 21), PackedInt32Array(22, 3, 2), PackedInt32Array(18, 17, 23, 24), PackedInt32Array(24, 23, 25, 26, 27, 28), PackedInt32Array(29, 30, 31, 32), PackedInt32Array(21, 20, 33, 34), PackedInt32Array(1, 19, 5), PackedInt32Array(35, 1, 5, 36), PackedInt32Array(37, 28, 27, 38), PackedInt32Array(39, 37, 38, 40), PackedInt32Array(41, 39, 40, 42), PackedInt32Array(30, 29, 43, 44), PackedInt32Array(45, 22, 2), PackedInt32Array(45, 2, 46, 47), PackedInt32Array(48, 47, 46), PackedInt32Array(49, 16, 48, 46, 50), PackedInt32Array(51, 11, 14, 52), PackedInt32Array(49, 15, 16), PackedInt32Array(53, 50, 46), PackedInt32Array(31, 53, 46, 54), PackedInt32Array(55, 26, 25, 56, 51, 52, 57), PackedInt32Array(34, 33, 51, 56), PackedInt32Array(44, 43, 58, 59, 55, 60), PackedInt32Array(55, 57, 60), PackedInt32Array(61, 59, 58), PackedInt32Array(62, 61, 58, 63), PackedInt32Array(64, 62, 63, 65, 35), PackedInt32Array(35, 66, 41, 42, 67), PackedInt32Array(54, 32, 31), PackedInt32Array(68, 54, 46), PackedInt32Array(69, 68, 46), PackedInt32Array(70, 69, 46), PackedInt32Array(70, 46, 35, 71), PackedInt32Array(72, 71, 35), PackedInt32Array(65, 72, 35), PackedInt32Array(73, 64, 35), PackedInt32Array(67, 73, 35), PackedInt32Array(74, 66, 35), PackedInt32Array(75, 74, 35), PackedInt32Array(36, 75, 35), PackedInt32Array(36, 5, 8)])
 outlines = Array[PackedVector2Array]([PackedVector2Array(-2569, -2488, -2534, 2481, 2453, 2481, 2498, -2506)])
 source_geometry_mode = 1
 source_geometry_group_name = &"navigation"
-agent_radius = 56.18
+agent_radius = 150.0
 
 [node name="Node2D" type="Node2D"]
 
@@ -64,7 +64,6 @@ position_smoothing_enabled = true
 position_smoothing_speed = 7.0
 
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
-visible = false
 position = Vector2(-26, -69)
 navigation_polygon = SubResource("NavigationPolygon_y1idm")
 metadata/_edit_lock_ = true
@@ -72,19 +71,19 @@ metadata/_edit_lock_ = true
 [node name="Obstacles" type="Node" parent="."]
 
 [node name="Tree" parent="Obstacles" groups=["navigation"] instance=ExtResource("7_njspg")]
-position = Vector2(193, -184)
+position = Vector2(-67, -421)
 
 [node name="Tree2" parent="Obstacles" groups=["navigation"] instance=ExtResource("7_njspg")]
-position = Vector2(-436, 379)
+position = Vector2(-973, 518)
 
 [node name="Tree3" parent="Obstacles" groups=["navigation"] instance=ExtResource("7_njspg")]
-position = Vector2(758, 477)
+position = Vector2(308, 452)
 
 [node name="Tree4" parent="Obstacles" groups=["navigation"] instance=ExtResource("7_njspg")]
-position = Vector2(-157, 225)
+position = Vector2(-103, 406)
 
 [node name="Tree5" parent="Obstacles" groups=["navigation"] instance=ExtResource("7_njspg")]
-position = Vector2(-341, 6)
+position = Vector2(-468, -141)
 
 [node name="Tree6" parent="Obstacles" groups=["navigation"] instance=ExtResource("7_njspg")]
 position = Vector2(412, -49)

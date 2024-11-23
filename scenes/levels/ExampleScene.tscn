@@ -1,17 +1,24 @@
-[gd_scene load_steps=10 format=3 uid="uid://dfkwq6qwtxw25"]
+[gd_scene load_steps=15 format=3 uid="uid://dfkwq6qwtxw25"]
 
 [ext_resource type="PackedScene" uid="uid://clfnjh8aelj66" path="res://scenes/prefabs/Player.tscn" id="1_7owxc"]
 [ext_resource type="Texture2D" uid="uid://dweeg6vbxai1c" path="res://scenes/levels/bg.png" id="1_afw7h"]
 [ext_resource type="Shader" path="res://scenes/levels/ExampleScene.gdshader" id="1_kbklw"]
 [ext_resource type="PackedScene" uid="uid://dkcg0yrtwyo0k" path="res://scenes/prefabs/PointLight.tscn" id="3_0raeo"]
+[ext_resource type="Texture2D" uid="uid://gba1pbl4wpx0" path="res://assets/commander.png" id="5_66lmi"]
 [ext_resource type="PackedScene" uid="uid://6gwtt7kwq2p" path="res://scenes/prefabs/Ally.tscn" id="6_l8h37"]
-[ext_resource type="PackedScene" uid="uid://csb6x207vu85x" path="res://scenes/prefabs/Tree.tscn" id="7_njspg"]
+[ext_resource type="PackedScene" uid="uid://csb6x207vu85x" path="res://scenes/prefabs/copper_tree.tscn" id="7_njspg"]
+[ext_resource type="PackedScene" uid="uid://digrdistp5e8m" path="res://scenes/prefabs/bush.tscn" id="7_vkr2b"]
+[ext_resource type="PackedScene" uid="uid://ki7e88gvvcs" path="res://scenes/prefabs/ice_tree.tscn" id="9_tf77n"]
+[ext_resource type="PackedScene" uid="uid://c52r54sodgdc0" path="res://scenes/prefabs/stone.tscn" id="10_4xrrw"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_8cl4m"]
 shader = ExtResource("1_kbklw")
 
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_2qsjx"]
 polygon = PackedVector2Array(-2540, 2494, 2492, 2514, 2519, -2511, -2569, -2494)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_hnti7"]
+shader = ExtResource("1_kbklw")
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_y1idm"]
 vertices = PackedVector2Array(648.352, 213, 2346.63, -2355.46, 2304.35, 2331, 544.352, 714, 622.43, 309.68, 551.68, 45.5703, 455, 19.6484, 169.352, -159, 143.43, -255.68, 518.43, 617.32, 551.68, 380.43, 183.57, 617.32, 157.648, 714, 133.352, 668, 107.43, 571.32, 107.43, 764.68, 183.57, 810.68, 358.32, 45.5703, 143.43, -62.3203, 622.43, 116.32, 447.68, 546.57, 455, 406.352, 518.43, 810.68, 287.57, 116.32, 72.6797, 8.42969, 261.648, 213, -257.57, 217.68, -231.648, 121, -24, 34.3516, -736.648, 780, -253.352, 668, -227.43, 764.68, -762.57, 876.68, 351, 520.648, 358.32, 380.43, -2417.93, -2338.53, 72.6797, -326.43, -120.68, 8.42969, -257.57, 24.3203, -191.43, -62.3203, -328.32, -46.4297, -217.352, -159, -425, -72.3516, -762.57, 683.32, -227.43, 571.32, 447.68, 881.43, -2385.05, 2331, 351, 907.352, 254.32, 881.43, 36.6797, 835.43, -60, 861.352, 254.32, 546.57, 36.6797, 500.57, -156.68, 835.43, -833.32, 947.43, -328.32, 288.43, 287.57, 309.68, -60, 474.648, -833.32, 612.57, -425, 314.352, -156.68, 500.57, -521.68, 288.43, -592.43, 217.68, -930, 586.648, -618.352, 121, -1026.68, 612.57, -191.43, -255.68, -521.68, -46.4297, -930, 973.352, -1026.68, 947.43, -1097.43, 876.68, -1123.35, 780, -1097.43, 683.32, -592.43, 24.3203, -120.68, -326.43, -24, -352.352)
@@ -43,16 +50,20 @@ occluder_light_mask = 3
 [node name="PointLight2D" parent="." instance=ExtResource("3_0raeo")]
 position = Vector2(139, 371)
 color = Color(0.365852, 0.353147, 9.62615e-08, 1)
-energy = 5.8
+energy = 10.0
 shadow_enabled = true
 shadow_color = Color(0.0643274, 0.0646954, 0.0657012, 0)
 shadow_filter = 2
 shadow_filter_smooth = 2.3
 texture_scale = 20.39
 
-[node name="Player" parent="." instance=ExtResource("1_7owxc")]
+[node name="Player" parent="." node_paths=PackedStringArray("_playerSprite") instance=ExtResource("1_7owxc")]
 unique_name_in_owner = true
+material = SubResource("ShaderMaterial_hnti7")
 position = Vector2(473, 357)
+_maxSpeed = 450.0
+_deceleration = 900.0
+_playerSprite = NodePath("Sprite2D2")
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
 light_mask = 2
@@ -63,6 +74,10 @@ zoom = Vector2(0.8, 0.8)
 position_smoothing_enabled = true
 position_smoothing_speed = 7.0
 
+[node name="Sprite2D2" type="Sprite2D" parent="Player"]
+scale = Vector2(0.4, 0.4)
+texture = ExtResource("5_66lmi")
+
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
 position = Vector2(-26, -69)
 navigation_polygon = SubResource("NavigationPolygon_y1idm")
@@ -71,21 +86,49 @@ metadata/_edit_lock_ = true
 [node name="Obstacles" type="Node" parent="."]
 
 [node name="Tree" parent="Obstacles" groups=["navigation"] instance=ExtResource("7_njspg")]
-position = Vector2(-67, -421)
+position = Vector2(-464, -533)
+
+[node name="Tree7" parent="Obstacles" groups=["navigation"] instance=ExtResource("7_njspg")]
+position = Vector2(-785, -1213)
+
+[node name="Tree8" parent="Obstacles" groups=["navigation"] instance=ExtResource("7_njspg")]
+position = Vector2(188, -900)
 
 [node name="Tree2" parent="Obstacles" groups=["navigation"] instance=ExtResource("7_njspg")]
-position = Vector2(-973, 518)
+position = Vector2(-899, -11.9999)
 
 [node name="Tree3" parent="Obstacles" groups=["navigation"] instance=ExtResource("7_njspg")]
-position = Vector2(308, 452)
+position = Vector2(455, 649)
 
 [node name="Tree4" parent="Obstacles" groups=["navigation"] instance=ExtResource("7_njspg")]
-position = Vector2(-103, 406)
+position = Vector2(-220, 584)
 
 [node name="Tree5" parent="Obstacles" groups=["navigation"] instance=ExtResource("7_njspg")]
-position = Vector2(-468, -141)
+position = Vector2(1185, 254)
 
 [node name="Tree6" parent="Obstacles" groups=["navigation"] instance=ExtResource("7_njspg")]
-position = Vector2(412, -49)
+position = Vector2(707, -422)
+
+[node name="Tree9" parent="Obstacles" instance=ExtResource("7_vkr2b")]
+position = Vector2(111, 934)
 
 [node name="Ally" parent="." instance=ExtResource("6_l8h37")]
+position = Vector2(-122, 123)
+
+[node name="Tree" parent="." instance=ExtResource("9_tf77n")]
+position = Vector2(-233, 119)
+
+[node name="Tree2" parent="." instance=ExtResource("9_tf77n")]
+position = Vector2(255, -145)
+
+[node name="Tree3" parent="." instance=ExtResource("10_4xrrw")]
+position = Vector2(408, 144)
+
+[node name="Tree4" parent="." instance=ExtResource("10_4xrrw")]
+position = Vector2(113, 541)
+
+[node name="Tree5" parent="." instance=ExtResource("10_4xrrw")]
+position = Vector2(218, -351)
+
+[node name="Tree6" parent="." instance=ExtResource("10_4xrrw")]
+position = Vector2(-270, -120)

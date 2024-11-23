@@ -2,11 +2,12 @@
 
 [ext_resource type="Script" path="res://scripts/Ally.cs" id="1_anjrv"]
 [ext_resource type="Script" path="res://scripts/Chat.cs" id="2_k8ael"]
-[ext_resource type="Texture2D" uid="uid://cwes7vi2s0gjs" path="res://assets/allie.png" id="3_be1fw"]
+[ext_resource type="Texture2D" uid="uid://cmhtqgk8qwwvg" path="res://assets/ally.png" id="3_hn7of"]
 [ext_resource type="Script" path="res://scripts/PathFindingMovement.cs" id="4_v650j"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_s23e7"]
-size = Vector2(47, 132)
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_rn1pq"]
+radius = 35.0
+height = 120.0
 
 [node name="Ally" type="CharacterBody2D" node_paths=PackedStringArray("_chat", "_responseField", "_pathFindingMovement")]
 script = ExtResource("1_anjrv")
@@ -35,11 +36,11 @@ simplify_path = true
 debug_enabled = true
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("3_be1fw")
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("3_hn7of")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(2, -4)
-shape = SubResource("RectangleShape2D_s23e7")
+shape = SubResource("CapsuleShape2D_rn1pq")
 
 [node name="PathFindingMovement" type="Node" parent="." node_paths=PackedStringArray("_character", "_agent", "_sprite")]
 script = ExtResource("4_v650j")

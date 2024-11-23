@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://digrdistp5e8m"]
+
+[ext_resource type="Texture2D" uid="uid://bywop5ppm3q44" path="res://assets/obstacles/Busch.png" id="1_cbn3k"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_30yar"]
+radius = 250.0
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_3sjxb"]
+polygon = PackedVector2Array(0, 0, 0, 0, 0, 0)
+
+[node name="Tree" type="StaticBody2D"]
+scale = Vector2(0.4, 0.4)
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+z_index = 20
+texture = ExtResource("1_cbn3k")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_30yar")
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="."]
+occluder = SubResource("OccluderPolygon2D_3sjxb")
+sdf_collision = false

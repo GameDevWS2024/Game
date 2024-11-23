@@ -16,8 +16,8 @@ public partial class Enemy : CharacterBody2D
     private bool _attack = true;
     private int _motivation;
     private Enemy _enemy;
-    private Array<Node> entityGroup;
-    private int? dist;
+    private Array<Node> _entityGroup;
+    private readonly int? _dist;
     private CharacterBody2D _player;
     private Node2D _core;
 
@@ -30,19 +30,19 @@ public partial class Enemy : CharacterBody2D
 
     public override void _PhysicsProcess(double delta)
     {
-        
+
         //foreach (Node2D entity in entityGroup)
-       // {
-          //  int currDist = (int) entity.GlobalPosition.DistanceTo(_player.GlobalPosition);
-          //   if (dist < currDist)
-           //  {
-          //       dist = currDist; 
+        // {
+        //  int currDist = (int) entity.GlobalPosition.DistanceTo(_player.GlobalPosition);
+        //   if (dist < currDist)
+        //  {
+        //       dist = currDist; 
         //        pos = entity.GlobalPosition;
-      //      }
-    //    }
-        entityGroup = GetTree().GetNodesInGroup("Entities");
-        List<(Node2D entity, float distance)> nearestEntities = entityGroup.OfType<Node2D>().Select(entity => (entity, entity.GlobalPosition.DistanceTo(GlobalPosition))).ToList();
-       // /*
+        //      }
+        //    }
+        _entityGroup = GetTree().GetNodesInGroup("Entities");
+        List<(Node2D entity, float distance)> nearestEntities = _entityGroup.OfType<Node2D>().Select(entity => (entity, entity.GlobalPosition.DistanceTo(GlobalPosition))).ToList();
+        // /*
         foreach ((Node2D entity, float distance) tup in nearestEntities)
         {
             (Node2D entity, float distance) valueTuple = tup;
@@ -52,10 +52,10 @@ public partial class Enemy : CharacterBody2D
             }
             GD.Print(tup);
         }
-       // */
+        // */
 
         Node2D nearestEntity = nearestEntities.OrderBy(tup => tup.distance).FirstOrDefault().entity;
-        
+
         if (nearestEntity != null)
         {
             Vector2 pos = nearestEntity.GlobalPosition;
@@ -67,5 +67,5 @@ public partial class Enemy : CharacterBody2D
         }
     }
 
-    
+
 }

@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://dwph2wpjoudqx"]
+[gd_scene load_steps=5 format=3 uid="uid://bgxxp0o5kdpkq"]
 
 [ext_resource type="Script" path="res://scripts/Enemy.cs" id="1_q3x6f"]
 [ext_resource type="Texture2D" uid="uid://dxxch6ax2fn4s" path="res://assets/enemies/enemy.png" id="2_yormx"]
@@ -22,8 +22,8 @@ texture = ExtResource("2_yormx")
 
 [node name="PathFindingMovement" type="Node" parent="." node_paths=PackedStringArray("_character", "_agent", "_sprite")]
 script = ExtResource("3_wks6h")
-_minTargetDistance = 0
-_targetDistanceVariation = 0
+_minTargetDistance = 100
+_targetDistanceVariation = 10
 _speed = 150
 _character = NodePath("..")
 _agent = NodePath("../NavigationAgent2D")

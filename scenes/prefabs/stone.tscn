@@ -9,7 +9,7 @@ height = 152.26
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_3sjxb"]
 polygon = PackedVector2Array(0, 0, 0, 0, 0, 0)
 
-[node name="Tree" type="StaticBody2D"]
+[node name="Stone" type="StaticBody2D" groups=["navigation"]]
 scale = Vector2(0.4, 0.4)
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

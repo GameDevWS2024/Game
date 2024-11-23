@@ -16,6 +16,10 @@ config/features=PackedStringArray("4.3", "C#", "GL Compatibility")
 boot_splash/image="res://assets/cropped-starting image.png"
 config/icon="res://assets/sprites/icon.svg"
 
+[autoload]
+
+GlobalHealth="*res://addons/jbs_health_node/jbs_global_health.gd"
+
 [display]
 
 window/size/viewport_width=1920
@@ -30,6 +34,7 @@ project/assembly_name="Game"
 [global_group]
 
 Entities=""
+navigation=""
 
 [rendering]
 

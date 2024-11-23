@@ -13,3 +13,9 @@ export_presets.cfg
 .mono/
 data_*/
 mono_crash.*.json
+
+# never commit the API key
+*secret*
+
+# idea-Intellij-specific ignores
+.idea/

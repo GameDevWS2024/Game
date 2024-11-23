@@ -1,0 +1,49 @@
+[gd_scene load_steps=6 format=3 uid="uid://6gwtt7kwq2p"]
+
+[ext_resource type="Script" path="res://scripts/Ally.cs" id="1_anjrv"]
+[ext_resource type="Script" path="res://scripts/Chat.cs" id="2_k8ael"]
+[ext_resource type="Texture2D" uid="uid://cmhtqgk8qwwvg" path="res://assets/ally.png" id="3_hn7of"]
+[ext_resource type="Script" path="res://scripts/PathFindingMovement.cs" id="4_v650j"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_rn1pq"]
+radius = 35.0
+height = 120.0
+
+[node name="Ally" type="CharacterBody2D" node_paths=PackedStringArray("_chat", "_responseField", "_pathFindingMovement")]
+script = ExtResource("1_anjrv")
+_chat = NodePath("Chat")
+_responseField = NodePath("ResponseField")
+_pathFindingMovement = NodePath("PathFindingMovement")
+
+[node name="Chat" type="LineEdit" parent="."]
+offset_left = 37.0
+offset_top = -251.0
+offset_right = 419.0
+offset_bottom = -73.0
+script = ExtResource("2_k8ael")
+_systemPromptFile = "res://assets/prompts/example_prompt.txt"
+
+[node name="ResponseField" type="RichTextLabel" parent="."]
+offset_left = 47.0
+offset_top = -60.0
+offset_right = 479.0
+offset_bottom = 54.0
+fit_content = true
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+path_max_distance = 20.0
+simplify_path = true
+debug_enabled = true
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("3_hn7of")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_rn1pq")
+
+[node name="PathFindingMovement" type="Node" parent="." node_paths=PackedStringArray("_character", "_agent", "_sprite")]
+script = ExtResource("4_v650j")
+_character = NodePath("..")
+_agent = NodePath("../NavigationAgent2D")
+_sprite = NodePath("../Sprite2D")

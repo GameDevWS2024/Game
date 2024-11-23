@@ -1,16 +1,36 @@
+using System.Collections.Generic;
+
 using Godot;
+
+namespace Game.Scripts;
 
 public partial class Player : CharacterBody2D
 {
-    [Export]
-    private float _maxSpeed = 400.0f;      // Maximum speed
-    [Export]
-    private float _acceleration = 1200.0f;  // How quickly we reach max speed
-    [Export]
-    private float _deceleration = 800.0f;   // How quickly we slow down
+    [Export] private float _maxSpeed = 400.0f; // Maximum speed
+    [Export] private float _acceleration = 1200.0f; // How quickly we reach max speed
+    [Export] private float _deceleration = 800.0f; // How quickly we slow down
+    [Export] Sprite2D _playerSprite;
 
     // Store the current velocity as a class field to maintain it between frames
     private Vector2 _currentVelocity = Vector2.Zero;
+
+    // Stats and Player initialization
+
+    public PlayerStats Stats { get; private set; }
+    public void Attack(Player target)
+    {
+        int damage = Stats.Strength;
+        target.Stats.TakeDamage(damage);
+        GD.Print($"{Name} attacked {target.Name} for {damage} damage.");
+    }
+    public void DisplayStats()
+    {
+        GD.Print($"Name: {Name}");
+        GD.Print($"Health: {Stats.Health}");
+        GD.Print($"Strength: {Stats.Strength}");
+        GD.Print($"Speed: {Stats.Speed}");
+        GD.Print($"Mana: {Stats.Mana}");
+    }
 
     public override void _PhysicsProcess(double delta)
     {
@@ -31,11 +51,19 @@ public partial class Player : CharacterBody2D
         if (Input.IsActionPressed("ui_left"))
         {
             inputDirection.X -= 1;
+            if (_playerSprite.IsFlippedH())
+            {
+                _playerSprite.SetFlipH(false);
+            }
         }
 
         if (Input.IsActionPressed("ui_right"))
         {
             inputDirection.X += 1;
+            if (!_playerSprite.IsFlippedH())
+            {
+                _playerSprite.SetFlipH(true);
+            }
         }
 
         // Normalize input direction to prevent faster diagonal movement
@@ -54,9 +82,9 @@ public partial class Player : CharacterBody2D
         {
             // Decelerate when there's no input
             _currentVelocity = _currentVelocity.MoveToward(
-               Vector2.Zero,
-               _deceleration * deltaFloat
-           );
+                Vector2.Zero,
+                _deceleration * deltaFloat
+            );
         }
 
         // Update the velocity and move

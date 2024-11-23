@@ -1,49 +1,134 @@
-[gd_scene load_steps=4 format=3 uid="uid://dfkwq6qwtxw25"]
+[gd_scene load_steps=15 format=3 uid="uid://dfkwq6qwtxw25"]
 
 [ext_resource type="PackedScene" uid="uid://clfnjh8aelj66" path="res://scenes/prefabs/Player.tscn" id="1_7owxc"]
-[ext_resource type="PackedScene" uid="uid://bbj3at63gfo77" path="res://scenes/prefabs/Obstacle.tscn" id="2_k4yms"]
+[ext_resource type="Texture2D" uid="uid://dweeg6vbxai1c" path="res://scenes/levels/bg.png" id="1_afw7h"]
+[ext_resource type="Shader" path="res://scenes/levels/ExampleScene.gdshader" id="1_kbklw"]
 [ext_resource type="PackedScene" uid="uid://dkcg0yrtwyo0k" path="res://scenes/prefabs/PointLight.tscn" id="3_0raeo"]
+[ext_resource type="Texture2D" uid="uid://gba1pbl4wpx0" path="res://assets/commander.png" id="5_66lmi"]
+[ext_resource type="PackedScene" uid="uid://6gwtt7kwq2p" path="res://scenes/prefabs/Ally.tscn" id="6_l8h37"]
+[ext_resource type="PackedScene" uid="uid://csb6x207vu85x" path="res://scenes/prefabs/copper_tree.tscn" id="7_njspg"]
+[ext_resource type="PackedScene" uid="uid://digrdistp5e8m" path="res://scenes/prefabs/bush.tscn" id="7_vkr2b"]
+[ext_resource type="PackedScene" uid="uid://ki7e88gvvcs" path="res://scenes/prefabs/ice_tree.tscn" id="9_tf77n"]
+[ext_resource type="PackedScene" uid="uid://c52r54sodgdc0" path="res://scenes/prefabs/stone.tscn" id="10_4xrrw"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_8cl4m"]
+shader = ExtResource("1_kbklw")
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_2qsjx"]
+polygon = PackedVector2Array(-2540, 2494, 2492, 2514, 2519, -2511, -2569, -2494)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_hnti7"]
+shader = ExtResource("1_kbklw")
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_y1idm"]
+vertices = PackedVector2Array(648.352, 213, 2346.63, -2355.46, 2304.35, 2331, 544.352, 714, 622.43, 309.68, 551.68, 45.5703, 455, 19.6484, 169.352, -159, 143.43, -255.68, 518.43, 617.32, 551.68, 380.43, 183.57, 617.32, 157.648, 714, 133.352, 668, 107.43, 571.32, 107.43, 764.68, 183.57, 810.68, 358.32, 45.5703, 143.43, -62.3203, 622.43, 116.32, 447.68, 546.57, 455, 406.352, 518.43, 810.68, 287.57, 116.32, 72.6797, 8.42969, 261.648, 213, -257.57, 217.68, -231.648, 121, -24, 34.3516, -736.648, 780, -253.352, 668, -227.43, 764.68, -762.57, 876.68, 351, 520.648, 358.32, 380.43, -2417.93, -2338.53, 72.6797, -326.43, -120.68, 8.42969, -257.57, 24.3203, -191.43, -62.3203, -328.32, -46.4297, -217.352, -159, -425, -72.3516, -762.57, 683.32, -227.43, 571.32, 447.68, 881.43, -2385.05, 2331, 351, 907.352, 254.32, 881.43, 36.6797, 835.43, -60, 861.352, 254.32, 546.57, 36.6797, 500.57, -156.68, 835.43, -833.32, 947.43, -328.32, 288.43, 287.57, 309.68, -60, 474.648, -833.32, 612.57, -425, 314.352, -156.68, 500.57, -521.68, 288.43, -592.43, 217.68, -930, 586.648, -618.352, 121, -1026.68, 612.57, -191.43, -255.68, -521.68, -46.4297, -930, 973.352, -1026.68, 947.43, -1097.43, 876.68, -1123.35, 780, -1097.43, 683.32, -592.43, 24.3203, -120.68, -326.43, -24, -352.352)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3, 4), PackedInt32Array(5, 6, 7, 8), PackedInt32Array(4, 3, 9, 10), PackedInt32Array(11, 12, 13, 14), PackedInt32Array(15, 13, 12, 16), PackedInt32Array(7, 6, 17, 18), PackedInt32Array(1, 0, 19), PackedInt32Array(10, 9, 20, 21), PackedInt32Array(22, 3, 2), PackedInt32Array(18, 17, 23, 24), PackedInt32Array(24, 23, 25, 26, 27, 28), PackedInt32Array(29, 30, 31, 32), PackedInt32Array(21, 20, 33, 34), PackedInt32Array(1, 19, 5), PackedInt32Array(35, 1, 5, 36), PackedInt32Array(37, 28, 27, 38), PackedInt32Array(39, 37, 38, 40), PackedInt32Array(41, 39, 40, 42), PackedInt32Array(30, 29, 43, 44), PackedInt32Array(45, 22, 2), PackedInt32Array(45, 2, 46, 47), PackedInt32Array(48, 47, 46), PackedInt32Array(49, 16, 48, 46, 50), PackedInt32Array(51, 11, 14, 52), PackedInt32Array(49, 15, 16), PackedInt32Array(53, 50, 46), PackedInt32Array(31, 53, 46, 54), PackedInt32Array(55, 26, 25, 56, 51, 52, 57), PackedInt32Array(34, 33, 51, 56), PackedInt32Array(44, 43, 58, 59, 55, 60), PackedInt32Array(55, 57, 60), PackedInt32Array(61, 59, 58), PackedInt32Array(62, 61, 58, 63), PackedInt32Array(64, 62, 63, 65, 35), PackedInt32Array(35, 66, 41, 42, 67), PackedInt32Array(54, 32, 31), PackedInt32Array(68, 54, 46), PackedInt32Array(69, 68, 46), PackedInt32Array(70, 69, 46), PackedInt32Array(70, 46, 35, 71), PackedInt32Array(72, 71, 35), PackedInt32Array(65, 72, 35), PackedInt32Array(73, 64, 35), PackedInt32Array(67, 73, 35), PackedInt32Array(74, 66, 35), PackedInt32Array(75, 74, 35), PackedInt32Array(36, 75, 35), PackedInt32Array(36, 5, 8)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-2569, -2488, -2534, 2481, 2453, 2481, 2498, -2506)])
+source_geometry_mode = 1
+source_geometry_group_name = &"navigation"
+agent_radius = 150.0
 
 [node name="Node2D" type="Node2D"]
 
-[node name="ColorRect" type="ColorRect" parent="."]
-custom_minimum_size = Vector2(5000, 5000)
-offset_left = -1429.0
-offset_top = -1455.0
-offset_right = 3571.0
-offset_bottom = 3545.0
-color = Color(0.099986, 0.099986, 0.099986, 1)
+[node name="TextureRect" type="TextureRect" parent="."]
+material = SubResource("ShaderMaterial_8cl4m")
+offset_left = -2550.0
+offset_top = -2488.0
+offset_right = 2516.0
+offset_bottom = 2500.0
+texture = ExtResource("1_afw7h")
 
-[node name="Player" parent="." instance=ExtResource("1_7owxc")]
-light_mask = 2
-visibility_layer = 2
-position = Vector2(407, 77)
-_maxSpeed = 250.0
-_acceleration = 1000.0
+[node name="LightOccluder2D" type="LightOccluder2D" parent="TextureRect"]
+modulate = Color(0.099986, 0.099986, 0.099986, 1)
+self_modulate = Color(0.0605304, 0.0605303, 0.0605303, 1)
+light_mask = 3
+visibility_layer = 3
+position = Vector2(2550, 2500)
+occluder = SubResource("OccluderPolygon2D_2qsjx")
+occluder_light_mask = 3
+
+[node name="PointLight2D" parent="." instance=ExtResource("3_0raeo")]
+position = Vector2(139, 371)
+color = Color(0.365852, 0.353147, 9.62615e-08, 1)
+energy = 10.0
+shadow_enabled = true
+shadow_color = Color(0.0643274, 0.0646954, 0.0657012, 0)
+shadow_filter = 2
+shadow_filter_smooth = 2.3
+texture_scale = 20.39
+
+[node name="Player" parent="." node_paths=PackedStringArray("_playerSprite") instance=ExtResource("1_7owxc")]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_hnti7")
+position = Vector2(473, 357)
+_maxSpeed = 450.0
+_deceleration = 900.0
+_playerSprite = NodePath("Sprite2D2")
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
 light_mask = 2
 visibility_layer = 2
-position = Vector2(162, -215)
+position = Vector2(249.5, 28.3081)
+scale = Vector2(0.5, 0.570093)
+zoom = Vector2(0.8, 0.8)
 position_smoothing_enabled = true
+position_smoothing_speed = 7.0
 
-[node name="Obstacle3" parent="." instance=ExtResource("2_k4yms")]
-light_mask = 2
-visibility_layer = 2
-scale = Vector2(1.758, 3)
+[node name="Sprite2D2" type="Sprite2D" parent="Player"]
+scale = Vector2(0.4, 0.4)
+texture = ExtResource("5_66lmi")
+
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
+position = Vector2(-26, -69)
+navigation_polygon = SubResource("NavigationPolygon_y1idm")
+metadata/_edit_lock_ = true
 
 [node name="Obstacles" type="Node" parent="."]
 
-[node name="Obstacle" parent="Obstacles" instance=ExtResource("2_k4yms")]
-position = Vector2(703, 262)
-scale = Vector2(2.33092, 1.47225)
+[node name="Tree" parent="Obstacles" groups=["navigation"] instance=ExtResource("7_njspg")]
+position = Vector2(-464, -533)
 
-[node name="Obstacle2" parent="Obstacles" instance=ExtResource("2_k4yms")]
-position = Vector2(454, 455)
-scale = Vector2(2.35793, 4.02431)
+[node name="Tree7" parent="Obstacles" groups=["navigation"] instance=ExtResource("7_njspg")]
+position = Vector2(-785, -1213)
 
-[node name="PointLight2D" parent="." instance=ExtResource("3_0raeo")]
-position = Vector2(512, -148)
-color = Color(1, 1, 0.847059, 1)
-energy = 4.48
-texture_scale = 12.14
+[node name="Tree8" parent="Obstacles" groups=["navigation"] instance=ExtResource("7_njspg")]
+position = Vector2(188, -900)
+
+[node name="Tree2" parent="Obstacles" groups=["navigation"] instance=ExtResource("7_njspg")]
+position = Vector2(-899, -11.9999)
+
+[node name="Tree3" parent="Obstacles" groups=["navigation"] instance=ExtResource("7_njspg")]
+position = Vector2(455, 649)
+
+[node name="Tree4" parent="Obstacles" groups=["navigation"] instance=ExtResource("7_njspg")]
+position = Vector2(-220, 584)
+
+[node name="Tree5" parent="Obstacles" groups=["navigation"] instance=ExtResource("7_njspg")]
+position = Vector2(1185, 254)
+
+[node name="Tree6" parent="Obstacles" groups=["navigation"] instance=ExtResource("7_njspg")]
+position = Vector2(707, -422)
+
+[node name="Tree9" parent="Obstacles" instance=ExtResource("7_vkr2b")]
+position = Vector2(111, 934)
+
+[node name="Ally" parent="." instance=ExtResource("6_l8h37")]
+position = Vector2(-122, 123)
+
+[node name="Tree" parent="." instance=ExtResource("9_tf77n")]
+position = Vector2(-233, 119)
+
+[node name="Tree2" parent="." instance=ExtResource("9_tf77n")]
+position = Vector2(255, -145)
+
+[node name="Tree3" parent="." instance=ExtResource("10_4xrrw")]
+position = Vector2(408, 144)
+
+[node name="Tree4" parent="." instance=ExtResource("10_4xrrw")]
+position = Vector2(113, 541)
+
+[node name="Tree5" parent="." instance=ExtResource("10_4xrrw")]
+position = Vector2(218, -351)
+
+[node name="Tree6" parent="." instance=ExtResource("10_4xrrw")]
+position = Vector2(-270, -120)

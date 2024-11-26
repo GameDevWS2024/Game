@@ -31,11 +31,12 @@ public partial class Health : Node
     public void Damage(double amount)
     {
         Amount -= amount;
-
+        GD.Print(Amount);
         if (Amount < 0)
         {
             Dead = true;
             EmitSignal(SignalName.Death);
+            GD.Print("died");
             Amount = 0;
         }
 

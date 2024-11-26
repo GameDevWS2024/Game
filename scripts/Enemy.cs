@@ -24,7 +24,6 @@ public partial class Enemy : CharacterBody2D
     {
         _player = GetTree().CurrentScene.GetNode<CharacterBody2D>("%Player");
         _core = GetTree().CurrentScene.GetNode<Node2D>("%CORE");
-        Node health = _player!.GetNode("%Health");
     }
 
     private float _attackCooldown = 0.5f; // Time between attacks in seconds
@@ -36,6 +35,14 @@ public partial class Enemy : CharacterBody2D
         _timeSinceLastAttack += (float)delta;
         
         _entityGroup = GetTree().GetNodesInGroup("Entities");
+        if (GetTree().GetNodesInGroup("Entities").ToList().Count == 0)
+        {
+            GetTree().CurrentScene.QueueFree();
+            Node gameOverScene = GetNode("../scenes/prefabs/GameOver.tscn");
+            GetTree().Root.AddChild(gameOverScene);
+            // Doesnt quite work yet idk why
+        }
+        
         List<(Node2D entity, float distance)> nearestEntities = _entityGroup.OfType<Node2D>().Select(entity => (entity, entity.GlobalPosition.DistanceTo(GlobalPosition))).ToList(); 
         /*
         bool isNearbyCore = GlobalPosition.DistanceTo(_core!.GlobalPosition) < 100;
@@ -59,11 +66,29 @@ public partial class Enemy : CharacterBody2D
                    // GD.Print(distanceToTarget+" < "+AttackRange+" --- "+_timeSinceLastAttack+" >= "+_attackCooldown+" s.");
                     if (nearestEntity.GetName() == "Player")
                     {
-                        GD.Print("hit");
-                        health.Call("Damage", 7.5);
+                        GD.Print("hit Player");
+                        Health playerHealth = _player!.GetNode<Health>("Health");
+                        playerHealth!.Call("Damage", 5);
+                        GD.Print("new health: "+playerHealth.Amount);
                         _timeSinceLastAttack = 0;
+                        if (playerHealth.Dead)
+                        {
+                            nearestEntity.QueueFree();
+                        }
                     }
-                    // other entities to be written here
+
+                    if (nearestEntity.GetName() == "Ally")
+                    {
+                        GD.Print("hit ally");
+                        Health allieHealth = nearestEntity.GetNode<Health>("Health");
+                        allieHealth!.Call("Damage", 5);
+                        GD.Print("new ally health: "+allieHealth.Amount);
+                        _timeSinceLastAttack = 0;
+                        if (allieHealth.Dead)
+                        {
+                            nearestEntity.QueueFree();
+                        }
+                    }
                 }
             }
         }

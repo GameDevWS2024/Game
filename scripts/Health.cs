@@ -5,7 +5,7 @@ public partial class Health : Node
     [Signal] public delegate void DeathEventHandler();
     [Signal] public delegate void HealthChangedEventHandler(int newHealth);
 
-    [Export] private bool _revievable;
+    [Export] private bool _reviveable;
 
     [Export] public double MaxHealth { get; private set; } = 100;
 
@@ -16,7 +16,7 @@ public partial class Health : Node
 
     public void Heal(double amount)
     {
-        if ((!Dead || _revievable) && Amount < MaxHealth)
+        if ((!Dead || _reviveable) && Amount < MaxHealth)
         {
             Amount += amount;
             if (Amount > MaxHealth)

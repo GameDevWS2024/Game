@@ -14,6 +14,13 @@ public partial class Player : CharacterBody2D
     // Store the current velocity as a class field to maintain it between frames
     private Vector2 _currentVelocity = Vector2.Zero;
 
+    /*   // Player cant move if this is uncommented
+    public Player(PlayerStats stats)
+    {
+        Stats = new PlayerStats(100, 100, 100, 100);
+    }
+    */
+
     // Stats and Player initialization
 
     public PlayerStats Stats { get; private set; }
@@ -30,6 +37,11 @@ public partial class Player : CharacterBody2D
         GD.Print($"Strength: {Stats.Strength}");
         GD.Print($"Speed: {Stats.Speed}");
         GD.Print($"Mana: {Stats.Mana}");
+    }
+
+    public override void _Ready()
+    {
+      //  Stats = new PlayerStats(100, 10, 100, 50);
     }
 
     public override void _PhysicsProcess(double delta)

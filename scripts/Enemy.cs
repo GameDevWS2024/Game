@@ -22,33 +22,49 @@ public partial class Enemy : CharacterBody2D
 
     public override void _Ready()
     {
-        _enemy = GetNode<Enemy>("%Enemy");
-        _player = GetNode<CharacterBody2D>("%Player");
-        _core = GetNode<Node2D>("%CORE");
+        _player = GetTree().CurrentScene.GetNode<CharacterBody2D>("%Player");
+        _core = GetTree().CurrentScene.GetNode<Node2D>("%CORE");
+        Node health = _player!.GetNode("%Health");
     }
+
+    private float _attackCooldown = 0.5f; // Time between attacks in seconds
+    private float _timeSinceLastAttack = 0.0f; // Time accumulator
+    private const float AttackRange = 110.0f; // Distance at which enemy can attack
 
     public override void _PhysicsProcess(double delta)
     {
-        // bool isNearbyCore = this.GlobalPosition.DistanceTo(_core!.GlobalPosition) < 250;
-        // GD.Print("enemy is nearby core, attacking player preferably");
-        bool isNearbyCore = true;
+        _timeSinceLastAttack += (float)delta;
+        
         _entityGroup = GetTree().GetNodesInGroup("Entities");
-        List<(Node2D entity, float distance)> nearestEntities = _entityGroup.OfType<Node2D>().Select(entity => (entity, entity.GlobalPosition.DistanceTo(GlobalPosition))).ToList();
+        List<(Node2D entity, float distance)> nearestEntities = _entityGroup.OfType<Node2D>().Select(entity => (entity, entity.GlobalPosition.DistanceTo(GlobalPosition))).ToList(); 
+        /*
+        bool isNearbyCore = GlobalPosition.DistanceTo(_core!.GlobalPosition) < 100;
         nearestEntities = nearestEntities.Select(tup =>
-            tup.entity.GetName() == "Player" && isNearbyCore
-                ? (tup.entity, tup.distance - 150)
+            tup.entity.GetName() == "CORE" && isNearbyCore
+                ? (tup.entity, tup.distance + 200)
                 : tup
         ).ToList();
-
+        */
         Node2D nearestEntity = nearestEntities.OrderBy(tup => tup.distance).FirstOrDefault().entity;
 
         if (nearestEntity != null)
         {
             Vector2 pos = nearestEntity.GlobalPosition;
-
+            float distanceToTarget = pos.DistanceTo(this.GlobalPosition);
             if (_attack)
             {
                 _pathFindingMovement.TargetPosition = pos;
+                  if (distanceToTarget < AttackRange && _timeSinceLastAttack >= _attackCooldown)
+                {
+                   // GD.Print(distanceToTarget+" < "+AttackRange+" --- "+_timeSinceLastAttack+" >= "+_attackCooldown+" s.");
+                    if (nearestEntity.GetName() == "Player")
+                    {
+                        GD.Print("hit");
+                        health.Call("Damage", 7.5);
+                        _timeSinceLastAttack = 0;
+                    }
+                    // other entities to be written here
+                }
             }
         }
     }

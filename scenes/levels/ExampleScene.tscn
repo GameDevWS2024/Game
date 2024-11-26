@@ -120,11 +120,10 @@ position = Vector2(95, 467)
 script = ExtResource("1_bmkfv")
 EnemyScene = ExtResource("10_tv6x7")
 
-[node name="CORE" type="Node2D" parent="." groups=["Entities"]]
+[node name="CORE" type="Node2D" parent="."]
 unique_name_in_owner = true
 
 [node name="PointLight2D" parent="CORE" instance=ExtResource("3_0raeo")]
-position = Vector2(139, 371)
 color = Color(0.365852, 0.353147, 9.62615e-08, 1)
 energy = 10.0
 shadow_enabled = true

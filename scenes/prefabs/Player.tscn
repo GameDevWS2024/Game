@@ -21,8 +21,9 @@ scale = Vector2(0.23, 0.23)
 texture = ExtResource("2_yctqc")
 
 [node name="Health" type="Node" parent="."]
+unique_name_in_owner = true
 script = ExtResource("3_f8s0r")
-Amount = 5.0
+_reviveable = true
 
 [node name="ProgressBar" type="ProgressBar" parent="." node_paths=PackedStringArray("_health")]
 self_modulate = Color(1.26103e-05, 0.840319, 1.15514e-06, 1)

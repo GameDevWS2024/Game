@@ -18,6 +18,7 @@ public partial class Ally : CharacterBody2D
 
     public override void _Ready()
     {
+        Debug.Assert(_chat != null, nameof(_chat) + " != null");
         _chat.ResponseReceived += HandleResponse;
         _player = GetNode<Player>("%Player");
     }

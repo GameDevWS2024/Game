@@ -1,14 +1,14 @@
 [gd_scene load_steps=5 format=3 uid="uid://bgxxp0o5kdpkq"]
 
 [ext_resource type="Script" path="res://scripts/Enemy.cs" id="1_q3x6f"]
-[ext_resource type="Texture2D" uid="uid://dxxch6ax2fn4s" path="res://assets/enemies/enemy.png" id="2_yormx"]
+[ext_resource type="Texture2D" uid="uid://dshsrl1x5xeta" path="res://assets/skeleton.png" id="2_n4lu4"]
 [ext_resource type="Script" path="res://scripts/PathFindingMovement.cs" id="3_wks6h"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_vgu86"]
 radius = 40.0
 height = 140.0
 
-[node name="Enemy" type="CharacterBody2D" node_paths=PackedStringArray("_pathFindingMovement")]
+[node name="Enemy" type="CharacterBody2D" node_paths=PackedStringArray("_pathFindingMovement") groups=["Enemies"]]
 script = ExtResource("1_q3x6f")
 _pathFindingMovement = NodePath("PathFindingMovement")
 
@@ -16,9 +16,9 @@ _pathFindingMovement = NodePath("PathFindingMovement")
 shape = SubResource("CapsuleShape2D_vgu86")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(1, 0)
-scale = Vector2(0.253425, 0.30117)
-texture = ExtResource("2_yormx")
+position = Vector2(6, -4)
+scale = Vector2(2.45, 2.915)
+texture = ExtResource("2_n4lu4")
 
 [node name="PathFindingMovement" type="Node" parent="." node_paths=PackedStringArray("_character", "_agent", "_sprite")]
 script = ExtResource("3_wks6h")

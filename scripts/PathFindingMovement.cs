@@ -8,9 +8,9 @@ public partial class PathFindingMovement : Node
     [Export] private int _speed = 250;
     [Export] bool _debug = false;
 
-    [Export] CharacterBody2D _character;
-    [Export] NavigationAgent2D _agent;
-    [Export] Sprite2D _sprite;
+    [Export] CharacterBody2D? _character;
+    [Export] NavigationAgent2D? _agent;
+    [Export] Sprite2D? _sprite;
 
     public Vector2 TargetPosition { get; set; }
 
@@ -24,15 +24,15 @@ public partial class PathFindingMovement : Node
 
     public override void _PhysicsProcess(double delta)
     {
-        _agent.SetTargetPosition(TargetPosition);
+        _agent!.SetTargetPosition(TargetPosition);
 
         if (_debug)
         {
-            float distance = _character.GlobalPosition.DistanceTo(_agent.TargetPosition);
+            float distance = _character!.GlobalPosition.DistanceTo(_agent.TargetPosition);
             GD.Print($"Distance: {distance}, Target Position: {_agent.TargetPosition}");
         }
 
-        if (_character.GlobalPosition.DistanceTo(_agent.TargetPosition) > _currentTargetDistance)
+        if (_character!.GlobalPosition.DistanceTo(_agent.TargetPosition) > _currentTargetDistance)
         {
             _reachedTarget = false;
             Vector2 currentLocation = _character.GlobalPosition;

@@ -1,6 +1,6 @@
 using Godot;
 
-public partial class HealthBar : ProgressBar 
+public partial class HealthBar : ProgressBar
 {
     [Export]
     Health? _health;
@@ -14,7 +14,7 @@ public partial class HealthBar : ProgressBar
         }
     }
 
-    public void OnHealthChange(int newHealth) 
+    public void OnHealthChange(int newHealth)
     {
         if (_health != null)
         {

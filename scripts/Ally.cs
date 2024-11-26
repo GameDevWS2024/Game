@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.Text.RegularExpressions;
 
 using Game.Scripts;
@@ -7,13 +8,13 @@ using Godot;
 
 public partial class Ally : CharacterBody2D
 {
-    [Export] Chat _chat;
-    [Export] RichTextLabel _responseField;
-    [Export] PathFindingMovement _pathFindingMovement;
+    [Export] Chat? _chat;
+    [Export] RichTextLabel? _responseField;
+    [Export] PathFindingMovement? _pathFindingMovement;
 
     private bool _followPlayer = true;
     private int _motivation;
-    private Player _player;
+    private Player? _player;
 
     public override void _Ready()
     {
@@ -25,7 +26,7 @@ public partial class Ally : CharacterBody2D
     {
         if (_followPlayer)
         {
-            _pathFindingMovement.TargetPosition = _player.GlobalPosition;
+            _pathFindingMovement!.TargetPosition = _player!.GlobalPosition;
         }
     }
 

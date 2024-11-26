@@ -11,15 +11,14 @@ using Godot.Collections;
 
 public partial class Enemy : CharacterBody2D
 {
-    [Export] PathFindingMovement _pathFindingMovement;
+    [Export] PathFindingMovement _pathFindingMovement = null!;
 
     private bool _attack = true;
     private int _motivation;
-    private Enemy _enemy;
-    private Array<Node> _entityGroup;
-    private readonly int? _dist;
-    private CharacterBody2D _player;
-    private Node2D _core;
+    private Enemy? _enemy;
+    private Array<Node>? _entityGroup;
+    private CharacterBody2D? _player;
+    private Node2D? _core;
 
     public override void _Ready()
     {
@@ -30,29 +29,13 @@ public partial class Enemy : CharacterBody2D
 
     public override void _PhysicsProcess(double delta)
     {
-
-        //foreach (Node2D entity in entityGroup)
-        // {
-        //  int currDist = (int) entity.GlobalPosition.DistanceTo(_player.GlobalPosition);
-        //   if (dist < currDist)
-        //  {
-        //       dist = currDist; 
-        //        pos = entity.GlobalPosition;
-        //      }
-        //    }
         _entityGroup = GetTree().GetNodesInGroup("Entities");
         List<(Node2D entity, float distance)> nearestEntities = _entityGroup.OfType<Node2D>().Select(entity => (entity, entity.GlobalPosition.DistanceTo(GlobalPosition))).ToList();
-        // /*
-        foreach ((Node2D entity, float distance) tup in nearestEntities)
-        {
-            (Node2D entity, float distance) valueTuple = tup;
-            if (valueTuple.entity.GetName() == "Player")
-            {
-                valueTuple.distance -= 100;
-            }
-            GD.Print(tup);
-        }
-        // */
+        nearestEntities = nearestEntities.Select(tup =>
+            tup.entity.GetName() == "Player"
+                ? (tup.entity, tup.distance - 100)
+                : tup
+        ).ToList();
 
         Node2D nearestEntity = nearestEntities.OrderBy(tup => tup.distance).FirstOrDefault().entity;
 

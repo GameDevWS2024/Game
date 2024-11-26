@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://de7uq0w04wdcj"
-path="res://.godot/imported/jbs_health_growler.png-6385236c79f7bf81e8ed62a756da52ba.ctex"
+uid="uid://dntieuajuou8l"
+path="res://.godot/imported/starting-image.png-5f93ebd772e7e99f380ba024c780d4b9.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://addons/jbs_health_node/controls/jbs_health_growler.png"
-dest_files=["res://.godot/imported/jbs_health_growler.png-6385236c79f7bf81e8ed62a756da52ba.ctex"]
+source_file="res://assets/starting-image.png"
+dest_files=["res://.godot/imported/starting-image.png-5f93ebd772e7e99f380ba024c780d4b9.ctex"]
 
 [params]
 

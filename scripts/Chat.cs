@@ -13,7 +13,7 @@ namespace Game.Scripts
         [Export(PropertyHint.File, "*.txt")]
         private string? _systemPromptFile;
 
-        private string? _systemPrompt;
+        private string _systemPrompt = "";
         private GeminiService? _geminiService;
         private readonly string _apiKeyPath = ProjectSettings.GlobalizePath("res://api_key.secret");
         private const string ChatPlaceholder = "Type here to chat";
@@ -45,10 +45,7 @@ namespace Game.Scripts
             {
                 _geminiService = new GeminiService(_apiKeyPath);
 
-                if (_systemPrompt != null)
-                {
-                    _geminiService.SetSystemPrompt(_systemPrompt);
-                }
+                _geminiService.SetSystemPrompt(_systemPrompt);
 
                 PlaceholderText = ChatPlaceholder;
             }

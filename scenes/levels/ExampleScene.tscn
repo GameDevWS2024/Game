@@ -119,10 +119,6 @@ position = Vector2(95, 467)
 script = ExtResource("1_bmkfv")
 EnemyScene = ExtResource("10_tv6x7")
 
-[node name="Polygon2D" type="Polygon2D" parent="EnemyManager"]
-color = Color(1, 1, 1, 0)
-polygon = PackedVector2Array(-672, 298, -694, 677, 280, 784)
-
 [node name="CORE" type="Node2D" parent="."]
 unique_name_in_owner = true
 

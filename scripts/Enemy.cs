@@ -58,7 +58,7 @@ public partial class Enemy : CharacterBody2D
                 if (distanceToTarget < AttackRange && _timeSinceLastAttack >= _attackCooldown)
                 {
                     Health allieHealth = nearestEntity.GetNode<Health>("Health");
-                    allieHealth.Damage(_damage = 5);
+                    allieHealth.Damage(_damage);
                     _timeSinceLastAttack = 0;
                 }
             }

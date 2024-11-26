@@ -65,4 +65,4 @@ FOLLOW
 Sure, i can stay here.
 MOTIVATION: 4
 THOUGHT: “I can’t believe I’m still listening to this guy.”
-hhhhhhhhhhhhhhhhhhhhhhhhhhSTOP
+STOP

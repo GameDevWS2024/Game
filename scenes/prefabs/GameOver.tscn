@@ -1,8 +1,13 @@
-[gd_scene load_steps=2 format=3 uid="uid://vghb5btoppl7"]
-
-[ext_resource type="Texture2D" uid="uid://b263th33p017e" path="res://assets/gameOver.png" id="1_tc1wa"]
+[gd_scene format=3 uid="uid://vghb5btoppl7"]
 
 [node name="GameOver" type="Node2D"]
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("1_tc1wa")
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Label" type="Label" parent="CanvasLayer"]
+offset_left = 734.0
+offset_top = 452.0
+offset_right = 1114.0
+offset_bottom = 548.0
+theme_override_font_sizes/font_size = 70
+text = "Game Over"

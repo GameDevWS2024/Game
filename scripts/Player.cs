@@ -1,6 +1,3 @@
-using System.Collections.Generic;
-
-
 using Godot;
 
 namespace Game.Scripts;
@@ -25,7 +22,8 @@ public partial class Player : CharacterBody2D
 
     // Stats and Player initialization
 
-    public PlayerStats Stats { get; private set; }
+    public PlayerStats Stats { get; private set; } = new PlayerStats(100, 10, 100, 50);
+
     public void Attack(Player target)
     {
         int damage = Stats.Strength;
@@ -39,12 +37,6 @@ public partial class Player : CharacterBody2D
         GD.Print($"Strength: {Stats.Strength}");
         GD.Print($"Speed: {Stats.Speed}");
         GD.Print($"Mana: {Stats.Mana}");
-    }
-
-    public override void _Ready()
-    {
-        //  Stats = new PlayerStats(100, 10, 100, 50);
-
     }
 
     public override void _PhysicsProcess(double delta)

@@ -8,17 +8,16 @@ using Godot;
 
 public partial class Ally : CharacterBody2D
 {
-    [Export] Chat? _chat;
-    [Export] RichTextLabel? _responseField;
-    [Export] PathFindingMovement? _pathFindingMovement;
+    [Export] Chat _chat = null!;
+    [Export] RichTextLabel _responseField = null!;
+    [Export] PathFindingMovement _pathFindingMovement = null!;
 
     private bool _followPlayer = true;
     private int _motivation;
-    private Player? _player;
+    private Player _player = null!;
 
     public override void _Ready()
     {
-        Debug.Assert(_chat != null, nameof(_chat) + " != null");
         _chat.ResponseReceived += HandleResponse;
         _player = GetNode<Player>("%Player");
     }
@@ -27,16 +26,15 @@ public partial class Ally : CharacterBody2D
     {
         if (_followPlayer)
         {
-            _pathFindingMovement!.TargetPosition = _player!.GlobalPosition;
+            _pathFindingMovement.TargetPosition = _player.GlobalPosition;
         }
     }
 
     private void HandleResponse(string response)
     {
-        if (_responseField != null)
-        {
-            _responseField.Text = response;
-        }
+
+        _responseField.Text = response;
+
         GD.Print($"Response: {response}");
 
         string pattern = @"MOTIVATION:\s*(\d+)";

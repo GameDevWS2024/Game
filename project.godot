@@ -13,12 +13,8 @@ config_version=5
 config/name="Game"
 run/main_scene="res://scenes/levels/ExampleScene.tscn"
 config/features=PackedStringArray("4.3", "C#", "GL Compatibility")
-boot_splash/image="res://assets/cropped-starting image.png"
+boot_splash/image="res://assets/starting-image.png"
 config/icon="res://assets/sprites/icon.svg"
-
-[autoload]
-
-GlobalHealth="*res://addons/jbs_health_node/jbs_global_health.gd"
 
 [display]
 

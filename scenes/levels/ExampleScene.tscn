@@ -9,7 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://csb6x207vu85x" path="res://scenes/prefabs/copper_tree.tscn" id="7_njspg"]
 [ext_resource type="PackedScene" uid="uid://ki7e88gvvcs" path="res://scenes/prefabs/ice_tree.tscn" id="9_tf77n"]
 [ext_resource type="PackedScene" uid="uid://c52r54sodgdc0" path="res://scenes/prefabs/stone.tscn" id="10_4xrrw"]
-[ext_resource type="PackedScene" uid="uid://bgxxp0o5kdpkq" path="res://scenes/prefabs/Enemy.tscn" id="10_tv6x7"]
+[ext_resource type="PackedScene" path="res://scenes/prefabs/Enemy.tscn" id="10_tv6x7"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_8cl4m"]
 shader = ExtResource("1_kbklw")

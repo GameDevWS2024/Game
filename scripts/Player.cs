@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 
+
 using Godot;
 
 namespace Game.Scripts;
@@ -12,8 +13,9 @@ public partial class Player : CharacterBody2D
     [Export] Sprite2D? _playerSprite;
 
     // Store the current velocity as a class field to maintain it between frames
-    private Vector2 _currentVelocity = Vector2.Zero;
-
+    private Vector2 _currentVelocity = Vector2.Zero; 
+    public readonly Items.Inventory Inventory = new Items.Inventory(36);
+    
     /*   // Player cant move if this is uncommented
     public Player(PlayerStats stats)
     {
@@ -42,6 +44,7 @@ public partial class Player : CharacterBody2D
     public override void _Ready()
     {
       //  Stats = new PlayerStats(100, 10, 100, 50);
+    
     }
 
     public override void _PhysicsProcess(double delta)
@@ -104,3 +107,4 @@ public partial class Player : CharacterBody2D
         MoveAndSlide();
     }
 }
+

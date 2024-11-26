@@ -33,7 +33,7 @@ public partial class Enemy : CharacterBody2D
     public override void _PhysicsProcess(double delta)
     {
         _timeSinceLastAttack += (float)delta;
-        
+
         _entityGroup = GetTree().GetNodesInGroup("Entities");
         if (GetTree().GetNodesInGroup("Entities").ToList().Count == 0)
         {
@@ -42,8 +42,8 @@ public partial class Enemy : CharacterBody2D
             GetTree().Root.AddChild(gameOverScene);
             // Doesnt quite work yet idk why
         }
-        
-        List<(Node2D entity, float distance)> nearestEntities = _entityGroup.OfType<Node2D>().Select(entity => (entity, entity.GlobalPosition.DistanceTo(GlobalPosition))).ToList(); 
+
+        List<(Node2D entity, float distance)> nearestEntities = _entityGroup.OfType<Node2D>().Select(entity => (entity, entity.GlobalPosition.DistanceTo(GlobalPosition))).ToList();
         /*
         bool isNearbyCore = GlobalPosition.DistanceTo(_core!.GlobalPosition) < 100;
         nearestEntities = nearestEntities.Select(tup =>
@@ -61,15 +61,15 @@ public partial class Enemy : CharacterBody2D
             if (_attack)
             {
                 _pathFindingMovement.TargetPosition = pos;
-                  if (distanceToTarget < AttackRange && _timeSinceLastAttack >= _attackCooldown)
+                if (distanceToTarget < AttackRange && _timeSinceLastAttack >= _attackCooldown)
                 {
-                   // GD.Print(distanceToTarget+" < "+AttackRange+" --- "+_timeSinceLastAttack+" >= "+_attackCooldown+" s.");
+                    // GD.Print(distanceToTarget+" < "+AttackRange+" --- "+_timeSinceLastAttack+" >= "+_attackCooldown+" s.");
                     if (nearestEntity.GetName() == "Player")
                     {
                         GD.Print("hit Player");
                         Health playerHealth = _player!.GetNode<Health>("Health");
                         playerHealth!.Call("Damage", 5);
-                        GD.Print("new health: "+playerHealth.Amount);
+                        GD.Print("new health: " + playerHealth.Amount);
                         _timeSinceLastAttack = 0;
                         if (playerHealth.Dead)
                         {
@@ -82,7 +82,7 @@ public partial class Enemy : CharacterBody2D
                         GD.Print("hit ally");
                         Health allieHealth = nearestEntity.GetNode<Health>("Health");
                         allieHealth!.Call("Damage", 5);
-                        GD.Print("new ally health: "+allieHealth.Amount);
+                        GD.Print("new ally health: " + allieHealth.Amount);
                         _timeSinceLastAttack = 0;
                         if (allieHealth.Dead)
                         {

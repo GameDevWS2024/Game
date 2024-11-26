@@ -5,7 +5,7 @@ using System.Threading;
 
 using Godot;
 
-namespace Game.scripts;
+namespace Game.Scripts;
 
 public partial class EnemyManager : Node2D
 {

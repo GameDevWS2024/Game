@@ -47,16 +47,6 @@ position = Vector2(2550, 2500)
 occluder = SubResource("OccluderPolygon2D_2qsjx")
 occluder_light_mask = 3
 
-[node name="PointLight2D" parent="." instance=ExtResource("3_0raeo")]
-position = Vector2(139, 371)
-color = Color(0.365852, 0.353147, 9.62615e-08, 1)
-energy = 10.0
-shadow_enabled = true
-shadow_color = Color(0.0643274, 0.0646954, 0.0657012, 0)
-shadow_filter = 2
-shadow_filter_smooth = 2.3
-texture_scale = 20.39
-
 [node name="Player" parent="." instance=ExtResource("1_7owxc")]
 unique_name_in_owner = true
 material = SubResource("ShaderMaterial_hnti7")
@@ -129,3 +119,16 @@ position = Vector2(95, 467)
 [node name="EnemyManager" type="Node2D" parent="."]
 script = ExtResource("1_bmkfv")
 EnemyScene = ExtResource("10_tv6x7")
+
+[node name="CORE" type="Node2D" parent="." groups=["Entities"]]
+unique_name_in_owner = true
+
+[node name="PointLight2D" parent="CORE" instance=ExtResource("3_0raeo")]
+position = Vector2(139, 371)
+color = Color(0.365852, 0.353147, 9.62615e-08, 1)
+energy = 10.0
+shadow_enabled = true
+shadow_color = Color(0.0643274, 0.0646954, 0.0657012, 0)
+shadow_filter = 2
+shadow_filter_smooth = 2.3
+texture_scale = 20.39

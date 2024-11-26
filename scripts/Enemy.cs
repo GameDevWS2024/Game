@@ -29,11 +29,14 @@ public partial class Enemy : CharacterBody2D
 
     public override void _PhysicsProcess(double delta)
     {
+        // bool isNearbyCore = this.GlobalPosition.DistanceTo(_core!.GlobalPosition) < 250;
+        // GD.Print("enemy is nearby core, attacking player preferably");
+        bool isNearbyCore = true;
         _entityGroup = GetTree().GetNodesInGroup("Entities");
         List<(Node2D entity, float distance)> nearestEntities = _entityGroup.OfType<Node2D>().Select(entity => (entity, entity.GlobalPosition.DistanceTo(GlobalPosition))).ToList();
         nearestEntities = nearestEntities.Select(tup =>
-            tup.entity.GetName() == "Player"
-                ? (tup.entity, tup.distance - 100)
+            tup.entity.GetName() == "Player" && isNearbyCore
+                ? (tup.entity, tup.distance - 150)
                 : tup
         ).ToList();
 

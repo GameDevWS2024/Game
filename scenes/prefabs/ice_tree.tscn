@@ -1,26 +1,24 @@
 [gd_scene load_steps=4 format=3 uid="uid://ki7e88gvvcs"]
 
-[ext_resource type="Texture2D" uid="uid://dufenl1acfy2a" path="res://assets/obstacles/Eis-Baum.png" id="1_djkjd"]
+[ext_resource type="Texture2D" uid="uid://c3owty3htekii" path="res://assets/obstacles/Eisbaum.png" id="1_ffck2"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_30yar"]
-radius = 95.1315
 
-[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_5hc5y"]
-polygon = PackedVector2Array(68, 17, -26, 17, -26, 19.2, -27.8, 21, -30, 21, -30, 40, -70.8, 40, -75, 44.2, -75, 63, -93.8, 63, -98, 67.2, -98, 108, -115.8, 108, -121, 113.2, -121, 131, -139.1, 131, -141.1, 134, -143, 134, -143, 245, -162.1, 245, -164.1, 248, -166, 248, -166, 295.8, -161.8, 300, -121, 300, -121, 336.1, -143, 338.2, -143, 410.1, -140, 412.1, -140, 414, -114.9, 414, -112.9, 411, -111, 411, -111, 346, -98, 346, -98, 454.8, -93.8, 459, -68.9, 459, -66.9, 456, -65, 456, -65, 368, -30, 368, -30, 517, -69, 518, -71.8, 518, -75, 521.2, -75, 563, -93.8, 563, -98, 567.2, -98, 585, -65, 585, -65, 573, -51.7, 573, -50, 584.3, -50, 585, 0.5, 585, 3, 584.9, 3, 550, 16, 550, 16, 585, 49, 585, 49, 573, 61, 573, 61, 585, 94, 585, 94, 567.2, 89.8, 563, 71, 563, 71, 550, 107, 550, 107, 585, 140, 585, 140, 545.2, 134.8, 540, 117, 540, 117, 522.2, 111.8, 517, 94, 517, 94, 499.2, 89.8, 495, 71, 495, 71, 452.9, 68, 450.9, 68, 449, 49, 449, 49, 368, 84, 368, 84, 386.8, 88.2, 391, 112.8, 391, 117, 386.8, 117, 368, 136, 368, 140, 362.7, 140, 323, 152, 323, 152, 341, 156, 344, 156, 346, 179.8, 346, 182.8, 343, 185, 343, 185, 294.2, 180.8, 290, 162, 290, 162, 255, 180.8, 255, 185, 250.8, 185, 158.2, 180.8, 154, 162, 154, 162, 112.2, 157.8, 108, 140, 108, 139, 69, 139, 66.2, 135.8, 63, 117, 63, 117, 44.2, 112.8, 40, 71, 40, 71, 20.9, 68, 18.9)
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_q8t35"]
+polygon = PackedVector2Array(-32.5, -22.5, -22.5, -50, -5, -62.5, 12.5, -60, 30, -37.5, 27.5, -15, 32.5, 0, 27.5, 0, 25, -7.5, 17.5, 0, 15, 10, 12.5, 7.5, 12.5, 0, 7.5, 2.5, 5, 27.5, 20, 42.5, 10, 45, 2.5, 42.5, 2.5, 47.5, -5, 47.5, -15, 55, -15, 50, -7.5, 40, -17.5, 40, -7.5, 32.5, -7.5, 2.5, -17.5, 2.5, -20, 22.5, -22.5, 20, -22.5, 2.5, -27.5, 2.5, -30, 12.5, -32.5, 12.5, -35, 2.5, -30, -2.5, -30, -10, -37.5, -5, -40, -10)
 
 [node name="Tree" type="StaticBody2D" groups=["navigation"]]
 scale = Vector2(0.4, 0.4)
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 z_index = 20
-position = Vector2(22.5, -45)
-texture = ExtResource("1_djkjd")
+position = Vector2(-2.38419e-07, -232.5)
+texture = ExtResource("1_ffck2")
 offset = Vector2(0, 225)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(42.5, 482.5)
+position = Vector2(2.38419e-07, 37.5)
 shape = SubResource("CircleShape2D_30yar")
 
 [node name="LightOccluder2D" type="LightOccluder2D" parent="."]
-position = Vector2(22.5, -45)
-occluder = SubResource("OccluderPolygon2D_5hc5y")
+occluder = SubResource("OccluderPolygon2D_q8t35")

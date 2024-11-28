@@ -2,15 +2,15 @@
 
 [ext_resource type="Script" path="res://scripts/Ally.cs" id="1_anjrv"]
 [ext_resource type="Script" path="res://scripts/Chat.cs" id="2_k8ael"]
-[ext_resource type="Texture2D" uid="uid://cmhtqgk8qwwvg" path="res://assets/ally.png" id="3_hn7of"]
+[ext_resource type="Texture2D" uid="uid://bn10n1fpys45b" path="res://assets/Arbeiter.png" id="3_ked4d"]
 [ext_resource type="Script" path="res://scripts/PathFindingMovement.cs" id="4_v650j"]
 [ext_resource type="Script" path="res://scripts/Health.cs" id="5_moxt6"]
 [ext_resource type="Script" path="res://scripts/HealthBar.cs" id="6_1idkv"]
 [ext_resource type="Script" path="res://scripts/Removeable.cs" id="7_g7cdr"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_rn1pq"]
-radius = 35.0
-height = 120.0
+radius = 13.0
+height = 52.0
 
 [node name="Ally" type="CharacterBody2D" node_paths=PackedStringArray("_chat", "_responseField", "_pathFindingMovement") groups=["Entities"]]
 script = ExtResource("1_anjrv")
@@ -19,10 +19,10 @@ _responseField = NodePath("ResponseField")
 _pathFindingMovement = NodePath("PathFindingMovement")
 
 [node name="Chat" type="LineEdit" parent="."]
-offset_left = 37.0
-offset_top = -251.0
-offset_right = 419.0
-offset_bottom = -73.0
+offset_left = 28.0
+offset_top = -97.0
+offset_right = 140.0
+offset_bottom = -33.0
 script = ExtResource("2_k8ael")
 _systemPromptFile = "res://assets/prompts/example_prompt.txt"
 
@@ -39,8 +39,7 @@ simplify_path = true
 debug_enabled = true
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(0.2, 0.2)
-texture = ExtResource("3_hn7of")
+texture = ExtResource("3_ked4d")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_rn1pq")
@@ -57,10 +56,10 @@ script = ExtResource("5_moxt6")
 
 [node name="ProgressBar" type="ProgressBar" parent="." node_paths=PackedStringArray("_health")]
 self_modulate = Color(1.26103e-05, 0.840319, 1.15514e-06, 1)
-offset_left = -32.0
-offset_top = -111.0
-offset_right = 40.0
-offset_bottom = -84.0
+offset_left = -21.0
+offset_top = -57.0
+offset_right = 20.0
+offset_bottom = -41.0
 value = 50.0
 show_percentage = false
 script = ExtResource("6_1idkv")

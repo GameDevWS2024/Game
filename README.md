@@ -1,5 +1,5 @@
 # 2D Game Development Project
-- Test
+
 ## Project Overview
 
 This project is a 2D game developed as part of the Games and Visual Effects course during the winter term of 2023/2025.

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cwes7vi2s0gjs"
-path="res://.godot/imported/allie.png-0a1604a266ab91caa4997482f3224376.ctex"
+uid="uid://c3owty3htekii"
+path="res://.godot/imported/Eisbaum.png-0afff7357e862cd4f07809a0baa48fac.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/allie.png"
-dest_files=["res://.godot/imported/allie.png-0a1604a266ab91caa4997482f3224376.ctex"]
+source_file="res://assets/obstacles/Eisbaum.png"
+dest_files=["res://.godot/imported/Eisbaum.png-0afff7357e862cd4f07809a0baa48fac.ctex"]
 
 [params]
 
@@ -31,4 +31,4 @@ process/normal_map_invert_y=false
 process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
-detect_3d/compress_to=0
+detect_3d/compress_to=1

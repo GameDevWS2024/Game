@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cmhtqgk8qwwvg"
-path="res://.godot/imported/ally.png-06e2c6efe193ce21aab785acd74913a3.ctex"
+uid="uid://b8pen8v463ga5"
+path="res://.godot/imported/FinishedTiles.png-1cfaf6915d4df873e73a7c994898693c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/ally.png"
-dest_files=["res://.godot/imported/ally.png-06e2c6efe193ce21aab785acd74913a3.ctex"]
+source_file="res://assets/Backgrounds/FinishedTiles.png"
+dest_files=["res://.godot/imported/FinishedTiles.png-1cfaf6915d4df873e73a7c994898693c.ctex"]
 
 [params]
 

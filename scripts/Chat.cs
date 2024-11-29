@@ -6,83 +6,83 @@ using System.Text.RegularExpressions;
 using Godot;
 namespace Game.Scripts
 {
-    public partial class Chat : LineEdit
-    {
-        [Signal] public delegate void ResponseReceivedEventHandler(string response);
+	public partial class Chat : LineEdit
+	{
+		[Signal] public delegate void ResponseReceivedEventHandler(string response);
 
-        [Export(PropertyHint.File, "*.txt")]
-        private string? _systemPromptFile;
+		[Export(PropertyHint.File, "*.txt")]
+		private string? _systemPromptFile;
 
-        private string _systemPrompt = "";
-        private GeminiService? _geminiService;
-        private readonly string _apiKeyPath = ProjectSettings.GlobalizePath("res://api_key.secret");
-        private const string ChatPlaceholder = "Type here to chat";
-        private const string EnterApiPlaceholder = "Enter API key";
+		private string _systemPrompt = "";
+		private GeminiService? _geminiService;
+		private readonly string _apiKeyPath = ProjectSettings.GlobalizePath("res://api_key.secret");
+		private const string ChatPlaceholder = "Type here to chat";
+		private const string EnterApiPlaceholder = "Enter API key";
 
-        public override void _Ready()
-        {
-            TextSubmitted += OnTextSubmitted;
+		public override void _Ready()
+		{
+			TextSubmitted += OnTextSubmitted;
 
-            string systemPromptAbsolutePath = ProjectSettings.GlobalizePath(_systemPromptFile);
+			string systemPromptAbsolutePath = ProjectSettings.GlobalizePath(_systemPromptFile);
 
-            try
-            {
-                _systemPrompt = File.ReadAllText(systemPromptAbsolutePath);
-            }
-            catch (Exception ex)
-            {
-                GD.Print($"Failed to load systemPrompt. {ex.Message}");
-            }
+			try
+			{
+				_systemPrompt = File.ReadAllText(systemPromptAbsolutePath);
+			}
+			catch (Exception ex)
+			{
+				GD.Print($"Failed to load systemPrompt. {ex.Message}");
+			}
 
-            GD.Print(_systemPrompt);
-            InitializeGeminiService();
-        }
+			GD.Print(_systemPrompt);
+			InitializeGeminiService();
+		}
 
-        private void InitializeGeminiService()
-        {
+		private void InitializeGeminiService()
+		{
 
-            try
-            {
-                _geminiService = new GeminiService(_apiKeyPath);
+			try
+			{
+				_geminiService = new GeminiService(_apiKeyPath);
 
-                _geminiService.SetSystemPrompt(_systemPrompt);
+				_geminiService.SetSystemPrompt(_systemPrompt);
 
-                PlaceholderText = ChatPlaceholder;
-            }
+				PlaceholderText = ChatPlaceholder;
+			}
 
-            catch (Exception ex)
-            {
-                GD.Print(ex.Message);
-                PlaceholderText = EnterApiPlaceholder;
-            }
-        }
+			catch (Exception ex)
+			{
+				GD.Print(ex.Message);
+				PlaceholderText = EnterApiPlaceholder;
+			}
+		}
 
-        private async void OnTextSubmitted(string input)
-        {
-            GD.Print($"Submitted text: {input}");
+		private async void OnTextSubmitted(string input)
+		{
+			GD.Print($"Submitted text: {input}");
 
-            if (_geminiService != null)
-            {
-                string? response = await _geminiService.MakeQuerry(input);
-                if (response != null)
-                {
-                    EmitSignal(SignalName.ResponseReceived, response);
-                }
+			if (_geminiService != null)
+			{
+				string? response = await _geminiService.MakeQuerry(input);
+				if (response != null)
+				{
+					EmitSignal(SignalName.ResponseReceived, response);
+				}
 
-                else
-                {
-                    GD.Print("No response");
-                }
+				else
+				{
+					GD.Print("No response");
+				}
 
-            }
+			}
 
-            else
-            {
-                await File.WriteAllTextAsync(_apiKeyPath, input.Trim());
-                InitializeGeminiService();
-            }
+			else
+			{
+				await File.WriteAllTextAsync(_apiKeyPath, input.Trim());
+				InitializeGeminiService();
+			}
 
-            Clear();
-        }
-    }
+			Clear();
+		}
+	}
 }

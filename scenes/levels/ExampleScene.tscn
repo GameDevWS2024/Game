@@ -133,7 +133,7 @@ shadow_enabled = true
 shadow_color = Color(0.0643274, 0.0646954, 0.0657012, 0)
 shadow_filter = 2
 shadow_filter_smooth = 2.3
-texture_scale = 20.39
+texture_scale = 20.0
 
 [node name="Ally2" parent="." instance=ExtResource("13_668w2")]
 position = Vector2(602, 378)

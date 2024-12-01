@@ -37,6 +37,17 @@ namespace Game.Scripts
 			GD.Print(_systemPrompt);
 			InitializeGeminiService();
 		}
+		
+		public void SetSystemPrompt(string newPrompt)
+		{
+			_systemPrompt = newPrompt;  // Ändere den System-Prompt
+	
+			// Stelle sicher, dass die GeminiService-Instanz mit dem neuen Prompt aktualisiert wird
+			if (_geminiService != null)
+			{
+				_geminiService.SetSystemPrompt(_systemPrompt);
+			}
+		}
 
 		private void InitializeGeminiService()
 		{

@@ -6,63 +6,65 @@ using Godot;
 
 public partial class Ally : CharacterBody2D
 {
+	public Health Health = null!;
 	[Export] Chat _chat = null!;
 	[Export] RichTextLabel _responseField = null!;
 	[Export] PathFindingMovement _pathFindingMovement = null!;
-
+	[Export] private Label _nameLabel = null!;
 	private bool _followPlayer = true;
 	private int _motivation;
 	private Player _player = null!;
 
-	public int _healthPoints = 100;
-	public bool _allyInDarkness = false;
-	public bool _allyInSmallCircle = true;
-	public bool _allyInBigCircle = true;
+	//Enum with states for ally in darkness, in bigger or smaller circle for map damage system
+	public enum AllyState {
+		Darkness,
+		SmallCircle,
+		BigCircle
+	}
 
-	private Core _core;
+	public AllyState CurrentState { get; private set; } = AllyState.SmallCircle;
+
+	private Core _core = null!;
 
 	public override void _Ready()
 	{
+		Health = GetNode<Health>("Health");
 		_chat.ResponseReceived += HandleResponse;
 		_player = GetNode<Player>("%Player");
-		_core = GetNode<Core>("%Core");  // Core einmal speichern
+		_core = GetNode<Core>("%Core");
+		//GD.Print($"Path to Chat: {_chat.GetPath()}");
+		//GD.Print($"Path to ResponseField: {_responseField.GetPath()}");
+		//GD.Print($"Path to PathFindingMovement: {_pathFindingMovement.GetPath()}");
 	}
 
-	public void _setAllyInDarkness()
+	public void SetAllyInDarkness()
 	{
 		// Berechne den Abstand zwischen Ally und Core
-		Vector2 _distance = this.Position - _core.Position;
-		float _distanceLength = _distance.Length();  // Berechne die Länge des Vektors
+		Vector2 distance = this.Position - _core.Position;
+		float distanceLength = distance.Length();  // Berechne die Länge des Vektors
 		
 		// If ally further away than big circle, he is in the darkness
-		if (_distanceLength > _core.LightRadius * 1.5f)
+		if (distanceLength > _core.LightRadius * 1.5f)
 		{
-			this._allyInDarkness = true;
-			this._allyInSmallCircle = false;
-			this._allyInBigCircle = false;
+				CurrentState = AllyState.Darkness;
 		}
 		//if ally not in darkness and closer than the small Light Radius, he is in small circle
-		else if(_distanceLength < _core.LightRadius)
+		else if(distanceLength < _core.LightRadius)
 		{
-			this._allyInDarkness = false; 
-			this._allyInSmallCircle = true;
-			this._allyInBigCircle = false;
-			 // Korrektur der falschen Referenz
+			CurrentState = AllyState.SmallCircle;
 		}
 		//if ally not in darkness and not in small circle, ally is in big circle
 		else
 		{
-			this._allyInDarkness = false; 
-			this._allyInSmallCircle = false;
-			this._allyInBigCircle = true;
-			 // Korrektur der falschen Referenz
+			CurrentState = AllyState.BigCircle;
 		}
 		
 	}
 
 	public override void _PhysicsProcess(double delta)
 	{
-		_setAllyInDarkness();
+		//Check where ally is (darkness, bigger, smaller)
+		SetAllyInDarkness();
 		
 		if (_followPlayer)
 		{

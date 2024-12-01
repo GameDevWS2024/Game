@@ -18,7 +18,7 @@ public partial class Enemy : CharacterBody2D
 	public override void _Ready()
 	{
 		_player = GetTree().CurrentScene.GetNode<CharacterBody2D>("%Player");
-		_core = GetTree().CurrentScene.GetNode<Node2D>("%CORE");
+		_core = GetTree().CurrentScene.GetNode<Node2D>("%Core");
 	}
 
 	private float _attackCooldown = 0.5f; // Time between attacks in seconds

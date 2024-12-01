@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://dfkwq6qwtxw25"]
+[gd_scene load_steps=18 format=3 uid="uid://dfkwq6qwtxw25"]
 
 [ext_resource type="PackedScene" uid="uid://clfnjh8aelj66" path="res://scenes/prefabs/Player.tscn" id="1_7owxc"]
 [ext_resource type="Texture2D" uid="uid://dweeg6vbxai1c" path="res://scenes/levels/bg.png" id="1_afw7h"]
@@ -12,6 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://c52r54sodgdc0" path="res://scenes/prefabs/stone.tscn" id="10_4xrrw"]
 [ext_resource type="PackedScene" uid="uid://bgxxp0o5kdpkq" path="res://scenes/prefabs/Enemy.tscn" id="10_tv6x7"]
 [ext_resource type="Script" path="res://scripts/Core.cs" id="11_wagl7"]
+[ext_resource type="PackedScene" uid="uid://dktm5pdu27ai2" path="res://scenes/prefabs/Ally2.tscn" id="13_668w2"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_8cl4m"]
 shader = ExtResource("1_kbklw")
@@ -46,7 +47,7 @@ modulate = Color(0.099986, 0.099986, 0.099986, 1)
 self_modulate = Color(0.0605304, 0.0605303, 0.0605303, 1)
 light_mask = 3
 visibility_layer = 3
-position = Vector2(2550, 2500)
+position = Vector2(2600, 2500)
 occluder = SubResource("OccluderPolygon2D_2qsjx")
 occluder_light_mask = 3
 
@@ -111,7 +112,6 @@ position = Vector2(1053, 721)
 position = Vector2(236, 173)
 
 [node name="Ally" parent="." instance=ExtResource("6_l8h37")]
-unique_name_in_owner = true
 position = Vector2(-122, 123)
 
 [node name="Enemy" parent="." instance=ExtResource("10_tv6x7")]
@@ -134,3 +134,6 @@ shadow_color = Color(0.0643274, 0.0646954, 0.0657012, 0)
 shadow_filter = 2
 shadow_filter_smooth = 2.3
 texture_scale = 20.39
+
+[node name="Ally2" parent="." instance=ExtResource("13_668w2")]
+position = Vector2(602, 378)

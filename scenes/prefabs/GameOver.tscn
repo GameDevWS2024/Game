@@ -1,4 +1,6 @@
-[gd_scene format=3 uid="uid://vghb5btoppl7"]
+[gd_scene load_steps=2 format=3 uid="uid://vghb5btoppl7"]
+
+[ext_resource type="AudioStream" uid="uid://ckepkjqosl80g" path="res://assets/audio/gameOver.mp3" id="1_yd6ms"]
 
 [node name="GameOver" type="Node2D"]
 
@@ -11,3 +13,7 @@ offset_right = 1114.0
 offset_bottom = 548.0
 theme_override_font_sizes/font_size = 70
 text = "Game Over"
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("1_yd6ms")
+autoplay = true

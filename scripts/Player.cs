@@ -4,9 +4,9 @@ namespace Game.Scripts;
 
 public partial class Player : CharacterBody2D
 {
-    [Export] private float _maxSpeed = 400.0f; // Maximum speed
-    [Export] private float _acceleration = 1200.0f; // How quickly we reach max speed
-    [Export] private float _deceleration = 800.0f; // How quickly we slow down
+    [Export] private float _maxSpeed = 150.0f; // Maximum speed
+    [Export] private float _acceleration = 400.0f; // How quickly we reach max speed
+    [Export] private float _deceleration = 300.0f; // How quickly we slow down
     [Export] Sprite2D? _playerSprite;
 
     // Store the current velocity as a class field to maintain it between frames

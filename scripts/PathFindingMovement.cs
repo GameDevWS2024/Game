@@ -3,9 +3,9 @@ public partial class PathFindingMovement : Node
 {
     [Signal] public delegate void ReachedTargetEventHandler();
 
-    [Export] private int _minTargetDistance = 150;
+    [Export] private int _minTargetDistance = 50;
     [Export] private int _targetDistanceVariation = 50;
-    [Export] private int _speed = 250;
+    [Export] private int _speed = 100;
     [Export] bool _debug = false;
 
     [Export] CharacterBody2D _character = null!;

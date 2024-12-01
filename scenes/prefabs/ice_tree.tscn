@@ -17,7 +17,7 @@ texture = ExtResource("1_ffck2")
 offset = Vector2(0, 225)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(2.38419e-07, 37.5)
+position = Vector2(2.84217e-14, 35)
 shape = SubResource("CircleShape2D_30yar")
 
 [node name="LightOccluder2D" type="LightOccluder2D" parent="."]

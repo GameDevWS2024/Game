@@ -15,11 +15,11 @@ public partial class Enemy : CharacterBody2D
     private CharacterBody2D? _player;
     private Node2D? _core;
 
-	public override void _Ready()
-	{
-		_player = GetTree().CurrentScene.GetNode<CharacterBody2D>("%Player");
-		_core = GetTree().CurrentScene.GetNode<Node2D>("%Core");
-	}
+    public override void _Ready()
+    {
+        _player = GetTree().CurrentScene.GetNode<CharacterBody2D>("%Player");
+        _core = GetTree().CurrentScene.GetNode<Node2D>("%Core");
+    }
 
     private float _attackCooldown = 0.5f; // Time between attacks in seconds
     private float _timeSinceLastAttack = 0.0f; // Time accumulator

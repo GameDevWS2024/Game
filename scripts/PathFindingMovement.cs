@@ -17,29 +17,30 @@ public partial class PathFindingMovement : Node
     private bool _reachedTarget;
     private int _currentTargetDistance;
 
-	//Tried to wait for first synchronization, to prevent from error "query failed because it was made befor map synchronisation (unfinished)"
-	public override void _Ready()
-	{
-		_currentTargetDistance = _minTargetDistance;
-		this.CallDeferred("ActorSetup");
-	}
+    //Tried to wait for first synchronization, to prevent from error "query failed because it was made befor map synchronisation (unfinished)"
+    public override void _Ready()
+    {
+        _currentTargetDistance = _minTargetDistance;
+        this.CallDeferred("ActorSetup");
+    }
 
-	public async void ActorSetup() {
-		await ToSignal(GetTree(), "physics_frame");
-	}
+    public async void ActorSetup()
+    {
+        await ToSignal(GetTree(), "physics_frame");
+    }
 
-	public override void _PhysicsProcess(double delta)
-	{
-		_agent.SetTargetPosition(TargetPosition);
-		//GD.Print(_character.Name);
-		//GD.Print($"Current Agent: {_agent.Name}");
-		//GD.Print($"Target Position: {_agent.TargetPosition}");
+    public override void _PhysicsProcess(double delta)
+    {
+        _agent.SetTargetPosition(TargetPosition);
+        //GD.Print(_character.Name);
+        //GD.Print($"Current Agent: {_agent.Name}");
+        //GD.Print($"Target Position: {_agent.TargetPosition}");
 
-		if (_debug)
-		{
-			float distance = _character.GlobalPosition.DistanceTo(_agent.TargetPosition);
-			//GD.Print($"Distance: {distance}, Target Position: {_agent.TargetPosition}");
-		}
+        if (_debug)
+        {
+            float distance = _character.GlobalPosition.DistanceTo(_agent.TargetPosition);
+            //GD.Print($"Distance: {distance}, Target Position: {_agent.TargetPosition}");
+        }
 
         if (_character.GlobalPosition.DistanceTo(_agent.TargetPosition) > _currentTargetDistance)
         {
@@ -53,17 +54,17 @@ public partial class PathFindingMovement : Node
                 _sprite.FlipH = newVel.X > 0;
             }
 
-			_character.Velocity = newVel;
-			_character.MoveAndSlide();
-		}
-		else if (!_reachedTarget)
-		{
-			_currentTargetDistance = GD.RandRange(_minTargetDistance - _targetDistanceVariation / 2,
-												_minTargetDistance + _targetDistanceVariation / 2);
-			EmitSignal(SignalName.ReachedTarget);
-			_reachedTarget = true;
-		}
+            _character.Velocity = newVel;
+            _character.MoveAndSlide();
+        }
+        else if (!_reachedTarget)
+        {
+            _currentTargetDistance = GD.RandRange(_minTargetDistance - _targetDistanceVariation / 2,
+                                                _minTargetDistance + _targetDistanceVariation / 2);
+            EmitSignal(SignalName.ReachedTarget);
+            _reachedTarget = true;
+        }
 
-		
-	}
+
+    }
 }

@@ -1,7 +1,9 @@
 using System;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
+
 using Game.Scripts;
+
 using Godot;
 
 public partial class Ally : CharacterBody2D
@@ -72,41 +74,41 @@ public partial class Ally : CharacterBody2D
 		}
 	}
 
-	private void HandleResponse(string response)
-	{
+    private void HandleResponse(string response)
+    {
 
-		_responseField.Text = response;
+        _responseField.Text = response;
 
-		GD.Print($"Response: {response}");
+        GD.Print($"Response: {response}");
 
-		string pattern = @"MOTIVATION:\s*(\d+)";
-		Regex regex = new Regex(pattern);
-		Match match = regex.Match(response);
+        string pattern = @"MOTIVATION:\s*(\d+)";
+        Regex regex = new Regex(pattern);
+        Match match = regex.Match(response);
 
-		if (match.Success && match.Groups.Count > 1)
-		{
-			try
-			{
-				_motivation = int.Parse(match.Groups[1].Value);
-			}
-			catch (Exception ex)
-			{
-				GD.Print(ex);
-			}
-		}
+        if (match.Success && match.Groups.Count > 1)
+        {
+            try
+            {
+                _motivation = int.Parse(match.Groups[1].Value);
+            }
+            catch (Exception ex)
+            {
+                GD.Print(ex);
+            }
+        }
 
-		if (response.Contains("FOLLOW"))
-		{
-			GD.Print("following");
-			_followPlayer = true;
-		}
+        if (response.Contains("FOLLOW"))
+        {
+            GD.Print("following");
+            _followPlayer = true;
+        }
 
-		if (response.Contains("STOP"))
-		{
-			GD.Print("stop");
-			_followPlayer = false;
-		}
+        if (response.Contains("STOP"))
+        {
+            GD.Print("stop");
+            _followPlayer = false;
+        }
 
-		GD.Print($"Motivation: {_motivation}");
-	}
+        GD.Print($"Motivation: {_motivation}");
+    }
 }

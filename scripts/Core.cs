@@ -1,5 +1,5 @@
-using Godot;
 using System;
+using Godot;
 
 public partial class Core : Node2D 
 {
@@ -16,20 +16,21 @@ public partial class Core : Node2D
 		set => _position = value;
 	}
 
-	public Vector2 Scale
-	{
-		get => _scale;
-		set =>	_scale = value;
-	}
+    public Vector2 Scale
+    {
+        get => _scale;
+        set => _scale = value;
+    }
 
-	public float LightRadius
-	{
-		get => _lightRadiusSmallerCircle;
-		set{
-			this._lightRadiusSmallerCircle = value;
-			this._lightRadiusBiggerCircle = this._lightRadiusSmallerCircle * 1.5f;
-		}
-	}
+    public float LightRadius
+    {
+        get => _lightRadiusSmallerCircle;
+        set
+        {
+            this._lightRadiusSmallerCircle = value;
+            this._lightRadiusBiggerCircle = this._lightRadiusSmallerCircle * 1.5f;
+        }
+    }
 
 	public override void _Ready()
 	{		

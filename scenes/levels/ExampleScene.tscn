@@ -11,6 +11,8 @@
 [ext_resource type="PackedScene" uid="uid://c52r54sodgdc0" path="res://scenes/prefabs/stone.tscn" id="10_4xrrw"]
 [ext_resource type="PackedScene" uid="uid://bgxxp0o5kdpkq" path="res://scenes/prefabs/Enemy.tscn" id="10_tv6x7"]
 [ext_resource type="Script" path="res://scenes/levels/IntroText.cs" id="11_wx2no"]
+[ext_resource type="Script" path="res://scripts/Core.cs" id="11_wagl7"]
+[ext_resource type="PackedScene" uid="uid://dktm5pdu27ai2" path="res://scenes/prefabs/Ally2.tscn" id="13_668w2"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_8cl4m"]
 shader = ExtResource("1_kbklw")
@@ -125,8 +127,9 @@ EnemyScene = ExtResource("10_tv6x7")
 [node name="CORE" type="Node2D" parent="."]
 unique_name_in_owner = true
 
-[node name="PointLight2D" parent="CORE" instance=ExtResource("3_0raeo")]
-position = Vector2(-1039, -88)
+[node name="CoreLight" parent="Core" instance=ExtResource("3_0raeo")]
+unique_name_in_owner = true
+texture_scale = 20.0
 color = Color(0.365852, 0.353147, 9.62615e-08, 1)
 energy = 10.0
 shadow_enabled = true
@@ -136,7 +139,6 @@ shadow_filter_smooth = 2.3
 texture_scale = 20.39
 
 [node name="IntroText" type="CanvasLayer" parent="."]
-script = ExtResource("11_wx2no")
 
 [node name="Panel" type="Panel" parent="IntroText"]
 anchors_preset = -1
@@ -179,3 +181,5 @@ icon = SubResource("ViewportTexture_r86pe")
 metadata/_edit_use_anchors_ = true
 
 [connection signal="pressed" from="IntroText/Panel/Close" to="IntroText" method="OnClosePressed"]
+[node name="Ally2" parent="." instance=ExtResource("13_668w2")]
+position = Vector2(602, 378)

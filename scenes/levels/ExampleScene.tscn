@@ -183,7 +183,4 @@ metadata/_edit_use_anchors_ = true
 [connection signal="pressed" from="IntroText/Panel/Close" to="IntroText" method="OnClosePressed"]
 [node name="Ally2" parent="." instance=ExtResource("13_668w2")]
 position = Vector2(602, 378)
-texture_scale = 20.0
 
-[node name="Ally2" parent="." instance=ExtResource("13_668w2")]
-position = Vector2(602, 378)

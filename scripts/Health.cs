@@ -19,6 +19,7 @@ public partial class Health : Node
         if ((!Dead || _reviveable) && Amount < MaxHealth)
         {
             Amount += amount;
+            GD.Print(Amount);
             if (Amount > MaxHealth)
             {
                 Amount = MaxHealth;

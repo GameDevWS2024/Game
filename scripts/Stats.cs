@@ -1,4 +1,4 @@
-﻿public class PlayerStats
+public class PlayerStats
 {
     public int Health { get; set; }
     public int Strength { get; set; }

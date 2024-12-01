@@ -178,4 +178,4 @@ text = "Close"
 icon = SubResource("ViewportTexture_r86pe")
 metadata/_edit_use_anchors_ = true
 
-[connection signal="pressed" from="IntroText/Panel/Close" to="IntroText" method="_on_close_pressed"]
+[connection signal="pressed" from="IntroText/Panel/Close" to="IntroText" method="OnClosePressed"]

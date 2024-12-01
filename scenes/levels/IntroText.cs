@@ -8,8 +8,6 @@ public partial class IntroText : CanvasLayer
 
 	public override void _Ready()
 	{
-		
-		GD.Print("Ready wird ausgeführt!");
 		// Referenzen holen
 		_panel = GetNode<Panel>("Panel");
 		_label = _panel.GetNode<Label>("Label");
@@ -40,7 +38,7 @@ public partial class IntroText : CanvasLayer
 		_closeButton.AnchorBottom = 0.8f;
 
 		// Button-Signal verbinden
-		_closeButton.Pressed += _on_close_pressed;
+		_closeButton.Pressed += OnClosePressed;
 
 		// Spiel pausieren
 		GetTree().Paused = true;
@@ -49,10 +47,9 @@ public partial class IntroText : CanvasLayer
 		_panel.Visible = true;
 	}
 
-	private void _on_close_pressed()
+	private void OnClosePressed()
 	{
-		
-		GD.Print("Button wurde gedrückt!"); // Debug-Ausgabe
+
 		_panel.Visible = false; // Panel verstecken
 		GetTree().Paused = false; // Spiel fortsetzen
 	}

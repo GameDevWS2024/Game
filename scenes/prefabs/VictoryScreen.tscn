@@ -1,0 +1,22 @@
+[gd_scene load_steps=2 format=3 uid="uid://h5dot0i66spf"]
+
+[ext_resource type="AudioStream" uid="uid://dpq5uuhy4kxlo" path="res://assets/audio/victoryScreen.mp3" id="1_egnrn"]
+
+[node name="VictoryScreen" type="Node2D"]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Label" type="Label" parent="CanvasLayer"]
+offset_left = 734.0
+offset_top = 452.0
+offset_right = 1114.0
+offset_bottom = 548.0
+theme_override_font_sizes/font_size = 70
+text = "Want to play more?
+More to come soon"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("1_egnrn")
+autoplay = true

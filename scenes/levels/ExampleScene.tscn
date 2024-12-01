@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://dfkwq6qwtxw25"]
+[gd_scene load_steps=17 format=3 uid="uid://dfkwq6qwtxw25"]
 
 [ext_resource type="PackedScene" uid="uid://clfnjh8aelj66" path="res://scenes/prefabs/Player.tscn" id="1_7owxc"]
 [ext_resource type="Texture2D" uid="uid://dweeg6vbxai1c" path="res://scenes/levels/bg.png" id="1_afw7h"]
@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://ki7e88gvvcs" path="res://scenes/prefabs/ice_tree.tscn" id="9_tf77n"]
 [ext_resource type="PackedScene" uid="uid://c52r54sodgdc0" path="res://scenes/prefabs/stone.tscn" id="10_4xrrw"]
 [ext_resource type="PackedScene" uid="uid://bgxxp0o5kdpkq" path="res://scenes/prefabs/Enemy.tscn" id="10_tv6x7"]
+[ext_resource type="Script" path="res://scenes/levels/IntroText.cs" id="11_wx2no"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_8cl4m"]
 shader = ExtResource("1_kbklw")
@@ -27,6 +28,8 @@ outlines = Array[PackedVector2Array]([PackedVector2Array(-2569, -2488, -2534, 24
 source_geometry_mode = 1
 source_geometry_group_name = &"navigation"
 agent_radius = 150.0
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_r86pe"]
 
 [node name="Node2D" type="Node2D"]
 
@@ -123,6 +126,7 @@ EnemyScene = ExtResource("10_tv6x7")
 unique_name_in_owner = true
 
 [node name="PointLight2D" parent="CORE" instance=ExtResource("3_0raeo")]
+position = Vector2(-1039, -88)
 color = Color(0.365852, 0.353147, 9.62615e-08, 1)
 energy = 10.0
 shadow_enabled = true
@@ -130,3 +134,48 @@ shadow_color = Color(0.0643274, 0.0646954, 0.0657012, 0)
 shadow_filter = 2
 shadow_filter_smooth = 2.3
 texture_scale = 20.39
+
+[node name="IntroText" type="CanvasLayer" parent="."]
+script = ExtResource("11_wx2no")
+
+[node name="Panel" type="Panel" parent="IntroText"]
+anchors_preset = -1
+anchor_right = 0.175
+anchor_bottom = 0.159259
+offset_left = -562.0
+offset_top = -130.0
+offset_right = -522.0
+offset_bottom = -90.0
+mouse_filter = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="Label" parent="IntroText/Panel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.148936
+anchor_top = 0.429245
+anchor_right = 1.43745
+anchor_bottom = 0.885094
+offset_right = -194.48
+offset_bottom = -64.64
+mouse_filter = 1
+text = "HEEEEEEEEEEEEEYYYYYYYYYYYYYYY"
+language = "en"
+metadata/_edit_use_anchors_ = true
+
+[node name="Close" type="Button" parent="IntroText/Panel"]
+process_mode = 2
+z_index = 40
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.731383
+anchor_top = 0.0283019
+anchor_right = 0.93883
+anchor_bottom = 0.141509
+offset_right = 8.0
+offset_bottom = 8.0
+text = "Close"
+icon = SubResource("ViewportTexture_r86pe")
+metadata/_edit_use_anchors_ = true
+
+[connection signal="pressed" from="IntroText/Panel/Close" to="IntroText" method="_on_close_pressed"]

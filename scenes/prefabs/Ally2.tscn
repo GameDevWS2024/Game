@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://dktm5pdu27ai2"]
+[gd_scene load_steps=3 format=3 uid="uid://dktm5pdu27ai2"]
 
 [ext_resource type="PackedScene" uid="uid://6gwtt7kwq2p" path="res://scenes/prefabs/Ally.tscn" id="1_c77ki"]
+[ext_resource type="Texture2D" uid="uid://ds35c4ylle7qd" path="res://assets/workerAlly.png" id="2_3le1m"]
 
 [node name="Ally2" instance=ExtResource("1_c77ki")]
 
@@ -10,6 +11,10 @@ metadata/_edit_use_anchors_ = true
 
 [node name="ResponseField" parent="." index="1"]
 metadata/_edit_use_anchors_ = true
+
+[node name="Sprite2D" parent="." index="3"]
+scale = Vector2(1.8, 1.8)
+texture = ExtResource("2_3le1m")
 
 [node name="ProgressBar" parent="." index="7"]
 metadata/_edit_use_anchors_ = true

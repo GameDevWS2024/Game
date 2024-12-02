@@ -16,6 +16,7 @@ public partial class Map : Node2D
     private Map _map = null!;
     private Core _core = null!; // Deklaration des Core-Objekts
     private Player _player = null!;
+    private List<MapItem> _items;
     double _timeElapsed = 0f;
 
     public override void _Ready()
@@ -23,6 +24,7 @@ public partial class Map : Node2D
         _map = this;
         _core = GetNode<Core>("%Core");
         _player = GetNode<Player>("%Player");
+        _items = new List<MapItem>();
     }
 
     public void DarknessDamage()
@@ -62,5 +64,28 @@ public partial class Map : Node2D
         _timeElapsed += delta;
         DarknessDamage();
         _Draw();
+    }
+
+    public void AddItem(ItemStack item, int x, int y)
+    {
+        _items.Add(new MapItem(item, x, y));
+    }
+
+    public List<MapItem> GetItems()
+    {
+        return _items;
+    }
+
+    public List<Location> GetAllItem(Material material)
+    {
+        List<Location> locations = new List<Location>;
+
+        for(int i = 0; i < _items.size; i++)
+        {
+            if(_items[i].Item.Material == material)
+            {
+                locations.AddItem(new Location(_items[i].X, _items[i].Y));
+            }
+        }
     }
 }

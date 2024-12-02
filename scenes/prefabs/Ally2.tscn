@@ -1,23 +1,90 @@
-[gd_scene load_steps=3 format=3 uid="uid://dktm5pdu27ai2"]
+[gd_scene load_steps=10 format=3 uid="uid://dktm5pdu27ai2"]
 
-[ext_resource type="PackedScene" uid="uid://6gwtt7kwq2p" path="res://scenes/prefabs/Ally.tscn" id="1_c77ki"]
-[ext_resource type="Texture2D" uid="uid://ds35c4ylle7qd" path="res://assets/workerAlly.png" id="2_3le1m"]
+[ext_resource type="Script" path="res://scripts/Ally.cs" id="1_h2ftv"]
+[ext_resource type="Script" path="res://scripts/Chat.cs" id="2_clxco"]
+[ext_resource type="Script" path="res://scripts/Items/Inventory.cs" id="2_wmq71"]
+[ext_resource type="Texture2D" uid="uid://cmhtqgk8qwwvg" path="res://assets/ally.png" id="3_0prkc"]
+[ext_resource type="Script" path="res://scripts/PathFindingMovement.cs" id="4_ufidg"]
+[ext_resource type="Script" path="res://scripts/Health.cs" id="5_4y1be"]
+[ext_resource type="Script" path="res://scripts/HealthBar.cs" id="6_uaxdm"]
+[ext_resource type="Script" path="res://scripts/Removeable.cs" id="7_0bkir"]
+[ext_resource type="PackedScene" uid="uid://6gwtt7kwq2p" path="res://scenes/prefabs/Ally.tscn" id="8_ab12x"]
+[ext_resource type="Texture2D" uid="uid://ds35c4ylle7qd" path="res://assets/workerAlly.png" id="9_cd34y"]
 
-[node name="Ally2" instance=ExtResource("1_c77ki")]
 
-[node name="Chat" parent="." index="0"]
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_rn1pq"]
+radius = 35.0
+height = 120.0
+
+[node name="Ally2" type="CharacterBody2D" node_paths=PackedStringArray("_chat", "_responseField", "_pathFindingMovement") groups=["Entities"]]
+script = ExtResource("1_h2ftv")
+_chat = NodePath("Chat")
+_responseField = NodePath("ResponseField")
+_pathFindingMovement = NodePath("PathFindingMovement")
+
+[node name="Chat" type="LineEdit" parent="."]
+offset_left = 37.0
+offset_top = -251.0
+offset_right = 419.0
+offset_bottom = -73.0
+script = ExtResource("2_clxco")
 _systemPromptFile = "res://assets/prompts/ally2_prompt.txt"
 metadata/_edit_use_anchors_ = true
 
-[node name="ResponseField" parent="." index="1"]
+[node name="ResponseField" type="RichTextLabel" parent="."]
+offset_left = 47.0
+offset_top = -60.0
+offset_right = 479.0
+offset_bottom = 54.0
+fit_content = true
 metadata/_edit_use_anchors_ = true
 
-[node name="Sprite2D" parent="." index="3"]
-scale = Vector2(1.8, 1.8)
-texture = ExtResource("2_3le1m")
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+path_max_distance = 20.0
+simplify_path = true
+debug_enabled = true
 
-[node name="ProgressBar" parent="." index="7"]
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(1.8, 1.8)  # Anpassung der Skalierung nach Bedarf
+texture = ExtResource("3_0prkc")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_rn1pq")
+
+[node name="PathFindingMovement" type="Node" parent="." node_paths=PackedStringArray("_character", "_agent", "_sprite")]
+script = ExtResource("4_ufidg")
+_character = NodePath("..")
+_agent = NodePath("../NavigationAgent2D")
+_sprite = NodePath("../Sprite2D")
+
+[node name="Health" type="Node" parent="."]
+script = ExtResource("5_4y1be")
+
+[node name="ProgressBar" type="ProgressBar" parent="." node_paths=PackedStringArray("_health")]
+self_modulate = Color(1.26103e-05, 0.840319, 1.15514e-06, 1)
+offset_left = -32.0
+offset_top = -111.0
+offset_right = 40.0
+offset_bottom = -84.0
+value = 50.0
+show_percentage = false
+script = ExtResource("6_uaxdm")
+_health = NodePath("../Health")
+
 metadata/_edit_use_anchors_ = true
 
-[node name="Label" parent="." index="9"]
+[node name="Removable" type="Node" parent="."]
+script = ExtResource("7_0bkir")
+
+[node name="Label" type="Label" parent="."]
+offset_left = -21.0
+offset_top = -145.0
+offset_right = 19.0
+offset_bottom = -122.0
 text = "Tom"
+
+[node name="InventoryTwo" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("2_wmq71")
+
+[connection signal="Death" from="Health" to="Removable" method="Remove"]

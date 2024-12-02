@@ -13,6 +13,7 @@
 [ext_resource type="PackedScene" uid="uid://bgxxp0o5kdpkq" path="res://scenes/prefabs/Enemy.tscn" id="10_tv6x7"]
 [ext_resource type="Script" path="res://scripts/Core.cs" id="11_wagl7"]
 [ext_resource type="PackedScene" uid="uid://dktm5pdu27ai2" path="res://scenes/prefabs/Ally2.tscn" id="13_668w2"]
+[ext_resource type="Script" path="res://scripts/Items/Inventory.cs" id="13_fh71d"]
 [ext_resource type="Script" path="res://scenes/levels/IntroText.cs" id="14_trtui"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_8cl4m"]
@@ -115,9 +116,6 @@ position = Vector2(236, 173)
 [node name="Ally" parent="." instance=ExtResource("6_l8h37")]
 position = Vector2(-122, 123)
 
-[node name="Enemy" parent="." instance=ExtResource("10_tv6x7")]
-position = Vector2(95, 467)
-
 [node name="EnemyManager" type="Node2D" parent="."]
 script = ExtResource("1_bmkfv")
 EnemyScene = ExtResource("10_tv6x7")
@@ -135,6 +133,10 @@ shadow_color = Color(0.0643274, 0.0646954, 0.0657012, 0)
 shadow_filter = 2
 shadow_filter_smooth = 2.3
 texture_scale = 20.0
+
+[node name="CoreInventory" type="Node" parent="Core"]
+unique_name_in_owner = true
+script = ExtResource("13_fh71d")
 
 [node name="Ally2" parent="." instance=ExtResource("13_668w2")]
 position = Vector2(602, 378)

@@ -2,45 +2,52 @@ using System;
 
 using Godot;
 namespace Game.Scripts.Items;
-public class Inventory
+
+[GodotClassName("Inventory")]
+public partial class Inventory : Node
 {
-    private int Size { get; }
-    private Itemstack[] Items { get; set; }
+    public int Size { get; }
+    private Itemstack?[] Items { get; set; }
+
+    private Inventory? _inventory;
 
 
 
     public Inventory(int size)
     {
         Size = size;
-        Items = new Itemstack[size];
+        Items = new Itemstack?[size];
         for (int i = 0; i < size; i++)
         {
             Items[i] = new Itemstack(Material.None);
         }
-
-        AddItem(new Itemstack(Material.Wood, 27));
-        AddItem(new Itemstack(Material.Wood, 64));
-
+        //AddItem(new Itemstack(Material.Copper));
         Print();
     }
-
-    override
-    public string ToString()
+    public override string ToString()
     {
         string inv = "Inventory: [";
 
+        bool isEmpty = true;
         for (int i = 0; i < Size; i++)
         {
-            inv += Items[i].Material + " : " + Items[i].Amount + ", ";
+            if (Items[i].Material != Material.None)
+            {
+                isEmpty = false;
+                inv += Items[i].Material + " : " + Items[i].Amount + ", ";
+            }
         }
 
-        if (inv.EndsWith(", "))
+        if (isEmpty)
         {
-            inv = inv.Remove(inv.Length - 2);
+            inv += "Empty";
+        }
+        else if (inv.EndsWith(", "))
+        {
+            inv = inv.Remove(inv.Length - 2); // Remove trailing comma and space
         }
 
         inv += "]";
-
         return inv;
     }
 
@@ -107,7 +114,7 @@ public class Inventory
         }
     }
 
-    public void SetItem(Itemstack itemstack, int i)
+    public void SetItem(Itemstack? itemstack, int i)
     {
         if (i < 0 || i >= Size)
         {
@@ -117,13 +124,14 @@ public class Inventory
         Items[i] = itemstack;
     }
 
-    public Itemstack ExtractItem(int i)
+    public Itemstack? ExtractItem(int i)
     {
         if (i < 0 || i >= Size)
         {
-            throw new Exception("Given index is out of bounds for inventory size " + Size);
+            GD.PrintErr($"Index {i} is out of bounds for inventory size {Size}");
+            return null;
         }
-        Itemstack rtrn = Items[i];
+        Itemstack? rtrn = Items[i];
         Items[i] = new Itemstack(Material.None);
         return rtrn;
     }
@@ -134,6 +142,8 @@ public class Inventory
         {
             throw new Exception("Given index is out of bounds for inventory size " + Size);
         }
+
+        Items[i] = new Itemstack(Material.None);
     }
 
     public void SwapItems(int i, int j)
@@ -143,9 +153,22 @@ public class Inventory
             throw new Exception("Given index is out of bounds for inventory size " + Size);
         }
 
-        Itemstack temp = Items[i];
-        Items[i] = Items[j];
-        Items[j] = Items[i];
+        (Items[i], Items[j]) = (Items[j], Items[i]);
     }
+    public int GetTotalItemCount()
+    {
+        int totalCount = 0;
+        for (int i = 0; i < Size; i++)
+        {
+            if (Items[i]!.Material != Material.None)
+            {
+                totalCount += Items[i]!.Amount; // Add the number of items in each slot
+                GD.Print(Items[i].Material);
+            }
+        }
+        GD.Print(totalCount);
+        return totalCount;
+    }
+
 
 }

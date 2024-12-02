@@ -10,12 +10,12 @@ public partial class Core : Node2D
     [Export] public float LightRadiusSmallerCircle { get; private set; } = 1000;
     [Export] public float LightRadiusBiggerCircle { get; private set; } = 1500;
     public Inventory? _inventory;
-    
+
     public override void _Ready()
     {
         _inventory = new Inventory(34);
         //_inventory.AddItem(new Itemstack(Game.Scripts.Items.Material.Stone));
-        
+
         // Get scale of PointLight2D
         PointLight2D coreLight = GetNode<PointLight2D>("%CoreLight");
         this.Scale = coreLight.Scale;

@@ -160,7 +160,8 @@ public partial class Inventory : Node
         int totalCount = 0;
         for (int i = 0; i < Size; i++)
         {
-            if (Items[i]!.Material != Material.None) { 
+            if (Items[i]!.Material != Material.None)
+            {
                 totalCount += Items[i]!.Amount; // Add the number of items in each slot
                 GD.Print(Items[i].Material);
             }

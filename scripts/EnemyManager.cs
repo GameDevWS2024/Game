@@ -40,7 +40,7 @@ public partial class EnemyManager : Node2D
     {
         CheckIfSpawn();
         if (!_isSpawn)
-        {  
+        {
             return;
         }
         _timeSinceLastSpawn += (float)delta;
@@ -91,7 +91,7 @@ public partial class EnemyManager : Node2D
             _isSpawn = false;
             return;
         }
-        _isSpawn = true; 
-        
+        _isSpawn = true;
+
     }
 }

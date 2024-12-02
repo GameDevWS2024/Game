@@ -33,7 +33,7 @@ public partial class Core : Node2D
         Vector2 center = this.Position;
         DrawArc(center, LightRadiusSmallerCircle, 0, Mathf.Tau, 64, Colors.Red, 4f);
         DrawArc(center, LightRadiusBiggerCircle, 0, Mathf.Tau, 64, Colors.Blue, 4f);
-        GD.Print("Drawing circle...");
+        // GD.Print("Drawing circle...");
     }
 
     public override void _Draw()

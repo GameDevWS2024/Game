@@ -47,7 +47,6 @@ public partial class EnemyManager : Node2D
         List<Enemy> enemies = GetTree().GetNodesInGroup("Enemies").OfType<Enemy>().ToList();
         int enemyCount = enemies.Count;
         float spawnInterval = CalculateSpawnInterval(enemyCount);
-        GD.Print(_timeSinceLastSpawn);
         if (_timeSinceLastSpawn >= spawnInterval)
         {
             SpawnEnemy();
@@ -61,10 +60,8 @@ public partial class EnemyManager : Node2D
     {
         if (EnemyScene == null)
         {
-            GD.Print("enemyscene empty");
             return;
         }
-        GD.Print("spawning");
 
         Enemy enemy = EnemyScene.Instantiate<Enemy>();
         AddChild(enemy);
@@ -83,8 +80,6 @@ public partial class EnemyManager : Node2D
     {
         Node2D coreNode = GetTree().Root.GetNode<Node2D>("Node2D/Core");
         Inventory? inventory = (coreNode as Core)?.Inventory;
-        //Node coreInventoryNode = core.GetNode<Node>("%CoreInventory");
-        //Inventory coreInventory = coreInventoryNode.GetScript().As<Inventory>();
         if (inventory!.GetTotalItemCount() < 1) // Löst Null pointer Exception aus
         {
             _isSpawn = false;

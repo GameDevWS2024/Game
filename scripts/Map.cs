@@ -18,6 +18,7 @@ public partial class Map : Node2D
     private Player _player = null!;
     private List<MapItem> _items;
     double _timeElapsed = 0f;
+    private int _startItemCount = 30;
 
     public override void _Ready()
     {
@@ -25,6 +26,14 @@ public partial class Map : Node2D
         _core = GetNode<Core>("%Core");
         _player = GetNode<Player>("%Player");
         _items = new List<MapItem>();
+        
+        //fill item list:
+        Material[] materials = (Material[])Enum.GetValues(typeof(Material));
+        Random random = new Random();
+
+        for(int i = 0; i < _startItemCount; i++) {
+            _items.AddItem(new MapItem(materials[random.Next(materials.Length-1) + 1]))
+        }
     }
 
     public void DarknessDamage()

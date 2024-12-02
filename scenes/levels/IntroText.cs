@@ -6,8 +6,8 @@ public partial class IntroText : CanvasLayer
 	private Label _label = null!;
 	private Button _closeButton = null!;
 
-	[Export] private string LabelText = ""; // Inspector-Wert für den Label-Text
-	[Export] private string ButtonText = ""; // Inspector-Wert für den Button-Text
+	[Export] private string LabelText = ""; // Inspector-Wert
+	[Export] private string ButtonText = "Weiter"; // Button-Text im Inspector
 
 	public override void _Ready()
 	{
@@ -16,7 +16,7 @@ public partial class IntroText : CanvasLayer
 		_label = _panel.GetNode<Label>("Label");
 		_closeButton = _panel.GetNode<Button>("Close");
 
-		// Text für Label setzen
+		// Falls LabelText nicht im Inspector gesetzt wurde, den bestehenden Text im Label verwenden
 		if (string.IsNullOrEmpty(LabelText))
 		{
 			LabelText = _label.Text; // Übernimmt den Text, der im Label-Node im Editor gesetzt wurde
@@ -26,15 +26,8 @@ public partial class IntroText : CanvasLayer
 			_label.Text = LabelText; // Text aus dem Inspector setzen
 		}
 
-		// Text für Button setzen
-		if (string.IsNullOrEmpty(ButtonText))
-		{
-			ButtonText = _closeButton.Text; // Übernimmt den Text, der im Button-Node im Editor gesetzt wurde
-		}
-		else
-		{
-			_closeButton.Text = ButtonText; // Text aus dem Inspector setzen
-		}
+		// Text für den Button setzen
+		_closeButton.Text = ButtonText;
 
 		// Weitere UI-Anpassungen
 		_panel.AnchorLeft = 0.5f;

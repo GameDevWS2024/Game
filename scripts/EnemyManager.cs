@@ -83,7 +83,7 @@ public partial class EnemyManager : Node2D
     private void CheckIfSpawn()
     {
         Node2D coreNode = GetTree().Root.GetNode<Node2D>("Node2D/Core");
-        Inventory? inventory = (coreNode as Core)?._inventory;
+        Inventory? inventory = (coreNode as Core)?.Inventory;
         //Node coreInventoryNode = core.GetNode<Node>("%CoreInventory");
         //Inventory coreInventory = coreInventoryNode.GetScript().As<Inventory>();
         if (inventory!.GetTotalItemCount() < 1) // Löst Null pointer Exception aus

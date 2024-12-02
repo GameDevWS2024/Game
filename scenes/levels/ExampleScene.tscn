@@ -14,6 +14,7 @@
 [ext_resource type="Script" path="res://scripts/Core.cs" id="11_wagl7"]
 [ext_resource type="PackedScene" uid="uid://dktm5pdu27ai2" path="res://scenes/prefabs/Ally2.tscn" id="13_668w2"]
 [ext_resource type="Script" path="res://scripts/Items/Inventory.cs" id="13_fh71d"]
+[ext_resource type="Script" path="res://scenes/levels/IntroText.cs" id="14_trtui"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_8cl4m"]
 shader = ExtResource("1_kbklw")
@@ -139,3 +140,26 @@ script = ExtResource("13_fh71d")
 
 [node name="Ally2" parent="." instance=ExtResource("13_668w2")]
 position = Vector2(602, 378)
+
+[node name="IntroText" type="CanvasLayer" parent="."]
+script = ExtResource("14_trtui")
+
+[node name="Panel" type="Panel" parent="IntroText"]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Label" type="Label" parent="IntroText/Panel"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+text = "\"Stay in the light! Say 'Harvest' to tell your ally to get some resources\""
+
+[node name="Close" type="Button" parent="IntroText/Panel"]
+process_mode = 2
+z_index = 20
+layout_mode = 0
+offset_right = 8.0
+offset_bottom = 8.0
+text = "Continue"
+
+[connection signal="pressed" from="IntroText/Panel/Close" to="IntroText" method="OnClosePressed"]

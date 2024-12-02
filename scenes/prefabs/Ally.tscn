@@ -13,6 +13,7 @@ radius = 6.0
 height = 28.0
 
 [node name="Ally" type="CharacterBody2D" node_paths=PackedStringArray("_chat", "_responseField", "_pathFindingMovement") groups=["Entities"]]
+scale = Vector2(4, 4)
 script = ExtResource("1_anjrv")
 _chat = NodePath("Chat")
 _responseField = NodePath("ResponseField")
@@ -48,6 +49,8 @@ shape = SubResource("CapsuleShape2D_rn1pq")
 
 [node name="PathFindingMovement" type="Node" parent="." node_paths=PackedStringArray("_character", "_agent", "_sprite")]
 script = ExtResource("4_v650j")
+_minTargetDistance = 200
+_speed = 300
 _character = NodePath("..")
 _agent = NodePath("../NavigationAgent2D")
 _sprite = NodePath("../Sprite2D")

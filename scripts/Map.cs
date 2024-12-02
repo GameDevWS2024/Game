@@ -14,14 +14,14 @@ public partial class Map : Node2D
     [Export] private int _darknessCircleDamage = 30;
     [Export] private float _allyHealthChangeIntervall = 3f;
     private Map _map = null!;
-    private Core _core = null!; // Deklaration des Core-Objekts
+    private Game.scripts.Core _core = null!; // Deklaration des Core-Objekts
     private Player _player = null!;
     double _timeElapsed = 0f;
 
     public override void _Ready()
     {
         _map = this;
-        _core = GetNode<Core>("%Core");
+        _core = GetNode<Game.scripts.Core>("%Core");
         _player = GetNode<Player>("%Player");
     }
 

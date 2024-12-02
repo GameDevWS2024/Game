@@ -2,6 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
+using Game.scripts;
+using Game.Scripts.Items;
+
 using Godot;
 
 namespace Game.Scripts;
@@ -16,6 +19,8 @@ public partial class EnemyManager : Node2D
     [Export] private float _decayFactor = -3f; // -1.6f for regular game   // higher negative number means longer and longer duration between spawning
 
     private double _timeSinceLastSpawn = 0;
+    private bool _isSpawnOnHarvested = true;
+    private bool _isSpawn = false;
 
 
     private float CalculateSpawnInterval(int enemyCount)
@@ -24,14 +29,26 @@ public partial class EnemyManager : Node2D
         return Mathf.Clamp(adjustedInterval, _minSpawnInterval, _maxSpawnInterval);
     }
 
+    public override void _Ready()
+    {
+        if (_isSpawnOnHarvested)
+        {
+            _isSpawn = false;
+        }
+    }
     public override void _Process(double delta)
     {
+        CheckIfSpawn();
+        if (!_isSpawn)
+        {  
+            return;
+        }
         _timeSinceLastSpawn += (float)delta;
 
         List<Enemy> enemies = GetTree().GetNodesInGroup("Enemies").OfType<Enemy>().ToList();
         int enemyCount = enemies.Count;
         float spawnInterval = CalculateSpawnInterval(enemyCount);
-
+        GD.Print(_timeSinceLastSpawn);
         if (_timeSinceLastSpawn >= spawnInterval)
         {
             SpawnEnemy();
@@ -45,8 +62,10 @@ public partial class EnemyManager : Node2D
     {
         if (EnemyScene == null)
         {
+            GD.Print("enemyscene empty");
             return;
         }
+        GD.Print("spawning");
 
         Enemy enemy = EnemyScene.Instantiate<Enemy>();
         AddChild(enemy);
@@ -59,5 +78,20 @@ public partial class EnemyManager : Node2D
             Random.Shared.Next(0, (int)viewportSize.Y)
         );
         GD.Print("spawned new enemy at " + enemy.GlobalPosition.X + ", " + enemy.GlobalPosition.Y);
+    }
+
+    private void CheckIfSpawn()
+    {
+        Node2D coreNode = GetTree().Root.GetNode<Node2D>("Node2D/Core");
+        Inventory? inventory = (coreNode as Core)?._inventory;
+        //Node coreInventoryNode = core.GetNode<Node>("%CoreInventory");
+        //Inventory coreInventory = coreInventoryNode.GetScript().As<Inventory>();
+        if (inventory!.GetTotalItemCount() < 1) // Löst Null pointer Exception aus
+        {
+            _isSpawn = false;
+            return;
+        }
+        _isSpawn = true; 
+        
     }
 }

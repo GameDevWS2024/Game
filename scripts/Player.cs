@@ -1,3 +1,5 @@
+using Game.Scripts.Items;
+
 using Godot;
 
 namespace Game.Scripts;
@@ -11,7 +13,6 @@ public partial class Player : CharacterBody2D
 
     // Store the current velocity as a class field to maintain it between frames
     private Vector2 _currentVelocity = Vector2.Zero;
-    public readonly Items.Inventory Inventory = new Items.Inventory(36);
 
     /*   // Player cant move if this is uncommented
 	public Player(PlayerStats stats)

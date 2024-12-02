@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://6gwtt7kwq2p"]
+[gd_scene load_steps=10 format=3 uid="uid://6gwtt7kwq2p"]
 
 [ext_resource type="Script" path="res://scripts/Ally.cs" id="1_anjrv"]
 [ext_resource type="Script" path="res://scripts/Chat.cs" id="2_k8ael"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" path="res://scripts/Health.cs" id="5_moxt6"]
 [ext_resource type="Script" path="res://scripts/HealthBar.cs" id="6_1idkv"]
 [ext_resource type="Script" path="res://scripts/Removeable.cs" id="7_g7cdr"]
+[ext_resource type="Script" path="res://scripts/Items/Inventory.cs" id="8_uovgu"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_rn1pq"]
 radius = 35.0
@@ -74,5 +75,9 @@ offset_top = -145.0
 offset_right = 19.0
 offset_bottom = -122.0
 text = "James"
+
+[node name="InventoryFirst" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("8_uovgu")
 
 [connection signal="Death" from="Health" to="Removable" method="Remove"]

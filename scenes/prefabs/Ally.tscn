@@ -53,7 +53,6 @@ _agent = NodePath("../NavigationAgent2D")
 _sprite = NodePath("../Sprite2D")
 
 [node name="Health" type="Node" parent="."]
-unique_name_in_owner = true
 script = ExtResource("5_moxt6")
 
 [node name="ProgressBar" type="ProgressBar" parent="." node_paths=PackedStringArray("_health")]
@@ -69,5 +68,12 @@ _health = NodePath("../Health")
 
 [node name="Removable" type="Node" parent="."]
 script = ExtResource("7_g7cdr")
+
+[node name="Label" type="Label" parent="."]
+offset_left = -21.0
+offset_top = -145.0
+offset_right = 19.0
+offset_bottom = -122.0
+text = "James"
 
 [connection signal="Death" from="Health" to="Removable" method="Remove"]

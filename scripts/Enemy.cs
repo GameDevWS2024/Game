@@ -18,7 +18,7 @@ public partial class Enemy : CharacterBody2D
     public override void _Ready()
     {
         _player = GetTree().CurrentScene.GetNode<CharacterBody2D>("%Player");
-        _core = GetTree().CurrentScene.GetNode<Node2D>("%CORE");
+        _core = GetTree().CurrentScene.GetNode<Node2D>("%Core");
     }
 
     private float _attackCooldown = 0.5f; // Time between attacks in seconds
@@ -39,13 +39,13 @@ public partial class Enemy : CharacterBody2D
 
         List<(Node2D entity, float distance)> nearestEntities = _entityGroup.OfType<Node2D>().Select(entity => (entity, entity.GlobalPosition.DistanceTo(GlobalPosition))).ToList();
         /*
-        bool isNearbyCore = GlobalPosition.DistanceTo(_core!.GlobalPosition) < 100;
-        nearestEntities = nearestEntities.Select(tup =>
-            tup.entity.GetName() == "CORE" && isNearbyCore
-                ? (tup.entity, tup.distance + 200)
-                : tup
-        ).ToList();
-        */
+		bool isNearbyCore = GlobalPosition.DistanceTo(_core!.GlobalPosition) < 100;
+		nearestEntities = nearestEntities.Select(tup =>
+			tup.entity.GetName() == "CORE" && isNearbyCore
+				? (tup.entity, tup.distance + 200)
+				: tup
+		).ToList();
+		*/
         Node2D nearestEntity = nearestEntities.OrderBy(tup => tup.distance).FirstOrDefault().entity;
 
         if (nearestEntity != null)

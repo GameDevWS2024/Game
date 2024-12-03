@@ -14,11 +14,11 @@ public partial class Player : CharacterBody2D
     public readonly Items.Inventory Inventory = new Items.Inventory(36);
 
     /*   // Player cant move if this is uncommented
-    public Player(PlayerStats stats)
-    {
-        Stats = new PlayerStats(100, 100, 100, 100);
-    }
-    */
+	public Player(PlayerStats stats)
+	{
+		Stats = new PlayerStats(100, 100, 100, 100);
+	}
+	*/
 
     // Stats and Player initialization
 

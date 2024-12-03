@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bpjk8i86lwxqi"
-path="res://.godot/imported/Stein.png-1c68494cb8b56e17a8dea5a8f7fa364d.ctex"
+uid="uid://c0kwxoq8u887x"
+path="res://.godot/imported/Eis-Busch.png-d8e91b6180cd41be596a255a479638b1.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/characters/Stein.png"
-dest_files=["res://.godot/imported/Stein.png-1c68494cb8b56e17a8dea5a8f7fa364d.ctex"]
+source_file="res://assets/obstacles/Eis-Busch.png"
+dest_files=["res://.godot/imported/Eis-Busch.png-d8e91b6180cd41be596a255a479638b1.ctex"]
 
 [params]
 

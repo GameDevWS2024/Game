@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c1ny7wkwa38ry"
-path="res://.godot/imported/CORE.png-87a92ac395788bef76b8dc8e4f2fa0e3.ctex"
+uid="uid://bpjk8i86lwxqi"
+path="res://.godot/imported/Stein.png-de6ada4390c3cd57e24717a51bb5f41d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/obstacles/Core/CORE.png"
-dest_files=["res://.godot/imported/CORE.png-87a92ac395788bef76b8dc8e4f2fa0e3.ctex"]
+source_file="res://assets/sprites/Stein.png"
+dest_files=["res://.godot/imported/Stein.png-de6ada4390c3cd57e24717a51bb5f41d.ctex"]
 
 [params]
 

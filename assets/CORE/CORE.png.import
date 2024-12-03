@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bywop5ppm3q44"
-path="res://.godot/imported/Busch.png-78dd9f1a25902244264899d576549863.ctex"
+uid="uid://c1ny7wkwa38ry"
+path="res://.godot/imported/CORE.png-ff5d08e2a05551527f91aa46e8c295ce.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/obstacles/Busch.png"
-dest_files=["res://.godot/imported/Busch.png-78dd9f1a25902244264899d576549863.ctex"]
+source_file="res://assets/CORE/CORE.png"
+dest_files=["res://.godot/imported/CORE.png-ff5d08e2a05551527f91aa46e8c295ce.ctex"]
 
 [params]
 

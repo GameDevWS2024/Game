@@ -23,7 +23,7 @@ public partial class Enemy : CharacterBody2D
 
     private float _attackCooldown = 0.5f; // Time between attacks in seconds
     private float _timeSinceLastAttack = 0.0f; // Time accumulator
-    private const float AttackRange = 55.0f; // Distance at which enemy can attack
+    private const float AttackRange = 110.0f; // Distance at which enemy can attack
 
     public override void _PhysicsProcess(double delta)
     {

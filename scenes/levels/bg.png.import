@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://rlemba47bm14"
-path="res://.godot/imported/Soldier.png-72a854154705de534fb9c2d61a36f135.ctex"
+uid="uid://dweeg6vbxai1c"
+path="res://.godot/imported/bg.png-7f5868b8c296bcb6fee0e865bf8784b9.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/characters/Soldier.png"
-dest_files=["res://.godot/imported/Soldier.png-72a854154705de534fb9c2d61a36f135.ctex"]
+source_file="res://scenes/levels/bg.png"
+dest_files=["res://.godot/imported/bg.png-7f5868b8c296bcb6fee0e865bf8784b9.ctex"]
 
 [params]
 

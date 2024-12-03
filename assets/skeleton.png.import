@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cle8aag5n5782"
-path="res://.godot/imported/FinishedTiles.png-dcfce34c7db0406a32c92863a2122707.ctex"
+uid="uid://dshsrl1x5xeta"
+path="res://.godot/imported/skeleton.png-126a0340932079216a2e5361891b8093.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://scenes/levels/FinishedTiles.png"
-dest_files=["res://.godot/imported/FinishedTiles.png-dcfce34c7db0406a32c92863a2122707.ctex"]
+source_file="res://assets/skeleton.png"
+dest_files=["res://.godot/imported/skeleton.png-126a0340932079216a2e5361891b8093.ctex"]
 
 [params]
 

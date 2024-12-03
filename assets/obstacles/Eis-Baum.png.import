@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b8pen8v463ga5"
-path="res://.godot/imported/FinishedTiles.png-1cfaf6915d4df873e73a7c994898693c.ctex"
+uid="uid://dufenl1acfy2a"
+path="res://.godot/imported/Eis-Baum.png-aa33920fbb06d8257600e2bc92f8eacd.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Backgrounds/FinishedTiles.png"
-dest_files=["res://.godot/imported/FinishedTiles.png-1cfaf6915d4df873e73a7c994898693c.ctex"]
+source_file="res://assets/obstacles/Eis-Baum.png"
+dest_files=["res://.godot/imported/Eis-Baum.png-aa33920fbb06d8257600e2bc92f8eacd.ctex"]
 
 [params]
 

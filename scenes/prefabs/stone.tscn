@@ -1,10 +1,10 @@
 [gd_scene load_steps=4 format=3 uid="uid://c52r54sodgdc0"]
 
-[ext_resource type="Texture2D" uid="uid://crfpgwuah07yj" path="res://assets/obstacles/Stein.png" id="1_702h0"]
+[ext_resource type="Texture2D" uid="uid://b7nq8hvm0qk7q" path="res://assets/obstacles/Stein.png" id="1_3jspu"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_v57bo"]
-radius = 2.5
-height = 15.0
+radius = 50.0
+height = 152.26
 
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_3sjxb"]
 polygon = PackedVector2Array(0, 0, 0, 0, 0, 0)
@@ -14,11 +14,11 @@ scale = Vector2(0.4, 0.4)
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 z_index = 20
-position = Vector2(-10, -20)
-texture = ExtResource("1_702h0")
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("1_3jspu")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(5.42101e-20, 2.5)
+position = Vector2(2.5, 22.5)
 rotation = 1.5708
 shape = SubResource("CapsuleShape2D_v57bo")
 

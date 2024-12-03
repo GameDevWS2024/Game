@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cjh80wwae3p17"
-path="res://.godot/imported/Spritesheet Core (Animation).png-993d123ca14b5513dba0272ea0146dfd.ctex"
+uid="uid://gba1pbl4wpx0"
+path="res://.godot/imported/commander.png-b005e12bbcbf7f1cec6b78db81f23591.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/obstacles/Core/Spritesheet Core (Animation).png"
-dest_files=["res://.godot/imported/Spritesheet Core (Animation).png-993d123ca14b5513dba0272ea0146dfd.ctex"]
+source_file="res://assets/commander.png"
+dest_files=["res://.godot/imported/commander.png-b005e12bbcbf7f1cec6b78db81f23591.ctex"]
 
 [params]
 

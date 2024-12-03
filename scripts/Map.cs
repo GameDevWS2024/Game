@@ -7,6 +7,7 @@ using Game.Scripts.Items;
 
 using Godot;
 
+using MapItem = Game.Scripts.Items.MapItem;
 using Material = Game.Scripts.Items.Material;
 
 
@@ -42,6 +43,11 @@ public partial class Map : Node2D
             int randomY = random.Next(-2000, 2001);
             s_items.Add(new MapItem(new Itemstack(Game.Scripts.Items.Material.Stone), new Location(randomX, randomY)));
         }
+
+       // foreach (MapItem mi in s_items)
+      //  {
+        //    GD.Print(mi.Item.Material);
+       // }
     }
 
     public void DarknessDamage()

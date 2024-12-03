@@ -15,6 +15,7 @@ public partial class Ally : CharacterBody2D
     private bool _followPlayer = true;
     private bool _busy;
     private int _motivation;
+    private static Inventory _inventory = new Inventory(36);
     private Player _player = null!;
 
     //Enum with states for ally in darkness, in bigger or smaller circle for map damage system
@@ -115,41 +116,70 @@ public partial class Ally : CharacterBody2D
             GD.Print("harvesting");
             if (Map.Items.Count > 0)
             {
-                Location nearestLocation = Map.GetNearestItemLocation(new Location(GlobalPosition));
-                if (nearestLocation == null) { return; }
-                
+                Location nearestLocation = Map.GetNearestItemLocation(new Location(GlobalPosition))!;
+                /////
+                GD.Print ("nearest location: " + nearestLocation.toVector2().X+", "+nearestLocation.toVector2().Y);
+                //
+                if (nearestLocation == null)
+                {
+                    GD.Print("no nearest location");
+                    return;
+                }
+                // goto
+               // _pathFindingMovement.GoTo(nearestLocation.toVector2());
+                //
                 _busy = true; // Change busy state
-                
+                GD.Print("going to ");
                 //Go to nearest item
                 _pathFindingMovement.TargetPosition = nearestLocation.toVector2();
-                while (!_pathFindingMovement.HasreachedTarget())
-                {
+              //  GD.Print(_pathFindingMovement.GetParent<Node2D>().GlobalPosition.DistanceTo(nearestLocation.toVector2()));
+              //  while (GlobalPosition.DistanceTo(nearestLocation.toVector2()) > 150)
+               // {
                     // Do nothing while walking
-                }
-                
+                 //   GD.Print("Waiting for target");
+               // }
+                GD.Print("reached");
                 // extract the nearest item and add to inventory (pickup)
-                Inventory inv = GetNode<Inventory>("Inventory");
-                if (inv.HasSpace()) // if inventory has space
+                //Inventory inv = GetNode<Inventory>("Inventory");
+                if (_inventory.HasSpace()) // if inventory has space
                 {
+                    GD.Print("Space");
                     Itemstack item = Map.ExtractNearestItemAtLocation(new Location(GlobalPosition));
-                    inv.AddItem(item); // add item to inventory
+                    GD.Print(item.Material+ " amount: "+item.Amount);
+                    _inventory.AddItem(item); // add item to inventory
                 } // if inventory has no space don't harvest it
+                else
+                {
+                    GD.Print("No space");
+                }
 
                 // Go back to core
-                _pathFindingMovement.TargetPosition = _core.GlobalPosition;
-                while (!_pathFindingMovement.HasreachedTarget())
-                {
+                PointLight2D cl = _core.GetNode<PointLight2D>("CoreLight");
+                Vector2 targ = new Vector2(500, 700);  // cl.GlobalPosition;
+                _pathFindingMovement.GoTo(targ);
+               // _pathFindingMovement.TargetPosition = targ; //_core.GlobalPosition;
+                GD.Print("Target position (should be CORE): " + _pathFindingMovement.TargetPosition.ToString());
+            //    while (!_pathFindingMovement.HasreachedTarget())
+              //  {
                     // Do nothing while walking
-                }
+                //    GD.Print("Walking back to core");
+              //  }
                 
                 // Empty inventory into the core
 
-                foreach (Itemstack item in inv.GetItems())
+                foreach (Itemstack item in _inventory.GetItems())
                 {
-                    Core.MaterialCount += item.Amount;
-                    Core.IncreaseScale();
+                    if (item.Material == Game.Scripts.Items.Material.None)
+                    {
+                        continue;
+                    }
+                    GD.Print("increasing "+item.ToString()+" by "+item.Amount);
+                    _core.MaterialCount += item.Amount;
+                    GD.Print("core has materials:"+_core.MaterialCount);
+                    _core.IncreaseScale();
+                    GD.Print("Increased scale");
                 }
-                inv.Clear();
+                _inventory.Clear();
                 
                 // Go back to player
                 _pathFindingMovement.TargetPosition = _player.GlobalPosition;

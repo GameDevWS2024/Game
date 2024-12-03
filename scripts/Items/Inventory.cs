@@ -19,8 +19,8 @@ public class Inventory
             Items[i] = new Itemstack(Material.None);
         }
 
-        AddItem(new Itemstack(Material.Wood, 27));
-        AddItem(new Itemstack(Material.Wood, 64));
+     //   AddItem(new Itemstack(Material.Wood, 27));
+       // AddItem(new Itemstack(Material.Wood, 64));
 
         Print();
     }

@@ -6,7 +6,7 @@ public partial class Core : Node2D
 {
 
     public const int PIXELSCALE = 1000;
-    public static int MaterialCount;
+    public int MaterialCount;
     [Export] public float LightRadiusSmallerCircle { get; private set; } = 1000;
     [Export] public float LightRadiusBiggerCircle { get; private set; } = 1500;
     private static PointLight2D? s_coreLight;
@@ -39,7 +39,7 @@ public partial class Core : Node2D
         DrawLightRadius();
     }
 
-    public static void IncreaseScale()
+    public void IncreaseScale()
     {
         s_coreLight!.Scale *= 1.1f;
     }

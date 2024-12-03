@@ -34,8 +34,22 @@ public partial class PathFindingMovement : Node
         await ToSignal(GetTree(), "physics_frame");
     }
 
+    public void GoTo(Vector2 loc)
+    {
+        
+        _agent.SetTargetPosition(loc);
+        TargetPosition = loc;
+    }
     public override void _PhysicsProcess(double delta)
     {
+        if (_agent.TargetPosition.DistanceTo(GetParent<Node2D>().GlobalPosition) < 200)
+        {
+            _reachedTarget = true;
+        }
+        else
+        {
+            _reachedTarget = false;
+        }
         _agent.SetTargetPosition(TargetPosition);
         //GD.Print(_character.Name);
         //GD.Print($"Current Agent: {_agent.Name}");

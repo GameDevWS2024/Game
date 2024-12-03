@@ -1,6 +1,8 @@
 using System;
 using System.Text.RegularExpressions;
+
 using Game.Scripts;
+
 using Godot;
 
 public partial class Ally : CharacterBody2D

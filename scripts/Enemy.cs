@@ -11,7 +11,7 @@ public partial class Enemy : CharacterBody2D
     [Signal] public delegate void DeathEventHandler();
     [Signal] public delegate void HealthChangedEventHandler(int newHealth);
 
-    
+
     private bool _attack = true;
     private Array<Node>? _entityGroup;
     private CharacterBody2D? _player;
@@ -36,9 +36,9 @@ public partial class Enemy : CharacterBody2D
         {
             QueueFree();
         }
-        
+
         //
-        
+
         _timeSinceLastAttack += (float)delta;
 
         _entityGroup = GetTree().GetNodesInGroup("Entities");

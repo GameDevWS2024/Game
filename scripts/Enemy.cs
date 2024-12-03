@@ -7,16 +7,20 @@ using Godot.Collections;
 public partial class Enemy : CharacterBody2D
 {
     [Export] PathFindingMovement _pathFindingMovement = null!;
-
     [Export] private int _damage = 5;
+    [Signal] public delegate void DeathEventHandler();
+    [Signal] public delegate void HealthChangedEventHandler(int newHealth);
 
+    
     private bool _attack = true;
     private Array<Node>? _entityGroup;
     private CharacterBody2D? _player;
     private Node2D? _core;
+    public Health Health = null!;
 
     public override void _Ready()
     {
+        Health = GetNode<Health>("Health");
         _player = GetTree().CurrentScene.GetNode<CharacterBody2D>("%Player");
         _core = GetTree().CurrentScene.GetNode<Node2D>("%Core");
     }
@@ -27,6 +31,14 @@ public partial class Enemy : CharacterBody2D
 
     public override void _PhysicsProcess(double delta)
     {
+        // temporary cause I couldnt figure out how to hide/delete Enemy like Player or Allie
+        if (Health.Amount <= 0)
+        {
+            QueueFree();
+        }
+        
+        //
+        
         _timeSinceLastAttack += (float)delta;
 
         _entityGroup = GetTree().GetNodesInGroup("Entities");

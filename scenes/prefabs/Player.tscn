@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=3 uid="uid://clfnjh8aelj66"]
 
 [ext_resource type="Script" path="res://scripts/Player.cs" id="1_lbjty"]
-[ext_resource type="Texture2D" uid="uid://gba1pbl4wpx0" path="res://assets/commander.png" id="2_yctqc"]
+[ext_resource type="Texture2D" uid="uid://cmhtqgk8qwwvg" path="res://assets/ally.png" id="2_otp6u"]
 [ext_resource type="Script" path="res://scripts/Health.cs" id="3_f8s0r"]
 [ext_resource type="Script" path="res://scripts/HealthBar.cs" id="4_bw6ue"]
 [ext_resource type="Script" path="res://scripts/Removeable.cs" id="5_ftker"]
@@ -19,7 +19,7 @@ shape = SubResource("CapsuleShape2D_vgu86")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 scale = Vector2(0.23, 0.23)
-texture = ExtResource("2_yctqc")
+texture = ExtResource("2_otp6u")
 
 [node name="Health" type="Node" parent="."]
 unique_name_in_owner = true

@@ -69,10 +69,13 @@ public partial class EnemyManager : Node2D
 
         // Set random position (adjust based on your needs)
         Vector2 viewportSize = GetViewport().GetVisibleRect().Size;
-        enemy.Position = new Vector2(
-            Random.Shared.Next(0, (int)viewportSize.X),
-            Random.Shared.Next(0, (int)viewportSize.Y)
-        );
+        // while new pos within core area create new position
+            enemy.Position = new Vector2(
+                Random.Shared.Next(-(int)viewportSize.X, (int)viewportSize.X),
+                Random.Shared.Next(-(int)viewportSize.Y, (int)viewportSize.Y)
+            );
+        
+
         GD.Print("spawned new enemy at " + enemy.GlobalPosition.X + ", " + enemy.GlobalPosition.Y);
     }
 

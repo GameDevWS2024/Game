@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://dfkwq6qwtxw25"]
+[gd_scene load_steps=20 format=3 uid="uid://dfkwq6qwtxw25"]
 
 [ext_resource type="PackedScene" uid="uid://clfnjh8aelj66" path="res://scenes/prefabs/Player.tscn" id="1_7owxc"]
 [ext_resource type="Texture2D" uid="uid://dweeg6vbxai1c" path="res://scenes/levels/bg.png" id="1_afw7h"]

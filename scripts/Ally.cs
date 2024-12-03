@@ -1,9 +1,6 @@
 using System;
-using System.Diagnostics;
 using System.Text.RegularExpressions;
-
 using Game.Scripts;
-
 using Godot;
 
 public partial class Ally : CharacterBody2D
@@ -86,7 +83,7 @@ public partial class Ally : CharacterBody2D
         Regex regex = new Regex(pattern);
         Match match = regex.Match(response);
 
-        if (match.Success && match.Groups.Count > 1)
+        if (match is { Success: true, Groups.Count: > 1 })
         {
             try
             {

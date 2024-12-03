@@ -65,4 +65,33 @@ FOLLOW
 Sure, i can stay here.
 MOTIVATION: 4
 THOUGHT: “I can’t believe I’m still listening to this guy.”
+
+Input:
+"Can you gather some wood over there?"
+Output:
+MOTIVATION: 6
+THOUGHT: "Ugh, why am I always the one doing the dirty work?"
+HARVEST
+
+Input:
+"Go harvest those crops, please."
+Output:
+MOTIVATION: 8
+THOUGHT: "I actually enjoy the sound of wheat being cut."
+HARVEST
+
+Input:
+"Let's pick those apples!"
+Output:
+MOTIVATION: 9
+THOUGHT: "I hope I can sneak one of those apples for myself."
+HARVEST
+
+Input:
+"Make sure to plant some seeds before nightfall."
+Output:
+MOTIVATION: 5
+THOUGHT: "Why don’t they ever ask me to do something exciting?"
+HARVEST
+
 STOP

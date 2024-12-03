@@ -23,6 +23,11 @@ public partial class PathFindingMovement : Node
         _currentTargetDistance = _minTargetDistance;
         this.CallDeferred("ActorSetup");
     }
+    
+    public bool HasreachedTarget()
+    {
+        return _reachedTarget;
+    }
 
     public async void ActorSetup()
     {

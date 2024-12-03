@@ -1,8 +1,7 @@
 using System;
-using System.Diagnostics;
 using System.Text.RegularExpressions;
-
 using Game.Scripts;
+using Game.Scripts.Items;
 
 using Godot;
 
@@ -14,6 +13,7 @@ public partial class Ally : CharacterBody2D
     [Export] PathFindingMovement _pathFindingMovement = null!;
     [Export] private Label _nameLabel = null!;
     private bool _followPlayer = true;
+    private bool _busy;
     private int _motivation;
     private Player _player = null!;
 
@@ -108,6 +108,58 @@ public partial class Ally : CharacterBody2D
         {
             GD.Print("stop");
             _followPlayer = false;
+        }
+
+        if (response.Contains("HARVEST") && !_busy)
+        {
+            GD.Print("harvesting");
+            if (Map.Items.Count > 0)
+            {
+                Location nearestLocation = Map.GetNearestItemLocation(new Location(GlobalPosition));
+                if (nearestLocation == null) { return; }
+                
+                _busy = true; // Change busy state
+                
+                //Go to nearest item
+                _pathFindingMovement.TargetPosition = nearestLocation.toVector2();
+                while (!_pathFindingMovement.HasreachedTarget())
+                {
+                    // Do nothing while walking
+                }
+                
+                // extract the nearest item and add to inventory (pickup)
+                Inventory inv = GetNode<Inventory>("Inventory");
+                if (inv.HasSpace()) // if inventory has space
+                {
+                    Itemstack item = Map.ExtractNearestItemAtLocation(new Location(GlobalPosition));
+                    inv.AddItem(item); // add item to inventory
+                } // if inventory has no space don't harvest it
+
+                // Go back to core
+                _pathFindingMovement.TargetPosition = _core.GlobalPosition;
+                while (!_pathFindingMovement.HasreachedTarget())
+                {
+                    // Do nothing while walking
+                }
+                
+                // Empty inventory into the core
+
+                foreach (Itemstack item in inv.GetItems())
+                {
+                    Core.MaterialCount += item.Amount;
+                    Core.IncreaseScale();
+                }
+                inv.Clear();
+                
+                // Go back to player
+                _pathFindingMovement.TargetPosition = _player.GlobalPosition;
+                while (!_pathFindingMovement.HasreachedTarget())
+                {
+                    // Do nothing while walking
+                }
+                _busy = false; // Change busy state
+                
+            }
         }
 
         GD.Print($"Motivation: {_motivation}");

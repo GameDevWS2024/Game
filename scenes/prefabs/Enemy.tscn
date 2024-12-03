@@ -21,7 +21,7 @@ texture = ExtResource("2_orqy0")
 [node name="PathFindingMovement" type="Node" parent="." node_paths=PackedStringArray("_character", "_agent", "_sprite")]
 script = ExtResource("3_wks6h")
 _targetDistanceVariation = 10
-_speed = 150
+_speed = 50
 _character = NodePath("..")
 _agent = NodePath("../NavigationAgent2D")
 _sprite = NodePath("../Sprite2D")

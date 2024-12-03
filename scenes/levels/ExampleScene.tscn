@@ -36,7 +36,6 @@ tile_set = ExtResource("1_cx4o0")
 unique_name_in_owner = true
 material = SubResource("ShaderMaterial_hnti7")
 position = Vector2(127, 217)
-_maxSpeed = 450.0
 _deceleration = 900.0
 
 [node name="Camera2D" type="Camera2D" parent="Player"]

@@ -32,15 +32,15 @@ public partial class Map : Node2D
         s_items = new List<MapItem>();
         
         // fill item list:
-        Material[] materials = (Material[])Enum.GetValues(typeof(Material));
+        //Material[] materials = (Material[])Enum.GetValues(typeof(Material));
         Random random = new Random();
 
         for(int i = 0; i < _startItemCount; i++)
         {
-            Material randomMaterial = materials[random.Next(materials.Length)];
+            //Material randomMaterial = materials[random.Next(materials.Length)];
             int randomX = random.Next(-2000, 2001);
             int randomY = random.Next(-2000, 2001);
-            s_items.Add(new MapItem(new Itemstack(randomMaterial), new Location(randomX, randomY)));
+            s_items.Add(new MapItem(new Itemstack(Game.Scripts.Items.Material.Stone), new Location(randomX, randomY)));
         }
     }
 

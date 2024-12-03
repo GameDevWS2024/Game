@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dxxch6ax2fn4s"
-path="res://.godot/imported/enemy.png-c5e5ce2cc95af3e7478fe405e968ef94.ctex"
+uid="uid://mly17lvtmx6y"
+path="res://.godot/imported/workerAlly.png-4f8e6a5153a13336ce51ec183a67949a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/enemies/enemy.png"
-dest_files=["res://.godot/imported/enemy.png-c5e5ce2cc95af3e7478fe405e968ef94.ctex"]
+source_file="res://assets/characters/workerAlly.png"
+dest_files=["res://.godot/imported/workerAlly.png-4f8e6a5153a13336ce51ec183a67949a.ctex"]
 
 [params]
 

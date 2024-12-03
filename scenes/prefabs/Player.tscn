@@ -1,14 +1,14 @@
 [gd_scene load_steps=7 format=3 uid="uid://clfnjh8aelj66"]
 
 [ext_resource type="Script" path="res://scripts/Player.cs" id="1_lbjty"]
-[ext_resource type="Texture2D" uid="uid://gba1pbl4wpx0" path="res://assets/commander.png" id="2_yctqc"]
+[ext_resource type="Texture2D" uid="uid://dbss8jwp21arv" path="res://assets/characters/Player.png" id="2_v025w"]
 [ext_resource type="Script" path="res://scripts/Health.cs" id="3_f8s0r"]
 [ext_resource type="Script" path="res://scripts/HealthBar.cs" id="4_bw6ue"]
 [ext_resource type="Script" path="res://scripts/Removeable.cs" id="5_ftker"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_vgu86"]
-radius = 40.0
-height = 140.0
+radius = 9.0
+height = 26.0
 
 [node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("_playerSprite") groups=["Entities"]]
 script = ExtResource("1_lbjty")
@@ -18,8 +18,7 @@ _playerSprite = NodePath("Sprite2D")
 shape = SubResource("CapsuleShape2D_vgu86")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(0.23, 0.23)
-texture = ExtResource("2_yctqc")
+texture = ExtResource("2_v025w")
 
 [node name="Health" type="Node" parent="."]
 unique_name_in_owner = true
@@ -27,10 +26,10 @@ script = ExtResource("3_f8s0r")
 
 [node name="ProgressBar" type="ProgressBar" parent="." node_paths=PackedStringArray("_health")]
 self_modulate = Color(1.26103e-05, 0.840319, 1.15514e-06, 1)
-offset_left = -32.0
-offset_top = -111.0
-offset_right = 40.0
-offset_bottom = -84.0
+offset_left = -23.0
+offset_top = -39.0
+offset_right = 21.0
+offset_bottom = -22.0
 value = 50.0
 show_percentage = false
 script = ExtResource("4_bw6ue")
@@ -38,10 +37,10 @@ _health = NodePath("../Health")
 
 [node name="Button" type="Button" parent="."]
 z_index = 10
-offset_left = 69.0
-offset_top = -110.0
-offset_right = 112.0
-offset_bottom = -79.0
+offset_left = 27.0
+offset_top = -47.0
+offset_right = 70.0
+offset_bottom = -16.0
 text = "Heal"
 
 [node name="Removable" type="Node" parent="."]

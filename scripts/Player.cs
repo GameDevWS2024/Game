@@ -15,11 +15,11 @@ public partial class Player : CharacterBody2D
     private Vector2 _currentVelocity = Vector2.Zero;
 
     /*   // Player cant move if this is uncommented
-	public Player(PlayerStats stats)
-	{
-		Stats = new PlayerStats(100, 100, 100, 100);
-	}
-	*/
+    public Player(PlayerStats stats)
+    {
+        Stats = new PlayerStats(100, 100, 100, 100);
+    }
+    */
 
     // Stats and Player initialization
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://crfpgwuah07yj"
-path="res://.godot/imported/Stein.png-8da17b0eb2ce9447b45530ae1393e552.ctex"
+uid="uid://bn10n1fpys45b"
+path="res://.godot/imported/Arbeiter.png-dafca5124093679545a5faa6bbf37eeb.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/obstacles/Stein.png"
-dest_files=["res://.godot/imported/Stein.png-8da17b0eb2ce9447b45530ae1393e552.ctex"]
+source_file="res://assets/characters/Arbeiter.png"
+dest_files=["res://.godot/imported/Arbeiter.png-dafca5124093679545a5faa6bbf37eeb.ctex"]
 
 [params]
 

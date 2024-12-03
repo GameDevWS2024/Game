@@ -77,6 +77,23 @@ public partial class Map : Node2D
 
                 GD.Print($"{entity.Name} Health: {entity.Health.Amount}");
             }
+
+            Health playerhp = _player.GetNode<Health>("Health");
+            switch (_player.CurrentState)
+            {
+                //if ally is in darkness, its health is reduced by 1 point per Intervals
+                case Player.AllyState.Darkness:
+                    playerhp.Damage(_darknessCircleDamage);
+                    break;
+                //if ally is in small circle, it gets 3 health points per Interval
+                case Player.AllyState.SmallCircle:
+                    playerhp.Heal(_smallCircleHeal);
+                    break;
+                //if ally is in big circle, it gets 1 health points per Interval
+                case Player.AllyState.BigCircle:
+                    playerhp.Heal(_bigCircleHeal);
+                    break;
+            }
             _timeElapsed = 0;
         }
 

@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Game.Scripts;
 using Godot;
+using Godot.Collections;
 
 public partial class CombatAlly : CharacterBody2D
 {
@@ -82,19 +84,19 @@ public partial class CombatAlly : CharacterBody2D
     private void AttackNearestEnemy()
     {
         // Get the list of enemies
-        var enemyGroup = GetTree().GetNodesInGroup("Enemies");
+        Array<Node> enemyGroup = GetTree().GetNodesInGroup("Enemies");
         if (enemyGroup == null || enemyGroup.Count == 0)
         {
             return; // No enemies to attack
         }
 
         // Find the nearest enemy
-        var nearestEnemies = enemyGroup
+        List<(Node2D enemy, float distance)> nearestEnemies = enemyGroup
             .OfType<Node2D>()
             .Select(enemy => (enemy, distance: enemy.GlobalPosition.DistanceTo(GlobalPosition)))
             .ToList();
 
-        var nearestEnemy = nearestEnemies.OrderBy(t => t.distance).FirstOrDefault().enemy;
+        Node2D? nearestEnemy = nearestEnemies.OrderBy(t => t.distance).FirstOrDefault().enemy;
 
         if (nearestEnemy != null)
         {

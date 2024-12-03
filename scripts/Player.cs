@@ -13,6 +13,16 @@ public partial class Player : CharacterBody2D
 
     // Store the current velocity as a class field to maintain it between frames
     private Vector2 _currentVelocity = Vector2.Zero;
+    private Core _core = null!;
+    private Player _player = null!;
+    public Health Health = null!;
+    public AllyState CurrentState { get; private set; } = AllyState.SmallCircle;
+    public enum AllyState
+    {
+        Darkness,
+        SmallCircle,
+        BigCircle
+    }
 
     /*   // Player cant move if this is uncommented
 	public Player(PlayerStats stats)
@@ -22,7 +32,12 @@ public partial class Player : CharacterBody2D
 	*/
 
     // Stats and Player initialization
-
+    public override void _Ready()
+    {
+        Health = GetNode<Health>("Health");
+        _player = GetNode<Player>("%Player");
+        _core = GetNode<Game.Scripts.Core>("%Core");
+    }
     public PlayerStats Stats { get; private set; } = new PlayerStats(100, 10, 100, 50);
 
     public void Attack(Player target)
@@ -98,5 +113,29 @@ public partial class Player : CharacterBody2D
         // Update the velocity and move
         Velocity = _currentVelocity;
         MoveAndSlide();
+        SetAllyInDarkness();
+    }
+    public void SetAllyInDarkness()
+    {
+        // Berechne den Abstand zwischen Ally und Core
+        Vector2 distance = this.Position - _core.Position;
+        float distanceLength = distance.Length();  // Berechne die Länge des Vektors
+
+        // If ally further away than big circle, he is in the darkness
+        if (distanceLength > _core.LightRadiusBiggerCircle)
+        {
+            CurrentState = AllyState.Darkness;
+        }
+        //if ally not in darkness and closer than the small Light Radius, he is in small circle
+        else if (distanceLength < _core.LightRadiusSmallerCircle)
+        {
+            CurrentState = AllyState.SmallCircle;
+        }
+        //if ally not in darkness and not in small circle, ally is in big circle
+        else
+        {
+            CurrentState = AllyState.BigCircle;
+        }
+
     }
 }

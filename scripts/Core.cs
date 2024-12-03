@@ -14,7 +14,7 @@ public partial class Core : Node2D
     public override void _Ready()
     {
         Inventory = new Inventory(34);
-        //_inventory.AddItem(new Itemstack(Game.Scripts.Items.Material.Stone));
+        Inventory.AddItem(new Itemstack(Game.Scripts.Items.Material.Stone));
 
         // Get scale of PointLight2D
         PointLight2D coreLight = GetNode<PointLight2D>("%CoreLight");

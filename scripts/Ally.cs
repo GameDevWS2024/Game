@@ -1,5 +1,4 @@
 using System;
-using System.Diagnostics;
 using System.Text.RegularExpressions;
 
 using Game.Scripts;
@@ -34,6 +33,7 @@ public partial class Ally : CharacterBody2D
         Health = GetNode<Health>("Health");
         _chat.ResponseReceived += HandleResponse;
         _player = GetNode<Player>("%Player");
+
         _core = GetNode<Game.Scripts.Core>("%Core");
         //GD.Print($"Path to Chat: {_chat.GetPath()}");
         //GD.Print($"Path to ResponseField: {_responseField.GetPath()}");
@@ -86,7 +86,7 @@ public partial class Ally : CharacterBody2D
         Regex regex = new Regex(pattern);
         Match match = regex.Match(response);
 
-        if (match.Success && match.Groups.Count > 1)
+        if (match is { Success: true, Groups.Count: > 1 })
         {
             try
             {

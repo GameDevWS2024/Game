@@ -77,7 +77,7 @@ offset_right = 19.0
 offset_bottom = -122.0
 text = "James"
 
-[node name="InventoryFirst" type="Node" parent="."]
+[node name="Inventory" type="Node" parent="."]
 unique_name_in_owner = true
 script = ExtResource("8_uovgu")
 

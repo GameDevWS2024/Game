@@ -80,8 +80,7 @@ offset_right = 19.0
 offset_bottom = -122.0
 text = "Tom"
 
-[node name="InventoryTwo" type="Node" parent="."]
-unique_name_in_owner = true
+[node name="Inventory" type="Node" parent="."]
 script = ExtResource("2_wmq71")
 
 [connection signal="Death" from="Health" to="Removable" method="Remove"]

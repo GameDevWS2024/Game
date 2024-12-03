@@ -51,11 +51,6 @@ public partial class Map : Node2D
             }
             s_items.Add(new MapItem(new Itemstack(randomMaterial), new Location(randomX, randomY)));
         }
-
-        foreach (MapItem mi in s_items)
-        {
-            GD.Print(mi.Item.Material);
-        }
     }
 
     public void DarknessDamage()

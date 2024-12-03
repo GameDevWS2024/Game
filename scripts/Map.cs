@@ -33,20 +33,23 @@ public partial class Map : Node2D
             List<Ally> entityGroup = GetTree().GetNodesInGroup("Entities").OfType<Ally>().ToList();
             foreach (Ally entity in entityGroup)
             {
+                Health hp = entity.GetNode<Health>("Health");
                 switch (entity.CurrentState)
                 {
                     //if ally is in darkness, its health is reduced by 1 point per Intervals
                     case Ally.AllyState.Darkness:
-                        entity.Health.Damage(_darknessCircleDamage);
+                        hp.Damage(_darknessCircleDamage);
                         break;
                     //if ally is in small circle, it gets 3 health points per Interval
                     case Ally.AllyState.SmallCircle:
-                        entity.Health.Heal(_smallCircleHeal);
+                        hp.Heal(_smallCircleHeal);
                         break;
                     //if ally is in big circle, it gets 1 health points per Interval
                     case Ally.AllyState.BigCircle:
-                        entity.Health.Heal(_bigCircleHeal);
+                        hp.Heal(_bigCircleHeal);
                         break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
                 }
 
                 GD.Print($"{entity.Name} Health: {entity.Health.Amount}");

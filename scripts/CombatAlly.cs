@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Text.RegularExpressions;
-
 using Game.Scripts;
-
 using Godot;
 using Godot.Collections;
 
@@ -34,7 +31,7 @@ public partial class CombatAlly : CharacterBody2D
 
     private float _attackCooldown = 0.5f; // Time between attacks in seconds
     private float _timeSinceLastAttack = 0.0f; // Time accumulator
-    private const float AttackRange = 110.0f; // Distance at which ally can attack
+    private const float AttackRange = 150.0f; // Distance at which ally can attack
     private int _damage = 10; // Damage dealt to enemies
 
     public override void _Ready()

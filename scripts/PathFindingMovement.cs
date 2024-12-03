@@ -24,6 +24,10 @@ public partial class PathFindingMovement : Node
         this.CallDeferred("ActorSetup");
     }
 
+    public bool HasReachedTarget()
+    {
+        return _reachedTarget; 
+    }
     public async void ActorSetup()
     {
         await ToSignal(GetTree(), "physics_frame");

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dufenl1acfy2a"
-path="res://.godot/imported/Eis-Baum.png-aa33920fbb06d8257600e2bc92f8eacd.ctex"
+uid="uid://dbss8jwp21arv"
+path="res://.godot/imported/Player.png-e4197ad885cbeb12e1b60cee891aa48d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/obstacles/Eis-Baum.png"
-dest_files=["res://.godot/imported/Eis-Baum.png-aa33920fbb06d8257600e2bc92f8eacd.ctex"]
+source_file="res://assets/characters/Player.png"
+dest_files=["res://.godot/imported/Player.png-e4197ad885cbeb12e1b60cee891aa48d.ctex"]
 
 [params]
 

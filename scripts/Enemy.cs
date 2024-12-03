@@ -23,7 +23,7 @@ public partial class Enemy : CharacterBody2D
 
     private float _attackCooldown = 0.5f; // Time between attacks in seconds
     private float _timeSinceLastAttack = 0.0f; // Time accumulator
-    private const float AttackRange = 110.0f; // Distance at which enemy can attack
+    private const float AttackRange = 75.0f; // Distance at which enemy can attack
 
     public override void _PhysicsProcess(double delta)
     {
@@ -39,13 +39,13 @@ public partial class Enemy : CharacterBody2D
 
         List<(Node2D entity, float distance)> nearestEntities = _entityGroup.OfType<Node2D>().Select(entity => (entity, entity.GlobalPosition.DistanceTo(GlobalPosition))).ToList();
         /*
-		bool isNearbyCore = GlobalPosition.DistanceTo(_core!.GlobalPosition) < 100;
-		nearestEntities = nearestEntities.Select(tup =>
-			tup.entity.GetName() == "CORE" && isNearbyCore
-				? (tup.entity, tup.distance + 200)
-				: tup
-		).ToList();
-		*/
+        bool isNearbyCore = GlobalPosition.DistanceTo(_core!.GlobalPosition) < 100;
+        nearestEntities = nearestEntities.Select(tup =>
+            tup.entity.GetName() == "CORE" && isNearbyCore
+                ? (tup.entity, tup.distance + 200)
+                : tup
+        ).ToList();
+        */
         Node2D nearestEntity = nearestEntities.OrderBy(tup => tup.distance).FirstOrDefault().entity;
 
         if (nearestEntity != null)

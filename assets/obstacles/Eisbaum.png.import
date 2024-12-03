@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c1ny7wkwa38ry"
-path="res://.godot/imported/CORE.png-ff5d08e2a05551527f91aa46e8c295ce.ctex"
+uid="uid://c3owty3htekii"
+path="res://.godot/imported/Eisbaum.png-0afff7357e862cd4f07809a0baa48fac.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/CORE/CORE.png"
-dest_files=["res://.godot/imported/CORE.png-ff5d08e2a05551527f91aa46e8c295ce.ctex"]
+source_file="res://assets/obstacles/Eisbaum.png"
+dest_files=["res://.godot/imported/Eisbaum.png-0afff7357e862cd4f07809a0baa48fac.ctex"]
 
 [params]
 

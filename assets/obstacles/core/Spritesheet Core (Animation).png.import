@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://r0008262vxp0"
-path="res://.godot/imported/Kleiner Stein.png-365b324b9dba00ae4e3d16971f18a824.ctex"
+uid="uid://64b1akjtxppw"
+path="res://.godot/imported/Spritesheet Core (Animation).png-13cea15aeacfd7657cd0abcd654df267.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/obstacles/Kleiner Stein.png"
-dest_files=["res://.godot/imported/Kleiner Stein.png-365b324b9dba00ae4e3d16971f18a824.ctex"]
+source_file="res://assets/obstacles/core/Spritesheet Core (Animation).png"
+dest_files=["res://.godot/imported/Spritesheet Core (Animation).png-13cea15aeacfd7657cd0abcd654df267.ctex"]
 
 [params]
 

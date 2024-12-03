@@ -33,7 +33,7 @@ public partial class Ally : CharacterBody2D
         Health = GetNode<Health>("Health");
         _chat.ResponseReceived += HandleResponse;
         _player = GetNode<Player>("%Player");
-        
+
         _core = GetNode<Game.Scripts.Core>("%Core");
         //GD.Print($"Path to Chat: {_chat.GetPath()}");
         //GD.Print($"Path to ResponseField: {_responseField.GetPath()}");

@@ -26,7 +26,7 @@ public partial class PathFindingMovement : Node
 
     public bool HasReachedTarget()
     {
-        return _reachedTarget; 
+        return _reachedTarget;
     }
     public async void ActorSetup()
     {

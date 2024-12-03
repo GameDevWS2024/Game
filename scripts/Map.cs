@@ -30,8 +30,10 @@ public partial class Map : Node2D
 
         if (_timeElapsed >= _allyHealthChangeIntervall)
         {
-            List<Ally> entityGroup = GetTree().GetNodesInGroup("Entities").OfType<Ally>().ToList();
-            foreach (Ally entity in entityGroup)
+            List<Ally> allyGroup = GetTree().GetNodesInGroup("Entities").OfType<Ally>().ToList();
+            List<CombatAlly> combatAllyGroup = GetTree().GetNodesInGroup("Entities").OfType<CombatAlly>().ToList();
+
+            foreach (Ally entity in allyGroup)
             {
                 switch (entity.CurrentState)
                 {
@@ -45,6 +47,27 @@ public partial class Map : Node2D
                         break;
                     //if ally is in big circle, it gets 1 health points per Interval
                     case Ally.AllyState.BigCircle:
+                        entity.Health.Heal(_bigCircleHeal);
+                        break;
+                }
+
+                GD.Print($"{entity.Name} Health: {entity.Health.Amount}");
+            }
+
+            foreach (CombatAlly entity in combatAllyGroup)
+            {
+                switch (entity.CurrentState)
+                {
+                    //if ally is in darkness, its health is reduced by 1 point per Intervals
+                    case CombatAlly.AllyState.Darkness:
+                        entity.Health.Damage(_darknessCircleDamage);
+                        break;
+                    //if ally is in small circle, it gets 3 health points per Interval
+                    case CombatAlly.AllyState.SmallCircle:
+                        entity.Health.Heal(_smallCircleHeal);
+                        break;
+                    //if ally is in big circle, it gets 1 health points per Interval
+                    case CombatAlly.AllyState.BigCircle:
                         entity.Health.Heal(_bigCircleHeal);
                         break;
                 }

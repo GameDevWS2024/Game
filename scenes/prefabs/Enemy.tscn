@@ -8,7 +8,6 @@
 radius = 7.0
 
 [node name="Enemy" type="CharacterBody2D" node_paths=PackedStringArray("_pathFindingMovement") groups=["Enemies"]]
-scale = Vector2(4, 4)
 script = ExtResource("1_q3x6f")
 _pathFindingMovement = NodePath("PathFindingMovement")
 
@@ -21,7 +20,6 @@ texture = ExtResource("2_orqy0")
 
 [node name="PathFindingMovement" type="Node" parent="." node_paths=PackedStringArray("_character", "_agent", "_sprite")]
 script = ExtResource("3_wks6h")
-_minTargetDistance = 200
 _targetDistanceVariation = 10
 _speed = 150
 _character = NodePath("..")

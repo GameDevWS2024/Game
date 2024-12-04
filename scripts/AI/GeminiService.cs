@@ -33,7 +33,9 @@ public class GeminiService
             {
                 throw new InvalidOperationException("API key file is empty");
             }
-            _model = new GenerativeModel(apiKey) { SafetySettings =
+            _model = new GenerativeModel(apiKey)
+            {
+                SafetySettings =
                 [
                     new SafetySetting { Category = HarmCategory.HARM_CATEGORY_HARASSMENT, Threshold = HarmBlockThreshold.BLOCK_NONE },
                     new SafetySetting { Category = HarmCategory.HARM_CATEGORY_HATE_SPEECH, Threshold = HarmBlockThreshold.BLOCK_NONE },

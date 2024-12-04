@@ -11,7 +11,7 @@ using Godot.Collections;
 
 public partial class CombatAlly : CharacterBody2D
 {
-    private List<string> _interactionHistory = [];
+    private readonly List<string> _interactionHistory = [];
     [Export] private int _maxHistory = 5; // Number of interactions to keep
     public Health Health = null!;
     public Motivation Motivation = null!;
@@ -47,7 +47,7 @@ public partial class CombatAlly : CharacterBody2D
         _chat.ResponseReceived += HandleResponse;
         _player = GetNode<Player>("%Player");
         _core = GetNode<Core>("%Core");
-        _chat.ResponseReceived +=  HandleResponse;
+        _chat.ResponseReceived += HandleResponse;
     }
 
     public void SetAllyInDarkness()
@@ -125,12 +125,12 @@ public partial class CombatAlly : CharacterBody2D
             }
         }
     }
-    
-     private async void HandleResponse(string response)
+
+    private async void HandleResponse(string response)
     {
         response = response.Replace("\"", ""); // Teile den String in ein Array anhand von '\n'
-       // GD.Print(response);
-        
+                                               // GD.Print(response);
+
         string[] lines = response.Split('\n').Where(line => line.Length > 0).ToArray();
         List<(string, string)> matches = [];
         List<String> ops = ["MOTIVATION", "THOUGHT", "RESPONSE", "REMEMBER"];
@@ -142,11 +142,11 @@ public partial class CombatAlly : CharacterBody2D
                 string pattern = op + @":\s*(.*)"; // anstatt .* \d+ für zahlen
                 Regex regex = new Regex(pattern);
                 Match match = regex.Match(line);
-                if (match is { Success: true, Groups.Count: >1 })
+                if (match is { Success: true, Groups.Count: > 1 })
                 {
                     matches.Add((op, match.Groups[1].Value));
                 }
-                
+
             }
         }
 
@@ -178,11 +178,11 @@ public partial class CombatAlly : CharacterBody2D
         }
 
         _responseField.ParseBbcode(richtext);
-        
+
         // Update interaction history
         await UpdateInteractionHistoryAsync(rememberText, richtext);
-            
-            
+
+
         if (response.Contains("FOLLOW"))
         {
             GD.Print("following");
@@ -199,7 +199,7 @@ public partial class CombatAlly : CharacterBody2D
     }
     private async Task UpdateInteractionHistoryAsync(string rememberText, string richtext)
     {
-        GD.Print(_interactionHistory.Count+" memory units full");
+        GD.Print(_interactionHistory.Count + " memory units full");
         string histAsString = "";
         foreach (string hist in _interactionHistory)
         {
@@ -211,8 +211,8 @@ public partial class CombatAlly : CharacterBody2D
             GD.Print("summarizing:");
             // Summarize the whole conversation history
             string summary = await SummarizeConversationAsync(histAsString);
-          //  GD.Print("***"+summary+"***");
-            
+            //  GD.Print("***"+summary+"***");
+
             // Replace history with the summary
             _interactionHistory.Clear();
             _interactionHistory.Add(summary);
@@ -223,10 +223,10 @@ public partial class CombatAlly : CharacterBody2D
         foreach (string hist in _interactionHistory)
         {
             histAsString += hist;
-            GD.Print(hist+"#");
+            GD.Print(hist + "#");
         }
         _chat.SetSystemPrompt(histAsString);
-        _responseField.ParseBbcode(richtext+"\n"+rememberText);
+        _responseField.ParseBbcode(richtext + "\n" + rememberText);
     }
 
     private async Task<string> SummarizeConversationAsync(string conversation)

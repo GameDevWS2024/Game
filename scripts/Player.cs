@@ -1,5 +1,6 @@
-using Godot;
 using Game.Scripts.Items;
+
+using Godot;
 
 namespace Game.Scripts;
 
@@ -12,14 +13,14 @@ public partial class Player : CharacterBody2D
     public Health Health = null!;
     private Core _core = null!;
     public AllyState CurrentState { get; private set; } = AllyState.SmallCircle;
-    
+
     public enum AllyState
     {
         Darkness,
         SmallCircle,
         BigCircle
     }
-    
+
     // Store the current velocity as a class field to maintain it between frames
     private Vector2 _currentVelocity = Vector2.Zero;
     public readonly Items.Inventory Inventory = new Items.Inventory(36);
@@ -39,7 +40,7 @@ public partial class Player : CharacterBody2D
         Health = GetNode<Health>("Health");
         _core = GetNode<Core>("%Core");
     }
-    
+
     public PlayerStats Stats { get; private set; } = new PlayerStats(100, 10, 100, 50);
 
     public void Attack(Player target)
@@ -57,7 +58,7 @@ public partial class Player : CharacterBody2D
         GD.Print($"Mana: {Stats.Mana}");
     }
 
-    
+
     public override void _PhysicsProcess(double delta)
     {
         Vector2 inputDirection = Vector2.Zero;
@@ -118,7 +119,7 @@ public partial class Player : CharacterBody2D
         MoveAndSlide();
         SetAllyInDarkness();
     }
-    
+
     public void SetAllyInDarkness()
     {
         // Berechne den Abstand zwischen Ally und Core

@@ -21,7 +21,7 @@ public partial class MotivationBar : ProgressBar
     {
         if (_motivation != null)
         {
-            Value = (10*newMotivation) / _motivation.MaxMotivation;
+            Value = (10 * newMotivation) / _motivation.MaxMotivation;
         }
     }
 

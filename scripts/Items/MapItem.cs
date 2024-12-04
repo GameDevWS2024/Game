@@ -1,5 +1,6 @@
 namespace Game.Scripts.Items;
-public class MapItem{
+public class MapItem
+{
     public Itemstack Item { get; set; }
     public Location Location { get; set; }
 

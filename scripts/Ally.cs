@@ -3,18 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+
 using Game.Scripts;
 using Game.Scripts.Items;
+
 using Godot;
 
 public partial class Ally : CharacterBody2D
 {
-    private List<string> _interactionHistory = [];
+    private readonly List<string> _interactionHistory = [];
     [Export] private int _maxHistory = 5; // Number of interactions to keep
 
     public Health Health = null!;
     public Motivation Motivation = null!;
-    
+
     [Export] Chat _chat = null!;
     [Export] RichTextLabel _responseField = null!;
     [Export] PathFindingMovement _pathFindingMovement = null!;
@@ -43,7 +45,7 @@ public partial class Ally : CharacterBody2D
         Health = GetNode<Health>("Health");
         _player = GetNode<Player>("%Player");
         _core = GetNode<Core>("%Core");
-       _chat.ResponseReceived += HandleResponse;
+        _chat.ResponseReceived += HandleResponse;
     }
 
     public void SetAllyInDarkness()
@@ -84,24 +86,24 @@ public partial class Ally : CharacterBody2D
     private async void HandleResponse(string response)
     {
         response = response.Replace("\"", ""); // Teile den String in ein Array anhand von '\n'
-        
+
         string[] lines = response.Split('\n').Where(line => line.Length > 0).ToArray();
         List<(string, string)> matches = [];
-        
+
         // Add commands to be extracted here
         List<String> ops = ["MOTIVATION", "THOUGHT", "RESPONSE", "REMEMBER"];
-         foreach (string line in lines)
+        foreach (string line in lines)
         {
             foreach (string op in ops)
             {
                 string pattern = op + @":\s*(.*)"; // anstatt .* \d+ für zahlen
                 Regex regex = new Regex(pattern);
                 Match match = regex.Match(line);
-                if (match is { Success: true, Groups.Count: >1 })
+                if (match is { Success: true, Groups.Count: > 1 })
                 {
                     matches.Add((op, match.Groups[1].Value));
                 }
-                
+
             }
         }
 
@@ -129,11 +131,11 @@ public partial class Ally : CharacterBody2D
         }
 
         _responseField.ParseBbcode(richtext);
-        
+
         // Update interaction history
         await UpdateInteractionHistoryAsync(rememberText, richtext);
-            
-            
+
+
         if (response.Contains("FOLLOW"))
         {
             GD.Print("following");
@@ -153,16 +155,16 @@ public partial class Ally : CharacterBody2D
             {
                 Location? nearestLocation = Map.GetNearestItemLocation(new Location(GlobalPosition));
                 if (nearestLocation == null) { return; }
-                
+
                 _busy = true; // Change busy state
-                
+
                 //Go to nearest item
                 _pathFindingMovement.TargetPosition = nearestLocation.toVector2();
                 while (!_pathFindingMovement.HasreachedTarget())
                 {
                     // Do nothing while walking
                 }
-                
+
                 // extract the nearest item and add to inventory (pickup)
                 Inventory inv = GetNode<Inventory>("Inventory");
                 if (inv.HasSpace()) // if inventory has space
@@ -177,7 +179,7 @@ public partial class Ally : CharacterBody2D
                 {
                     // Do nothing while walking
                 }
-                
+
                 // Empty inventory into the core
 
                 foreach (Itemstack item in inv.GetItems())
@@ -186,7 +188,7 @@ public partial class Ally : CharacterBody2D
                     Core.IncreaseScale();
                 }
                 inv.Clear();
-                
+
                 // Go back to player
                 _pathFindingMovement.TargetPosition = _player.GlobalPosition;
                 while (!_pathFindingMovement.HasreachedTarget())
@@ -194,13 +196,13 @@ public partial class Ally : CharacterBody2D
                     // Do nothing while walking
                 }
                 _busy = false; // Change busy state
-                
+
             }
         }
     }
     private async Task UpdateInteractionHistoryAsync(string rememberText, string richtext)
     {
-        GD.Print(_interactionHistory.Count+" memory units full");
+        GD.Print(_interactionHistory.Count + " memory units full");
         string histAsString = "";
         foreach (string hist in _interactionHistory)
         {
@@ -212,8 +214,8 @@ public partial class Ally : CharacterBody2D
             GD.Print("summarizing:");
             // Summarize the whole conversation history
             string summary = await SummarizeConversationAsync(histAsString);
-          //  GD.Print("***"+summary+"***");
-            
+            //  GD.Print("***"+summary+"***");
+
             // Replace history with the summary
             _interactionHistory.Clear();
             _interactionHistory.Add(summary);
@@ -224,10 +226,10 @@ public partial class Ally : CharacterBody2D
         foreach (string hist in _interactionHistory)
         {
             histAsString += hist;
-            GD.Print(hist+"#");
+            GD.Print(hist + "#");
         }
         _chat.SetSystemPrompt(histAsString);
-        _responseField.ParseBbcode(richtext+"\n"+rememberText);
+        _responseField.ParseBbcode(richtext + "\n" + rememberText);
     }
 
     private async Task<string> SummarizeConversationAsync(string conversation)

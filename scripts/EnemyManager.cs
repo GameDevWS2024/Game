@@ -26,7 +26,7 @@ public partial class EnemyManager : Node2D
 
     public override void _Process(double delta)
     {
-        
+
         _timeSinceLastSpawn += (float)delta;
 
         List<Enemy> enemies = GetTree().GetNodesInGroup("Enemies").OfType<Enemy>().ToList();

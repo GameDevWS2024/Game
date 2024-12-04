@@ -1,9 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+
 using Game.Scripts;
 using Game.Scripts.Items;
+
 using Godot;
+
 using Material = Game.Scripts.Items.Material;
 
 public partial class Map : Node2D
@@ -26,12 +29,12 @@ public partial class Map : Node2D
         _core = GetNode<Core>("%Core");
         _player = GetNode<Player>("%Player");
         s_items = [];
-        
+
         // fill item list:
         //Material[] materials = (Material[])Enum.GetValues(typeof(Material));
         Random random = new Random();
 
-        for(int i = 0; i < _startItemCount; i++)
+        for (int i = 0; i < _startItemCount; i++)
         {
             //Material randomMaterial = materials[random.Next(materials.Length)];
             int randomX = random.Next(-2000, 2001);
@@ -46,7 +49,7 @@ public partial class Map : Node2D
         if (_timeElapsed >= _allyHealthChangeIntervall)
         {
             List<Ally> entityGroup = GetTree().GetNodesInGroup("Entities").OfType<Ally>().ToList();
-            
+
             foreach (Ally entity in entityGroup)
             {
                 Health hp = entity.GetNode<Health>("Health");
@@ -68,7 +71,7 @@ public partial class Map : Node2D
                         throw new ArgumentOutOfRangeException();
                 }
 
-           //     GD.Print($"{entity.Name} Health: {entity.Health.Amount}");
+                //     GD.Print($"{entity.Name} Health: {entity.Health.Amount}");
             }
             _timeElapsed = 0;
         }
@@ -97,9 +100,9 @@ public partial class Map : Node2D
     {
         List<Location> locations = new List<Location>();
 
-        for(int i = 0; i < s_items.Count; i++)
+        for (int i = 0; i < s_items.Count; i++)
         {
-            if(s_items[i].Item.Material == material)
+            if (s_items[i].Item.Material == material)
             {
                 locations.Add(s_items[i].Location);
             }
@@ -107,7 +110,7 @@ public partial class Map : Node2D
 
         return locations;
     }
-    
+
     public static List<Location> GetAllItemLocations()
     {
         List<Location> locations = new List<Location>();
@@ -124,7 +127,7 @@ public partial class Map : Node2D
     {
         return GetAllItemLocations().OrderBy(itemLoc => itemLoc.DistanceTo(loc)).FirstOrDefault();
     }
-    
+
     public Location? GetNearestMaterialLocation(Location loc, Material mat)
     {
         return GetAllMaterialLocations(mat).OrderBy(itemLoc => itemLoc.DistanceTo(loc)).FirstOrDefault();
@@ -134,8 +137,8 @@ public partial class Map : Node2D
     {
         float nearest = float.MaxValue;
         int index = -1;
-        
-        for(int i = 0; i < s_items.Count; i++)
+
+        for (int i = 0; i < s_items.Count; i++)
         {
             float distance = loc.DistanceTo(s_items[i].Location);
             if (distance > nearest) { continue; }
@@ -144,7 +147,7 @@ public partial class Map : Node2D
         }
 
         if (index < 0) { return new Itemstack(Game.Scripts.Items.Material.None); }
-        
+
         Itemstack item = s_items[index].Item;
         s_items.RemoveAt(index);
         return item;

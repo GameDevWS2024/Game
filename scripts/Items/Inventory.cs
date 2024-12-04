@@ -35,7 +35,7 @@ public class Inventory
             inv += Items[i].Material + " : " + Items[i].Amount + ", ";
             if (Items[i]!.Material != Material.None)
             {
-                var isEmpty = false;
+                bool isEmpty = false;
                 inv += Items[i]!.Material + " : " + Items[i]!.Amount + ", ";
             }
         }

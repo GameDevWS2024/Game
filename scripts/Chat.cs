@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Net.Mail;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 using Godot;
 namespace Game.Scripts
@@ -34,20 +35,21 @@ namespace Game.Scripts
                 GD.Print($"Failed to load systemPrompt. {ex.Message}");
             }
 
-            GD.Print(_systemPrompt);
+            //GD.Print(_systemPrompt);
             InitializeGeminiService();
         }
 
-        public void SetSystemPrompt(string newPrompt)
+        public void SetSystemPrompt(string conversationHistory)
         {
-            _systemPrompt = newPrompt;  // Ändere den System-Prompt
+            // Combine conversation history and the original system prompt
+            string updatedPrompt = $"Instructions:\n{_systemPrompt}\n You remember: {conversationHistory}\n---------";
 
-            // Stelle sicher, dass die GeminiService-Instanz mit dem neuen Prompt aktualisiert wird
-            if (_geminiService != null)
-            {
-                _geminiService.SetSystemPrompt(_systemPrompt);
-            }
+            _systemPrompt = updatedPrompt; // Update the current system prompt
+
+            // Update the GeminiService instance
+            _geminiService?.SetSystemPrompt(updatedPrompt);
         }
+
 
         private void InitializeGeminiService()
         {
@@ -68,6 +70,54 @@ namespace Game.Scripts
             }
         }
 
+        public async Task<string?> SummarizeMessage(string conversation)
+        {
+            if (_geminiService != null)
+            {
+                try
+                {
+                    // You can modify the prompt here for the summarization request
+                    string prompt = $"Extract only what needs to be remembered: {conversation}";
+                    string? response = await _geminiService.MakeQuerry(prompt);
+                    GD.Print("###"+response + " ist der verkürzte Conversation Context");
+
+                    return response?.Trim();
+                }
+                catch (Exception ex)
+                {
+                    GD.PrintErr($"Failed to summarize conversation: {ex.Message}");
+                    return null;
+                }
+            }
+
+            GD.PrintErr("GeminiService not initialized.");
+            return null;
+        }
+        
+        public async Task<string?> SummarizeConversation(string conversation)
+        {
+            if (_geminiService != null)
+            {
+                try
+                {
+                    // You can modify the prompt here for the summarization request
+                    string prompt = $"Extract only what needs to be remembered: {conversation}";
+                    string? response = await _geminiService.MakeQuerry(prompt);
+                    GD.Print("###"+response + " ist der verkürzte Conversation Context");
+
+                    return response?.Trim();
+                }
+                catch (Exception ex)
+                {
+                    GD.PrintErr($"Failed to summarize conversation: {ex.Message}");
+                    return null;
+                }
+            }
+
+            GD.PrintErr("GeminiService not initialized.");
+            return null;
+        }
+        
         private async void OnTextSubmitted(string input)
         {
             GD.Print($"Submitted text: {input}");

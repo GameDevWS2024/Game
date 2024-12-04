@@ -7,9 +7,10 @@ using Godot.Collections;
 public partial class Enemy : CharacterBody2D
 {
     [Export] PathFindingMovement _pathFindingMovement = null!;
-
     [Export] private int _damage = 5;
-
+    [Signal] public delegate void DeathEventHandler();
+    [Signal] public delegate void HealthChangedEventHandler(int newHealth);
+    public Health Health = null!;
     private bool _attack = true;
     private Array<Node>? _entityGroup;
     private CharacterBody2D? _player;
@@ -17,16 +18,21 @@ public partial class Enemy : CharacterBody2D
 
     public override void _Ready()
     {
+        Health = GetNode<Health>("Health");
         _player = GetTree().CurrentScene.GetNode<CharacterBody2D>("%Player");
         _core = GetTree().CurrentScene.GetNode<Node2D>("%Core");
     }
 
     private float _attackCooldown = 0.5f; // Time between attacks in seconds
     private float _timeSinceLastAttack = 0.0f; // Time accumulator
-    private const float AttackRange = 110.0f; // Distance at which enemy can attack
+    private const float AttackRange = 170.0f; // Distance at which enemy can attack
 
     public override void _PhysicsProcess(double delta)
     {
+        if (Health.Amount <= 0)
+        {
+            QueueFree();
+        }
         _timeSinceLastAttack += (float)delta;
 
         _entityGroup = GetTree().GetNodesInGroup("Entities");

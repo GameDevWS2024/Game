@@ -21,7 +21,7 @@ public class GeminiService
         {
             throw new ArgumentNullException(nameof(apiKeyFilePath), "API key file path cannot be null or empty");
         }
-        if (!File.Exists(apiKeyFilePath))
+        if (!File.Exists(apiKeyFilePath)) // and has valid length? 
         {
             throw new FileNotFoundException($"API key file not found at path: {apiKeyFilePath}");
         }
@@ -33,16 +33,15 @@ public class GeminiService
             {
                 throw new InvalidOperationException("API key file is empty");
             }
-            _model = new GenerativeModel(apiKey);
+            _model = new GenerativeModel(apiKey) { SafetySettings =
+                [
+                    new SafetySetting { Category = HarmCategory.HARM_CATEGORY_HARASSMENT, Threshold = HarmBlockThreshold.BLOCK_NONE },
+                    new SafetySetting { Category = HarmCategory.HARM_CATEGORY_HATE_SPEECH, Threshold = HarmBlockThreshold.BLOCK_NONE },
+                    new SafetySetting { Category = HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT, Threshold = HarmBlockThreshold.BLOCK_NONE },
+                    new SafetySetting { Category = HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT, Threshold = HarmBlockThreshold.BLOCK_NONE }
+                ]
+            };
 
-
-            _model.SafetySettings =
-            [
-                new SafetySetting { Category = HarmCategory.HARM_CATEGORY_HARASSMENT, Threshold = HarmBlockThreshold.BLOCK_NONE },
-                new SafetySetting { Category = HarmCategory.HARM_CATEGORY_HATE_SPEECH, Threshold = HarmBlockThreshold.BLOCK_NONE },
-                new SafetySetting { Category = HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT, Threshold = HarmBlockThreshold.BLOCK_NONE },
-                new SafetySetting { Category = HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT, Threshold = HarmBlockThreshold.BLOCK_NONE }
-            ];
 
             _chat = _model.StartChat(new StartChatParams());
         }

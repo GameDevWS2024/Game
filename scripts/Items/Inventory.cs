@@ -33,6 +33,11 @@ public class Inventory
         for (int i = 0; i < Size; i++)
         {
             inv += Items[i].Material + " : " + Items[i].Amount + ", ";
+            if (Items[i]!.Material != Material.None)
+            {
+                var isEmpty = false;
+                inv += Items[i]!.Material + " : " + Items[i]!.Amount + ", ";
+            }
         }
 
         if (inv.EndsWith(", "))
@@ -55,8 +60,8 @@ public class Inventory
         Material mat = stack.Material;
         for (int i = 0; i < Size; i++)
         {
-            if (Items[i].Material == Material.None) { return true; }
-            if (Items[i].Material == mat && Items[i].Amount < 64) { return true; }
+            if (Items[i] is { Material: Material.None }) { return true; }
+            if (Items[i]!.Material == mat && Items[i]!.Amount < 64) { return true; }
         }
         return false;
     }
@@ -82,17 +87,17 @@ public class Inventory
         for (int i = 0; i < Size; i++)
         {
 
-            if (Items[i].Material == itemstack.Material && Items[i].Stackable && Items[i].Amount < 64)
+            if (Items[i]!.Material == itemstack.Material && Items[i]!.Stackable && Items[i]!.Amount < 64)
             {
-                int space = 64 - Items[i].Amount;
+                int space = 64 - Items[i]!.Amount;
                 if (itemstack.Amount <= space)
                 {
-                    Items[i].Amount += itemstack.Amount;
+                    Items[i]!.Amount += itemstack.Amount;
                     itemstack.Amount = 0;
                 }
                 else
                 {
-                    Items[i].Amount += space;
+                    Items[i]!.Amount += space;
                     itemstack.Amount -= space;
                     AddItem(itemstack); // recursively fill the inventory until stack is empty or inventory is full.
                 }
@@ -100,7 +105,7 @@ public class Inventory
                 return;
             }
 
-            if (Items[i].Material == Material.None && none == -1)
+            if (Items[i]!.Material == Material.None && none == -1)
             {
                 none = i;
             }

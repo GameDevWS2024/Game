@@ -4,11 +4,8 @@ public partial class Health : Node
 {
     [Signal] public delegate void DeathEventHandler();
     [Signal] public delegate void HealthChangedEventHandler(int newHealth);
-
     [Export] private bool _reviveable;
-
     [Export] public double MaxHealth { get; private set; } = 100;
-
     [Export] public double Amount { get; private set; } = 100;
     private int _frame = 0;
 
@@ -19,7 +16,7 @@ public partial class Health : Node
         if ((!Dead || _reviveable) && Amount < MaxHealth)
         {
             Amount += amount;
-            GD.Print(Amount);
+          //  GD.Print(Amount);
             if (Amount > MaxHealth)
             {
                 Amount = MaxHealth;
@@ -32,7 +29,7 @@ public partial class Health : Node
     public void Damage(double amount)
     {
         Amount -= amount;
-        GD.Print(Amount);
+       // GD.Print(Amount);
         if (Amount < 0)
         {
             Dead = true;

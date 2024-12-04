@@ -1,30 +1,29 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using Game.Scripts;
-using Game.Scripts.Items;
-using Godot;
 
-public partial class Ally : CharacterBody2D
+using Game.Scripts;
+
+using Godot;
+using Godot.Collections;
+
+public partial class CombatAlly : CharacterBody2D
 {
     private List<string> _interactionHistory = [];
     [Export] private int _maxHistory = 5; // Number of interactions to keep
-
     public Health Health = null!;
     public Motivation Motivation = null!;
-    
     [Export] Chat _chat = null!;
     [Export] RichTextLabel _responseField = null!;
     [Export] PathFindingMovement _pathFindingMovement = null!;
     [Export] private Label _nameLabel = null!;
     private bool _followPlayer = true;
-    private bool _busy;
     private int _motivation;
     private Player _player = null!;
 
-    //Enum with states for ally in darkness, in bigger or smaller circle for map damage system
+    // Enum with states for ally in darkness, in bigger or smaller circle for map damage system
     public enum AllyState
     {
         Darkness,
@@ -35,62 +34,108 @@ public partial class Ally : CharacterBody2D
     public AllyState CurrentState { get; private set; } = AllyState.SmallCircle;
 
     private Core _core = null!;
-
+    private float _attackCooldown = 0.5f; // Time between attacks in seconds
+    private float _timeSinceLastAttack = 0.0f; // Time accumulator
+    private const float AttackRange = 170.0f; // Distance at which ally can attack
+    private int _damage = 10; // Damage dealt to enemies
     public override void _Ready()
     {
+        AddToGroup("Entities");
         base._Ready();
-        Motivation = GetNode<Motivation>("Motivation");
         Health = GetNode<Health>("Health");
+        Motivation = GetNode<Motivation>("Motivation");
+        _chat.ResponseReceived += HandleResponse;
         _player = GetNode<Player>("%Player");
         _core = GetNode<Core>("%Core");
-       _chat.ResponseReceived += HandleResponse;
+        _chat.ResponseReceived +=  HandleResponse;
     }
 
     public void SetAllyInDarkness()
     {
-        // Berechne den Abstand zwischen Ally und Core
+        // Calculate the distance between Ally and Core
         Vector2 distance = this.Position - _core.Position;
-        float distanceLength = distance.Length();  // Berechne die Länge des Vektors
+        float distanceLength = distance.Length(); // Get the length of the vector
 
         // If ally further away than big circle, he is in the darkness
         if (distanceLength > _core.LightRadiusBiggerCircle)
         {
             CurrentState = AllyState.Darkness;
         }
-        //if ally not in darkness and closer than the small Light Radius, he is in small circle
+        // If ally not in darkness and closer than the small Light Radius, he is in small circle
         else if (distanceLength < _core.LightRadiusSmallerCircle)
         {
             CurrentState = AllyState.SmallCircle;
         }
-        //if ally not in darkness and not in small circle, ally is in big circle
+        // If ally not in darkness and not in small circle, ally is in big circle
         else
         {
             CurrentState = AllyState.BigCircle;
         }
-
     }
 
     public override void _PhysicsProcess(double delta)
     {
-        //Check where ally is (darkness, bigger, smaller)
+        _timeSinceLastAttack += (float)delta;
+
+        // Check where ally is (darkness, bigger, smaller)
         SetAllyInDarkness();
 
         if (_followPlayer)
         {
             _pathFindingMovement.TargetPosition = _player.GlobalPosition;
         }
+
+        AttackNearestEnemy();
     }
 
-    private async void HandleResponse(string response)
+    private void AttackNearestEnemy()
+    {
+        // Get the list of enemies
+        Array<Node> enemyGroup = GetTree().GetNodesInGroup("Enemies");
+        if (enemyGroup == null || enemyGroup.Count == 0)
+        {
+            return; // No enemies to attack
+        }
+
+        // Find the nearest enemy
+        List<(Node2D enemy, float distance)> nearestEnemies = enemyGroup
+            .OfType<Node2D>()
+            .Select(enemy => (enemy, distance: enemy.GlobalPosition.DistanceTo(GlobalPosition)))
+            .ToList();
+
+        Node2D? nearestEnemy = nearestEnemies.OrderBy(t => t.distance).FirstOrDefault().enemy;
+
+        if (nearestEnemy != null)
+        {
+            Vector2 targetPosition = nearestEnemy.GlobalPosition;
+            float distanceToTarget = targetPosition.DistanceTo(GlobalPosition);
+
+            // Move toward the target
+            _pathFindingMovement.TargetPosition = targetPosition;
+
+            // Attack if within range and cooldown allows
+            if (distanceToTarget < AttackRange && _timeSinceLastAttack >= _attackCooldown)
+            {
+                if (nearestEnemy.HasNode("Health"))
+                {
+                    Health enemyHealth = nearestEnemy.GetNode<Health>("Health");
+                    enemyHealth.Damage(_damage);
+                }
+                _timeSinceLastAttack = 0;
+            }
+        }
+    }
+    
+     private async void HandleResponse(string response)
     {
         response = response.Replace("\"", ""); // Teile den String in ein Array anhand von '\n'
+       // GD.Print(response);
         
         string[] lines = response.Split('\n').Where(line => line.Length > 0).ToArray();
         List<(string, string)> matches = [];
-        
-        // Add commands to be extracted here
         List<String> ops = ["MOTIVATION", "THOUGHT", "RESPONSE", "REMEMBER"];
-         foreach (string line in lines)
+        // Gib die Elemente des Arrays mit foreach aus
+        foreach (string line in lines)
         {
             foreach (string op in ops)
             {
@@ -105,7 +150,9 @@ public partial class Ally : CharacterBody2D
             }
         }
 
-        string richtext = "", rememberText = "";
+        string richtext = "";
+        string conversationContext = "";
+        string rememberText = "";
         foreach ((string op, string content) in matches)
         {
             if (op == "REMEMBER")
@@ -125,6 +172,8 @@ public partial class Ally : CharacterBody2D
                     GD.Print("set motivation to:" + content.ToInt());
                     Motivation.SetMotivation(content.ToInt());
                 }
+
+                conversationContext += content;
             }
         }
 
@@ -146,57 +195,7 @@ public partial class Ally : CharacterBody2D
             _followPlayer = false;
         }
 
-        if (response.Contains("HARVEST") && !_busy)
-        {
-            GD.Print("harvesting");
-            if (Map.Items.Count > 0)
-            {
-                Location? nearestLocation = Map.GetNearestItemLocation(new Location(GlobalPosition));
-                if (nearestLocation == null) { return; }
-                
-                _busy = true; // Change busy state
-                
-                //Go to nearest item
-                _pathFindingMovement.TargetPosition = nearestLocation.toVector2();
-                while (!_pathFindingMovement.HasreachedTarget())
-                {
-                    // Do nothing while walking
-                }
-                
-                // extract the nearest item and add to inventory (pickup)
-                Inventory inv = GetNode<Inventory>("Inventory");
-                if (inv.HasSpace()) // if inventory has space
-                {
-                    Itemstack item = Map.ExtractNearestItemAtLocation(new Location(GlobalPosition));
-                    inv.AddItem(item); // add item to inventory
-                } // if inventory has no space don't harvest it
-
-                // Go back to core
-                _pathFindingMovement.TargetPosition = _core.GlobalPosition;
-                while (!_pathFindingMovement.HasreachedTarget())
-                {
-                    // Do nothing while walking
-                }
-                
-                // Empty inventory into the core
-
-                foreach (Itemstack item in inv.GetItems())
-                {
-                    Core.MaterialCount += item.Amount;
-                    Core.IncreaseScale();
-                }
-                inv.Clear();
-                
-                // Go back to player
-                _pathFindingMovement.TargetPosition = _player.GlobalPosition;
-                while (!_pathFindingMovement.HasreachedTarget())
-                {
-                    // Do nothing while walking
-                }
-                _busy = false; // Change busy state
-                
-            }
-        }
+        //  GD.Print($"Motivation: {_motivation}");
     }
     private async Task UpdateInteractionHistoryAsync(string rememberText, string richtext)
     {

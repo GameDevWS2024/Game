@@ -26,6 +26,7 @@ public partial class EnemyManager : Node2D
 
     public override void _Process(double delta)
     {
+        
         _timeSinceLastSpawn += (float)delta;
 
         List<Enemy> enemies = GetTree().GetNodesInGroup("Enemies").OfType<Enemy>().ToList();
@@ -58,6 +59,5 @@ public partial class EnemyManager : Node2D
             Random.Shared.Next(0, (int)viewportSize.X),
             Random.Shared.Next(0, (int)viewportSize.Y)
         );
-        GD.Print("spawned new enemy at " + enemy.GlobalPosition.X + ", " + enemy.GlobalPosition.Y);
     }
 }

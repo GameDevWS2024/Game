@@ -1,14 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-
 using Game.Scripts;
 using Game.Scripts.Items;
-
 using Godot;
-
 using Material = Game.Scripts.Items.Material;
-
 
 public partial class Map : Node2D
 {
@@ -29,7 +25,7 @@ public partial class Map : Node2D
         _map = this;
         _core = GetNode<Core>("%Core");
         _player = GetNode<Player>("%Player");
-        s_items = new List<MapItem>();
+        s_items = [];
         
         // fill item list:
         //Material[] materials = (Material[])Enum.GetValues(typeof(Material));
@@ -50,25 +46,29 @@ public partial class Map : Node2D
         if (_timeElapsed >= _allyHealthChangeIntervall)
         {
             List<Ally> entityGroup = GetTree().GetNodesInGroup("Entities").OfType<Ally>().ToList();
+            
             foreach (Ally entity in entityGroup)
             {
+                Health hp = entity.GetNode<Health>("Health");
                 switch (entity.CurrentState)
                 {
                     //if ally is in darkness, its health is reduced by 1 point per Intervals
                     case Ally.AllyState.Darkness:
-                        entity.Health.Damage(_darknessCircleDamage);
+                        hp.Damage(_darknessCircleDamage);
                         break;
                     //if ally is in small circle, it gets 3 health points per Interval
                     case Ally.AllyState.SmallCircle:
-                        entity.Health.Heal(_smallCircleHeal);
+                        hp.Heal(_smallCircleHeal);
                         break;
                     //if ally is in big circle, it gets 1 health points per Interval
                     case Ally.AllyState.BigCircle:
-                        entity.Health.Heal(_bigCircleHeal);
+                        hp.Heal(_bigCircleHeal);
                         break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
                 }
 
-                GD.Print($"{entity.Name} Health: {entity.Health.Amount}");
+           //     GD.Print($"{entity.Name} Health: {entity.Health.Amount}");
             }
             _timeElapsed = 0;
         }

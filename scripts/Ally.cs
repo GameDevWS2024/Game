@@ -159,7 +159,7 @@ public partial class Ally : CharacterBody2D
                 _busy = true; // Change busy state
 
                 //Go to nearest item
-                _pathFindingMovement.TargetPosition = nearestLocation.toVector2();
+                _pathFindingMovement.TargetPosition = nearestLocation.ToVector2();
                 while (!_pathFindingMovement.HasreachedTarget())
                 {
                     // Do nothing while walking

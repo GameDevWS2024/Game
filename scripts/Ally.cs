@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 using Game.Scripts;
@@ -12,9 +14,12 @@ public partial class Ally : CharacterBody2D
     [Export] RichTextLabel _responseField = null!;
     [Export] PathFindingMovement _pathFindingMovement = null!;
     [Export] private Label _nameLabel = null!;
-    private bool _followPlayer = true;
+    [Export] private int _visionRadius = 100;
+    private bool _followPlayer = false;
     private int _motivation;
     private Player _player = null!;
+
+    [Export] public VisibleForAI[] AllwaysVisible = [];
 
     //Enum with states for ally in darkness, in bigger or smaller circle for map damage system
     public enum AllyState
@@ -35,9 +40,17 @@ public partial class Ally : CharacterBody2D
         _player = GetNode<Player>("%Player");
 
         _core = GetNode<Game.Scripts.Core>("%Core");
+        _pathFindingMovement.TargetPosition = GlobalPosition;
         //GD.Print($"Path to Chat: {_chat.GetPath()}");
         //GD.Print($"Path to ResponseField: {_responseField.GetPath()}");
         //GD.Print($"Path to PathFindingMovement: {_pathFindingMovement.GetPath()}");
+    }
+
+    public List<VisibleForAI> GetCurrentlyVisible()
+    {
+        IEnumerable<VisibleForAI> visibleForAiNodes = GetTree().GetNodesInGroup(VisibleForAI.GroupName).OfType<VisibleForAI>();
+        GD.Print(GlobalPosition.DistanceTo(visibleForAiNodes.ToList()[0].GlobalPosition) <= _visionRadius);
+        return visibleForAiNodes.Where(node => GlobalPosition.DistanceTo(node.GlobalPosition) <= _visionRadius).ToList();
     }
 
     public void SetAllyInDarkness()
@@ -96,6 +109,18 @@ public partial class Ally : CharacterBody2D
             {
                 GD.Print(ex);
             }
+        }
+
+        string goToPattern = @"GO TO:\s*(-?\d+)\s*,\s*(-?\d+)";
+
+        Match goToMatch = Regex.Match(response, goToPattern);
+
+        if (goToMatch.Success)
+        {
+            int x = int.Parse(goToMatch.Groups[1].Value);
+            int y = int.Parse(goToMatch.Groups[2].Value);
+
+            _pathFindingMovement.TargetPosition = new Vector2(x, y);
         }
 
         if (response.Contains("FOLLOW"))

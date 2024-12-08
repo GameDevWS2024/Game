@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://dfkwq6qwtxw25"]
+[gd_scene load_steps=22 format=3 uid="uid://dfkwq6qwtxw25"]
 
 [ext_resource type="PackedScene" uid="uid://clfnjh8aelj66" path="res://scenes/prefabs/Player.tscn" id="1_7owxc"]
 [ext_resource type="Texture2D" uid="uid://dweeg6vbxai1c" path="res://scenes/levels/bg.png" id="1_afw7h"]
@@ -6,6 +6,8 @@
 [ext_resource type="Shader" path="res://scenes/levels/ExampleScene.gdshader" id="1_kbklw"]
 [ext_resource type="Script" path="res://scripts/Map.cs" id="1_pa1ge"]
 [ext_resource type="PackedScene" uid="uid://dkcg0yrtwyo0k" path="res://scenes/prefabs/PointLight.tscn" id="3_0raeo"]
+[ext_resource type="Script" path="res://scripts/VisibleForAI.cs" id="6_7bcmx"]
+[ext_resource type="Texture2D" uid="uid://pfxvcht6t1ge" path="res://assets/sprites/icon.svg" id="6_gtht4"]
 [ext_resource type="PackedScene" uid="uid://6gwtt7kwq2p" path="res://scenes/prefabs/Ally.tscn" id="6_l8h37"]
 [ext_resource type="PackedScene" uid="uid://csb6x207vu85x" path="res://scenes/prefabs/copper_tree.tscn" id="7_njspg"]
 [ext_resource type="PackedScene" uid="uid://ki7e88gvvcs" path="res://scenes/prefabs/ice_tree.tscn" id="9_tf77n"]
@@ -34,6 +36,7 @@ source_geometry_group_name = &"navigation"
 agent_radius = 150.0
 
 [node name="Node2D" type="Node2D"]
+position = Vector2(2595, 2509)
 script = ExtResource("1_pa1ge")
 
 [node name="TextureRect" type="TextureRect" parent="."]
@@ -43,6 +46,7 @@ offset_top = -2488.0
 offset_right = 2516.0
 offset_bottom = 2500.0
 texture = ExtResource("1_afw7h")
+metadata/_edit_use_anchors_ = true
 
 [node name="LightOccluder2D" type="LightOccluder2D" parent="TextureRect"]
 modulate = Color(0.099986, 0.099986, 0.099986, 1)
@@ -67,6 +71,10 @@ zoom = Vector2(0.8, 0.8)
 position_smoothing_enabled = true
 position_smoothing_speed = 7.0
 
+[node name="Node2D2" type="Node2D" parent="Player"]
+script = ExtResource("6_7bcmx")
+NameForAi = "Player"
+
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
 position = Vector2(-26, -69)
 navigation_polygon = SubResource("NavigationPolygon_y1idm")
@@ -74,51 +82,66 @@ metadata/_edit_lock_ = true
 
 [node name="Obstacles" type="Node" parent="."]
 
+[node name="Node2D" type="Node2D" parent="Obstacles"]
+position = Vector2(3095, 2509)
+scale = Vector2(0.4, 0.4)
+script = ExtResource("6_7bcmx")
+NameForAi = "The Godot Icon"
+
+[node name="Sprite2D" type="Sprite2D" parent="Obstacles/Node2D"]
+texture = ExtResource("6_gtht4")
+
 [node name="Stone" parent="Obstacles" instance=ExtResource("10_4xrrw")]
-position = Vector2(-377, 1145)
+position = Vector2(2218, 3654)
 
 [node name="Stone2" parent="Obstacles" instance=ExtResource("10_4xrrw")]
-position = Vector2(865, 389)
+position = Vector2(3460, 2898)
+script = ExtResource("6_7bcmx")
+NameForAi = "Stone"
+DescribtionForAi = "A tiny rock"
 
 [node name="Stone3" parent="Obstacles" instance=ExtResource("10_4xrrw")]
-position = Vector2(760, 6)
+position = Vector2(3355, 2515)
 
 [node name="Tree" parent="Obstacles" instance=ExtResource("7_njspg")]
-position = Vector2(-464, -533)
+position = Vector2(2131, 1976)
 
 [node name="Tree7" parent="Obstacles" instance=ExtResource("7_njspg")]
-position = Vector2(-785, -1213)
+position = Vector2(1810, 1296)
 
 [node name="Tree8" parent="Obstacles" instance=ExtResource("7_njspg")]
-position = Vector2(188, -900)
+position = Vector2(2783, 1609)
 
 [node name="Tree2" parent="Obstacles" instance=ExtResource("7_njspg")]
-position = Vector2(-899, -11.9999)
+position = Vector2(1696, 2497)
 
 [node name="Tree3" parent="Obstacles" instance=ExtResource("7_njspg")]
-position = Vector2(455, 649)
+position = Vector2(3050, 3158)
 
 [node name="Tree4" parent="Obstacles" instance=ExtResource("7_njspg")]
-position = Vector2(-220, 584)
+position = Vector2(2375, 3093)
 
 [node name="Tree5" parent="Obstacles" instance=ExtResource("7_njspg")]
-position = Vector2(1185, 254)
+position = Vector2(3780, 2763)
 
 [node name="Tree6" parent="Obstacles" instance=ExtResource("7_njspg")]
-position = Vector2(707, -422)
+position = Vector2(4554, 1899)
 
 [node name="Tree10" parent="Obstacles" instance=ExtResource("9_tf77n")]
-position = Vector2(1053, 721)
+position = Vector2(3648, 3230)
 
 [node name="Tree11" parent="Obstacles" instance=ExtResource("9_tf77n")]
-position = Vector2(236, 173)
+position = Vector2(2831, 2682)
 
-[node name="Ally" parent="." instance=ExtResource("6_l8h37")]
-position = Vector2(-122, 123)
+[node name="Ally" parent="." node_paths=PackedStringArray("AllwaysVisible") instance=ExtResource("6_l8h37")]
+position = Vector2(834, 254)
+_visionRadius = 3000
+AllwaysVisible = [NodePath("../Player")]
 
 [node name="EnemyManager" type="Node2D" parent="."]
 script = ExtResource("1_bmkfv")
 EnemyScene = ExtResource("10_tv6x7")
+_maxEnemies = 0
 
 [node name="Core" type="Node2D" parent="."]
 unique_name_in_owner = true
@@ -126,6 +149,7 @@ script = ExtResource("11_wagl7")
 
 [node name="CoreLight" parent="Core" instance=ExtResource("3_0raeo")]
 unique_name_in_owner = true
+visible = false
 color = Color(0.365852, 0.353147, 9.62615e-08, 1)
 energy = 10.0
 shadow_enabled = true
@@ -133,26 +157,32 @@ shadow_color = Color(0.0643274, 0.0646954, 0.0657012, 0)
 shadow_filter = 2
 shadow_filter_smooth = 2.3
 texture_scale = 20.0
+metadata/_edit_lock_ = true
 
 [node name="CoreInventory" type="Node" parent="Core"]
 unique_name_in_owner = true
 script = ExtResource("13_fh71d")
 
 [node name="Ally2" parent="." instance=ExtResource("13_668w2")]
+visible = false
 position = Vector2(602, 378)
 
 [node name="IntroText" type="CanvasLayer" parent="."]
 script = ExtResource("14_trtui")
 
 [node name="Panel" type="Panel" parent="IntroText"]
-offset_right = 40.0
-offset_bottom = 40.0
+offset_left = 2595.0
+offset_top = 2509.0
+offset_right = 2635.0
+offset_bottom = 2549.0
+metadata/_edit_use_anchors_ = true
 
 [node name="Label" type="Label" parent="IntroText/Panel"]
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 23.0
 text = "\"Stay in the light! Say 'Harvest' to tell your ally to get some resources\""
+metadata/_edit_use_anchors_ = true
 
 [node name="Close" type="Button" parent="IntroText/Panel"]
 process_mode = 2
@@ -161,5 +191,6 @@ layout_mode = 0
 offset_right = 8.0
 offset_bottom = 8.0
 text = "Continue"
+metadata/_edit_use_anchors_ = true
 
 [connection signal="pressed" from="IntroText/Panel/Close" to="IntroText" method="OnClosePressed"]

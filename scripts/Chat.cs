@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net.Mail;
 using System.Text.RegularExpressions;
 
@@ -13,6 +15,8 @@ namespace Game.Scripts
         [Export(PropertyHint.File, "*.txt")]
         private string? _systemPromptFile;
 
+        private Ally _ally = null!;
+
         private string _systemPrompt = "";
         private GeminiService? _geminiService;
         private readonly string _apiKeyPath = ProjectSettings.GlobalizePath("res://api_key.secret");
@@ -22,6 +26,8 @@ namespace Game.Scripts
         public override void _Ready()
         {
             TextSubmitted += OnTextSubmitted;
+
+            _ally = GetParent<Ally>();
 
             string systemPromptAbsolutePath = ProjectSettings.GlobalizePath(_systemPromptFile);
 
@@ -70,11 +76,17 @@ namespace Game.Scripts
 
         private async void OnTextSubmitted(string input)
         {
-            GD.Print($"Submitted text: {input}");
+
+            List<VisibleForAI> visibleItems = _ally.GetCurrentlyVisible().Concat(_ally.AllwaysVisible).ToList();
+            string visibleItemsFormatted = string.Join<VisibleForAI>("\n", visibleItems);
+
+            string completeInput = $"Currently Visible:\n\n{visibleItemsFormatted}\n\nPlayer: {input}";
+
+            GD.Print($"Input: {completeInput}");
 
             if (_geminiService != null)
             {
-                string? response = await _geminiService.MakeQuerry(input);
+                string? response = await _geminiService.MakeQuerry(completeInput);
                 if (response != null)
                 {
                     EmitSignal(SignalName.ResponseReceived, response);
@@ -84,7 +96,6 @@ namespace Game.Scripts
                 {
                     GD.Print("No response");
                 }
-
             }
 
             else

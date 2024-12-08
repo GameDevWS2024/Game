@@ -21,14 +21,16 @@ _pathFindingMovement = NodePath("PathFindingMovement")
 _nameLabel = NodePath("Label")
 
 [node name="Chat" type="LineEdit" parent="."]
+z_index = 1000
 offset_left = 37.0
 offset_top = -251.0
 offset_right = 419.0
 offset_bottom = -73.0
 script = ExtResource("2_k8ael")
-_systemPromptFile = "res://assets/prompts/example_prompt.txt"
+_systemPromptFile = "res://assets/prompts/visonally.txt"
 
 [node name="ResponseField" type="RichTextLabel" parent="."]
+z_index = 1000
 offset_left = 47.0
 offset_top = -60.0
 offset_right = 479.0
@@ -49,6 +51,8 @@ shape = SubResource("CapsuleShape2D_rn1pq")
 
 [node name="PathFindingMovement" type="Node" parent="." node_paths=PackedStringArray("_character", "_agent", "_sprite")]
 script = ExtResource("4_v650j")
+_minTargetDistance = 250
+_targetDistanceVariation = 30
 _character = NodePath("..")
 _agent = NodePath("../NavigationAgent2D")
 _sprite = NodePath("../Sprite2D")

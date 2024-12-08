@@ -54,7 +54,6 @@ public partial class Map : Node2D
                         throw new ArgumentOutOfRangeException();
                 }
 
-                GD.Print($"{entity.Name} Health: {entity.Health.Amount}");
             }
 
             foreach (CombatAlly entity in combatAllyGroup)
@@ -75,7 +74,6 @@ public partial class Map : Node2D
                         break;
                 }
 
-                GD.Print($"{entity.Name} Health: {entity.Health.Amount}");
             }
 
             Health playerhp = _player.GetNode<Health>("Health");

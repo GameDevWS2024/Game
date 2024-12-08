@@ -1,6 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://csb6x207vu85x"]
+[gd_scene load_steps=5 format=3 uid="uid://csb6x207vu85x"]
 
 [ext_resource type="Texture2D" uid="uid://4wumowwpchd5" path="res://assets/obstacles/tree.png" id="1_w7w6a"]
+[ext_resource type="Script" path="res://scripts/VisibleForAI.cs" id="2_byfw5"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_30yar"]
 radius = 95.1315
@@ -21,3 +22,9 @@ shape = SubResource("CircleShape2D_30yar")
 
 [node name="LightOccluder2D" type="LightOccluder2D" parent="."]
 occluder = SubResource("OccluderPolygon2D_mu4h4")
+
+[node name="Node2D" type="Node2D" parent="."]
+position = Vector2(0, 450)
+script = ExtResource("2_byfw5")
+NameForAi = "Tree"
+DescribtionForAi = "A tree, like all the others"

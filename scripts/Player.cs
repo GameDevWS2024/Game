@@ -117,30 +117,5 @@ public partial class Player : CharacterBody2D
         // Update the velocity and move
         Velocity = _currentVelocity;
         MoveAndSlide();
-        SetAllyInDarkness();
-    }
-
-    public void SetAllyInDarkness()
-    {
-        // Berechne den Abstand zwischen Ally und Core
-        Vector2 distance = this.Position - _core.Position;
-        float distanceLength = distance.Length();  // Berechne die Länge des Vektors
-
-        // If ally further away than big circle, he is in the darkness
-        if (distanceLength > _core.LightRadiusBiggerCircle)
-        {
-            CurrentState = AllyState.Darkness;
-        }
-        //if ally not in darkness and closer than the small Light Radius, he is in small circle
-        else if (distanceLength < _core.LightRadiusSmallerCircle)
-        {
-            CurrentState = AllyState.SmallCircle;
-        }
-        //if ally not in darkness and not in small circle, ally is in big circle
-        else
-        {
-            CurrentState = AllyState.BigCircle;
-        }
-
     }
 }

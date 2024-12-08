@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -50,35 +50,9 @@ public partial class CombatAlly : CharacterBody2D
         _chat.ResponseReceived += HandleResponse;
     }
 
-    public void SetAllyInDarkness()
-    {
-        // Calculate the distance between Ally and Core
-        Vector2 distance = this.Position - _core.Position;
-        float distanceLength = distance.Length(); // Get the length of the vector
-
-        // If ally further away than big circle, he is in the darkness
-        if (distanceLength > _core.LightRadiusBiggerCircle)
-        {
-            CurrentState = AllyState.Darkness;
-        }
-        // If ally not in darkness and closer than the small Light Radius, he is in small circle
-        else if (distanceLength < _core.LightRadiusSmallerCircle)
-        {
-            CurrentState = AllyState.SmallCircle;
-        }
-        // If ally not in darkness and not in small circle, ally is in big circle
-        else
-        {
-            CurrentState = AllyState.BigCircle;
-        }
-    }
-
     public override void _PhysicsProcess(double delta)
     {
         _timeSinceLastAttack += (float)delta;
-
-        // Check where ally is (darkness, bigger, smaller)
-        SetAllyInDarkness();
 
         if (_followPlayer)
         {

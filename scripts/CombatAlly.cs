@@ -19,6 +19,7 @@ public partial class CombatAlly : Ally
 
     public override void _PhysicsProcess(double delta)
     {
+        _timeSinceLastAttack += (float)delta;
         //Check where ally is (darkness, bigger, smaller)
         SetAllyInDarkness();
 

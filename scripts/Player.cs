@@ -23,7 +23,7 @@ public partial class Player : CharacterBody2D
 
     // Store the current velocity as a class field to maintain it between frames
     private Vector2 _currentVelocity = Vector2.Zero;
-    public readonly Items.Inventory Inventory = new Items.Inventory(36);
+    private Player _player = null!;
 
     /*   // Player cant move if this is uncommented
 	public Player(PlayerStats stats)
@@ -38,9 +38,9 @@ public partial class Player : CharacterBody2D
     {
         AddToGroup("Entities");
         Health = GetNode<Health>("Health");
-        _core = GetNode<Core>("%Core");
+        _player = GetNode<Player>("%Player");
+        _core = GetNode<Game.Scripts.Core>("%Core");
     }
-
     public PlayerStats Stats { get; private set; } = new PlayerStats(100, 10, 100, 50);
 
     public void Attack(Player target)
@@ -119,7 +119,6 @@ public partial class Player : CharacterBody2D
         MoveAndSlide();
         SetAllyInDarkness();
     }
-
     public void SetAllyInDarkness()
     {
         // Berechne den Abstand zwischen Ally und Core

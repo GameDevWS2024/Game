@@ -1,3 +1,5 @@
+using Game.Scripts;
+
 namespace Game.Scripts.Items;
 public class MapItem
 {
@@ -7,8 +9,7 @@ public class MapItem
     public MapItem(Itemstack item, int x, int y)
     {
         Item = item;
-        Location.X = x;
-        Location.Y = y;
+        Location = new Location(x, y);
     }
     public MapItem(Itemstack item, Location loc)
     {

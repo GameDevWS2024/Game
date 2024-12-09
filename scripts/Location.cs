@@ -1,16 +1,13 @@
 using Godot;
 
-public class Location
-{
-    public int X;
-    public int Y;
-    public Location(int x, int y)
-    {
-        X = x;
-        Y = y;
-    }
+namespace Game.Scripts;
 
-    public Location(Vector2 vec)
+public class Location(int x, int y)
+{
+    public int X = x;
+    public int Y = y;
+
+    public Location(Vector2 vec) : this((int)vec.X, (int)vec.Y)
     {
         X = (int)vec.X;
         Y = (int)vec.Y;

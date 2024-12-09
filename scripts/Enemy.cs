@@ -29,6 +29,7 @@ public partial class Enemy : CharacterBody2D
 
     public override void _PhysicsProcess(double delta)
     {
+        // temporary cause I couldnt figure out how to hide/delete Enemy like Player or Allie
         if (Health.Amount <= 0)
         {
             QueueFree();

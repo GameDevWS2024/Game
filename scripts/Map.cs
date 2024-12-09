@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Game.Scripts;
+using Game.Scripts;
 using Game.Scripts.Items;
 
 using Godot;
 
+using MapItem = Game.Scripts.Items.MapItem;
 using Material = Game.Scripts.Items.Material;
 
 public partial class Map : Node2D
@@ -16,7 +18,7 @@ public partial class Map : Node2D
     [Export] private int _darknessCircleDamage = 30;
     [Export] private float _allyHealthChangeIntervall = 3f;
     private Map _map = null!;
-    private Core _core = null!; // Deklaration des Core-Objekts
+    private Game.Scripts.Core _core = null!; // Deklaration des Core-Objekts
     private Player _player = null!;
     private static List<MapItem> s_items = null!;
     public static List<MapItem> Items { get => s_items; set => s_items = value; }
@@ -26,20 +28,28 @@ public partial class Map : Node2D
     public override void _Ready()
     {
         _map = this;
-        _core = GetNode<Core>("%Core");
+        _core = GetNode<Game.Scripts.Core>("%Core");
         _player = GetNode<Player>("%Player");
         s_items = [];
 
         // fill item list:
-        //Material[] materials = (Material[])Enum.GetValues(typeof(Material));
+        Material[] materials = (Material[])Enum.GetValues(typeof(Material));
         Random random = new Random();
 
         for (int i = 0; i < _startItemCount; i++)
         {
-            //Material randomMaterial = materials[random.Next(materials.Length)];
+            Material randomMaterial = materials[random.Next(materials.Length - 1) + 1];
             int randomX = random.Next(-2000, 2001);
             int randomY = random.Next(-2000, 2001);
-            s_items.Add(new MapItem(new Itemstack(Game.Scripts.Items.Material.Stone), new Location(randomX, randomY)));
+            while (randomX is < 700 and > -700)
+            {
+                randomX = random.Next(-2000, 2001);
+            }
+            while (randomY is < 700 and > -700)
+            {
+                randomY = random.Next(-2000, 2001);
+            }
+            s_items.Add(new MapItem(new Itemstack(randomMaterial), new Location(randomX, randomY)));
         }
     }
 

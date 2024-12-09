@@ -1,5 +1,7 @@
 using System;
 using System.Text.RegularExpressions;
+
+using Game.scripts;
 using Game.Scripts;
 using Game.Scripts.Items;
 
@@ -18,7 +20,7 @@ public partial class Ally : CharacterBody2D
     private bool _harvest;
     private bool _returning;
     private int _motivation;
-    private static Inventory _inventory = new Inventory(36);
+    private readonly static Inventory SInventory = new Inventory(36);
     private Player _player = null!;
 
     //Enum with states for ally in darkness, in bigger or smaller circle for map damage system
@@ -117,7 +119,7 @@ public partial class Ally : CharacterBody2D
                 
                 //GD.Print("going to nearest loc("+nearestLocation.X +", "+nearestLocation.Y+") from "+ GlobalPosition.X + " " + GlobalPosition.Y);
                 //Target = nearest item
-                _pathFindingMovement.TargetPosition = nearestLocation.toVector2();
+                _pathFindingMovement.TargetPosition = nearestLocation.ToVector2();
 
             }
         }
@@ -176,13 +178,13 @@ public partial class Ally : CharacterBody2D
         if (!_returning)
         {
             // extract the nearest item and add to inventory (pickup)
-            if (_inventory.HasSpace()) // if inventory has space
+            if (SInventory.HasSpace()) // if inventory has space
             {
                 GD.Print("harvesting...");
                 Itemstack item = Map.ExtractNearestItemAtLocation(new Location(GlobalPosition));
                 GD.Print(item.Material+ " amount: "+item.Amount);
-                _inventory.AddItem(item); // add item to inventory
-                _inventory.Print();
+                SInventory.AddItem(item); // add item to inventory
+                SInventory.Print();
             } // if inventory has no space don't harvest it
             else
             {
@@ -195,7 +197,7 @@ public partial class Ally : CharacterBody2D
         {
             // Empty inventory into the core
             
-            foreach (Itemstack item in _inventory.GetItems())
+            foreach (Itemstack item in SInventory.GetItems())
             {
                 if (item.Material == Game.Scripts.Items.Material.None)
                 {
@@ -205,7 +207,7 @@ public partial class Ally : CharacterBody2D
                 _core.IncreaseScale();
                 GD.Print("Increased scale");
             }
-            _inventory.Clear();
+            SInventory.Clear();
             _busy = false; // Change busy state  
             _harvest = false; // Change harvest state
             _returning = false; // Change returning state

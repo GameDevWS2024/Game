@@ -1,19 +1,14 @@
 using Godot;
 
-public class Location
-{
-    public int X;
-    public int Y;
-    public Location(int x, int y)
-    {
-        X = x;
-        Y = y;
-    }
+namespace Game.scripts;
 
-    public Location(Vector2 vec)
+public class Location(int x, int y)
+{
+    public int X = x;
+    public int Y = y;
+
+    public Location(Vector2 vec) : this((int) vec.X, (int) vec.Y)
     {
-        X = (int) vec.X;
-        Y = (int) vec.Y;
     }
 
     public float DistanceTo(Location other)
@@ -21,7 +16,7 @@ public class Location
         return Mathf.Sqrt(Mathf.Pow(other.X - X, 2) + Mathf.Pow(other.Y - Y, 2));
     }
 
-    public Vector2 toVector2()
+    public Vector2 ToVector2()
     {
         return new Vector2(X, Y);
     }

@@ -77,8 +77,8 @@ public partial class Ally : CharacterBody2D
         SetAllyInDarkness();
 
         UpdateTarget();
-        
-        if(GlobalPosition.DistanceTo(_pathFindingMovement.TargetPosition) < 300)
+
+        if (GlobalPosition.DistanceTo(_pathFindingMovement.TargetPosition) < 300)
         {
             _reached = true;
         }
@@ -87,7 +87,7 @@ public partial class Ally : CharacterBody2D
             _reached = false;
         }
 
-        
+
         if (_harvest && _reached) // Harvest logic
         {
             Harvest();
@@ -100,8 +100,8 @@ public partial class Ally : CharacterBody2D
         {
             _pathFindingMovement.TargetPosition = _player.GlobalPosition;
         }
-        
-        
+
+
 
         if (_harvest)
         {
@@ -116,7 +116,7 @@ public partial class Ally : CharacterBody2D
             else
             {
                 Location nearestLocation = Map.GetNearestItemLocation(new Location(GlobalPosition))!;
-                
+
                 //GD.Print("going to nearest loc("+nearestLocation.X +", "+nearestLocation.Y+") from "+ GlobalPosition.X + " " + GlobalPosition.Y);
                 //Target = nearest item
                 _pathFindingMovement.TargetPosition = nearestLocation.ToVector2();
@@ -172,7 +172,7 @@ public partial class Ally : CharacterBody2D
 
         GD.Print($"Motivation: {_motivation}");
     }
-    
+
     private void Harvest()
     {
         if (!_returning)
@@ -182,7 +182,7 @@ public partial class Ally : CharacterBody2D
             {
                 GD.Print("harvesting...");
                 Itemstack item = Map.ExtractNearestItemAtLocation(new Location(GlobalPosition));
-                GD.Print(item.Material+ " amount: "+item.Amount);
+                GD.Print(item.Material + " amount: " + item.Amount);
                 SInventory.AddItem(item); // add item to inventory
                 SInventory.Print();
             } // if inventory has no space don't harvest it
@@ -196,7 +196,7 @@ public partial class Ally : CharacterBody2D
         else
         {
             // Empty inventory into the core
-            
+
             foreach (Itemstack item in SInventory.GetItems())
             {
                 if (item.Material == Game.Scripts.Items.Material.None)

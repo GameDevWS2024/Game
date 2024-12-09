@@ -7,7 +7,7 @@ public class Location(int x, int y)
     public int X = x;
     public int Y = y;
 
-    public Location(Vector2 vec) : this((int) vec.X, (int) vec.Y)
+    public Location(Vector2 vec) : this((int)vec.X, (int)vec.Y)
     {
     }
 

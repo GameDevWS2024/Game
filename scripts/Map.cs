@@ -32,14 +32,14 @@ public partial class Map : Node2D
         _core = GetNode<Game.Scripts.Core>("%Core");
         _player = GetNode<Player>("%Player");
         s_items = new List<MapItem>();
-        
+
         // fill item list:
         Material[] materials = (Material[])Enum.GetValues(typeof(Material));
         Random random = new Random();
 
-        for(int i = 0; i < _startItemCount; i++)
+        for (int i = 0; i < _startItemCount; i++)
         {
-            Material randomMaterial = materials[random.Next(materials.Length-1)+1];
+            Material randomMaterial = materials[random.Next(materials.Length - 1) + 1];
             int randomX = random.Next(-2000, 2001);
             int randomY = random.Next(-2000, 2001);
             while (randomX is < 700 and > -700)
@@ -150,9 +150,9 @@ public partial class Map : Node2D
     {
         List<Location> locations = new List<Location>();
 
-        for(int i = 0; i < s_items.Count; i++)
+        for (int i = 0; i < s_items.Count; i++)
         {
-            if(s_items[i].Item.Material == material)
+            if (s_items[i].Item.Material == material)
             {
                 locations.Add(s_items[i].Location);
             }
@@ -160,7 +160,7 @@ public partial class Map : Node2D
 
         return locations;
     }
-    
+
     public static List<Location> GetAllItemLocations()
     {
         List<Location> locations = new List<Location>();
@@ -177,7 +177,7 @@ public partial class Map : Node2D
     {
         return GetAllItemLocations().OrderBy(itemLoc => itemLoc.DistanceTo(loc)).FirstOrDefault();
     }
-    
+
     public Location? GetNearestMaterialLocation(Location loc, Material mat)
     {
         return GetAllMaterialLocations(mat).OrderBy(itemLoc => itemLoc.DistanceTo(loc)).FirstOrDefault();
@@ -187,8 +187,8 @@ public partial class Map : Node2D
     {
         float nearest = float.MaxValue;
         int index = -1;
-        
-        for(int i = 0; i < s_items.Count; i++)
+
+        for (int i = 0; i < s_items.Count; i++)
         {
             float distance = loc.DistanceTo(s_items[i].Location);
             if (distance > nearest) { continue; }
@@ -197,7 +197,7 @@ public partial class Map : Node2D
         }
 
         if (index < 0) { return new Itemstack(Game.Scripts.Items.Material.None); }
-        
+
         Itemstack item = s_items[index].Item;
         s_items.RemoveAt(index);
         return item;

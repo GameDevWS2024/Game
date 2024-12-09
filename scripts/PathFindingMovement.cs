@@ -23,7 +23,7 @@ public partial class PathFindingMovement : Node
         _currentTargetDistance = _minTargetDistance;
         this.CallDeferred("ActorSetup");
     }
-    
+
     public bool HasreachedTarget()
     {
         return _reachedTarget;
@@ -40,7 +40,7 @@ public partial class PathFindingMovement : Node
 
     public void GoTo(Vector2 loc)
     {
-        
+
         _agent.SetTargetPosition(loc);
         TargetPosition = loc;
     }

@@ -1,7 +1,7 @@
 using System;
 using System.Text.RegularExpressions;
 
-using Game.scripts;
+using Game.Scripts;
 using Game.Scripts;
 using Game.Scripts.Items;
 

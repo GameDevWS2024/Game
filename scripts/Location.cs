@@ -1,6 +1,6 @@
 using Godot;
 
-namespace Game.scripts;
+namespace Game.Scripts;
 
 public class Location(int x, int y)
 {

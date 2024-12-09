@@ -1,4 +1,4 @@
-using Game.scripts;
+using Game.Scripts;
 
 namespace Game.Scripts.Items;
 public class MapItem{

@@ -29,6 +29,10 @@ public partial class PathFindingMovement : Node
         return _reachedTarget;
     }
 
+    public bool HasReachedTarget()
+    {
+        return _reachedTarget;
+    }
     public async void ActorSetup()
     {
         await ToSignal(GetTree(), "physics_frame");

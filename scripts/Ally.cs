@@ -31,14 +31,15 @@ public partial class Ally : CharacterBody2D
 
     public AllyState CurrentState { get; private set; } = AllyState.SmallCircle;
 
-    private Core _core = null!;
+    private Game.Scripts.Core _core = null!;
 
     public override void _Ready()
     {
         Health = GetNode<Health>("Health");
         _chat.ResponseReceived += HandleResponse;
         _player = GetNode<Player>("%Player");
-        _core = GetNode<Core>("%Core");
+
+        _core = GetNode<Game.Scripts.Core>("%Core");
         //GD.Print($"Path to Chat: {_chat.GetPath()}");
         //GD.Print($"Path to ResponseField: {_responseField.GetPath()}");
         //GD.Print($"Path to PathFindingMovement: {_pathFindingMovement.GetPath()}");
@@ -133,7 +134,7 @@ public partial class Ally : CharacterBody2D
         Regex regex = new Regex(pattern);
         Match match = regex.Match(response);
 
-        if (match.Success && match.Groups.Count > 1)
+        if (match is { Success: true, Groups.Count: > 1 })
         {
             try
             {

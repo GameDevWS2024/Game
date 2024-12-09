@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://dfkwq6qwtxw25"]
+[gd_scene load_steps=20 format=3 uid="uid://dfkwq6qwtxw25"]
 
 [ext_resource type="PackedScene" uid="uid://clfnjh8aelj66" path="res://scenes/prefabs/Player.tscn" id="1_7owxc"]
 [ext_resource type="Texture2D" uid="uid://dweeg6vbxai1c" path="res://scenes/levels/bg.png" id="1_afw7h"]
@@ -13,6 +13,8 @@
 [ext_resource type="PackedScene" uid="uid://bgxxp0o5kdpkq" path="res://scenes/prefabs/Enemy.tscn" id="10_tv6x7"]
 [ext_resource type="Script" path="res://scripts/Core.cs" id="11_wagl7"]
 [ext_resource type="PackedScene" uid="uid://dktm5pdu27ai2" path="res://scenes/prefabs/Ally2.tscn" id="13_668w2"]
+[ext_resource type="Script" path="res://scripts/Items/Inventory.cs" id="13_fh71d"]
+[ext_resource type="Script" path="res://scenes/levels/IntroText.cs" id="14_trtui"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_8cl4m"]
 shader = ExtResource("1_kbklw")
@@ -114,9 +116,6 @@ position = Vector2(236, 173)
 [node name="Ally" parent="." instance=ExtResource("6_l8h37")]
 position = Vector2(-122, 123)
 
-[node name="Enemy" parent="." instance=ExtResource("10_tv6x7")]
-position = Vector2(95, 467)
-
 [node name="EnemyManager" type="Node2D" parent="."]
 script = ExtResource("1_bmkfv")
 EnemyScene = ExtResource("10_tv6x7")
@@ -135,5 +134,32 @@ shadow_filter = 2
 shadow_filter_smooth = 2.3
 texture_scale = 20.0
 
+[node name="CoreInventory" type="Node" parent="Core"]
+unique_name_in_owner = true
+script = ExtResource("13_fh71d")
+
 [node name="Ally2" parent="." instance=ExtResource("13_668w2")]
 position = Vector2(602, 378)
+
+[node name="IntroText" type="CanvasLayer" parent="."]
+script = ExtResource("14_trtui")
+
+[node name="Panel" type="Panel" parent="IntroText"]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Label" type="Label" parent="IntroText/Panel"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+text = "\"Stay in the light! Say 'Harvest' to tell your ally to get some resources\""
+
+[node name="Close" type="Button" parent="IntroText/Panel"]
+process_mode = 2
+z_index = 20
+layout_mode = 0
+offset_right = 8.0
+offset_bottom = 8.0
+text = "Continue"
+
+[connection signal="pressed" from="IntroText/Panel/Close" to="IntroText" method="OnClosePressed"]

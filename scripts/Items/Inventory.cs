@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 using Godot;
 namespace Game.Scripts.Items;
@@ -21,7 +22,6 @@ public partial class Inventory : Node
         {
             Items[i] = new Itemstack(Material.None);
         }
-        //AddItem(new Itemstack(Material.Copper));
         Print();
     }
     public override string ToString()
@@ -64,6 +64,19 @@ public partial class Inventory : Node
             if (Items[i].Material == Material.None) { return true; }
             if (Items[i].Material == mat && Items[i].Amount < 64) { return true; }
         }
+        return false;
+    }
+
+    public bool HasSpace()
+    {
+        foreach (Itemstack item in Items)
+        {
+            if (item.Material == Material.None)
+            {
+                return true;
+            }
+        }
+
         return false;
     }
 
@@ -170,5 +183,16 @@ public partial class Inventory : Node
         return totalCount;
     }
 
+    public void Clear()
+    {
+        for (int i = 0; i < Size; i++)
+        {
+            Items[i] = new Itemstack(Material.None);
+        }
+    }
 
+    public Itemstack[] GetItems()
+    {
+        return Items;
+    }
 }

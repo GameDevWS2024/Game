@@ -6,6 +6,10 @@ namespace Game.Scripts;
 
 public partial class Core : Node2D
 {
+
+    public const int PIXELSCALE = 1000;
+    public int MaterialCount;
+    private static PointLight2D? s_coreLight;
     public const int Pixelscale = 1000;
     [Export] public float LightRadiusSmallerCircle { get; private set; } = 1000;
     [Export] public float LightRadiusBiggerCircle { get; private set; } = 1500;
@@ -17,9 +21,10 @@ public partial class Core : Node2D
         Inventory.AddItem(new Itemstack(Game.Scripts.Items.Material.Stone));
 
         // Get scale of PointLight2D
-        PointLight2D coreLight = GetNode<PointLight2D>("%CoreLight");
-        this.Scale = coreLight.Scale;
-        this.Position = coreLight.Position;
+        s_coreLight = GetNode<PointLight2D>("%CoreLight");
+        this.Scale = s_coreLight.Scale;
+        this.Position = s_coreLight.Position;
+        MaterialCount = 0;
     }
 
     private void SetCorePosition(Vector2 position)
@@ -39,5 +44,10 @@ public partial class Core : Node2D
     public override void _Draw()
     {
         DrawLightRadius();
+    }
+
+    public void IncreaseScale()
+    {
+        s_coreLight!.Scale *= 1.1f;
     }
 }

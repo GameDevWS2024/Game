@@ -21,10 +21,10 @@ public partial class Ally : CharacterBody2D
     [Export] RichTextLabel _responseField = null!;
     [Export] PathFindingMovement _pathFindingMovement = null!;
     [Export] private Label _nameLabel = null!;
-    private bool _followPlayer = true;
+    public bool _followPlayer = true;
     private bool _busy;
     private int _motivation;
-    private Player _player = null!;
+    public Player _player = null!;
 
     //Enum with states for ally in darkness, in bigger or smaller circle for map damage system
     public enum AllyState

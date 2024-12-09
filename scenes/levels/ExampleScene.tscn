@@ -14,7 +14,7 @@
 [ext_resource type="Script" path="res://scripts/Core.cs" id="11_wagl7"]
 [ext_resource type="PackedScene" uid="uid://dktm5pdu27ai2" path="res://scenes/prefabs/Ally2.tscn" id="13_668w2"]
 [ext_resource type="Script" path="res://scripts/Items/Inventory.cs" id="13_fh71d"]
-[ext_resource type="Script" path="res://scenes/levels/IntroText.cs" id="14_trtui"]
+[ext_resource type="Script" path="res://scripts/IntroText.cs" id="15_tnae2"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_8cl4m"]
 shader = ExtResource("1_kbklw")
@@ -142,7 +142,7 @@ script = ExtResource("13_fh71d")
 position = Vector2(602, 378)
 
 [node name="IntroText" type="CanvasLayer" parent="."]
-script = ExtResource("14_trtui")
+script = ExtResource("15_tnae2")
 
 [node name="Panel" type="Panel" parent="IntroText"]
 offset_right = 40.0

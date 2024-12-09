@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dxky0biigeadu"
-path="res://.godot/imported/workerally.png-1ca37800ec69c56e2e67948d65907c5f.ctex"
+uid="uid://ds35c4ylle7qd"
+path="res://.godot/imported/workerAlly.png-9373cb2f5441dea49116fa702746f8ab.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/workerally.png"
-dest_files=["res://.godot/imported/workerally.png-1ca37800ec69c56e2e67948d65907c5f.ctex"]
+source_file="res://assets/workerAlly.png"
+dest_files=["res://.godot/imported/workerAlly.png-9373cb2f5441dea49116fa702746f8ab.ctex"]
 
 [params]
 

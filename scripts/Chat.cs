@@ -11,24 +11,31 @@ namespace Game.Scripts
     {
         [Signal] public delegate void ResponseReceivedEventHandler(string response);
 
-        [Export(PropertyHint.File, "*.txt")]
+        [Export(PropertyHint.File, "ally_system_prompt.txt")]
         private string? _systemPromptFile;
+        [Export(PropertyHint.File, "introduction_ally_system_prompt.txt")]
+        private string? _introductionSystemPromptFile;
 
         private string _systemPrompt = "";
+        private string _introductionSystemPrompt = "";
         private GeminiService? _geminiService;
         private readonly string _apiKeyPath = ProjectSettings.GlobalizePath("res://api_key.secret");
         private const string ChatPlaceholder = "Type here to chat";
         private const string EnterApiPlaceholder = "Enter API key";
+        private int _responseCount;
 
         public override void _Ready()
         {
+            _responseCount = 0;
             TextSubmitted += OnTextSubmitted;
 
             string systemPromptAbsolutePath = ProjectSettings.GlobalizePath(_systemPromptFile);
-
+            string introductionSystemPromptAbsolutePath = ProjectSettings.GlobalizePath(_introductionSystemPromptFile);
+            
             try
             {
                 _systemPrompt = File.ReadAllText(systemPromptAbsolutePath);
+                _introductionSystemPrompt = File.ReadAllText(introductionSystemPromptAbsolutePath);
             }
             catch (Exception ex)
             {
@@ -41,11 +48,19 @@ namespace Game.Scripts
 
         public void SetSystemPrompt(string conversationHistory)
         {
-            // Combine conversation history and the original system prompt
-            string updatedPrompt = $"Instructions:\n{_systemPrompt}\n You remember: {conversationHistory}\n---------";
-
-            _systemPrompt = updatedPrompt; // Update the current system prompt
-
+            string updatedPrompt = "";
+            if (_responseCount <= 3)
+            {
+                GD.Print("responding initially");
+                updatedPrompt = $"Instructions:\n{_introductionSystemPrompt}\n You remember: {conversationHistory}\n---------";
+            }
+            else
+            {
+				GD.Print("responding normally");
+      			// Combine conversation history and the original system prompt
+                updatedPrompt = $"Instructions:\n{_systemPrompt}\n You remember: {conversationHistory}\n---------";
+            }
+			//  _systemPrompt = updatedPrompt; // Update the current system prompt
             // Update the GeminiService instance
             _geminiService?.SetSystemPrompt(updatedPrompt);
         }
@@ -53,7 +68,6 @@ namespace Game.Scripts
 
         private void InitializeGeminiService()
         {
-
             try
             {
                 _geminiService = new GeminiService(_apiKeyPath);
@@ -120,6 +134,8 @@ namespace Game.Scripts
 
         private async void OnTextSubmitted(string input)
         {
+            _responseCount++;
+			GD.Print("increasing responseCount to " + _responseCount);
             GD.Print($"Submitted text: {input}");
 
             if (_geminiService != null)

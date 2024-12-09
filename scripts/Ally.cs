@@ -131,6 +131,7 @@ public partial class Ally : CharacterBody2D
         }
 
         _responseField.ParseBbcode(richtext);
+        _chat.SetSystemPrompt(rememberText);
 
         // Update interaction history
         await UpdateInteractionHistoryAsync(rememberText, richtext);
@@ -151,53 +152,6 @@ public partial class Ally : CharacterBody2D
         if (response.Contains("HARVEST") && !_busy)
         {
             GD.Print("harvesting");
-            if (Map.Items.Count > 0)
-            {
-                Location? nearestLocation = Map.GetNearestItemLocation(new Location(GlobalPosition));
-                if (nearestLocation == null) { return; }
-
-                _busy = true; // Change busy state
-
-                //Go to nearest item
-                _pathFindingMovement.TargetPosition = nearestLocation.ToVector2();
-                while (!_pathFindingMovement.HasreachedTarget())
-                {
-                    // Do nothing while walking
-                }
-
-                // extract the nearest item and add to inventory (pickup)
-                Inventory inv = GetNode<Inventory>("Inventory");
-                if (inv.HasSpace()) // if inventory has space
-                {
-                    Itemstack item = Map.ExtractNearestItemAtLocation(new Location(GlobalPosition));
-                    inv.AddItem(item); // add item to inventory
-                } // if inventory has no space don't harvest it
-
-                // Go back to core
-                _pathFindingMovement.TargetPosition = _core.GlobalPosition;
-                while (!_pathFindingMovement.HasreachedTarget())
-                {
-                    // Do nothing while walking
-                }
-
-                // Empty inventory into the core
-
-                foreach (Itemstack item in inv.GetItems())
-                {
-                    Core.MaterialCount += item.Amount;
-                    Core.IncreaseScale();
-                }
-                inv.Clear();
-
-                // Go back to player
-                _pathFindingMovement.TargetPosition = _player.GlobalPosition;
-                while (!_pathFindingMovement.HasreachedTarget())
-                {
-                    // Do nothing while walking
-                }
-                _busy = false; // Change busy state
-
-            }
         }
     }
     private async Task UpdateInteractionHistoryAsync(string rememberText, string richtext)

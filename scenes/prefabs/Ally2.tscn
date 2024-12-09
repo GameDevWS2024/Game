@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://dktm5pdu27ai2"]
+[gd_scene load_steps=12 format=3 uid="uid://dktm5pdu27ai2"]
 
 [ext_resource type="Script" path="res://scripts/CombatAlly.cs" id="1_qr8gm"]
 [ext_resource type="Script" path="res://scripts/Chat.cs" id="2_clxco"]
@@ -8,13 +8,16 @@
 [ext_resource type="Script" path="res://scripts/Health.cs" id="5_4y1be"]
 [ext_resource type="Script" path="res://scripts/HealthBar.cs" id="6_uaxdm"]
 [ext_resource type="Script" path="res://scripts/Removeable.cs" id="7_0bkir"]
+[ext_resource type="Script" path="res://scripts/Motivation.cs" id="9_n6cqs"]
+[ext_resource type="Script" path="res://scripts/MotivationBar.cs" id="10_71s0n"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_rn1pq"]
 radius = 35.0
 height = 120.0
 
-[node name="Ally2" type="CharacterBody2D" node_paths=PackedStringArray("_chat", "_responseField", "_pathFindingMovement", "_nameLabel") groups=["Entities"]]
+[node name="Ally2" type="CharacterBody2D" node_paths=PackedStringArray("_pathFindingMovement", "_chat", "_responseField", "_pathFindingMovement", "_nameLabel") groups=["Entities"]]
 script = ExtResource("1_qr8gm")
+_pathFindingMovement = NodePath("PathFindingMovement")
 _chat = NodePath("Chat")
 _responseField = NodePath("ResponseField")
 _pathFindingMovement = NodePath("PathFindingMovement")
@@ -26,7 +29,8 @@ offset_top = -251.0
 offset_right = 419.0
 offset_bottom = -73.0
 script = ExtResource("2_clxco")
-_systemPromptFile = "res://assets/prompts/ally2_prompt.txt"
+_systemPromptFile = "res://assets/prompts/ally_system_prompt.txt"
+_introductionSystemPromptFile = "res://assets/prompts/introduction_ally_system_prompt.txt"
 metadata/_edit_use_anchors_ = true
 
 [node name="ResponseField" type="RichTextLabel" parent="."]
@@ -82,5 +86,22 @@ text = "Tom"
 
 [node name="Inventory" type="Node" parent="."]
 script = ExtResource("2_wmq71")
+
+[node name="Motivation" type="Node" parent="."]
+script = ExtResource("9_n6cqs")
+
+[node name="MotivationBar" type="ProgressBar" parent="." node_paths=PackedStringArray("_motivation")]
+modulate = Color(0.278431, 1, 1, 1)
+self_modulate = Color(0.334914, 0.732575, 1, 1)
+offset_left = -33.0
+offset_top = -81.0
+offset_right = 39.0
+offset_bottom = -54.0
+max_value = 10.0
+value = 10.0
+rounded = true
+fill_mode = 3
+script = ExtResource("10_71s0n")
+_motivation = NodePath("../Motivation")
 
 [connection signal="Death" from="Health" to="Removable" method="Remove"]

@@ -10,19 +10,20 @@ public partial class Player : CharacterBody2D
     [Export] private float _acceleration = 1200.0f; // How quickly we reach max speed
     [Export] private float _deceleration = 800.0f; // How quickly we slow down
     [Export] Sprite2D? _playerSprite;
-
-    // Store the current velocity as a class field to maintain it between frames
-    private Vector2 _currentVelocity = Vector2.Zero;
-    private Core _core = null!;
-    private Player _player = null!;
     public Health Health = null!;
+    private Core _core = null!;
     public AllyState CurrentState { get; private set; } = AllyState.SmallCircle;
+
     public enum AllyState
     {
         Darkness,
         SmallCircle,
         BigCircle
     }
+
+    // Store the current velocity as a class field to maintain it between frames
+    private Vector2 _currentVelocity = Vector2.Zero;
+    private Player _player = null!;
 
     /*   // Player cant move if this is uncommented
 	public Player(PlayerStats stats)
@@ -32,8 +33,10 @@ public partial class Player : CharacterBody2D
 	*/
 
     // Stats and Player initialization
+
     public override void _Ready()
     {
+        AddToGroup("Entities");
         Health = GetNode<Health>("Health");
         _player = GetNode<Player>("%Player");
         _core = GetNode<Game.Scripts.Core>("%Core");
@@ -54,6 +57,7 @@ public partial class Player : CharacterBody2D
         GD.Print($"Speed: {Stats.Speed}");
         GD.Print($"Mana: {Stats.Mana}");
     }
+
 
     public override void _PhysicsProcess(double delta)
     {

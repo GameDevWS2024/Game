@@ -1,27 +1,36 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 using Game.Scripts;
-using Game.Scripts;
+using System.Threading.Tasks;
+
+
 using Game.Scripts.Items;
 
 using Godot;
 
 public partial class Ally : CharacterBody2D
 {
+    private readonly List<string> _interactionHistory = [];
+    [Export] private int _maxHistory = 5; // Number of interactions to keep
+
     public Health Health = null!;
+    public Motivation Motivation = null!;
+
     [Export] Chat _chat = null!;
     [Export] RichTextLabel _responseField = null!;
     [Export] PathFindingMovement _pathFindingMovement = null!;
     [Export] private Label _nameLabel = null!;
-    private bool _followPlayer = true;
+    public bool _followPlayer = true;
     private bool _busy;
     private bool _reached;
     private bool _harvest;
     private bool _returning;
     private int _motivation;
+    public Player _player = null!;
     private readonly static Inventory SInventory = new Inventory(36);
-    private Player _player = null!;
 
     //Enum with states for ally in darkness, in bigger or smaller circle for map damage system
     public enum AllyState
@@ -37,14 +46,13 @@ public partial class Ally : CharacterBody2D
 
     public override void _Ready()
     {
+        base._Ready();
+        Motivation = GetNode<Motivation>("Motivation");
         Health = GetNode<Health>("Health");
-        _chat.ResponseReceived += HandleResponse;
         _player = GetNode<Player>("%Player");
 
         _core = GetNode<Game.Scripts.Core>("%Core");
-        //GD.Print($"Path to Chat: {_chat.GetPath()}");
-        //GD.Print($"Path to ResponseField: {_responseField.GetPath()}");
-        //GD.Print($"Path to PathFindingMovement: {_pathFindingMovement.GetPath()}");
+        _chat.ResponseReceived += HandleResponse;
     }
 
     public void SetAllyInDarkness()
@@ -125,28 +133,59 @@ public partial class Ally : CharacterBody2D
         }
     }
 
-    private void HandleResponse(string response)
+    private async void HandleResponse(string response)
     {
+        response = response.Replace("\"", ""); // Teile den String in ein Array anhand von '\n'
 
-        _responseField.Text = response;
+        string[] lines = response.Split('\n').Where(line => line.Length > 0).ToArray();
+        List<(string, string)> matches = [];
 
-        GD.Print($"Response: {response}");
-
-        string pattern = @"MOTIVATION:\s*(\d+)";
-        Regex regex = new Regex(pattern);
-        Match match = regex.Match(response);
-
-        if (match is { Success: true, Groups.Count: > 1 })
+        // Add commands to be extracted here
+        List<String> ops = ["MOTIVATION", "THOUGHT", "RESPONSE", "REMEMBER"];
+        foreach (string line in lines)
         {
-            try
+            foreach (string op in ops)
             {
-                _motivation = int.Parse(match.Groups[1].Value);
-            }
-            catch (Exception ex)
-            {
-                GD.Print(ex);
+                string pattern = op + @":\s*(.*)"; // anstatt .* \d+ für zahlen
+                Regex regex = new Regex(pattern);
+                Match match = regex.Match(line);
+                if (match is { Success: true, Groups.Count: > 1 })
+                {
+                    matches.Add((op, match.Groups[1].Value));
+                }
+
             }
         }
+
+        string richtext = "", rememberText = "";
+        foreach ((string op, string content) in matches)
+        {
+            if (op == "REMEMBER")
+            {
+                rememberText = content;
+            }
+            else
+            {
+                richtext += op switch
+                {
+                    "THOUGHT" => "[i]" + content + "[/i]\n",
+                    "RESPONSE" or "COMMAND" => "[b]" + content + "[/b]\n",
+                    _ => content + "\n"
+                };
+                if (op == "MOTIVATION")
+                {
+                    GD.Print("set motivation to:" + content.ToInt());
+                    Motivation.SetMotivation(content.ToInt());
+                }
+            }
+        }
+
+        _responseField.ParseBbcode(richtext);
+        _chat.SetSystemPrompt(rememberText);
+
+        // Update interaction history
+        await UpdateInteractionHistoryAsync(rememberText, richtext);
+
 
         if (response.Contains("FOLLOW"))
         {
@@ -169,11 +208,52 @@ public partial class Ally : CharacterBody2D
                 _busy = true; // Change busy state
             }
         }
+    }
+    private async Task UpdateInteractionHistoryAsync(string rememberText, string richtext)
+    {
+        GD.Print(_interactionHistory.Count + " memory units full");
+        string histAsString = "";
+        foreach (string hist in _interactionHistory)
+        {
+            histAsString += hist;
+        }
+        // Check if history exceeds the maximum size
+        if (_interactionHistory.Count > _maxHistory)
+        {
+            GD.Print("summarizing:");
+            // Summarize the whole conversation history
+            string summary = await SummarizeConversationAsync(histAsString);
+            //  GD.Print("***"+summary+"***");
 
-        GD.Print($"Motivation: {_motivation}");
+            // Replace history with the summary
+            _interactionHistory.Clear();
+            _interactionHistory.Add(summary);
+        }
+        // string currentSummary = await SummarizeConversationAsync(newInteraction); 
+        _interactionHistory.Add(rememberText); //currentSummary
+        histAsString = "";
+        foreach (string hist in _interactionHistory)
+        {
+            histAsString += hist;
+            GD.Print(hist + "#");
+        }
+        _chat.SetSystemPrompt(histAsString);
+        _responseField.ParseBbcode(richtext + "\n" + rememberText);
     }
 
-    private void Harvest()
+    private async Task<string> SummarizeConversationAsync(string conversation)
+    {
+        {
+            string? summary = await _chat.SummarizeConversation(conversation);
+            return summary ?? "Summary unavailable.";
+        }
+    }
+
+    public string GetConversationHistory()
+    {
+        return string.Join("\n", _interactionHistory);
+    }
+        private void Harvest()
     {
         if (!_returning)
         {

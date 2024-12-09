@@ -11,7 +11,6 @@ using Godot;
 using MapItem = Game.Scripts.Items.MapItem;
 using Material = Game.Scripts.Items.Material;
 
-
 public partial class Map : Node2D
 {
     [Export] private int _smallCircleHeal = 30;
@@ -31,7 +30,7 @@ public partial class Map : Node2D
         _map = this;
         _core = GetNode<Game.Scripts.Core>("%Core");
         _player = GetNode<Player>("%Player");
-        s_items = new List<MapItem>();
+        s_items = [];
 
         // fill item list:
         Material[] materials = (Material[])Enum.GetValues(typeof(Material));
@@ -128,6 +127,7 @@ public partial class Map : Node2D
 
 
     }
+
 
     public override void _PhysicsProcess(double delta)
     {

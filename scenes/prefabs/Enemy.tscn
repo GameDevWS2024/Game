@@ -36,21 +36,21 @@ _sprite = NodePath("../Sprite2D")
 avoidance_enabled = true
 debug_enabled = true
 
+[node name="Health" type="Node" parent="."]
+script = ExtResource("5_q8j80")
+MaxHealth = 50.0
+Amount = 50.0
+
 [node name="ProgressBar" type="ProgressBar" parent="." node_paths=PackedStringArray("_health")]
 self_modulate = Color(1.26103e-05, 0.840319, 1.15514e-06, 1)
 offset_left = -32.0
 offset_top = -111.0
 offset_right = 40.0
 offset_bottom = -84.0
-max_value = 50.0
 value = 50.0
+show_percentage = false
 script = ExtResource("4_je6np")
 _health = NodePath("../Health")
-
-[node name="Health" type="Node" parent="."]
-script = ExtResource("5_q8j80")
-MaxHealth = 50.0
-Amount = 50.0
 
 [node name="Removable" type="Node" parent="."]
 script = ExtResource("6_as3e2")

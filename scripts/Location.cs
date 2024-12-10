@@ -9,6 +9,8 @@ public class Location(int x, int y)
 
     public Location(Vector2 vec) : this((int)vec.X, (int)vec.Y)
     {
+        X = (int)vec.X;
+        Y = (int)vec.Y;
     }
 
     public float DistanceTo(Location other)

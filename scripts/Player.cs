@@ -61,85 +61,104 @@ public partial class Player : CharacterBody2D
 
     public override void _PhysicsProcess(double delta)
     {
-        Vector2 inputDirection = Vector2.Zero;
-        float deltaFloat = (float)delta;
-
-        // Get input direction
-        if (Input.IsActionPressed("ui_up"))
         {
-            inputDirection.Y -= 1;
-        }
+            Vector2 inputDirection = Vector2.Zero;
+            float deltaFloat = (float)delta;
 
-        if (Input.IsActionPressed("ui_down"))
-        {
-            inputDirection.Y += 1;
-        }
-
-        if (Input.IsActionPressed("ui_left"))
-        {
-            inputDirection.X -= 1;
-            if (_playerSprite!.IsFlippedH())
+            // Get input direction
+            if (Input.IsActionPressed("ui_up"))
             {
-                _playerSprite.SetFlipH(false);
+                if (CheckIfWouldBeInCircle(new Vector2(0, -1)))
+                {
+                    inputDirection.Y -= 1;    
+                }
             }
-        }
 
-        if (Input.IsActionPressed("ui_right"))
-        {
-            inputDirection.X += 1;
-            if (!_playerSprite!.IsFlippedH())
+            if (Input.IsActionPressed("ui_down"))
             {
-                _playerSprite.SetFlipH(true);
+                if (CheckIfWouldBeInCircle(new Vector2(0, 1)))
+                {
+                    inputDirection.Y += 1;    
+                }
             }
-        }
 
-        // Normalize input direction to prevent faster diagonal movement
-        inputDirection = inputDirection.Normalized();
+            if (Input.IsActionPressed("ui_left"))
+            {
+                if (CheckIfWouldBeInCircle(new Vector2(-1, 0)))
+                {
+                    inputDirection.X -= 1;    
+                }
+                if (_playerSprite!.IsFlippedH())
+                {
+                    _playerSprite.SetFlipH(false);
+                }
+            }
 
-        // Handle acceleration and deceleration
-        if (inputDirection != Vector2.Zero)
-        {
-            // Accelerate when there's input
-            _currentVelocity = _currentVelocity.MoveToward(
-                inputDirection * _maxSpeed,
-                _acceleration * deltaFloat
-            );
-        }
-        else
-        {
-            // Decelerate when there's no input
-            _currentVelocity = _currentVelocity.MoveToward(
-                Vector2.Zero,
-                _deceleration * deltaFloat
-            );
-        }
+            if (Input.IsActionPressed("ui_right"))
+            {
+                if (CheckIfWouldBeInCircle(new Vector2(1, 0)))
+                {
+                    inputDirection.X += 1;    
+                }
+                if (!_playerSprite!.IsFlippedH())
+                {
+                    _playerSprite.SetFlipH(true);
+                }
+            }
 
-        // Update the velocity and move
-        Velocity = _currentVelocity;
-        MoveAndSlide();
-        SetAllyInDarkness();
+            // Normalize input direction to prevent faster diagonal movement
+            inputDirection = inputDirection.Normalized();
+
+            // Handle acceleration and deceleration
+            if (inputDirection != Vector2.Zero)
+            {
+                // Accelerate when there's input
+                _currentVelocity = _currentVelocity.MoveToward(
+                    inputDirection * _maxSpeed,
+                    _acceleration * deltaFloat
+                );
+            }
+            else
+            {
+                // Decelerate when there's no input
+                _currentVelocity = _currentVelocity.MoveToward(
+                    Vector2.Zero,
+                    _deceleration * deltaFloat
+                );
+            }
+
+            // Update the velocity and move
+            Velocity = _currentVelocity;
+            MoveAndSlide();
+            SetAllyInDarkness();
+        }
     }
-    public void SetAllyInDarkness()
+
+    public bool CheckIfWouldBeInCircle(Vector2 position)
     {
-        // Berechne den Abstand zwischen Ally und Core
-        Vector2 distance = this.Position - _core.Position;
-        float distanceLength = distance.Length();  // Berechne die Länge des Vektors
-
-        // If ally further away than big circle, he is in the darkness
-        if (distanceLength > _core.LightRadiusBiggerCircle)
-        {
-            CurrentState = AllyState.Darkness;
-        }
-        //if ally not in darkness and closer than the small Light Radius, he is in small circle
-        else if (distanceLength < _core.LightRadiusSmallerCircle)
-        {
-            CurrentState = AllyState.SmallCircle;
-        }
-        //if ally not in darkness and not in small circle, ally is in big circle
-        else
-        {
-            CurrentState = AllyState.BigCircle;
-        }
-
+        return ((GlobalPosition + position).DistanceTo(_core.GlobalPosition) < _core.LightRadiusBiggerCircle || (GlobalPosition + position).DistanceTo(_core.GlobalPosition) < GlobalPosition.DistanceTo(_core.GlobalPosition));
     }
+
+    public void SetAllyInDarkness()
+        {
+            // Berechne den Abstand zwischen Ally und Core
+            Vector2 distance = this.Position - _core.Position;
+            float distanceLength = distance.Length(); // Berechne die Länge des Vektors
+
+            // If ally further away than big circle, he is in the darkness
+            if (distanceLength > _core.LightRadiusBiggerCircle)
+            {
+                CurrentState = AllyState.Darkness;
+            }
+            //if ally not in darkness and closer than the small Light Radius, he is in small circle
+            else if (distanceLength < _core.LightRadiusSmallerCircle)
+            {
+                CurrentState = AllyState.SmallCircle;
+            }
+            //if ally not in darkness and not in small circle, ally is in big circle
+            else
+            {
+                CurrentState = AllyState.BigCircle;
+            }
+        }
 }

@@ -14,7 +14,7 @@
 [ext_resource type="Script" path="res://scripts/Core.cs" id="11_wagl7"]
 [ext_resource type="PackedScene" uid="uid://dktm5pdu27ai2" path="res://scenes/prefabs/Ally2.tscn" id="13_668w2"]
 [ext_resource type="Script" path="res://scripts/Items/Inventory.cs" id="13_fh71d"]
-[ext_resource type="Script" path="res://scenes/levels/IntroText.cs" id="14_trtui"]
+[ext_resource type="Script" path="res://scripts/IntroText.cs" id="15_tnae2"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_8cl4m"]
 shader = ExtResource("1_kbklw")
@@ -35,6 +35,7 @@ agent_radius = 150.0
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource("1_pa1ge")
+_darknessCircleDamage = 5
 
 [node name="TextureRect" type="TextureRect" parent="."]
 material = SubResource("ShaderMaterial_8cl4m")
@@ -56,7 +57,7 @@ occluder_light_mask = 3
 [node name="Player" parent="." instance=ExtResource("1_7owxc")]
 unique_name_in_owner = true
 material = SubResource("ShaderMaterial_hnti7")
-position = Vector2(473, 357)
+position = Vector2(100, 100)
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
 light_mask = 2
@@ -139,10 +140,10 @@ unique_name_in_owner = true
 script = ExtResource("13_fh71d")
 
 [node name="Ally2" parent="." instance=ExtResource("13_668w2")]
-position = Vector2(602, 378)
+position = Vector2(-4000, 378)
 
 [node name="IntroText" type="CanvasLayer" parent="."]
-script = ExtResource("14_trtui")
+script = ExtResource("15_tnae2")
 
 [node name="Panel" type="Panel" parent="IntroText"]
 offset_right = 40.0

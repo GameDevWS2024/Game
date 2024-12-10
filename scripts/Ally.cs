@@ -2,13 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-
 using Game.Scripts;
 using System.Threading.Tasks;
-
-
 using Game.Scripts.Items;
-
 using Godot;
 
 public partial class Ally : CharacterBody2D
@@ -29,7 +25,7 @@ public partial class Ally : CharacterBody2D
     private bool _harvest;
     private bool _returning;
     private int _motivation;
-    public Player _player = null!;
+    protected Player _player = null!;
     private readonly static Inventory SInventory = new Inventory(36);
 
     //Enum with states for ally in darkness, in bigger or smaller circle for map damage system
@@ -42,7 +38,7 @@ public partial class Ally : CharacterBody2D
 
     public AllyState CurrentState { get; private set; } = AllyState.SmallCircle;
 
-    private Game.Scripts.Core _core = null!;
+    private Core _core = null!;
 
     public override void _Ready()
     {
@@ -50,8 +46,7 @@ public partial class Ally : CharacterBody2D
         Motivation = GetNode<Motivation>("Motivation");
         Health = GetNode<Health>("Health");
         _player = GetNode<Player>("%Player");
-
-        _core = GetNode<Game.Scripts.Core>("%Core");
+        _core = GetNode<Core>("%Core");
         _chat.ResponseReceived += HandleResponse;
     }
 
@@ -83,7 +78,6 @@ public partial class Ally : CharacterBody2D
     {
         //Check where ally is (darkness, bigger, smaller)
         SetAllyInDarkness();
-
         UpdateTarget();
 
         if (GlobalPosition.DistanceTo(_pathFindingMovement.TargetPosition) < 300)

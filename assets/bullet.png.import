@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ds35c4ylle7qd"
-path="res://.godot/imported/workerally.png-1ca37800ec69c56e2e67948d65907c5f.ctex"
+uid="uid://bubi5cbmgqnik"
+path="res://.godot/imported/bullet.png-c68d06721d4ad8b0013707b0a51654af.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/workerally.png"
-dest_files=["res://.godot/imported/workerally.png-1ca37800ec69c56e2e67948d65907c5f.ctex"]
+source_file="res://assets/bullet.png"
+dest_files=["res://.godot/imported/bullet.png-c68d06721d4ad8b0013707b0a51654af.ctex"]
 
 [params]
 

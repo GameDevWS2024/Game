@@ -1,4 +1,5 @@
 ﻿using Godot;
+namespace Game.Scripts;
 
 public partial class IntroText : CanvasLayer
 {

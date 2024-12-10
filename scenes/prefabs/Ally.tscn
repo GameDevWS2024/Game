@@ -7,7 +7,7 @@
 [ext_resource type="Script" path="res://scripts/MotivationBar.cs" id="5_atghy"]
 [ext_resource type="Script" path="res://scripts/Health.cs" id="5_moxt6"]
 [ext_resource type="Script" path="res://scripts/HealthBar.cs" id="6_1idkv"]
-[ext_resource type="Texture2D" uid="uid://dxky0biigeadu" path="res://assets/workerally.png" id="6_s207o"]
+[ext_resource type="Texture2D" uid="uid://ds35c4ylle7qd" path="res://assets/workerAlly.png" id="6_s207o"]
 [ext_resource type="Script" path="res://scripts/Removeable.cs" id="7_g7cdr"]
 [ext_resource type="Script" path="res://scripts/Items/Inventory.cs" id="8_uovgu"]
 

@@ -1,5 +1,4 @@
 [gd_scene load_steps=20 format=3 uid="uid://dfkwq6qwtxw25"]
-[gd_scene load_steps=20 format=3 uid="uid://dfkwq6qwtxw25"]
 
 [ext_resource type="PackedScene" uid="uid://clfnjh8aelj66" path="res://scenes/prefabs/Player.tscn" id="1_7owxc"]
 [ext_resource type="Texture2D" uid="uid://dweeg6vbxai1c" path="res://scenes/levels/bg.png" id="1_afw7h"]
@@ -15,7 +14,7 @@
 [ext_resource type="Script" path="res://scripts/Core.cs" id="11_wagl7"]
 [ext_resource type="PackedScene" uid="uid://dktm5pdu27ai2" path="res://scenes/prefabs/Ally2.tscn" id="13_668w2"]
 [ext_resource type="Script" path="res://scripts/Items/Inventory.cs" id="13_fh71d"]
-[ext_resource type="Script" path="res://scripts/IntroText.cs" id="15_tnae2"]
+[ext_resource type="Script" path="res://scenes/levels/IntroText.cs" id="14_trtui"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_8cl4m"]
 shader = ExtResource("1_kbklw")
@@ -139,15 +138,11 @@ texture_scale = 20.0
 unique_name_in_owner = true
 script = ExtResource("13_fh71d")
 
-[node name="CoreInventory" type="Node" parent="Core"]
-unique_name_in_owner = true
-script = ExtResource("13_fh71d")
-
 [node name="Ally2" parent="." instance=ExtResource("13_668w2")]
 position = Vector2(602, 378)
 
 [node name="IntroText" type="CanvasLayer" parent="."]
-script = ExtResource("15_tnae2")
+script = ExtResource("14_trtui")
 
 [node name="Panel" type="Panel" parent="IntroText"]
 offset_right = 40.0

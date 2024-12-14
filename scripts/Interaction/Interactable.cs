@@ -1,5 +1,6 @@
 using Godot;
 
+[GlobalClass]
 public partial class Interactable : Node2D
 {
     public const string GroupName = "Interactable";

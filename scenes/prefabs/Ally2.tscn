@@ -1,13 +1,12 @@
-[gd_scene load_steps=10 format=3 uid="uid://dktm5pdu27ai2"]
+[gd_scene load_steps=9 format=3 uid="uid://dktm5pdu27ai2"]
 
 [ext_resource type="Script" path="res://scripts/CombatAlly.cs" id="1_qr8gm"]
 [ext_resource type="Script" path="res://scripts/Chat.cs" id="2_clxco"]
-[ext_resource type="Script" path="res://scripts/Items/Inventory.cs" id="2_wmq71"]
-[ext_resource type="Texture2D" uid="uid://gba1pbl4wpx0" path="res://assets/commander.png" id="3_vkanv"]
+[ext_resource type="Texture2D" uid="uid://gba1pbl4wpx0" path="res://assets/sprites/commander.png" id="3_vkanv"]
 [ext_resource type="Script" path="res://scripts/PathFindingMovement.cs" id="4_ufidg"]
-[ext_resource type="Script" path="res://scripts/Health.cs" id="5_4y1be"]
-[ext_resource type="Script" path="res://scripts/HealthBar.cs" id="6_uaxdm"]
-[ext_resource type="Script" path="res://scripts/Removeable.cs" id="7_0bkir"]
+[ext_resource type="Script" path="res://scripts/Health/Health.cs" id="5_4y1be"]
+[ext_resource type="Script" path="res://scripts/Health/HealthBar.cs" id="6_uaxdm"]
+[ext_resource type="Script" path="res://scripts/Interaction/Removeable.cs" id="7_lilal"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_rn1pq"]
 radius = 35.0
@@ -71,7 +70,8 @@ _health = NodePath("../Health")
 metadata/_edit_use_anchors_ = true
 
 [node name="Removable" type="Node" parent="."]
-script = ExtResource("7_0bkir")
+script = ExtResource("7_lilal")
+ListenToInteract = false
 
 [node name="Label" type="Label" parent="."]
 offset_left = -21.0
@@ -79,8 +79,5 @@ offset_top = -145.0
 offset_right = 19.0
 offset_bottom = -122.0
 text = "Tom"
-
-[node name="Inventory" type="Node" parent="."]
-script = ExtResource("2_wmq71")
 
 [connection signal="Death" from="Health" to="Removable" method="Remove"]

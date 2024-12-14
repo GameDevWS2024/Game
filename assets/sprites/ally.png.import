@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://cmhtqgk8qwwvg"
-path="res://.godot/imported/ally.png-06e2c6efe193ce21aab785acd74913a3.ctex"
+path="res://.godot/imported/ally.png-a6c4c947875fe2d90e5e4f3baa007ebd.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/ally.png"
-dest_files=["res://.godot/imported/ally.png-06e2c6efe193ce21aab785acd74913a3.ctex"]
+source_file="res://assets/sprites/ally.png"
+dest_files=["res://.godot/imported/ally.png-a6c4c947875fe2d90e5e4f3baa007ebd.ctex"]
 
 [params]
 

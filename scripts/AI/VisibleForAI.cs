@@ -2,6 +2,7 @@ using Godot;
 
 using System;
 
+[GlobalClass]
 public partial class VisibleForAI : Node2D
 {
   public const string GroupName = "AiVisible";

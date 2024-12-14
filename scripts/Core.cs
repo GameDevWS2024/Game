@@ -1,4 +1,4 @@
-using Game.Scripts.Items;
+using System.Text.RegularExpressions;
 
 using Godot;
 
@@ -6,15 +6,15 @@ namespace Game.Scripts;
 
 public partial class Core : Node2D
 {
+    public const string GroupName = "Core";
     public const int Pixelscale = 1000;
     [Export] public float LightRadiusSmallerCircle { get; private set; } = 1000;
     [Export] public float LightRadiusBiggerCircle { get; private set; } = 1500;
-    public Inventory? Inventory;
+    [Export] public Inventory Inventory = new Inventory();
 
     public override void _Ready()
     {
-        Inventory = new Inventory(34);
-        Inventory.AddItem(new Itemstack(Game.Scripts.Items.Material.Stone));
+        AddToGroup(GroupName);
 
         // Get scale of PointLight2D
         PointLight2D coreLight = GetNode<PointLight2D>("%CoreLight");

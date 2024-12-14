@@ -1,174 +1,65 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 using Godot;
-namespace Game.Scripts.Items;
 
-[GodotClassName("Inventory")]
-public partial class Inventory : Node
+public partial class Inventory : Resource
 {
-    public int Size { get; }
-    private Itemstack?[] Items { get; set; }
+    [Signal] public delegate void ChangedEventHandler();
+    private readonly Dictionary<Item, int> _items = [];
+    public IReadOnlyDictionary<Item, int> Items => _items;
 
-    private Inventory? _inventory;
-
-
-
-    public Inventory(int size)
+    public void AddItem(Item item, int amount = 1)
     {
-        Size = size;
-        Items = new Itemstack?[size];
-        for (int i = 0; i < size; i++)
+        if (item is null || amount <= 0)
         {
-            Items[i] = new Itemstack(Material.None);
+            return;
         }
-        //AddItem(new Itemstack(Material.Copper));
-        Print();
-    }
-    public override string ToString()
-    {
-        string inv = "Inventory: [";
 
-        bool isEmpty = true;
-        for (int i = 0; i < Size; i++)
+        if (_items.ContainsKey(item))
         {
-            if (Items[i].Material != Material.None)
+            _items[item] += amount;
+        }
+        else
+        {
+            _items[item] = amount;
+        }
+
+        EmitSignal(SignalName.Changed);
+    }
+
+    public bool TryRemoveItem(Item item, int amount = 1)
+    {
+        if (item is null || amount <= 0)
+        {
+            return false;
+        }
+
+        if (_items.ContainsKey(item) && _items[item] >= amount)
+        {
+            _items[item] -= amount;
+
+            if (_items[item] == 0)
             {
-                isEmpty = false;
-                inv += Items[i].Material + " : " + Items[i].Amount + ", ";
+                _items.Remove(item);
             }
+
+            EmitSignal(SignalName.Changed);
+            return true;
         }
 
-        if (isEmpty)
-        {
-            inv += "Empty";
-        }
-        else if (inv.EndsWith(", "))
-        {
-            inv = inv.Remove(inv.Length - 2); // Remove trailing comma and space
-        }
-
-        inv += "]";
-        return inv;
-    }
-
-    public void Print()
-    {
-        GD.Print(ToString());
-    }
-
-    public bool FitItem(Itemstack stack)
-    {
-        Material mat = stack.Material;
-        for (int i = 0; i < Size; i++)
-        {
-            if (Items[i].Material == Material.None) { return true; }
-            if (Items[i].Material == mat && Items[i].Amount < 64) { return true; }
-        }
         return false;
     }
 
-    public void AddItem(Itemstack itemstack)
+    public int GetItemQuantity(Item item)
     {
-        if (itemstack.Amount == 0) { return; }
-
-        int none = -1;
-        for (int i = 0; i < Size; i++)
-        {
-
-            if (Items[i].Material == itemstack.Material && Items[i].Stackable && Items[i].Amount < 64)
-            {
-                int space = 64 - Items[i].Amount;
-                if (itemstack.Amount <= space)
-                {
-                    Items[i].Amount += itemstack.Amount;
-                    itemstack.Amount = 0;
-                }
-                else
-                {
-                    Items[i].Amount += space;
-                    itemstack.Amount -= space;
-                    AddItem(itemstack); // recursively fill the inventory until stack is empty or inventory is full.
-                }
-
-                return;
-            }
-
-            if (Items[i].Material == Material.None && none == -1)
-            {
-                none = i;
-            }
-        }
-        if (none != -1)
-        {
-            if (itemstack.Amount <= 64)
-            {
-                Items[none] = new Itemstack(itemstack.Material, itemstack.Amount, itemstack.Stackable);
-                itemstack.Amount = 0;
-            }
-            else
-            {
-                Items[none] = new Itemstack(itemstack.Material, 64, itemstack.Stackable);
-                itemstack.Amount -= 64;
-                AddItem(itemstack); // recursively fill the inventory until stack is empty or inventory is full.
-            }
-        }
+        return _items.GetValueOrDefault(item, 0);
     }
 
-    public void SetItem(Itemstack? itemstack, int i)
-    {
-        if (i < 0 || i >= Size)
-        {
-            throw new Exception("Given index is out of bounds for inventory size " + Size);
-        }
-
-        Items[i] = itemstack;
-    }
-
-    public Itemstack? ExtractItem(int i)
-    {
-        if (i < 0 || i >= Size)
-        {
-            GD.PrintErr($"Index {i} is out of bounds for inventory size {Size}");
-            return null;
-        }
-        Itemstack? rtrn = Items[i];
-        Items[i] = new Itemstack(Material.None);
-        return rtrn;
-    }
-
-    public void DeleteItem(int i)
-    {
-        if (i < 0 || i >= Size)
-        {
-            throw new Exception("Given index is out of bounds for inventory size " + Size);
-        }
-
-        Items[i] = new Itemstack(Material.None);
-    }
-
-    public void SwapItems(int i, int j)
-    {
-        if (i < 0 || i >= Size || j < 0 || j >= Size)
-        {
-            throw new Exception("Given index is out of bounds for inventory size " + Size);
-        }
-
-        (Items[i], Items[j]) = (Items[j], Items[i]);
-    }
     public int GetTotalItemCount()
     {
-        int totalCount = 0;
-        for (int i = 0; i < Size; i++)
-        {
-            if (Items[i]!.Material != Material.None)
-            {
-                totalCount += Items[i]!.Amount; // Add the number of items in each slot
-                                                // GD.Print(Items[i].Material);
-            }
-        }
-        //GD.Print(totalCount);
-        return totalCount;
+        return _items.Values.Sum();
     }
-
 
 }

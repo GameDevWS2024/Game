@@ -12,7 +12,17 @@ public partial class PathFindingMovement : Node
     [Export] NavigationAgent2D _agent = null!;
     [Export] Sprite2D _sprite = null!;
 
-    public Vector2 TargetPosition { get; set; }
+    private Vector2 _targetPostion;
+
+    public Vector2 TargetPosition
+    {
+        get => _targetPostion;
+        set
+        {
+            _targetPostion = value;
+            _reachedTarget = false;
+        }
+    }
 
     private bool _reachedTarget;
     private int _currentTargetDistance;

@@ -23,8 +23,7 @@ shape = SubResource("CircleShape2D_30yar")
 [node name="LightOccluder2D" type="LightOccluder2D" parent="."]
 occluder = SubResource("OccluderPolygon2D_mu4h4")
 
-[node name="Node2D" type="Node2D" parent="."]
+[node name="VisibleForAI" type="Node2D" parent="."]
 position = Vector2(0, 450)
 script = ExtResource("2_byfw5")
 NameForAi = "Tree"
-DescribtionForAi = "A tree, like all the others"

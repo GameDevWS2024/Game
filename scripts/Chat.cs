@@ -82,7 +82,7 @@ namespace Game.Scripts
 
             string completeInput = $"Currently Visible:\n\n{visibleItemsFormatted}\n\nPlayer: {input}";
 
-            GD.Print($"Input: {completeInput}");
+            GD.Print($"-------------------------\nInput:\n{completeInput}");
 
             if (_geminiService != null)
             {
@@ -90,6 +90,7 @@ namespace Game.Scripts
                 if (response != null)
                 {
                     EmitSignal(SignalName.ResponseReceived, response);
+                    GD.Print($"----------------\nResponse:\n{response}");
                 }
 
                 else

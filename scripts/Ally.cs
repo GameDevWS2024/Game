@@ -15,9 +15,11 @@ public partial class Ally : CharacterBody2D
     [Export] PathFindingMovement _pathFindingMovement = null!;
     [Export] private Label _nameLabel = null!;
     [Export] private int _visionRadius = 100;
+    [Export] private int _interactionRadius = 100;
     private bool _followPlayer = false;
     private int _motivation;
     private Player _player = null!;
+    private bool _interactOnArrival = false;
 
     [Export] public VisibleForAI[] AllwaysVisible = [];
 
@@ -31,26 +33,46 @@ public partial class Ally : CharacterBody2D
 
     public AllyState CurrentState { get; private set; } = AllyState.SmallCircle;
 
-    private Game.Scripts.Core _core = null!;
+    private Core _core = null!;
 
     public override void _Ready()
     {
         Health = GetNode<Health>("Health");
-        _chat.ResponseReceived += HandleResponse;
         _player = GetNode<Player>("%Player");
+        _core = GetNode<Core>("%Core");
 
-        _core = GetNode<Game.Scripts.Core>("%Core");
         _pathFindingMovement.TargetPosition = GlobalPosition;
-        //GD.Print($"Path to Chat: {_chat.GetPath()}");
-        //GD.Print($"Path to ResponseField: {_responseField.GetPath()}");
-        //GD.Print($"Path to PathFindingMovement: {_pathFindingMovement.GetPath()}");
+
+        _pathFindingMovement.ReachedTarget += HandleTargetReached;
+        _chat.ResponseReceived += HandleResponse;
+    }
+
+    public override void _PhysicsProcess(double delta)
+    {
+        SetAllyInDarkness();
+    }
+
+    private void HandleTargetReached()
+    {
+        if (_interactOnArrival)
+        {
+            Interactable? interactable = GetCurrentlyInteractables().FirstOrDefault();
+            interactable?.Trigger(this);
+            _interactOnArrival = false;
+
+            GD.Print("Interacted");
+        }
     }
 
     public List<VisibleForAI> GetCurrentlyVisible()
     {
         IEnumerable<VisibleForAI> visibleForAiNodes = GetTree().GetNodesInGroup(VisibleForAI.GroupName).OfType<VisibleForAI>();
-        GD.Print(GlobalPosition.DistanceTo(visibleForAiNodes.ToList()[0].GlobalPosition) <= _visionRadius);
         return visibleForAiNodes.Where(node => GlobalPosition.DistanceTo(node.GlobalPosition) <= _visionRadius).ToList();
+    }
+    public List<Interactable> GetCurrentlyInteractables()
+    {
+        IEnumerable<Interactable> interactable = GetTree().GetNodesInGroup(Interactable.GroupName).OfType<Interactable>();
+        return interactable.Where(node => GlobalPosition.DistanceTo(node.GlobalPosition) <= _interactionRadius).ToList();
     }
 
     public void SetAllyInDarkness()
@@ -77,23 +99,9 @@ public partial class Ally : CharacterBody2D
 
     }
 
-    public override void _PhysicsProcess(double delta)
-    {
-        //Check where ally is (darkness, bigger, smaller)
-        SetAllyInDarkness();
-
-        if (_followPlayer)
-        {
-            _pathFindingMovement.TargetPosition = _player.GlobalPosition;
-        }
-    }
-
     private void HandleResponse(string response)
     {
-
         _responseField.Text = response;
-
-        GD.Print($"Response: {response}");
 
         string pattern = @"MOTIVATION:\s*(\d+)";
         Regex regex = new Regex(pattern);
@@ -123,16 +131,9 @@ public partial class Ally : CharacterBody2D
             _pathFindingMovement.TargetPosition = new Vector2(x, y);
         }
 
-        if (response.Contains("FOLLOW"))
+        if (response.Contains("INTERACT"))
         {
-            GD.Print("following");
-            _followPlayer = true;
-        }
-
-        if (response.Contains("STOP"))
-        {
-            GD.Print("stop");
-            _followPlayer = false;
+            _interactOnArrival = true;
         }
 
         GD.Print($"Motivation: {_motivation}");

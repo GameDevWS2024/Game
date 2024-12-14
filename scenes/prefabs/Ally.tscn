@@ -18,7 +18,7 @@ script = ExtResource("1_anjrv")
 _chat = NodePath("Chat")
 _responseField = NodePath("ResponseField")
 _pathFindingMovement = NodePath("PathFindingMovement")
-_nameLabel = NodePath("Label")
+_nameLabel = NodePath("NameTag")
 
 [node name="Chat" type="LineEdit" parent="."]
 z_index = 1000
@@ -51,7 +51,6 @@ shape = SubResource("CapsuleShape2D_rn1pq")
 
 [node name="PathFindingMovement" type="Node" parent="." node_paths=PackedStringArray("_character", "_agent", "_sprite")]
 script = ExtResource("4_v650j")
-_minTargetDistance = 250
 _targetDistanceVariation = 30
 _character = NodePath("..")
 _agent = NodePath("../NavigationAgent2D")
@@ -74,7 +73,7 @@ _health = NodePath("../Health")
 [node name="Removable" type="Node" parent="."]
 script = ExtResource("7_g7cdr")
 
-[node name="Label" type="Label" parent="."]
+[node name="NameTag" type="Label" parent="."]
 offset_left = -21.0
 offset_top = -145.0
 offset_right = 19.0

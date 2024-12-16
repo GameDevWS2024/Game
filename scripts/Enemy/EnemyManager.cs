@@ -77,12 +77,8 @@ public partial class EnemyManager : Node2D
     private void CheckIfSpawn()
     {
         Node2D coreNode = GetTree().Root.GetNode<Node2D>("Node2D/Core");
-        Inventory? inventory = (coreNode as Core)?.Inventory;
-        if (inventory!.GetTotalItemCount() < 1) // Löst Null pointer Exception aus
-        {
-            _isSpawn = false;
-            return;
-        }
+        Core? core = GetTree().GetNodesInGroup(Core.GroupName).OfType<Core>().FirstOrDefault();
+
         _isSpawn = true;
 
     }

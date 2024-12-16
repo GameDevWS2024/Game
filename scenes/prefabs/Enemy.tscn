@@ -5,7 +5,7 @@
 [ext_resource type="Script" path="res://scripts/PathFindingMovement.cs" id="3_wks6h"]
 [ext_resource type="Script" path="res://scripts/Health/HealthBar.cs" id="4_je6np"]
 [ext_resource type="Script" path="res://scripts/Health/Health.cs" id="5_q8j80"]
-[ext_resource type="Script" path="res://scripts/Interaction/Removeable.cs" id="6_gl5ph"]
+[ext_resource type="Script" path="res://scripts/Interaction/Listener/Removeable.cs" id="6_gl5ph"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_vgu86"]
 radius = 40.0
@@ -52,5 +52,6 @@ script = ExtResource("5_q8j80")
 MaxHealth = 50.0
 Amount = 50.0
 
-[node name="Removable" type="Node" parent="."]
+[node name="Removeable" type="Node" parent="."]
 script = ExtResource("6_gl5ph")
+ListenToInteracted = false

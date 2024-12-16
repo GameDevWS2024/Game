@@ -7,8 +7,9 @@ public partial class VisibleForAI : Node2D
 {
   public const string GroupName = "AiVisible";
   [Export] public string NameForAi = "";
-  [Export]
-  public string DescribtionForAi = "";
+  [Export] public string DescribtionForAi = "";
+
+  [Export] public int VisionRadius = 500;
 
   public override void _Ready()
   {
@@ -17,6 +18,6 @@ public partial class VisibleForAI : Node2D
 
   public override string ToString()
   {
-    return $"{NameForAi}:{DescribtionForAi} at ({GlobalPosition.X.ToString("F0")}, {GlobalPosition.Y.ToString("F0")})";
+    return $"{NameForAi} at ({GlobalPosition.X.ToString("F0")}, {GlobalPosition.Y.ToString("F0")}) | {DescribtionForAi}";
   }
 }

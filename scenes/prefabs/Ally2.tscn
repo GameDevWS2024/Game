@@ -6,7 +6,7 @@
 [ext_resource type="Script" path="res://scripts/PathFindingMovement.cs" id="4_ufidg"]
 [ext_resource type="Script" path="res://scripts/Health/Health.cs" id="5_4y1be"]
 [ext_resource type="Script" path="res://scripts/Health/HealthBar.cs" id="6_uaxdm"]
-[ext_resource type="Script" path="res://scripts/Interaction/Removeable.cs" id="7_lilal"]
+[ext_resource type="Script" path="res://scripts/Interaction/Listener/Removeable.cs" id="7_lilal"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_rn1pq"]
 radius = 35.0
@@ -71,7 +71,7 @@ metadata/_edit_use_anchors_ = true
 
 [node name="Removable" type="Node" parent="."]
 script = ExtResource("7_lilal")
-ListenToInteract = false
+ListenToInteracted = false
 
 [node name="Label" type="Label" parent="."]
 offset_left = -21.0

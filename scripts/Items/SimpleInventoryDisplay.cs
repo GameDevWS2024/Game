@@ -12,7 +12,6 @@ public partial class SimpleInventoryDisplay : RichTextLabel
 	public override void _Ready()
 	{
 		_inventory = GetParent<Core>().Inventory;
-		GD.Print("arrrgg", _inventory == null);
 		if (_inventory != null)
 		{
 			_inventory.Changed += UpdateDisplay;
@@ -21,13 +20,13 @@ public partial class SimpleInventoryDisplay : RichTextLabel
 
 	private void UpdateDisplay()
 	{
-		GD.Print("hello from inve");
 		if (_inventory is null)
 		{
 			return;
 		}
 
 		Text = string.Join("\n", _inventory.Items.Select(item => $"{item.Key.Name}: {item.Value}"));
+		GD.Print(Text);
 	}
 
 }

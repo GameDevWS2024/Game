@@ -14,7 +14,6 @@ public partial class Ally : CharacterBody2D
     [Export] RichTextLabel _responseField = null!;
     [Export] PathFindingMovement _pathFindingMovement = null!;
     [Export] private Label _nameLabel = null!;
-    [Export] private int _visionRadius = 100;
     [Export] private int _interactionRadius = 100;
     private bool _followPlayer = false;
     private int _motivation;
@@ -57,7 +56,7 @@ public partial class Ally : CharacterBody2D
         if (_interactOnArrival)
         {
             Interactable? interactable = GetCurrentlyInteractables().FirstOrDefault();
-            interactable?.Trigger(this);
+            interactable?.Interact(this);
             _interactOnArrival = false;
 
             GD.Print("Interacted");
@@ -67,7 +66,7 @@ public partial class Ally : CharacterBody2D
     public List<VisibleForAI> GetCurrentlyVisible()
     {
         IEnumerable<VisibleForAI> visibleForAiNodes = GetTree().GetNodesInGroup(VisibleForAI.GroupName).OfType<VisibleForAI>();
-        return visibleForAiNodes.Where(node => GlobalPosition.DistanceTo(node.GlobalPosition) <= _visionRadius).ToList();
+        return visibleForAiNodes.Where(node => GlobalPosition.DistanceTo(node.GlobalPosition) <= node.VisionRadius).ToList();
     }
     public List<Interactable> GetCurrentlyInteractables()
     {
@@ -134,6 +133,8 @@ public partial class Ally : CharacterBody2D
         if (response.Contains("INTERACT"))
         {
             _interactOnArrival = true;
+            // setting the target positon again, because sometimes the ai only outputs interact and then we want it to arrive again and then interact
+            _pathFindingMovement.TargetPosition = _pathFindingMovement.TargetPosition;
         }
 
         GD.Print($"Motivation: {_motivation}");

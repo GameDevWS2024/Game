@@ -3,9 +3,9 @@
 [ext_resource type="Texture2D" uid="uid://4wumowwpchd5" path="res://assets/obstacles/tree.png" id="1_w7w6a"]
 [ext_resource type="Script" path="res://scripts/AI/VisibleForAI.cs" id="2_byfw5"]
 [ext_resource type="Script" path="res://scripts/Interaction/Interactable.cs" id="3_ixq73"]
-[ext_resource type="Script" path="res://scripts/Interaction/ItemAdder.cs" id="4_ep2yv"]
+[ext_resource type="Script" path="res://scripts/Interaction/Listener/ItemAdder.cs" id="4_ep2yv"]
 [ext_resource type="Resource" uid="uid://5wtt1ufdn1i8" path="res://assets/resources/Items/Wood.tres" id="5_jxt26"]
-[ext_resource type="Script" path="res://scripts/Interaction/Removeable.cs" id="6_vcdji"]
+[ext_resource type="Script" path="res://scripts/Interaction/Listener/Removeable.cs" id="6_vcdji"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_30yar"]
 radius = 55.2268
@@ -28,17 +28,18 @@ shape = SubResource("CircleShape2D_30yar")
 occluder = SubResource("OccluderPolygon2D_mu4h4")
 
 [node name="VisibleForAI" type="Node2D" parent="."]
-position = Vector2(0, 450)
+position = Vector2(0, 500)
 script = ExtResource("2_byfw5")
 NameForAi = "Tree"
+VisionRadius = 1000
 
 [node name="Interactable" type="Node2D" parent="."]
+position = Vector2(0, 500)
 script = ExtResource("3_ixq73")
 
 [node name="ItemAdder" type="Node" parent="."]
 script = ExtResource("4_ep2yv")
 ItemToAdd = ExtResource("5_jxt26")
-Amount = 1
 
 [node name="Removeable" type="Node" parent="."]
 script = ExtResource("6_vcdji")

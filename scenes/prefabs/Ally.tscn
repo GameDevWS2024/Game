@@ -19,7 +19,7 @@ _responseField = NodePath("ResponseField")
 _pathFindingMovement = NodePath("PathFindingMovement")
 _nameLabel = NodePath("NameTag")
 _visionRadius = 500
-_interactionRadius = 500
+_interactionRadius = 300
 
 [node name="Chat" type="LineEdit" parent="."]
 z_index = 1000

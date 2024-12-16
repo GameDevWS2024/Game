@@ -727,8 +727,8 @@ position = Vector2(2831, 2682)
 
 [node name="Ally" parent="." node_paths=PackedStringArray("AllwaysVisible") instance=ExtResource("6_l8h37")]
 position = Vector2(542, 74)
-_visionRadius = 500
-_interactionRadius = 300
+_visionRadius = 10000
+_interactionRadius = 800
 AllwaysVisible = [NodePath("../Player/PlayerVisibleForAI")]
 
 [node name="EnemyManager" type="Node2D" parent="."]
@@ -746,12 +746,12 @@ LightRadiusBiggerCircle = 1e+06
 unique_name_in_owner = true
 visible = false
 color = Color(0.767814, 0.714527, 0.618239, 1)
-energy = 4.8
+energy = 1.48
 shadow_enabled = true
 shadow_color = Color(0.0643274, 0.0646954, 0.0657012, 0)
 shadow_filter = 2
 shadow_filter_smooth = 2.3
-texture_scale = 36.64
+texture_scale = 21.69
 
 [node name="InventoryDisplay" type="RichTextLabel" parent="Core"]
 offset_left = 612.0
@@ -840,6 +840,8 @@ ItemToAdd = ExtResource("22_4spry")
 Amount = 1
 
 [node name="Sign" type="Marker2D" parent="."]
+process_mode = 4
+visible = false
 position = Vector2(442, -71)
 gizmo_extents = 25.4
 script = ExtResource("6_7bcmx")
@@ -851,6 +853,10 @@ position = Vector2(697, -635)
 script = ExtResource("6_7bcmx")
 NameForAi = "Rune Holder"
 DescribtionForAi = "There is a Code needed"
+
+[node name="CanvasModulate" type="CanvasModulate" parent="."]
+visible = false
+color = Color(0, 0, 0, 1)
 
 [connection signal="Interact" from="Obstacles/GodotLogo/Interactable" to="Obstacles/GodotLogo/Removable" method="Remove"]
 [connection signal="pressed" from="IntroText/Panel/Close" to="IntroText" method="OnClosePressed"]

@@ -12,13 +12,12 @@
 radius = 35.0
 height = 120.0
 
-[node name="Ally" type="CharacterBody2D" node_paths=PackedStringArray("_chat", "_responseField", "_pathFindingMovement", "_nameLabel") groups=["Entities"]]
+[node name="Ally" type="CharacterBody2D" node_paths=PackedStringArray("_chat", "_responseField", "_pathFindingMovement") groups=["Entities"]]
 script = ExtResource("1_anjrv")
 _chat = NodePath("Chat")
 _responseField = NodePath("ResponseField")
 _pathFindingMovement = NodePath("PathFindingMovement")
-_nameLabel = NodePath("NameTag")
-_interactionRadius = 300
+_interactionRadius = 200
 
 [node name="Chat" type="LineEdit" parent="."]
 z_index = 1000
@@ -53,8 +52,9 @@ shape = SubResource("CapsuleShape2D_rn1pq")
 
 [node name="PathFindingMovement" type="Node" parent="." node_paths=PackedStringArray("_character", "_agent", "_sprite")]
 script = ExtResource("4_v650j")
-_minTargetDistance = 100
-_targetDistanceVariation = 30
+_minTargetDistance = 150
+_targetDistanceVariation = 0
+_debug = true
 _character = NodePath("..")
 _agent = NodePath("../NavigationAgent2D")
 _sprite = NodePath("../Sprite2D")

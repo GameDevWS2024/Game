@@ -18,6 +18,7 @@ _playerSprite = NodePath("Sprite2D")
 shape = SubResource("CapsuleShape2D_vgu86")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+y_sort_enabled = true
 scale = Vector2(0.23, 0.23)
 texture = ExtResource("2_otp6u")
 

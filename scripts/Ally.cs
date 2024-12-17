@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text.RegularExpressions;
 
 using Game.Scripts;
+using Game.Scripts;
+using Game.Scripts.Items;
 
 using Godot;
 
@@ -13,8 +15,7 @@ public partial class Ally : CharacterBody2D
     [Export] Chat _chat = null!;
     [Export] RichTextLabel _responseField = null!;
     [Export] PathFindingMovement _pathFindingMovement = null!;
-    [Export] private Label _nameLabel = null!;
-    [Export] private int _interactionRadius = 100;
+    [Export] private int _interactionRadius = 300;
     private bool _followPlayer = false;
     private int _motivation;
     private Player _player = null!;
@@ -139,4 +140,5 @@ public partial class Ally : CharacterBody2D
 
         GD.Print($"Motivation: {_motivation}");
     }
+
 }

@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-using Game.Scripts.Items;
 
 using Godot;
 
@@ -51,8 +50,6 @@ public partial class EnemyManager : Node2D
         {
             SpawnEnemy();
             _timeSinceLastSpawn = 0;
-            GD.Print($"{enemyCount} enemies on the scene");
-            GD.Print($"calculatedSpawnInterval: {spawnInterval}");
         }
     }
 
@@ -75,19 +72,13 @@ public partial class EnemyManager : Node2D
             Random.Shared.Next(-(int)viewportSize.Y, (int)viewportSize.Y)
         );
 
-
-        GD.Print("spawned new enemy at " + enemy.GlobalPosition.X + ", " + enemy.GlobalPosition.Y);
     }
 
     private void CheckIfSpawn()
     {
         Node2D coreNode = GetTree().Root.GetNode<Node2D>("Node2D/Core");
-        Inventory? inventory = (coreNode as Core)?.Inventory;
-        if (inventory!.GetTotalItemCount() < 1) // Löst Null pointer Exception aus
-        {
-            _isSpawn = false;
-            return;
-        }
+        Core? core = GetTree().GetNodesInGroup(Core.GroupName).OfType<Core>().FirstOrDefault();
+
         _isSpawn = true;
 
     }

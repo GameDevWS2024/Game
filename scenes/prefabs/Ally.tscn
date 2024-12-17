@@ -1,34 +1,35 @@
-[gd_scene load_steps=10 format=3 uid="uid://6gwtt7kwq2p"]
+[gd_scene load_steps=9 format=3 uid="uid://6gwtt7kwq2p"]
 
 [ext_resource type="Script" path="res://scripts/Ally.cs" id="1_anjrv"]
 [ext_resource type="Script" path="res://scripts/Chat.cs" id="2_k8ael"]
-[ext_resource type="Texture2D" uid="uid://ds35c4ylle7qd" path="res://assets/workerAlly.png" id="3_xbwev"]
+[ext_resource type="Texture2D" uid="uid://ds35c4ylle7qd" path="res://assets/sprites/workerAlly.png" id="3_xbwev"]
 [ext_resource type="Script" path="res://scripts/PathFindingMovement.cs" id="4_v650j"]
-[ext_resource type="Script" path="res://scripts/Health.cs" id="5_moxt6"]
-[ext_resource type="Script" path="res://scripts/HealthBar.cs" id="6_1idkv"]
-[ext_resource type="Script" path="res://scripts/Removeable.cs" id="7_g7cdr"]
-[ext_resource type="Script" path="res://scripts/Items/Inventory.cs" id="8_uovgu"]
+[ext_resource type="Script" path="res://scripts/Health/Health.cs" id="5_moxt6"]
+[ext_resource type="Script" path="res://scripts/Health/HealthBar.cs" id="6_1idkv"]
+[ext_resource type="Script" path="res://scripts/Interaction/Listener/Removeable.cs" id="7_pdi5n"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_rn1pq"]
 radius = 35.0
 height = 120.0
 
-[node name="Ally" type="CharacterBody2D" node_paths=PackedStringArray("_chat", "_responseField", "_pathFindingMovement", "_nameLabel") groups=["Entities"]]
+[node name="Ally" type="CharacterBody2D" node_paths=PackedStringArray("_chat", "_responseField", "_pathFindingMovement") groups=["Entities"]]
 script = ExtResource("1_anjrv")
 _chat = NodePath("Chat")
 _responseField = NodePath("ResponseField")
 _pathFindingMovement = NodePath("PathFindingMovement")
-_nameLabel = NodePath("Label")
+_interactionRadius = 200
 
 [node name="Chat" type="LineEdit" parent="."]
+z_index = 1000
 offset_left = 37.0
 offset_top = -251.0
 offset_right = 419.0
 offset_bottom = -73.0
 script = ExtResource("2_k8ael")
-_systemPromptFile = "res://assets/prompts/example_prompt.txt"
+_systemPromptFile = "res://assets/prompts/visonally.txt"
 
 [node name="ResponseField" type="RichTextLabel" parent="."]
+z_index = 1000
 offset_left = 47.0
 offset_top = -60.0
 offset_right = 479.0
@@ -37,6 +38,8 @@ fit_content = true
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 path_max_distance = 20.0
+navigation_layers = 129
+path_postprocessing = 1
 simplify_path = true
 debug_enabled = true
 
@@ -49,6 +52,9 @@ shape = SubResource("CapsuleShape2D_rn1pq")
 
 [node name="PathFindingMovement" type="Node" parent="." node_paths=PackedStringArray("_character", "_agent", "_sprite")]
 script = ExtResource("4_v650j")
+_minTargetDistance = 150
+_targetDistanceVariation = 0
+_debug = true
 _character = NodePath("..")
 _agent = NodePath("../NavigationAgent2D")
 _sprite = NodePath("../Sprite2D")
@@ -67,18 +73,13 @@ show_percentage = false
 script = ExtResource("6_1idkv")
 _health = NodePath("../Health")
 
-[node name="Removable" type="Node" parent="."]
-script = ExtResource("7_g7cdr")
-
-[node name="Label" type="Label" parent="."]
+[node name="NameTag" type="Label" parent="."]
 offset_left = -21.0
 offset_top = -145.0
 offset_right = 19.0
 offset_bottom = -122.0
 text = "James"
 
-[node name="Inventory" type="Node" parent="."]
-unique_name_in_owner = true
-script = ExtResource("8_uovgu")
-
-[connection signal="Death" from="Health" to="Removable" method="Remove"]
+[node name="Removeable" type="Node" parent="."]
+script = ExtResource("7_pdi5n")
+ListenToInteracted = false

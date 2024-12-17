@@ -1,10 +1,10 @@
 [gd_scene load_steps=7 format=3 uid="uid://clfnjh8aelj66"]
 
 [ext_resource type="Script" path="res://scripts/Player.cs" id="1_lbjty"]
-[ext_resource type="Texture2D" uid="uid://cmhtqgk8qwwvg" path="res://assets/ally.png" id="2_otp6u"]
-[ext_resource type="Script" path="res://scripts/Health.cs" id="3_f8s0r"]
-[ext_resource type="Script" path="res://scripts/HealthBar.cs" id="4_bw6ue"]
-[ext_resource type="Script" path="res://scripts/Removeable.cs" id="5_ftker"]
+[ext_resource type="Texture2D" uid="uid://cmhtqgk8qwwvg" path="res://assets/sprites/ally.png" id="2_otp6u"]
+[ext_resource type="Script" path="res://scripts/Health/Health.cs" id="3_f8s0r"]
+[ext_resource type="Script" path="res://scripts/Health/HealthBar.cs" id="4_bw6ue"]
+[ext_resource type="Script" path="res://scripts/Interaction/Listener/Removeable.cs" id="5_df3i8"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_vgu86"]
 radius = 40.0
@@ -18,6 +18,7 @@ _playerSprite = NodePath("Sprite2D")
 shape = SubResource("CapsuleShape2D_vgu86")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+y_sort_enabled = true
 scale = Vector2(0.23, 0.23)
 texture = ExtResource("2_otp6u")
 
@@ -44,8 +45,8 @@ offset_right = 112.0
 offset_bottom = -79.0
 text = "Heal"
 
-[node name="Removable" type="Node" parent="."]
-script = ExtResource("5_ftker")
+[node name="Removeable" type="Node" parent="."]
+script = ExtResource("5_df3i8")
+ListenToInteracted = false
 
-[connection signal="Death" from="Health" to="Removable" method="Remove"]
 [connection signal="pressed" from="Button" to="Health" method="Heal" binds= [10.0]]

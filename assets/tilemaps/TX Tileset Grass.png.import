@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ds35c4ylle7qd"
-path="res://.godot/imported/workerAlly.png-9373cb2f5441dea49116fa702746f8ab.ctex"
+uid="uid://dtw1kjrq4qor4"
+path="res://.godot/imported/TX Tileset Grass.png-ddb9403c876e0a917d2337f03544767d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/workerAlly.png"
-dest_files=["res://.godot/imported/workerAlly.png-9373cb2f5441dea49116fa702746f8ab.ctex"]
+source_file="res://assets/tilemaps/TX Tileset Grass.png"
+dest_files=["res://.godot/imported/TX Tileset Grass.png-ddb9403c876e0a917d2337f03544767d.ctex"]
 
 [params]
 

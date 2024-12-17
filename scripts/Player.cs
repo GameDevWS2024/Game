@@ -1,4 +1,3 @@
-using Game.Scripts.Items;
 
 using Godot;
 

@@ -14,11 +14,11 @@ scale = Vector2(0.4, 0.4)
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 z_index = 20
+position = Vector2(0, -25.165)
 scale = Vector2(0.2, 0.2)
 texture = ExtResource("1_3jspu")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(2.5, 22.5)
 rotation = 1.5708
 shape = SubResource("CapsuleShape2D_v57bo")
 

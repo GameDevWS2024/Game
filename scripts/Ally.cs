@@ -1,9 +1,9 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 using Game.Scripts;
-using Game.Scripts;
-using Game.Scripts.Items;
 
 using Godot;
 
@@ -13,15 +13,13 @@ public partial class Ally : CharacterBody2D
     [Export] Chat _chat = null!;
     [Export] RichTextLabel _responseField = null!;
     [Export] PathFindingMovement _pathFindingMovement = null!;
-    [Export] private Label _nameLabel = null!;
-    private bool _followPlayer = true;
-    private bool _busy;
-    private bool _reached;
-    private bool _harvest;
-    private bool _returning;
+    [Export] private int _interactionRadius = 300;
+    private bool _followPlayer = false;
     private int _motivation;
-    private readonly static Inventory SInventory = new Inventory(36);
     private Player _player = null!;
+    private bool _interactOnArrival = false;
+
+    [Export] public VisibleForAI[] AllwaysVisible = [];
 
     //Enum with states for ally in darkness, in bigger or smaller circle for map damage system
     public enum AllyState
@@ -33,18 +31,46 @@ public partial class Ally : CharacterBody2D
 
     public AllyState CurrentState { get; private set; } = AllyState.SmallCircle;
 
-    private Game.Scripts.Core _core = null!;
+    private Core _core = null!;
 
     public override void _Ready()
     {
         Health = GetNode<Health>("Health");
-        _chat.ResponseReceived += HandleResponse;
         _player = GetNode<Player>("%Player");
+        _core = GetNode<Core>("%Core");
 
-        _core = GetNode<Game.Scripts.Core>("%Core");
-        //GD.Print($"Path to Chat: {_chat.GetPath()}");
-        //GD.Print($"Path to ResponseField: {_responseField.GetPath()}");
-        //GD.Print($"Path to PathFindingMovement: {_pathFindingMovement.GetPath()}");
+        _pathFindingMovement.TargetPosition = GlobalPosition;
+
+        _pathFindingMovement.ReachedTarget += HandleTargetReached;
+        _chat.ResponseReceived += HandleResponse;
+    }
+
+    public override void _PhysicsProcess(double delta)
+    {
+        SetAllyInDarkness();
+    }
+
+    private void HandleTargetReached()
+    {
+        if (_interactOnArrival)
+        {
+            Interactable? interactable = GetCurrentlyInteractables().FirstOrDefault();
+            interactable?.Interact(this);
+            _interactOnArrival = false;
+
+            GD.Print("Interacted");
+        }
+    }
+
+    public List<VisibleForAI> GetCurrentlyVisible()
+    {
+        IEnumerable<VisibleForAI> visibleForAiNodes = GetTree().GetNodesInGroup(VisibleForAI.GroupName).OfType<VisibleForAI>();
+        return visibleForAiNodes.Where(node => GlobalPosition.DistanceTo(node.GlobalPosition) <= node.VisionRadius).ToList();
+    }
+    public List<Interactable> GetCurrentlyInteractables()
+    {
+        IEnumerable<Interactable> interactable = GetTree().GetNodesInGroup(Interactable.GroupName).OfType<Interactable>();
+        return interactable.Where(node => GlobalPosition.DistanceTo(node.GlobalPosition) <= _interactionRadius).ToList();
     }
 
     public void SetAllyInDarkness()
@@ -71,66 +97,9 @@ public partial class Ally : CharacterBody2D
 
     }
 
-    public override void _PhysicsProcess(double delta)
-    {
-        //Check where ally is (darkness, bigger, smaller)
-        SetAllyInDarkness();
-
-        UpdateTarget();
-
-        if (GlobalPosition.DistanceTo(_pathFindingMovement.TargetPosition) < 300)
-        {
-            _reached = true;
-        }
-        else
-        {
-            _reached = false;
-        }
-
-
-        if (_harvest && _reached) // Harvest logic
-        {
-            Harvest();
-        }
-    }
-
-    private void UpdateTarget()
-    {
-        if (_followPlayer && !_busy)
-        {
-            _pathFindingMovement.TargetPosition = _player.GlobalPosition;
-        }
-
-
-
-        if (_harvest)
-        {
-            if (_returning)
-            {
-                PointLight2D cl = _core.GetNode<PointLight2D>("CoreLight");
-                Vector2 targ = new Vector2(0, 500);  // cl.GlobalPosition;
-                // Target = core
-                _pathFindingMovement.TargetPosition = targ; //_core.GlobalPosition;
-                //GD.Print("Target position (should be CORE): " + _pathFindingMovement.TargetPosition.ToString());
-            }
-            else
-            {
-                Location nearestLocation = Map.GetNearestItemLocation(new Location(GlobalPosition))!;
-
-                //GD.Print("going to nearest loc("+nearestLocation.X +", "+nearestLocation.Y+") from "+ GlobalPosition.X + " " + GlobalPosition.Y);
-                //Target = nearest item
-                _pathFindingMovement.TargetPosition = nearestLocation.ToVector2();
-
-            }
-        }
-    }
-
     private void HandleResponse(string response)
     {
-
         _responseField.Text = response;
-
-        GD.Print($"Response: {response}");
 
         string pattern = @"MOTIVATION:\s*(\d+)";
         Regex regex = new Regex(pattern);
@@ -148,69 +117,26 @@ public partial class Ally : CharacterBody2D
             }
         }
 
-        if (response.Contains("FOLLOW"))
+        string goToPattern = @"GO TO:\s*(-?\d+)\s*,\s*(-?\d+)";
+
+        Match goToMatch = Regex.Match(response, goToPattern);
+
+        if (goToMatch.Success)
         {
-            GD.Print("following");
-            _followPlayer = true;
+            int x = int.Parse(goToMatch.Groups[1].Value);
+            int y = int.Parse(goToMatch.Groups[2].Value);
+
+            _pathFindingMovement.TargetPosition = new Vector2(x, y);
         }
 
-        if (response.Contains("STOP"))
+        if (response.Contains("INTERACT"))
         {
-            GD.Print("stop");
-            _followPlayer = false;
-        }
-
-        if (response.Contains("HARVEST") && !_busy)
-        {
-            GD.Print("harvesting");
-            if (Map.Items.Count > 0)
-            {
-                _harvest = true; // Change harvest state
-                _busy = true; // Change busy state
-            }
+            _interactOnArrival = true;
+            // setting the target positon again, because sometimes the ai only outputs interact and then we want it to arrive again and then interact
+            _pathFindingMovement.TargetPosition = _pathFindingMovement.TargetPosition;
         }
 
         GD.Print($"Motivation: {_motivation}");
     }
 
-    private void Harvest()
-    {
-        if (!_returning)
-        {
-            // extract the nearest item and add to inventory (pickup)
-            if (SInventory.HasSpace()) // if inventory has space
-            {
-                GD.Print("harvesting...");
-                Itemstack item = Map.ExtractNearestItemAtLocation(new Location(GlobalPosition));
-                GD.Print(item.Material + " amount: " + item.Amount);
-                SInventory.AddItem(item); // add item to inventory
-                SInventory.Print();
-            } // if inventory has no space don't harvest it
-            else
-            {
-                GD.Print("No space");
-            }
-
-            _returning = true;
-        }
-        else
-        {
-            // Empty inventory into the core
-
-            foreach (Itemstack item in SInventory.GetItems())
-            {
-                if (item.Material == Game.Scripts.Items.Material.None)
-                {
-                    continue;
-                }
-                _core.MaterialCount += item.Amount;
-                _core.IncreaseScale();
-                GD.Print("Increased scale");
-            }
-            SInventory.Clear();
-            _busy = false; // Change busy state  
-            _harvest = false; // Change harvest state
-            _returning = false; // Change returning state
-        }
-    }
 }

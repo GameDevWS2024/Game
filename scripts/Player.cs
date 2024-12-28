@@ -122,12 +122,12 @@ public partial class Player : CharacterBody2D
         float distanceLength = distance.Length();  // Berechne die Länge des Vektors
 
         // If ally further away than big circle, he is in the darkness
-        if (distanceLength > _core.LightRadiusBiggerCircle)
+        if (distanceLength > Core.LightRadiusBiggerCircle)
         {
             CurrentState = AllyState.Darkness;
         }
         //if ally not in darkness and closer than the small Light Radius, he is in small circle
-        else if (distanceLength < _core.LightRadiusSmallerCircle)
+        else if (distanceLength < Core.LightRadiusSmallerCircle)
         {
             CurrentState = AllyState.SmallCircle;
         }

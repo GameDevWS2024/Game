@@ -7,12 +7,11 @@ namespace Game.Scripts;
 public partial class Core : Node2D
 {
 
-    public const int PIXELSCALE = 1000;
-    public int MaterialCount;
+    public const int PIXELSCALE = 600;
+    public static int MaterialCount;
     private static PointLight2D? s_coreLight;
-    public const int Pixelscale = 1000;
-    [Export] public float LightRadiusSmallerCircle { get; private set; } = 1000;
-    [Export] public float LightRadiusBiggerCircle { get; private set; } = 1500;
+    public static float LightRadiusSmallerCircle { get; private set; }
+    public static float LightRadiusBiggerCircle { get; private set; }
     public Inventory? Inventory;
 
     public override void _Ready()
@@ -25,6 +24,8 @@ public partial class Core : Node2D
         this.Scale = s_coreLight.Scale;
         this.Position = s_coreLight.Position;
         MaterialCount = 0;
+        LightRadiusSmallerCircle = s_coreLight.Scale.X * PIXELSCALE;
+        LightRadiusBiggerCircle = s_coreLight.Scale.X * PIXELSCALE * 1.5f;
     }
 
     private void SetCorePosition(Vector2 position)
@@ -36,8 +37,8 @@ public partial class Core : Node2D
     private void DrawLightRadius()
     {
         Vector2 center = this.Position;
-        DrawArc(center, LightRadiusSmallerCircle, 0, Mathf.Tau, 64, Colors.Red, 4f);
-        DrawArc(center, LightRadiusBiggerCircle, 0, Mathf.Tau, 64, Colors.Blue, 4f);
+        DrawArc(center, Core.LightRadiusSmallerCircle, 0, Mathf.Tau, 64, Colors.Red, 4f);
+        DrawArc(center, Core.LightRadiusBiggerCircle, 0, Mathf.Tau, 64, Colors.Blue, 4f);
         // GD.Print("Drawing circle...");
     }
 
@@ -46,8 +47,11 @@ public partial class Core : Node2D
         DrawLightRadius();
     }
 
-    public void IncreaseScale()
+    public static void IncreaseScale()
     {
         s_coreLight!.Scale *= 1.1f;
+        LightRadiusSmallerCircle *= 1.1f;
+        LightRadiusBiggerCircle *= 1.1f;
     }
+
 }

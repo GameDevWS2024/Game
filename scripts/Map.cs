@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Game.Scripts;
-using Game.Scripts;
 using Game.Scripts.Items;
 
 using Godot;
@@ -134,6 +133,7 @@ public partial class Map : Node2D
         _timeElapsed += delta;
         DarknessDamage();
         _Draw();
+        _core.QueueRedraw();
     }
 
     public void AddItem(Itemstack item, int x, int y)

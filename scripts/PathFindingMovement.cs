@@ -12,6 +12,7 @@ public partial class PathFindingMovement : Node
     [Export] NavigationAgent2D _agent = null!;
     [Export] Sprite2D _sprite = null!;
 
+    public bool gotoCommand = false;
     public Vector2 TargetPosition { get; set; }
 
     private bool _reachedTarget;
@@ -29,10 +30,6 @@ public partial class PathFindingMovement : Node
         return _reachedTarget;
     }
 
-    public bool HasReachedTarget()
-    {
-        return _reachedTarget;
-    }
     public async void ActorSetup()
     {
         await ToSignal(GetTree(), "physics_frame");
@@ -40,7 +37,6 @@ public partial class PathFindingMovement : Node
 
     public void GoTo(Vector2 loc)
     {
-
         _agent.SetTargetPosition(loc);
         TargetPosition = loc;
     }
@@ -80,6 +76,12 @@ public partial class PathFindingMovement : Node
             _character.Velocity = newVel;
             _character.MoveAndSlide();
         }
+        else if (!_reachedTarget && gotoCommand)
+        {
+            _currentTargetDistance = 20;
+            EmitSignal(SignalName.ReachedTarget);
+            _reachedTarget = true;
+        }
         else if (!_reachedTarget)
         {
             _currentTargetDistance = GD.RandRange(_minTargetDistance - _targetDistanceVariation / 2,
@@ -87,7 +89,5 @@ public partial class PathFindingMovement : Node
             EmitSignal(SignalName.ReachedTarget);
             _reachedTarget = true;
         }
-
-
     }
 }

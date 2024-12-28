@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -11,11 +11,11 @@ using Godot.Collections;
 public partial class CombatAlly : CharacterBody2D
 {
     public Health Health = null!;
-    [Export] Chat _chat = null!;
+    [Export] public Chat _chat = null!;
     [Export] RichTextLabel _responseField = null!;
-    [Export] PathFindingMovement _pathFindingMovement = null!;
+    [Export] public PathFindingMovement _pathFindingMovement = null!;
     [Export] private Label _nameLabel = null!;
-    private bool _followPlayer = true;
+    public bool _followPlayer = true;
     private int _motivation;
     private Player _player = null!;
 
@@ -42,6 +42,7 @@ public partial class CombatAlly : CharacterBody2D
         _chat.ResponseReceived += HandleResponse;
         _player = GetNode<Player>("%Player");
         _core = GetNode<Game.Scripts.Core>("%Core");
+        _chat.Visible = false;
     }
 
     public void SetAllyInDarkness()
@@ -51,12 +52,12 @@ public partial class CombatAlly : CharacterBody2D
         float distanceLength = distance.Length(); // Get the length of the vector
 
         // If ally further away than big circle, he is in the darkness
-        if (distanceLength > _core.LightRadiusBiggerCircle)
+        if (distanceLength > Core.LightRadiusBiggerCircle)
         {
             CurrentState = AllyState.Darkness;
         }
         // If ally not in darkness and closer than the small Light Radius, he is in small circle
-        else if (distanceLength < _core.LightRadiusSmallerCircle)
+        else if (distanceLength < Core.LightRadiusSmallerCircle)
         {
             CurrentState = AllyState.SmallCircle;
         }
@@ -146,6 +147,7 @@ public partial class CombatAlly : CharacterBody2D
         {
             GD.Print("Following");
             _followPlayer = true;
+            _pathFindingMovement.gotoCommand = false;
         }
 
         if (response.Contains("STOP"))

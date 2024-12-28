@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://dfkwq6qwtxw25"]
+[gd_scene load_steps=21 format=3 uid="uid://dfkwq6qwtxw25"]
 
 [ext_resource type="PackedScene" uid="uid://clfnjh8aelj66" path="res://scenes/prefabs/Player.tscn" id="1_7owxc"]
 [ext_resource type="Texture2D" uid="uid://dweeg6vbxai1c" path="res://scenes/levels/bg.png" id="1_afw7h"]
@@ -15,6 +15,7 @@
 [ext_resource type="PackedScene" uid="uid://dktm5pdu27ai2" path="res://scenes/prefabs/Ally2.tscn" id="13_668w2"]
 [ext_resource type="Script" path="res://scripts/Items/Inventory.cs" id="13_fh71d"]
 [ext_resource type="Script" path="res://scenes/levels/IntroText.cs" id="14_trtui"]
+[ext_resource type="Script" path="res://scripts/MouseControl.cs" id="16_q5bk4"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_8cl4m"]
 shader = ExtResource("1_kbklw")
@@ -58,7 +59,8 @@ unique_name_in_owner = true
 material = SubResource("ShaderMaterial_hnti7")
 position = Vector2(473, 357)
 
-[node name="Camera2D" type="Camera2D" parent="Player"]
+[node name="Camera" type="Camera2D" parent="Player"]
+unique_name_in_owner = true
 light_mask = 2
 visibility_layer = 2
 position = Vector2(249.5, 28.3081)
@@ -140,6 +142,20 @@ script = ExtResource("13_fh71d")
 
 [node name="Ally2" parent="." instance=ExtResource("13_668w2")]
 position = Vector2(602, 378)
+
+[node name="Mouse" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("16_q5bk4")
+
+[node name="MouseLabel" type="RichTextLabel" parent="Mouse"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+fit_content = true
 
 [node name="IntroText" type="CanvasLayer" parent="."]
 script = ExtResource("14_trtui")

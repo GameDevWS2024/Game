@@ -10,11 +10,11 @@ using Godot;
 public partial class Ally : CharacterBody2D
 {
     public Health Health = null!;
-    [Export] Chat _chat = null!;
+    [Export] public Chat _chat = null!;
     [Export] RichTextLabel _responseField = null!;
-    [Export] PathFindingMovement _pathFindingMovement = null!;
+    [Export] public PathFindingMovement _pathFindingMovement = null!;
     [Export] private Label _nameLabel = null!;
-    private bool _followPlayer = true;
+    public bool _followPlayer = true;
     private bool _busy;
     private bool _reached;
     private bool _harvest;
@@ -42,6 +42,7 @@ public partial class Ally : CharacterBody2D
         _player = GetNode<Player>("%Player");
 
         _core = GetNode<Game.Scripts.Core>("%Core");
+        _chat.Visible = false;
         //GD.Print($"Path to Chat: {_chat.GetPath()}");
         //GD.Print($"Path to ResponseField: {_responseField.GetPath()}");
         //GD.Print($"Path to PathFindingMovement: {_pathFindingMovement.GetPath()}");
@@ -54,12 +55,12 @@ public partial class Ally : CharacterBody2D
         float distanceLength = distance.Length();  // Berechne die Länge des Vektors
 
         // If ally further away than big circle, he is in the darkness
-        if (distanceLength > _core.LightRadiusBiggerCircle)
+        if (distanceLength > Core.LightRadiusBiggerCircle)
         {
             CurrentState = AllyState.Darkness;
         }
         //if ally not in darkness and closer than the small Light Radius, he is in small circle
-        else if (distanceLength < _core.LightRadiusSmallerCircle)
+        else if (distanceLength < Core.LightRadiusSmallerCircle)
         {
             CurrentState = AllyState.SmallCircle;
         }
@@ -109,9 +110,9 @@ public partial class Ally : CharacterBody2D
             {
                 PointLight2D cl = _core.GetNode<PointLight2D>("CoreLight");
                 Vector2 targ = new Vector2(0, 500);  // cl.GlobalPosition;
-                // Target = core
+                                                     // Target = core
                 _pathFindingMovement.TargetPosition = targ; //_core.GlobalPosition;
-                //GD.Print("Target position (should be CORE): " + _pathFindingMovement.TargetPosition.ToString());
+                                                            //GD.Print("Target position (should be CORE): " + _pathFindingMovement.TargetPosition.ToString());
             }
             else
             {
@@ -203,8 +204,8 @@ public partial class Ally : CharacterBody2D
                 {
                     continue;
                 }
-                _core.MaterialCount += item.Amount;
-                _core.IncreaseScale();
+                Core.MaterialCount += item.Amount;
+                Core.IncreaseScale();
                 GD.Print("Increased scale");
             }
             SInventory.Clear();

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -11,11 +11,11 @@ using Godot.Collections;
 public partial class CombatAlly : CharacterBody2D
 {
     public Health Health = null!;
-    [Export] Chat _chat = null!;
+    [Export] public Chat Chat = null!;
     [Export] RichTextLabel _responseField = null!;
-    [Export] PathFindingMovement _pathFindingMovement = null!;
+    [Export] public PathFindingMovement PathFindingMovement = null!;
     [Export] private Label _nameLabel = null!;
-    private bool _followPlayer = true;
+    public bool FollowPlayer = true;
     private int _motivation;
     private Player _player = null!;
 
@@ -39,9 +39,10 @@ public partial class CombatAlly : CharacterBody2D
     public override void _Ready()
     {
         Health = GetNode<Health>("Health");
-        _chat.ResponseReceived += HandleResponse;
+        Chat.ResponseReceived += HandleResponse;
         _player = GetNode<Player>("%Player");
         _core = GetNode<Game.Scripts.Core>("%Core");
+        Chat.Visible = false;
     }
 
     public void SetAllyInDarkness()
@@ -74,9 +75,9 @@ public partial class CombatAlly : CharacterBody2D
         // Check where ally is (darkness, bigger, smaller)
         SetAllyInDarkness();
 
-        if (_followPlayer)
+        if (FollowPlayer)
         {
-            _pathFindingMovement.TargetPosition = _player.GlobalPosition;
+            PathFindingMovement.TargetPosition = _player.GlobalPosition;
         }
 
         AttackNearestEnemy();
@@ -105,7 +106,7 @@ public partial class CombatAlly : CharacterBody2D
             float distanceToTarget = targetPosition.DistanceTo(GlobalPosition);
 
             // Move toward the target
-            _pathFindingMovement.TargetPosition = targetPosition;
+            PathFindingMovement.TargetPosition = targetPosition;
 
             // Attack if within range and cooldown allows
             if (distanceToTarget < AttackRange && _timeSinceLastAttack >= _attackCooldown)
@@ -145,19 +146,19 @@ public partial class CombatAlly : CharacterBody2D
         if (response.Contains("FOLLOW"))
         {
             GD.Print("Following");
-            _followPlayer = true;
+            FollowPlayer = true;
         }
 
         if (response.Contains("STOP"))
         {
             GD.Print("Stop");
-            _followPlayer = false;
+            FollowPlayer = false;
         }
 
         if (response.Contains("DEFEND"))
         {
             GD.Print("Following and defending Player");
-            _followPlayer = true;
+            FollowPlayer = true;
         }
 
         GD.Print($"Motivation: {_motivation}");

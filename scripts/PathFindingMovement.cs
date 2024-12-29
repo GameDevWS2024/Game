@@ -29,10 +29,6 @@ public partial class PathFindingMovement : Node
         return _reachedTarget;
     }
 
-    public bool HasReachedTarget()
-    {
-        return _reachedTarget;
-    }
     public async void ActorSetup()
     {
         await ToSignal(GetTree(), "physics_frame");
@@ -40,7 +36,6 @@ public partial class PathFindingMovement : Node
 
     public void GoTo(Vector2 loc)
     {
-
         _agent.SetTargetPosition(loc);
         TargetPosition = loc;
     }
@@ -82,12 +77,9 @@ public partial class PathFindingMovement : Node
         }
         else if (!_reachedTarget)
         {
-            _currentTargetDistance = GD.RandRange(_minTargetDistance - _targetDistanceVariation / 2,
-                                                _minTargetDistance + _targetDistanceVariation / 2);
+            _currentTargetDistance = 200;
             EmitSignal(SignalName.ReachedTarget);
             _reachedTarget = true;
         }
-
-
     }
 }

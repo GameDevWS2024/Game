@@ -16,7 +16,8 @@ public partial class CombatAlly : CharacterBody2D
     [Export] public PathFindingMovement PathFindingMovement = null!;
     [Export] private Label _nameLabel = null!;
     public bool FollowPlayer = true;
-    private int _motivation;
+    public bool Fleeing = false;
+    public int Motivation;
     private Player _player = null!;
 
     // Enum with states for ally in darkness, in bigger or smaller circle for map damage system
@@ -135,7 +136,7 @@ public partial class CombatAlly : CharacterBody2D
         {
             try
             {
-                _motivation = int.Parse(match.Groups[1].Value);
+                Motivation = int.Parse(match.Groups[1].Value);
             }
             catch (Exception ex)
             {
@@ -161,6 +162,6 @@ public partial class CombatAlly : CharacterBody2D
             FollowPlayer = true;
         }
 
-        GD.Print($"Motivation: {_motivation}");
+        GD.Print($"Motivation: {Motivation}");
     }
 }

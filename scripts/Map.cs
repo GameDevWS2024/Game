@@ -17,13 +17,18 @@ public partial class Map : Node2D
     [Export] private int _bigCircleHeal = 10;
     [Export] private int _darknessCircleDamage = 30;
     [Export] private float _allyHealthChangeIntervall = 3f;
+    [Export] private float _allyMotivationChangeIntervall = 10f;
+    [Export] private int _maxMotivationByCore = 5;
     private Map _map = null!;
     private Game.Scripts.Core _core = null!; // Deklaration des Core-Objekts
     private Player _player = null!;
     private static List<MapItem> s_items = null!;
     public static List<MapItem> Items { get => s_items; set => s_items = value; }
-    double _timeElapsed = 0f;
+    double _timeElapsedHealing = 0f;
+    double _timeElapsedMotivation = 0f;
     private int _startItemCount = 34;
+
+    [Export] private int _fleeHealthAmount = 20;
 
     public override void _Ready()
     {
@@ -53,10 +58,58 @@ public partial class Map : Node2D
         }
     }
 
+    public void MotivationHeal(CharacterBody2D ally){
+        if(ally is Ally newAlly){
+            if(newAlly.Motivation < _maxMotivationByCore){
+                newAlly.Motivation += 1;
+            }
+        }
+        else if(ally is CombatAlly combatAlly){
+            if(combatAlly.Motivation < _maxMotivationByCore){
+                combatAlly.Motivation += 1;
+            }
+        }
+        _timeElapsedMotivation = 0f;
+    }
+
+    public void AllyFlee(CharacterBody2D ally){
+        if(ally is Ally newAlly){
+            Health hp = newAlly.GetNode<Health>("Health");
+            float distanceCore = ally.GlobalPosition.DistanceTo(_core.Position);
+            float distancePlayer = ally.GlobalPosition.DistanceTo(_player.Position);
+            if(hp.Amount < _fleeHealthAmount && distanceCore < distancePlayer){
+                newAlly.PathFindingMovement.TargetPosition = _core.Position;
+                newAlly.Fleeing = true;
+            }
+            else if(hp.Amount < _fleeHealthAmount){
+                newAlly.FollowPlayer = true;
+                newAlly.Fleeing = true;
+            }
+            else{
+                newAlly.Fleeing = false;
+            }
+        }
+        else if(ally is CombatAlly combatAlly){
+            Health hp = combatAlly.GetNode<Health>("Health");
+            float distanceCore = ally.GlobalPosition.DistanceTo(_core.Position);
+            float distancePlayer = ally.GlobalPosition.DistanceTo(_player.Position);
+            if(hp.Amount < _fleeHealthAmount && distanceCore < distancePlayer){
+                combatAlly.PathFindingMovement.TargetPosition = _core.Position;
+                combatAlly.Fleeing = true;
+            }
+            else if(hp.Amount < _fleeHealthAmount){
+                combatAlly.FollowPlayer = true;
+                combatAlly.Fleeing = true;
+            }
+            else{
+                combatAlly.Fleeing = false;
+            }
+        }
+    }
+
     public void DarknessDamage()
     {
-
-        if (_timeElapsed >= _allyHealthChangeIntervall)
+        if (_timeElapsedHealing >= _allyHealthChangeIntervall)
         {
             List<Ally> allyGroup = GetTree().GetNodesInGroup("Entities").OfType<Ally>().ToList();
             List<CombatAlly> combatAllyGroup = GetTree().GetNodesInGroup("Entities").OfType<CombatAlly>().ToList();
@@ -64,6 +117,7 @@ public partial class Map : Node2D
             foreach (Ally entity in allyGroup)
             {
                 Health hp = entity.GetNode<Health>("Health");
+                GD.Print("Ally Motivation: " + entity.Motivation);
                 switch (entity.CurrentState)
                 {
                     //if ally is in darkness, its health is reduced by 1 point per Intervals
@@ -73,6 +127,9 @@ public partial class Map : Node2D
                     //if ally is in small circle, it gets 3 health points per Interval
                     case Ally.AllyState.SmallCircle:
                         hp.Heal(_smallCircleHeal);
+                        if(_timeElapsedMotivation > _allyMotivationChangeIntervall){
+                            MotivationHeal(entity);
+                        }
                         break;
                     //if ally is in big circle, it gets 1 health points per Interval
                     case Ally.AllyState.BigCircle:
@@ -81,12 +138,13 @@ public partial class Map : Node2D
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
-
+                AllyFlee(entity);
                 GD.Print($"{entity.Name} Health: {entity.Health.Amount}");
             }
 
             foreach (CombatAlly entity in combatAllyGroup)
             {
+                GD.Print("combatAllyMotivation: " + entity.Motivation);
                 switch (entity.CurrentState)
                 {
                     //if ally is in darkness, its health is reduced by 1 point per Intervals
@@ -95,14 +153,17 @@ public partial class Map : Node2D
                         break;
                     //if ally is in small circle, it gets 3 health points per Interval
                     case CombatAlly.AllyState.SmallCircle:
-                        entity.Health.Heal(_smallCircleHeal);
+                        entity.Health.Heal(_smallCircleHeal); 
+                        if(_timeElapsedMotivation > _allyMotivationChangeIntervall){
+                            MotivationHeal(entity);
+                        }
                         break;
                     //if ally is in big circle, it gets 1 health points per Interval
                     case CombatAlly.AllyState.BigCircle:
                         entity.Health.Heal(_bigCircleHeal);
                         break;
                 }
-
+                AllyFlee(entity);
                 GD.Print($"{entity.Name} Health: {entity.Health.Amount}");
             }
 
@@ -122,7 +183,10 @@ public partial class Map : Node2D
                     playerhp.Heal(_bigCircleHeal);
                     break;
             }
-            _timeElapsed = 0;
+            _timeElapsedHealing = 0;
+            if(_timeElapsedMotivation > _allyMotivationChangeIntervall){
+                _timeElapsedMotivation = 0f;
+            }
         }
 
 
@@ -130,7 +194,8 @@ public partial class Map : Node2D
 
     public override void _PhysicsProcess(double delta)
     {
-        _timeElapsed += delta;
+        _timeElapsedHealing += delta;
+        _timeElapsedMotivation += delta;
         DarknessDamage();
         _Draw();
         _core.QueueRedraw();

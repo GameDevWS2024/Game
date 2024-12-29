@@ -110,12 +110,12 @@ public partial class MouseControl : Control
         else if (_selectedEntityGoto != null)
         {
             //check type to send ally or combat ally to selected coordinates 
-            if (_selectedEntityGoto is Ally ally)
+            if (_selectedEntityGoto is Ally ally && !ally.Fleeing)
             {
                 ally.FollowPlayer = false;
                 ally.PathFindingMovement.TargetPosition = clickPosition;
             }
-            else if (_selectedEntityGoto is CombatAlly combatAlly)
+            else if (_selectedEntityGoto is CombatAlly combatAlly && !combatAlly.Fleeing)
             {
                 combatAlly.FollowPlayer = false;
                 combatAlly.PathFindingMovement.TargetPosition = clickPosition;

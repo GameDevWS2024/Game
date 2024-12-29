@@ -2,7 +2,6 @@ using System;
 using System.Text.RegularExpressions;
 
 using Game.Scripts;
-using Game.Scripts;
 using Game.Scripts.Items;
 
 using Godot;
@@ -14,12 +13,14 @@ public partial class Ally : CharacterBody2D
     [Export] RichTextLabel _responseField = null!;
     [Export] public PathFindingMovement PathFindingMovement = null!;
     [Export] private Label _nameLabel = null!;
+    
     public bool FollowPlayer = true;
     private bool _busy;
+    public bool Fleeing = false;
     private bool _reached;
     private bool _harvest;
     private bool _returning;
-    private int _motivation;
+    public int Motivation;
     private readonly static Inventory SInventory = new Inventory(36);
     private Player _player = null!;
 
@@ -141,7 +142,7 @@ public partial class Ally : CharacterBody2D
         {
             try
             {
-                _motivation = int.Parse(match.Groups[1].Value);
+                Motivation = int.Parse(match.Groups[1].Value);
             }
             catch (Exception ex)
             {
@@ -171,7 +172,7 @@ public partial class Ally : CharacterBody2D
             }
         }
 
-        GD.Print($"Motivation: {_motivation}");
+        GD.Print($"Motivation: {Motivation}");
     }
 
     private void Harvest()

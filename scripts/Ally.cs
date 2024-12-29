@@ -10,11 +10,11 @@ using Godot;
 public partial class Ally : CharacterBody2D
 {
     public Health Health = null!;
-    [Export] public Chat _chat = null!;
+    [Export] public Chat Chat = null!;
     [Export] RichTextLabel _responseField = null!;
-    [Export] public PathFindingMovement _pathFindingMovement = null!;
+    [Export] public PathFindingMovement PathFindingMovement = null!;
     [Export] private Label _nameLabel = null!;
-    public bool _followPlayer = true;
+    public bool FollowPlayer = true;
     private bool _busy;
     private bool _reached;
     private bool _harvest;
@@ -38,14 +38,14 @@ public partial class Ally : CharacterBody2D
     public override void _Ready()
     {
         Health = GetNode<Health>("Health");
-        _chat.ResponseReceived += HandleResponse;
+        Chat.ResponseReceived += HandleResponse;
         _player = GetNode<Player>("%Player");
 
         _core = GetNode<Game.Scripts.Core>("%Core");
-        _chat.Visible = false;
-        //GD.Print($"Path to Chat: {_chat.GetPath()}");
+        Chat.Visible = false;
+        //GD.Print($"Path to Chat: {Chat.GetPath()}");
         //GD.Print($"Path to ResponseField: {_responseField.GetPath()}");
-        //GD.Print($"Path to PathFindingMovement: {_pathFindingMovement.GetPath()}");
+        //GD.Print($"Path to PathFindingMovement: {PathFindingMovement.GetPath()}");
     }
 
     public void SetAllyInDarkness()
@@ -79,7 +79,7 @@ public partial class Ally : CharacterBody2D
 
         UpdateTarget();
 
-        if (GlobalPosition.DistanceTo(_pathFindingMovement.TargetPosition) < 300)
+        if (GlobalPosition.DistanceTo(PathFindingMovement.TargetPosition) < 300)
         {
             _reached = true;
         }
@@ -97,9 +97,9 @@ public partial class Ally : CharacterBody2D
 
     private void UpdateTarget()
     {
-        if (_followPlayer && !_busy)
+        if (FollowPlayer && !_busy)
         {
-            _pathFindingMovement.TargetPosition = _player.GlobalPosition;
+            PathFindingMovement.TargetPosition = _player.GlobalPosition;
         }
 
 
@@ -111,8 +111,8 @@ public partial class Ally : CharacterBody2D
                 PointLight2D cl = _core.GetNode<PointLight2D>("CoreLight");
                 Vector2 targ = new Vector2(0, 500);  // cl.GlobalPosition;
                                                      // Target = core
-                _pathFindingMovement.TargetPosition = targ; //_core.GlobalPosition;
-                                                            //GD.Print("Target position (should be CORE): " + _pathFindingMovement.TargetPosition.ToString());
+                PathFindingMovement.TargetPosition = targ; //_core.GlobalPosition;
+                                                           //GD.Print("Target position (should be CORE): " + PathFindingMovement.TargetPosition.ToString());
             }
             else
             {
@@ -120,7 +120,7 @@ public partial class Ally : CharacterBody2D
 
                 //GD.Print("going to nearest loc("+nearestLocation.X +", "+nearestLocation.Y+") from "+ GlobalPosition.X + " " + GlobalPosition.Y);
                 //Target = nearest item
-                _pathFindingMovement.TargetPosition = nearestLocation.ToVector2();
+                PathFindingMovement.TargetPosition = nearestLocation.ToVector2();
 
             }
         }
@@ -152,13 +152,13 @@ public partial class Ally : CharacterBody2D
         if (response.Contains("FOLLOW"))
         {
             GD.Print("following");
-            _followPlayer = true;
+            FollowPlayer = true;
         }
 
         if (response.Contains("STOP"))
         {
             GD.Print("stop");
-            _followPlayer = false;
+            FollowPlayer = false;
         }
 
         if (response.Contains("HARVEST") && !_busy)

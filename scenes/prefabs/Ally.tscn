@@ -13,11 +13,11 @@
 radius = 35.0
 height = 120.0
 
-[node name="Ally" type="CharacterBody2D" node_paths=PackedStringArray("_chat", "_responseField", "_pathFindingMovement", "_nameLabel") groups=["Entities"]]
+[node name="Ally" type="CharacterBody2D" node_paths=PackedStringArray("Chat", "_responseField", "PathFindingMovement", "_nameLabel") groups=["Entities"]]
 script = ExtResource("1_anjrv")
-_chat = NodePath("Chat")
+Chat = NodePath("Chat")
 _responseField = NodePath("ResponseField")
-_pathFindingMovement = NodePath("PathFindingMovement")
+PathFindingMovement = NodePath("PathFindingMovement")
 _nameLabel = NodePath("Label")
 
 [node name="Chat" type="LineEdit" parent="."]

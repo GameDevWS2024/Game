@@ -147,7 +147,6 @@ public partial class CombatAlly : CharacterBody2D
         {
             GD.Print("Following");
             _followPlayer = true;
-            _pathFindingMovement.gotoCommand = false;
         }
 
         if (response.Contains("STOP"))

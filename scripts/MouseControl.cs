@@ -8,8 +8,9 @@ public partial class MouseControl : Control
 {
     // The RichTextLabel that will follow the mouse
     private RichTextLabel _richTextLabel = null!;
-    private CharacterBody2D _selectedEntity;
-    private int clickRadius = 50;
+    private CharacterBody2D _selectedEntityGoto;
+    private CharacterBody2D _selectedEntityChat;
+    private int _clickRadius = 50;
     Node _pathFindingMovement;
 
 
@@ -23,22 +24,26 @@ public partial class MouseControl : Control
 
     public override void _Input(InputEvent @event)
     {
-        // Check if the event is a mouse button event and if it's the left button
+        // Check if the event is a mouse button event and if it's the left button and select entity for goto
         if (@event is InputEventMouseButton mouseEvent && mouseEvent.Pressed && mouseEvent.ButtonIndex == MouseButton.Left)
         {
-            Vector2 mousePosition = GetGlobalMousePosition();
-            SelectNearestEntity(mousePosition);
+            entityGoto(GetGlobalMousePosition());
+        }
+        // Check if the event is a mouse button event and if it's the right button and open chat up
+        else if (@event is InputEventMouseButton mouseEvent1 && mouseEvent1.Pressed && mouseEvent1.ButtonIndex == MouseButton.Right)
+        {
+            chatPopUp(GetGlobalMousePosition());
         }
     }
 
-    private void SelectNearestEntity(Vector2 clickPosition)
+    private Tuple<CharacterBody2D, float> searchNearestEntity(Vector2 clickPosition)
     {
         CharacterBody2D nearestEntity = null;
         float nearestDistance = float.MaxValue;
 
-        List<CharacterBody2D> _entityGroup = GetTree().GetNodesInGroup("Entities").OfType<CharacterBody2D>().ToList();
+        List<CharacterBody2D> entityGroup = GetTree().GetNodesInGroup("Entities").OfType<CharacterBody2D>().ToList();
 
-        foreach (CharacterBody2D entity in _entityGroup)
+        foreach (CharacterBody2D entity in entityGroup)
         {
             float distance = entity.GlobalPosition.DistanceTo(clickPosition);
             if (distance < nearestDistance)
@@ -47,45 +52,75 @@ public partial class MouseControl : Control
                 nearestEntity = entity;
             }
         }
+        return Tuple.Create(nearestEntity, nearestDistance);
+    }
+    //chat pop up function on right click
+    private void chatPopUp(Vector2 clickPosition)
+    {
+        Tuple<CharacterBody2D, float> _resultTuple = searchNearestEntity(clickPosition);
+        CharacterBody2D nearestEntity = _resultTuple.Item1;
+        float nearestDistance = _resultTuple.Item2;
 
         // select nearest entity and set coordinates visible
-        if (nearestDistance <= clickRadius)
+        if (nearestDistance <= _clickRadius && _selectedEntityChat == null)
         {
-            _richTextLabel.Visible = true;
-            _selectedEntity = nearestEntity;
+            _selectedEntityChat = nearestEntity;
             //check what type the entity is and focus on the text box
-            if (_selectedEntity is Ally ally)
+            if (_selectedEntityChat is Ally ally)
             {
                 ally._chat.Visible = true;
                 ally._chat.GrabFocus();
-                GD.Print($"Selected entity: Ally");
             }
-            else if (_selectedEntity is CombatAlly combatAlly)
+            else if (_selectedEntityChat is CombatAlly combatAlly)
             {
                 combatAlly._chat.Visible = true;
                 combatAlly._chat.GrabFocus();
-                GD.Print($"CombatAlly");
             }
         }
         //if mouseclick was outside of defined radius
-        else if (_selectedEntity != null)
+        else if (_selectedEntityChat != null)
         {
             //check type to send ally or combat ally to selected coordinates 
-            if (_selectedEntity is Ally ally)
+            if (_selectedEntityChat is Ally ally)
+            {
+                ally._chat.Visible = false;
+            }
+            else if (_selectedEntityChat is CombatAlly combatAlly)
+            {
+                combatAlly._chat.Visible = false;
+            }
+            _selectedEntityChat = null;
+        }
+    }
+
+    //Select nearest Entity to mouseclick
+    private void entityGoto(Vector2 clickPosition)
+    {
+        Tuple<CharacterBody2D, float> _resultTuple = searchNearestEntity(clickPosition);
+        CharacterBody2D nearestEntity = _resultTuple.Item1;
+        float nearestDistance = _resultTuple.Item2;
+
+        // select nearest entity and set coordinates visible
+        if (nearestDistance <= _clickRadius)
+        {
+            _richTextLabel.Visible = true;
+            _selectedEntityGoto = nearestEntity;
+        }
+        //if mouseclick was outside of defined radius
+        else if (_selectedEntityGoto != null)
+        {
+            //check type to send ally or combat ally to selected coordinates 
+            if (_selectedEntityGoto is Ally ally)
             {
                 ally._followPlayer = false;
                 ally._pathFindingMovement.TargetPosition = clickPosition;
-                ally._pathFindingMovement.gotoCommand = true;
-                ally._chat.Visible = false;
             }
-            else if (_selectedEntity is CombatAlly combatAlly)
+            else if (_selectedEntityGoto is CombatAlly combatAlly)
             {
                 combatAlly._followPlayer = false;
                 combatAlly._pathFindingMovement.TargetPosition = clickPosition;
-                combatAlly._pathFindingMovement.gotoCommand = true;
-                combatAlly._chat.Visible = false;
             }
-            _selectedEntity = null;
+            _selectedEntityGoto = null;
             _richTextLabel.Visible = false;
         }
     }

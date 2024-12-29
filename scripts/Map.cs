@@ -134,6 +134,7 @@ public partial class Map : Node2D
         _timeElapsed += delta;
         DarknessDamage();
         _Draw();
+        _core.QueueRedraw();
     }
 
     public void AddItem(Itemstack item, int x, int y)

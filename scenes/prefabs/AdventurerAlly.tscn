@@ -1,0 +1,74 @@
+[gd_scene load_steps=8 format=3 uid="uid://ddtt4hdb272lt"]
+
+[ext_resource type="Script" path="res://scripts/CombatAlly.cs" id="1_mbkv0"]
+[ext_resource type="Script" path="res://scripts/Chat.cs" id="2_rtw32"]
+[ext_resource type="Script" path="res://scripts/PathFindingMovement.cs" id="4_qo03s"]
+[ext_resource type="Script" path="res://scripts/Health.cs" id="5_hr702"]
+[ext_resource type="Script" path="res://scripts/HealthBar.cs" id="6_0u03e"]
+[ext_resource type="Script" path="res://scripts/Removeable.cs" id="7_c1upu"]
+[ext_resource type="Script" path="res://scripts/Items/Inventory.cs" id="8_w157o"]
+
+[node name="Ally2" type="CharacterBody2D" node_paths=PackedStringArray("_chat", "_responseField", "_pathFindingMovement", "_nameLabel") groups=["Entities"]]
+scale = Vector2(2, 2)
+script = ExtResource("1_mbkv0")
+_chat = NodePath("Chat")
+_responseField = NodePath("ResponseField")
+_pathFindingMovement = NodePath("PathFindingMovement")
+_nameLabel = NodePath("Label")
+
+[node name="Chat" type="LineEdit" parent="."]
+offset_left = 37.0
+offset_top = -251.0
+offset_right = 419.0
+offset_bottom = -73.0
+script = ExtResource("2_rtw32")
+_systemPromptFile = "res://assets/prompts/promptEzriNerys.txt"
+metadata/_edit_use_anchors_ = true
+
+[node name="ResponseField" type="RichTextLabel" parent="."]
+offset_left = 47.0
+offset_top = -60.0
+offset_right = 479.0
+offset_bottom = 54.0
+fit_content = true
+metadata/_edit_use_anchors_ = true
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+path_max_distance = 20.0
+simplify_path = true
+debug_enabled = true
+
+[node name="PathFindingMovement" type="Node" parent="." node_paths=PackedStringArray("_character", "_agent")]
+script = ExtResource("4_qo03s")
+_character = NodePath("..")
+_agent = NodePath("../NavigationAgent2D")
+
+[node name="Health" type="Node" parent="."]
+script = ExtResource("5_hr702")
+
+[node name="ProgressBar" type="ProgressBar" parent="." node_paths=PackedStringArray("_health")]
+self_modulate = Color(1.26103e-05, 0.840319, 1.15514e-06, 1)
+offset_left = -32.0
+offset_top = -111.0
+offset_right = 40.0
+offset_bottom = -84.0
+value = 50.0
+show_percentage = false
+script = ExtResource("6_0u03e")
+_health = NodePath("../Health")
+metadata/_edit_use_anchors_ = true
+
+[node name="Removable" type="Node" parent="."]
+script = ExtResource("7_c1upu")
+
+[node name="Label" type="Label" parent="."]
+offset_left = -21.0
+offset_top = -145.0
+offset_right = 19.0
+offset_bottom = -122.0
+text = "Tom"
+
+[node name="Inventory" type="Node" parent="."]
+script = ExtResource("8_w157o")
+
+[connection signal="Death" from="Health" to="Removable" method="Remove"]

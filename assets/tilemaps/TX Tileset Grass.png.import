@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dshsrl1x5xeta"
-path="res://.godot/imported/skeleton.png-126a0340932079216a2e5361891b8093.ctex"
+uid="uid://dtw1kjrq4qor4"
+path="res://.godot/imported/TX Tileset Grass.png-ddb9403c876e0a917d2337f03544767d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/skeleton.png"
-dest_files=["res://.godot/imported/skeleton.png-126a0340932079216a2e5361891b8093.ctex"]
+source_file="res://assets/tilemaps/TX Tileset Grass.png"
+dest_files=["res://.godot/imported/TX Tileset Grass.png-ddb9403c876e0a917d2337f03544767d.ctex"]
 
 [params]
 

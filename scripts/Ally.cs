@@ -1,25 +1,34 @@
 using System;
 using System.Text.RegularExpressions;
-
-using Game.Scripts;
+using System.Collections.Generic;
 using Game.Scripts;
 using Game.Scripts.Items;
+using System.Linq;
+using System.Threading.Tasks;
 
 using Godot;
+using Vector2 = Godot.Vector2;
+using System.Numerics;
 
 public partial class Ally : CharacterBody2D
 {
+    private readonly List<string> _interactionHistory = [];
+    [Export] private int _maxHistory = 5; // Number of interactions to keep
     public Health Health = null!;
     [Export] public Chat Chat = null!;
     [Export] RichTextLabel _responseField = null!;
     [Export] public PathFindingMovement PathFindingMovement = null!;
+    [Export] private int _visionRadius = 300;
+    [Export] private int _interactionRadius = 150;
     [Export] private Label _nameLabel = null!;
+    [Export] public VisibleForAI[] AllwaysVisible = [];
+    private bool _interactOnArrival = false;
     public bool FollowPlayer = true;
     private bool _busy;
     private bool _reached;
     private bool _harvest;
     private bool _returning;
-    private int _motivation;
+    private Motivation _motivation = null!;
     private readonly static Inventory SInventory = new Inventory(36);
     private Player _player = null!;
 
@@ -37,15 +46,39 @@ public partial class Ally : CharacterBody2D
 
     public override void _Ready()
     {
+        base._Ready();
+        _motivation = GetNode<Motivation>("Motivation");
         Health = GetNode<Health>("Health");
         Chat.ResponseReceived += HandleResponse;
         _player = GetNode<Player>("%Player");
 
         _core = GetNode<Game.Scripts.Core>("%Core");
         Chat.Visible = false;
-        //GD.Print($"Path to Chat: {Chat.GetPath()}");
-        //GD.Print($"Path to ResponseField: {_responseField.GetPath()}");
-        //GD.Print($"Path to PathFindingMovement: {PathFindingMovement.GetPath()}");
+        PathFindingMovement.ReachedTarget += HandleTargetReached;
+        Chat.ResponseReceived += HandleResponse;
+    }
+
+    private void HandleTargetReached()
+    {
+        if (_interactOnArrival)
+        {
+            Interactable? interactable = GetCurrentlyInteractables().FirstOrDefault();
+            interactable?.Trigger(this);
+            _interactOnArrival = false;
+
+            GD.Print("Interacted");
+        }
+    }
+
+    public List<VisibleForAI> GetCurrentlyVisible()
+    {
+        IEnumerable<VisibleForAI> visibleForAiNodes = GetTree().GetNodesInGroup(VisibleForAI.GroupName).OfType<VisibleForAI>();
+        return visibleForAiNodes.Where(node => GlobalPosition.DistanceTo(node.GlobalPosition) <= _visionRadius).ToList();
+    }
+    public List<Interactable> GetCurrentlyInteractables()
+    {
+        IEnumerable<Interactable> interactable = GetTree().GetNodesInGroup(Interactable.GroupName).OfType<Interactable>();
+        return interactable.Where(node => GlobalPosition.DistanceTo(node.GlobalPosition) <= _interactionRadius).ToList();
     }
 
     public void SetAllyInDarkness()
@@ -111,8 +144,8 @@ public partial class Ally : CharacterBody2D
                 PointLight2D cl = _core.GetNode<PointLight2D>("CoreLight");
                 Vector2 targ = new Vector2(0, 500);  // cl.GlobalPosition;
                                                      // Target = core
-                PathFindingMovement.TargetPosition = targ; //_core.GlobalPosition;
-                                                           //GD.Print("Target position (should be CORE): " + PathFindingMovement.TargetPosition.ToString());
+                PathFindingMovement.TargetPosition = _core.GlobalPosition;
+                                                           GD.Print("Target position (should be CORE): " + PathFindingMovement.TargetPosition.ToString());
             }
             else
             {
@@ -126,28 +159,71 @@ public partial class Ally : CharacterBody2D
         }
     }
 
-    private void HandleResponse(string response)
+private async void HandleResponse(string response)
     {
+        response = response.Replace("\"", ""); // Teile den String in ein Array anhand von '\n'
 
-        _responseField.Text = response;
+        string[] lines = response.Split('\n').Where(line => line.Length > 0).ToArray();
+        List<(string, string)> matches = [];
 
-        GD.Print($"Response: {response}");
-
-        string pattern = @"MOTIVATION:\s*(\d+)";
-        Regex regex = new Regex(pattern);
-        Match match = regex.Match(response);
-
-        if (match is { Success: true, Groups.Count: > 1 })
+        // Add commands to be extracted here
+        List<String> ops = ["MOTIVATION", "THOUGHT", "RESPONSE", "REMEMBER", "GOTO"];
+        foreach (string line in lines)
         {
-            try
+            foreach (string op in ops)
             {
-                _motivation = int.Parse(match.Groups[1].Value);
-            }
-            catch (Exception ex)
-            {
-                GD.Print(ex);
+                string pattern = op + @":\s*(.*)"; // anstatt .* \d+ für zahlen
+                Regex regex = new Regex(pattern);
+                Match match = regex.Match(line);
+                if (match is { Success: true, Groups.Count: > 1 })
+                {
+                    matches.Add((op, match.Groups[1].Value));
+                }
+
             }
         }
+
+        string richtext = "", rememberText = "";
+        foreach ((string op, string content) in matches)
+        {
+            if (op == "REMEMBER")
+            {
+                rememberText = content;
+            }
+            else
+            {
+                richtext += op switch
+                {
+                    "THOUGHT" => "[i]" + content + "[/i]\n",
+                    "RESPONSE" or "COMMAND" => "[b]" + content + "[/b]\n",
+                    _ => content + "\n"
+                };
+                if (op == "MOTIVATION")
+                {
+                    GD.Print("set motivation to:" + content.ToInt());
+                    _motivation.SetMotivation(content.ToInt());
+                }
+                if (op == "GOTO"){
+                    string goToPattern = @"\s(-?\d+)\s,\s*(-?\d+)";
+                    Match goToMatch = Regex.Match(response, goToPattern);
+                    if (goToMatch.Success)
+                    {
+                        GD.Print("Match successfully");
+                        int x = int.Parse(goToMatch.Groups[1].Value);
+                        int y = int.Parse(goToMatch.Groups[2].Value);
+                        GD.Print(new Vector2(x, y).ToString());
+                        GetNode<PathFindingMovement>("PathFindingMovement").GoTo(new Vector2(x, y));
+                    }
+                }
+            }
+        }
+
+        _responseField.ParseBbcode(richtext);
+        Chat.SetSystemPrompt(rememberText);
+
+        // Update interaction history
+        await UpdateInteractionHistoryAsync(rememberText, richtext);
+
 
         if (response.Contains("FOLLOW"))
         {
@@ -170,8 +246,46 @@ public partial class Ally : CharacterBody2D
                 _busy = true; // Change busy state
             }
         }
+    }
 
-        GD.Print($"Motivation: {_motivation}");
+    private async Task UpdateInteractionHistoryAsync(string rememberText, string richtext)
+    {
+        GD.Print(_interactionHistory.Count + " memory units full");
+        string histAsString = "";
+        foreach (string hist in _interactionHistory)
+        {
+            histAsString += hist;
+        }
+        // Check if history exceeds the maximum size
+        if (_interactionHistory.Count > _maxHistory)
+        {
+            GD.Print("summarizing:");
+            // Summarize the whole conversation history
+            string summary = await SummarizeConversationAsync(histAsString);
+            //  GD.Print(""+summary+"");
+
+            // Replace history with the summary
+            _interactionHistory.Clear();
+            _interactionHistory.Add(summary);
+        }
+        // string currentSummary = await SummarizeConversationAsync(newInteraction); 
+        _interactionHistory.Add(rememberText); //currentSummary
+        histAsString = "";
+        foreach (string hist in _interactionHistory)
+        {
+            histAsString += hist;
+            GD.Print(hist + "#");
+        }
+        Chat.SetSystemPrompt(histAsString);
+        _responseField.ParseBbcode(richtext + "\n" + rememberText);
+    }
+
+    private async Task<string> SummarizeConversationAsync(string conversation)
+    {
+        {
+            string? summary = await Chat.SummarizeConversation(conversation);
+            return summary ?? "Summary unavailable.";
+        }
     }
 
     private void Harvest()

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ds35c4ylle7qd"
-path="res://.godot/imported/workerAlly.png-9373cb2f5441dea49116fa702746f8ab.ctex"
+uid="uid://desfy4vbdj1ld"
+path="res://.godot/imported/TX Props.png-a0e48e8e1dcfe9b4fa013b0217e9e9b2.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/workerAlly.png"
-dest_files=["res://.godot/imported/workerAlly.png-9373cb2f5441dea49116fa702746f8ab.ctex"]
+source_file="res://assets/tilemaps/TX Props.png"
+dest_files=["res://.godot/imported/TX Props.png-a0e48e8e1dcfe9b4fa013b0217e9e9b2.ctex"]
 
 [params]
 

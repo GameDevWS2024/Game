@@ -1,13 +1,15 @@
-[gd_scene load_steps=10 format=3 uid="uid://6gwtt7kwq2p"]
+[gd_scene load_steps=12 format=3 uid="uid://6gwtt7kwq2p"]
 
 [ext_resource type="Script" path="res://scripts/Ally.cs" id="1_anjrv"]
 [ext_resource type="Script" path="res://scripts/Chat.cs" id="2_k8ael"]
-[ext_resource type="Texture2D" uid="uid://ds35c4ylle7qd" path="res://assets/workerAlly.png" id="3_xbwev"]
+[ext_resource type="Texture2D" uid="uid://ds35c4ylle7qd" path="res://assets/sprites/workerAlly.png" id="3_xbwev"]
 [ext_resource type="Script" path="res://scripts/PathFindingMovement.cs" id="4_v650j"]
 [ext_resource type="Script" path="res://scripts/Health.cs" id="5_moxt6"]
 [ext_resource type="Script" path="res://scripts/HealthBar.cs" id="6_1idkv"]
-[ext_resource type="Script" path="res://scripts/Removeable.cs" id="7_g7cdr"]
+[ext_resource type="Script" path="res://scripts/Interaction/Removeable.cs" id="7_2n21g"]
 [ext_resource type="Script" path="res://scripts/Items/Inventory.cs" id="8_uovgu"]
+[ext_resource type="Script" path="res://scripts/MotivationBar.cs" id="9_e11nf"]
+[ext_resource type="Script" path="res://scripts/Motivation.cs" id="10_sc05j"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_rn1pq"]
 radius = 35.0
@@ -26,7 +28,8 @@ offset_top = -251.0
 offset_right = 419.0
 offset_bottom = -73.0
 script = ExtResource("2_k8ael")
-_systemPromptFile = "res://assets/prompts/example_prompt.txt"
+_systemPromptFile = "res://assets/prompts/ally_system_prompt.txt"
+_introductionSystemPromptFile = "res://assets/prompts/introduction_ally_system_prompt.txt"
 
 [node name="ResponseField" type="RichTextLabel" parent="."]
 offset_left = 47.0
@@ -58,17 +61,17 @@ script = ExtResource("5_moxt6")
 
 [node name="ProgressBar" type="ProgressBar" parent="." node_paths=PackedStringArray("_health")]
 self_modulate = Color(1.26103e-05, 0.840319, 1.15514e-06, 1)
-offset_left = -32.0
-offset_top = -111.0
-offset_right = 40.0
-offset_bottom = -84.0
+offset_left = -33.0
+offset_top = -115.0
+offset_right = 39.0
+offset_bottom = -97.0
 value = 50.0
 show_percentage = false
 script = ExtResource("6_1idkv")
 _health = NodePath("../Health")
 
 [node name="Removable" type="Node" parent="."]
-script = ExtResource("7_g7cdr")
+script = ExtResource("7_2n21g")
 
 [node name="Label" type="Label" parent="."]
 offset_left = -21.0
@@ -80,5 +83,22 @@ text = "James"
 [node name="Inventory" type="Node" parent="."]
 unique_name_in_owner = true
 script = ExtResource("8_uovgu")
+
+[node name="MotivationBar" type="ProgressBar" parent="." node_paths=PackedStringArray("_motivation")]
+modulate = Color(0.0627451, 0.74902, 1, 1)
+self_modulate = Color(0.0627451, 0.301961, 1, 1)
+offset_left = -33.0
+offset_top = -88.0
+offset_right = 38.0
+offset_bottom = -61.0
+max_value = 10.0
+value = 10.0
+rounded = true
+show_percentage = false
+script = ExtResource("9_e11nf")
+_motivation = NodePath("../Motivation")
+
+[node name="Motivation" type="Node" parent="."]
+script = ExtResource("10_sc05j")
 
 [connection signal="Death" from="Health" to="Removable" method="Remove"]

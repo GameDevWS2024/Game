@@ -131,7 +131,7 @@ public partial class Inventory : Node
     {
         if (i < 0 || i >= Size)
         {
-            throw new Exception("Given index is out of bounds for inventory size " + Size);
+            throw new Exception($"Index {i} is out of bounds for inventory size {Size}");
         }
 
         Items[i] = itemstack;
@@ -153,7 +153,7 @@ public partial class Inventory : Node
     {
         if (i < 0 || i >= Size)
         {
-            throw new Exception("Given index is out of bounds for inventory size " + Size);
+            throw new Exception($"Index {i} is out of bounds for inventory size {Size}");
         }
 
         Items[i] = new Itemstack(Material.None);
@@ -163,7 +163,7 @@ public partial class Inventory : Node
     {
         if (i < 0 || i >= Size || j < 0 || j >= Size)
         {
-            throw new Exception("Given index is out of bounds for inventory size " + Size);
+            throw new Exception($"Index {i} is out of bounds for inventory size {Size}");
         }
 
         (Items[i], Items[j]) = (Items[j], Items[i]);

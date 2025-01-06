@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cmhtqgk8qwwvg"
-path="res://.godot/imported/ally.png-06e2c6efe193ce21aab785acd74913a3.ctex"
+uid="uid://gba1pbl4wpx0"
+path="res://.godot/imported/commander.png-f57362fe39a4c7b3bf81b4cf4e6a9812.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/ally.png"
-dest_files=["res://.godot/imported/ally.png-06e2c6efe193ce21aab785acd74913a3.ctex"]
+source_file="res://assets/sprites/commander.png"
+dest_files=["res://.godot/imported/commander.png-f57362fe39a4c7b3bf81b4cf4e6a9812.ctex"]
 
 [params]
 

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 using Godot;
 namespace Game.Scripts.Items;
@@ -78,6 +79,11 @@ public partial class Inventory : Node
         }
 
         return false;
+    }
+
+    public bool ContainsMaterial(Material name)
+    {
+        return Items.Any(itemstack => itemstack!.Material.Equals(name));
     }
 
     public void AddItem(Itemstack itemstack)

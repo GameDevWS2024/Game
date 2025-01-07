@@ -140,7 +140,7 @@ namespace Game.Scripts
     private async void OnTextSubmitted(string input)
         {
 
-            List<VisibleForAI> visibleItems = _ally.GetCurrentlyVisible().Concat(_ally.AllwaysVisible).ToList();
+            List<VisibleForAI> visibleItems = _ally.GetCurrentlyVisible().Concat(_ally.AlwaysVisible).ToList();
             string visibleItemsFormatted = string.Join<VisibleForAI>("\n", visibleItems);
 
             string completeInput = $"Currently Visible:\n\n{visibleItemsFormatted}\n\nPlayer: {input}";

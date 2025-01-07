@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 using Godot;
 using Vector2 = Godot.Vector2;
+using System.Numerics;
 
 public partial class Ally : CharacterBody2D
 {
@@ -41,7 +42,7 @@ public partial class Ally : CharacterBody2D
 
     public AllyState CurrentState { get; private set; } = AllyState.SmallCircle;
 
-    private Game.Scripts.Core _core = null!;
+    private Core _core = null!;
 
     public override void _Ready()
     {
@@ -51,7 +52,7 @@ public partial class Ally : CharacterBody2D
         Chat.ResponseReceived += HandleResponse;
         _player = GetNode<Player>("%Player");
 
-        _core = GetNode<Game.Scripts.Core>("%Core");
+        _core = GetNode<Core>("%Core");
         Chat.Visible = false;
         PathFindingMovement.ReachedTarget += HandleTargetReached;
         Chat.ResponseReceived += HandleResponse;
@@ -80,28 +81,28 @@ public partial class Ally : CharacterBody2D
         return interactable.Where(node => GlobalPosition.DistanceTo(node.GlobalPosition) <= _interactionRadius).ToList();
     }
 
-    private void SetAllyInDarkness()
+    public void SetAllyInDarkness()
     {
-        // Berechne den Abstand zwischen Ally und Core
-        Vector2 distance = this.Position - _core.Position;
-        float distanceLength = distance.Length();  // Berechne die Länge des Vektors
+        // Calculate the distance between Ally and Core
+        
+        Vector2 distance = this.Position - new Vector2(500, 2000);
+        float distanceLength = distance.Length(); // Get the length of the vector
 
         // If ally further away than big circle, he is in the darkness
         if (distanceLength > Core.LightRadiusBiggerCircle)
         {
             CurrentState = AllyState.Darkness;
         }
-        //if ally not in darkness and closer than the small Light Radius, he is in small circle
+        // If ally not in darkness and closer than the small Light Radius, he is in small circle
         else if (distanceLength < Core.LightRadiusSmallerCircle)
         {
             CurrentState = AllyState.SmallCircle;
         }
-        //if ally not in darkness and not in small circle, ally is in big circle
+        // If ally not in darkness and not in small circle, ally is in big circle
         else
         {
             CurrentState = AllyState.BigCircle;
         }
-
     }
 
     public override void _PhysicsProcess(double delta)
@@ -133,7 +134,7 @@ public partial class Ally : CharacterBody2D
                 PointLight2D cl = _core.GetNode<PointLight2D>("CoreLight");
                 Vector2 targ = new Vector2(0, 500);  // cl.GlobalPosition;
                                                      // Target = core
-                PathFindingMovement.TargetPosition = _core.GlobalPosition;
+                PathFindingMovement.TargetPosition = cl.GlobalPosition;
                 GD.Print("Target position (should be CORE): " + PathFindingMovement.TargetPosition.ToString());
             }
             else
@@ -192,9 +193,9 @@ private async void HandleResponse(string response)
                     break;
                 }
             // if harvest command and not walking somewhere and items on map
-            case "HARVEST" when !_busy && Map.Items.Count > 0:
+            case "HARVEST":
                 GD.Print("harvesting");
-                Harvest();
+                _harvest = true;
                 break;
             // stop command stops ally from doing anything
             case "STOP":
@@ -207,6 +208,12 @@ private async void HandleResponse(string response)
                 break;
         }
     }
+
+    if(response.Contains("HARVEST")) {
+        GD.Print("harvesting");
+        _harvest = true;
+    }
+
     _responseField.ParseBbcode(richtext); // formatted text into response field
 }
 
@@ -318,22 +325,26 @@ private async void HandleResponse(string response)
         }
         else
         {
-            // Empty inventory into the core
+            // Empty resources into the core
 
-            foreach (Itemstack item in SInventory.GetItems())
+            for (int i = 0; i < SInventory.Size; i++)
             {
-                if (item.Material == Game.Scripts.Items.Material.None)
+                if (SInventory.Get(i).Material == Game.Scripts.Items.Material.None || SInventory.Get(i).Material == Game.Scripts.Items.Material.Flashlight)
                 {
                     continue;
                 }
 
+                SInventory.Remove(i);
                 Core.IncreaseScale();
                 GD.Print("Increased scale");
             }
-            SInventory.Clear();
             _busy = false; // Change busy state  
             _harvest = false; // Change harvest state
             _returning = false; // Change returning state
         }
+    }
+
+    public Inventory GetInventory() {
+        return SInventory;
     }
 }

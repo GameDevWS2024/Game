@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://6gwtt7kwq2p"]
+[gd_scene load_steps=14 format=3 uid="uid://6gwtt7kwq2p"]
 
 [ext_resource type="Script" path="res://scripts/Ally.cs" id="1_anjrv"]
 [ext_resource type="Script" path="res://scripts/Chat.cs" id="2_k8ael"]
@@ -15,6 +15,15 @@
 radius = 35.0
 height = 120.0
 
+[sub_resource type="Gradient" id="Gradient_52nr3"]
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_q6yeg"]
+gradient = SubResource("Gradient_52nr3")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.850153, 0.137615)
+
 [node name="Ally" type="CharacterBody2D" node_paths=PackedStringArray("Chat", "_responseField", "PathFindingMovement", "_nameLabel") groups=["Entities"]]
 script = ExtResource("1_anjrv")
 Chat = NodePath("Chat")
@@ -29,7 +38,6 @@ offset_right = 419.0
 offset_bottom = -73.0
 script = ExtResource("2_k8ael")
 _systemPromptFile = "res://assets/prompts/ally_system_prompt.txt"
-_introductionSystemPromptFile = "res://assets/prompts/introduction_ally_system_prompt.txt"
 
 [node name="ResponseField" type="RichTextLabel" parent="."]
 modulate = Color(0, 0, 0, 1)
@@ -103,5 +111,11 @@ _motivation = NodePath("../Motivation")
 
 [node name="Motivation" type="Node" parent="."]
 script = ExtResource("10_sc05j")
+
+[node name="Flashlight" type="PointLight2D" parent="."]
+enabled = false
+energy = 2.87
+texture = SubResource("GradientTexture2D_q6yeg")
+texture_scale = 2.35
 
 [connection signal="Death" from="Health" to="Removable" method="Remove"]

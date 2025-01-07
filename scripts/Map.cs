@@ -28,25 +28,36 @@ public partial class Map : Node2D
     {
         _map = this;
         _core = GetNode<Game.Scripts.Core>("%Core");
+        PointLight2D cl = _core.GetNode<PointLight2D>("CoreLight");
         _player = GetNode<Player>("%Player");
         Items = [];
 
         // fill item list:
-        Material[] materials = (Material[])Enum.GetValues(typeof(Material));
+        Material[] materials = [Game.Scripts.Items.Material.Copper, // Materials that should be spread out randomly on the map
+                                Game.Scripts.Items.Material.Diamond, 
+                                Game.Scripts.Items.Material.Gold, 
+                                Game.Scripts.Items.Material.Iron, 
+                                Game.Scripts.Items.Material.Stone, 
+                                Game.Scripts.Items.Material.Wood];
         Random random = new Random();
-
         for (int i = 0; i < _startItemCount; i++)
         {
             Material randomMaterial = materials[random.Next(materials.Length - 1) + 1];
-            int randomX = random.Next(-2000, 2001);
-            int randomY = random.Next(-2000, 2001);
-            while (randomX is < 700 and > -700)
+            int randomX = random.Next(((int) cl.GlobalPosition.X) -2000, ((int) cl.GlobalPosition.X) + 2001);
+            int randomY = random.Next(((int) cl.GlobalPosition.Y) -2000, ((int) cl.GlobalPosition.Y) + 2001);
+
+            int xOffsetPos = ((int) cl.GlobalPosition.X) + 700;
+            int xOffsetNeg = ((int) cl.GlobalPosition.X) - 700;
+            int yOffsetPos = ((int) cl.GlobalPosition.Y) + 700;
+            int yOffsetNeg = ((int) cl.GlobalPosition.Y) - 700;
+
+            while (randomX < xOffsetPos && randomX > xOffsetNeg)
             {
-                randomX = random.Next(-2000, 2001);
+                randomX = random.Next(((int) cl.GlobalPosition.X) -2000, ((int) cl.GlobalPosition.X) + 2001);
             }
-            while (randomY is < 700 and > -700)
+            while (randomX < yOffsetPos && randomX > yOffsetNeg)
             {
-                randomY = random.Next(-2000, 2001);
+                randomY = random.Next(((int) cl.GlobalPosition.Y) -2000, ((int) cl.GlobalPosition.Y) + 2001);
             }
             Items.Add(new MapItem(new Itemstack(randomMaterial), new Location(randomX, randomY)));
         }

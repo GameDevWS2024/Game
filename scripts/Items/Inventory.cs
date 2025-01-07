@@ -25,25 +25,26 @@ public partial class Inventory : Node
         }
         Print();
     }
+        public Inventory()
+    {
+        Size = 26;
+        Items = new Itemstack?[26];
+        for (int i = 0; i < 26; i++)
+        {
+            Items[i] = new Itemstack(Material.None);
+        }
+        Print();
+    }
     public override string ToString()
     {
         string inv = "Inventory: [";
 
-        bool isEmpty = true;
         for (int i = 0; i < Size; i++)
         {
-            if (Items[i].Material != Material.None)
-            {
-                isEmpty = false;
-                inv += Items[i].Material + " : " + Items[i].Amount + ", ";
-            }
+            inv += Items[i].Material + " : " + Items[i].Amount + ", ";
         }
 
-        if (isEmpty)
-        {
-            inv += "Empty";
-        }
-        else if (inv.EndsWith(", "))
+        if (inv.EndsWith(", "))
         {
             inv = inv.Remove(inv.Length - 2); // Remove trailing comma and space
         }
@@ -88,6 +89,7 @@ public partial class Inventory : Node
 
     public void AddItem(Itemstack itemstack)
     {
+        GD.Print("DEBUG: function AddItem() called");
         if (itemstack.Amount == 0) { return; }
 
         int none = -1;
@@ -121,11 +123,13 @@ public partial class Inventory : Node
         {
             if (itemstack.Amount <= 64)
             {
+                GD.Print("DEBUG: function: AddItem(). added Item into empty space");
                 Items[none] = new Itemstack(itemstack.Material, itemstack.Amount, itemstack.Stackable);
                 itemstack.Amount = 0;
             }
             else
             {
+                GD.Print("DEBUG: function: AddItem(). added Item into empty space");
                 Items[none] = new Itemstack(itemstack.Material, 64, itemstack.Stackable);
                 itemstack.Amount -= 64;
                 AddItem(itemstack); // recursively fill the inventory until stack is empty or inventory is full.
@@ -200,5 +204,13 @@ public partial class Inventory : Node
     public Itemstack[] GetItems()
     {
         return Items;
+    }
+
+    public Itemstack Get(int i) {
+        return Items[i];
+    }
+
+    public void Remove(int i) {
+        Items[i] = new Itemstack(Material.None, false);
     }
 }

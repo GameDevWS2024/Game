@@ -11,73 +11,65 @@ using Godot.Collections;
 using Material = Game.Scripts.Items.Material;
 
 [GlobalClass]
-public partial class ShowWhileInRadius : Node
+public partial class ShowWhileInRadius : Node2D
 {
     [Export] public PackedScene? SceneToShow { get; set; }
     [Export] public int Radius { get; set; }
     
     public bool IsInArea { get; set; } = false;
 
-    [Export] public Material NeedsToBeInInventoryName { get; set; } = Material.None;
-    Core? core = null;
-    private Area2D? insideArea;
+    [Export] public Material NeedsToBeInInventoryName { get; set; }
+    Core? _core = null;
+    private Area2D? _insideArea;
 
     public override void _Ready()
     {
-        core = GetTree().Root.GetNode<Core>("Core");
+        _core = GetTree().Root.GetNode<Core>("Core");
     }
 
     public override void _PhysicsProcess(double delta)
     {
-        GD.Print("IsInArea: ", IsInArea);
-        
         base._PhysicsProcess(delta);
         Array<Node> entities = GetTree().GetNodesInGroup("Entities");
         bool show = false;
-        float smallest = float.MaxValue;
+        int smallest = int.MaxValue;
         foreach (Node entity in entities)
         {
             if (entity is CharacterBody2D body)
             {
                 // GD.Print(body!.GlobalPosition);
-                if (body.GlobalPosition.DistanceTo(GetParent<Node2D>().GlobalPosition) <
-                    Radius && (NeedsToBeInInventoryName.Equals(Material.None) ||
-                               core!.Inventory!.ContainsMaterial(NeedsToBeInInventoryName)))
+                if (body.GlobalPosition.DistanceTo(GlobalPosition) < Radius 
+                    && (NeedsToBeInInventoryName == Game.Scripts.Items.Material.None || _core!.Inventory!.ContainsMaterial(NeedsToBeInInventoryName)))
                 {
-                    smallest = Math.Min(body.GlobalPosition.DistanceTo(GetParent<Node2D>().GlobalPosition), smallest);
+                    smallest = (int) Math.Min(body.GlobalPosition.DistanceTo(GlobalPosition), smallest);
                     show = true;
                 }
             }
-        }
-
-        if (show || IsInArea) 
+        } 
+        if (this.GetName() != "Sprite2D")
         {
-            Interactable interactable = GetParent().GetNode<Interactable>("Interactable");
-            if (interactable != null)
+            Sprite2D? sprite = GetParent() as Sprite2D;
+            if (sprite != null)
             {
-                interactable.Interact += ShowScene;
+                //GD.Print("Sprite2D name " + opa.GetName());
+                // sprite is not null!!
             }
-            ShowScene();
-        }
-        else
-        {
-            HideScene();
+            else
+            {
+                GD.PrintErr("ShowWhileInRadius is null");
+            }
+            SetShowSceneState(sprite, show);
         }
     }
     
 
 // Make this public so it can be called from anywhere
     // Make this public so it can be called from anywhere
-    public void ShowScene()
+    public static void SetShowSceneState (Sprite2D? sprite, bool state)
     {
-        Sprite2D? parent = GetParent() as Sprite2D;
-        parent!.Visible = true;
-
-    }
-
-    public void HideScene()
-    {
-        Sprite2D? parent = GetParent() as Sprite2D;
-        parent!.Visible = false;
+        if (sprite != null)
+        {
+            sprite!.Visible = state;
+        }
     }
 }

@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=4 uid="uid://dfkwq6qwtxw25"]
+[gd_scene load_steps=36 format=4 uid="uid://dfkwq6qwtxw25"]
 
 [ext_resource type="PackedScene" uid="uid://clfnjh8aelj66" path="res://scenes/prefabs/Player.tscn" id="1_7owxc"]
 [ext_resource type="Script" path="res://scripts/EnemyManager.cs" id="1_bmkfv"]
@@ -26,7 +26,6 @@
 [ext_resource type="PackedScene" uid="uid://cg2nij0k76my6" path="res://scenes/levels/HauntedForest/HauntedForestVillage.tscn" id="25_lc565"]
 [ext_resource type="Script" path="res://scripts/MouseControl.cs" id="26_regqh"]
 [ext_resource type="PackedScene" uid="uid://dlswxsom74twu" path="res://scenes/levels/HauntedForest/insideBigHouse.tscn" id="26_vmw0c"]
-[ext_resource type="Script" path="res://scripts/Interaction/BooleanInsideArea.cs" id="27_bds6j"]
 [ext_resource type="Texture2D" uid="uid://ctl8fttcbljlm" path="res://assets/tilemaps/spaceship.png" id="27_lqhmv"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_hnti7"]
@@ -849,8 +848,9 @@ _allyHealthChangeIntervall = 5.0
 
 [node name="Player" parent="." instance=ExtResource("1_7owxc")]
 unique_name_in_owner = true
+z_index = 100
 material = SubResource("ShaderMaterial_hnti7")
-position = Vector2(500, 2000)
+position = Vector2(6000, -4000)
 _maxSpeed = 450.0
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
@@ -1068,25 +1068,17 @@ NameForAi = "Big house"
 DescribtionForAi = "could be important"
 
 [node name="Sprite2D" type="Sprite2D" parent="Abandoned Village/HauntedForestVillage/Big House"]
+z_index = 4
+
+[node name="InsideBigHouse" type="Node2D" parent="Abandoned Village/HauntedForestVillage/Big House/Sprite2D"]
+position = Vector2(21, -486.001)
 script = ExtResource("25_0y114")
 SceneToShow = ExtResource("26_vmw0c")
-Radius = 100
+Radius = 500
 
-[node name="Interactable" type="Node2D" parent="Abandoned Village/HauntedForestVillage/Big House/Sprite2D"]
-position = Vector2(2, 8)
-script = ExtResource("7_ji1nn")
-
-[node name="InsideBigHouse" parent="Abandoned Village/HauntedForestVillage/Big House/Sprite2D" instance=ExtResource("26_vmw0c")]
-position = Vector2(-5, -121)
+[node name="InsideBigHouse2" parent="Abandoned Village/HauntedForestVillage/Big House/Sprite2D" instance=ExtResource("26_vmw0c")]
+position = Vector2(-8.99999, -122.001)
 scale = Vector2(2.75, 5)
-script = ExtResource("25_0y114")
-SceneToShow = ExtResource("26_vmw0c")
-Radius = 100
-
-[node name="InsideArea" type="Area2D" parent="Abandoned Village/HauntedForestVillage/Big House/Sprite2D/InsideBigHouse"]
-position = Vector2(-0.54541, -63.2)
-script = ExtResource("27_bds6j")
-TargetNodePath = NodePath("../..")
 
 [node name="Spaceport" type="Node" parent="."]
 
@@ -1098,5 +1090,3 @@ tile_map_data = PackedByteArray("AACY/zoAAAAHAA8AAACY/zsAAAAHABAAAACY/zwAAAAHABE
 tile_set = SubResource("TileSet_wfm3d")
 
 [connection signal="pressed" from="IntroText/Panel/Close" to="IntroText" method="OnClosePressed"]
-[connection signal="body_entered" from="Abandoned Village/HauntedForestVillage/Big House/Sprite2D/InsideBigHouse/InsideArea" to="Abandoned Village/HauntedForestVillage/Big House/Sprite2D/InsideBigHouse/InsideArea" method="OnBodyEntered"]
-[connection signal="body_exited" from="Abandoned Village/HauntedForestVillage/Big House/Sprite2D/InsideBigHouse/InsideArea" to="Abandoned Village/HauntedForestVillage/Big House/Sprite2D/InsideBigHouse/InsideArea" method="OnBodyExited"]

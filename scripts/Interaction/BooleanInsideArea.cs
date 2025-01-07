@@ -3,7 +3,7 @@ using System;
 
 public partial class BooleanInsideArea : Area2D
 {
-    [Export(PropertyHint.None, "Welcher Node hat das Skript, das wissen muss, ob die Fläche verlassen wurde?")] public NodePath? TargetNodePath; // Hier den Pfad zum anderen Knoten angeben
+    [Export(PropertyHint.NodePathToEditedNode, "Welcher Node hat das Skript, das wissen muss, ob die Fläche verlassen wurde?")] public NodePath? TargetNodePath; // Hier den Pfad zum anderen Knoten angeben
     public bool BodyInArea { get; set; } = false;
     
 	// Called when the node enters the scene tree for the first time.
@@ -14,8 +14,8 @@ public partial class BooleanInsideArea : Area2D
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _PhysicsProcess(double delta)
 	{
-        GD.Print("ShowWhileInRadius _PhysicsProcess: IsInArea = ", BodyInArea);
 	}
+
     public void OnBodyEntered(Node body)
     {
         BodyInArea = true;
@@ -41,6 +41,7 @@ public partial class BooleanInsideArea : Area2D
         }
         else
         {
+            GD.Print("Node not found");
             GD.PrintErr("No target node found");
         }
     }

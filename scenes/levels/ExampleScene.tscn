@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=4 uid="uid://dfkwq6qwtxw25"]
+[gd_scene load_steps=38 format=4 uid="uid://dfkwq6qwtxw25"]
 
 [ext_resource type="PackedScene" uid="uid://clfnjh8aelj66" path="res://scenes/prefabs/Player.tscn" id="1_7owxc"]
 [ext_resource type="Script" path="res://scripts/EnemyManager.cs" id="1_bmkfv"]
@@ -17,6 +17,8 @@
 [ext_resource type="Script" path="res://scenes/levels/IntroText.cs" id="14_trtui"]
 [ext_resource type="Texture2D" uid="uid://desfy4vbdj1ld" path="res://assets/tilemaps/TX Props.png" id="18_mna0q"]
 [ext_resource type="Texture2D" uid="uid://dtw1kjrq4qor4" path="res://assets/tilemaps/TX Tileset Grass.png" id="19_jd32h"]
+[ext_resource type="Texture2D" uid="uid://cmooytb3c0mki" path="res://assets/sprites/Pasted image.png" id="20_lgqcj"]
+[ext_resource type="Script" path="res://scripts/Interaction/ItemAdder.cs" id="21_2au4o"]
 [ext_resource type="TileSet" uid="uid://b57mlmhoqye7c" path="res://assets/hauntedForestVillage/Interior.tres" id="23_6wlm7"]
 [ext_resource type="TileSet" uid="uid://c2meivnk57unc" path="res://assets/hauntedForestVillage/HauntedForestVillage.tres" id="24_igx6k"]
 [ext_resource type="Script" path="res://scripts/Interaction/ShowWhileInRadius.cs" id="25_0y114"]
@@ -24,10 +26,18 @@
 [ext_resource type="Script" path="res://scripts/MouseControl.cs" id="26_regqh"]
 [ext_resource type="PackedScene" uid="uid://dlswxsom74twu" path="res://scenes/levels/HauntedForest/insideBigHouse.tscn" id="26_vmw0c"]
 [ext_resource type="Texture2D" uid="uid://ctl8fttcbljlm" path="res://assets/tilemaps/spaceship.png" id="27_lqhmv"]
-[ext_resource type="Script" path="res://scripts/Items/Flashlight.cs" id="28_bty6d"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_hnti7"]
 shader = ExtResource("1_kbklw")
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_e7vql"]
+size = Vector2(88, 49)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ak1im"]
+size = Vector2(133, 341.5)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xdi6d"]
+size = Vector2(21.9, 13.4)
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_e7gay"]
 vertices = PackedVector2Array(-366.422, -340, 1935.71, -347.219, 1976, -336.422, 1242.29, 377.219, 1202, 366.422, -377.219, -299.711, 1161.71, 377.219, 333.578, 366, 322.781, 325.711, 1976, -497.578, 1935.71, -486.781, 285.578, -707, 274.781, -747.289, 293.289, 435.781, 431.711, 772.219, 402.219, 801.711, -122.422, 777, -133.219, 736.711, 253, 446.578, 1906.22, -376.711, 1029.71, 844.219, 1000.22, 873.711, 552.578, 842, 541.781, 801.711, 1132.22, 406.711, 1906.22, -457.289, 2056.58, -417, 14136.9, -13789, 14136.9, 6745.6, 2045.78, -376.711, 2045.78, -457.289, 1271.78, 487.289, 1282.58, 447, 2016.29, -347.219, 1271.78, 406.711, 245.289, -637.219, 1895.42, -417, -377.219, -380.289, 205, -626.422, 391.422, 842, -133.219, 817.289, 1121.42, 447, 322.781, 406.289, 1150.58, 914, 1139.78, 954.289, 1242.29, 516.781, 1139.78, 873.711, 1202, 527.578, 1110.29, 844.219, 989.422, 914, 541.781, 882.289, 274.781, -666.711, 2016.29, -486.781, -14253.9, -13860.8, 253, 285.422, -801.422, 181, -406.711, -270.219, -447, -259.422, -812.219, 140.711, -487.289, -270.219, -841.711, 111.219, 1161.71, 516.781, 1070, 833.422, -516.781, -299.711, -882, 100.422, -698.219, -979.711, -687.422, -1020, 402.219, 882.289, -162.711, 846.781, 1132.22, 487.289, 512.289, 772.219, 1000.22, 954.289, 512.289, 911.781, 1110.29, 983.781, -14264.9, 6527.23, 1070, 994.578, 1029.71, 983.781, 472, 922.578, -698.219, -1060.29, 472, 761.422, 212.711, 435.781, 183.219, 406.289, -162.711, 707.219, 172.422, 366, -203, 696.422, -527.578, -340, -922.289, 111.219, -727.711, -950.219, 205, -787.578, 431.711, 911.781, -203, 857.578, 164.711, -637.219, 135.219, -666.711, 124.422, -707, -406.711, -409.781, -243.289, 846.781, -272.781, 817.289, -283.578, 777, -272.781, 736.711, 135.219, -747.289, -447, -420.578, 293.289, 296.219, 245.289, -776.781, 183.219, 325.711, -243.289, 707.219, -727.711, -1089.78, -768, -1100.58, -808.289, -1089.78, -837.781, -1060.29, -848.578, -1020, -837.781, -979.711, -808.289, -950.219, -768, -939.422, -516.781, -380.289, -951.781, 140.711, -841.711, 250.781, 212.711, 296.219, -882, 261.578, 164.711, -776.781, -487.289, -409.781, -962.578, 181, -812.219, 221.289, -922.289, 250.781, -951.781, 221.289)
@@ -848,13 +858,13 @@ _allyHealthChangeIntervall = 5.0
 unique_name_in_owner = true
 z_index = 100
 material = SubResource("ShaderMaterial_hnti7")
-position = Vector2(6000, -4000)
+position = Vector2(599, 1844)
 _maxSpeed = 450.0
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
 light_mask = 2
 visibility_layer = 2
-position = Vector2(249.5, 28.3081)
+position = Vector2(-2, 9.99999)
 scale = Vector2(0.5, 0.570093)
 zoom = Vector2(0.8, 0.8)
 position_smoothing_enabled = true
@@ -869,9 +879,9 @@ DescribtionForAi = "Me"
 position = Vector2(542, 1200)
 
 [node name="CombatAlly" parent="." instance=ExtResource("13_668w2")]
-position = Vector2(602, -700)
+position = Vector2(536, -1030)
 
-[node name="Core" type="Node2D" parent="."]
+[node name="Core" type="Node2D" parent="." groups=["Core"]]
 unique_name_in_owner = true
 position = Vector2(500, 2000)
 script = ExtResource("11_wagl7")
@@ -924,6 +934,103 @@ position = Vector2(3648, 3230)
 
 [node name="Tree11" parent="Obstacles" instance=ExtResource("9_tf77n")]
 position = Vector2(2831, 2682)
+
+[node name="Map-Objects" type="Node2D" parent="Obstacles"]
+
+[node name="Rune" type="StaticBody2D" parent="Obstacles/Map-Objects"]
+position = Vector2(3289, 1857)
+
+[node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="Obstacles/Map-Objects/Rune"]
+position = Vector2(-122.087, 129.919)
+rotation = -1.92859
+polygon = PackedVector2Array(-33.0752, 48.4873, -16, 34, 12.8855, 11.2231, 48.2808, -7.6145, 88.8281, -6.29004, -46.9697, 82.7939, -35.6406, 58.2043)
+
+[node name="CollisionPolygon2D3" type="CollisionPolygon2D" parent="Obstacles/Map-Objects/Rune"]
+position = Vector2(139.913, -94.0808)
+rotation = 1.19031
+polygon = PackedVector2Array(-22.8396, 38.2542, 24.3262, 6.49902, 48.2808, -7.6145, 71.1211, -8.17212, -46.4219, 72.9795)
+
+[node name="CollisionPolygon2D4" type="CollisionPolygon2D" parent="Obstacles/Map-Objects/Rune"]
+position = Vector2(145.913, 129.919)
+rotation = 3.05433
+polygon = PackedVector2Array(-16, 34, 21.3933, 7.89453, 55, -2, 89.1467, -9.26563, -43, 73)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Obstacles/Map-Objects/Rune"]
+position = Vector2(-110.087, -104.081)
+polygon = PackedVector2Array(-16, 34, 26, 10, 55, -2, 78, -1, -48, 74)
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Obstacles/Map-Objects/Rune"]
+position = Vector2(11.4126, 134.919)
+shape = SubResource("RectangleShape2D_e7vql")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="Obstacles/Map-Objects/Rune"]
+position = Vector2(10.9126, -104.081)
+shape = SubResource("RectangleShape2D_e7vql")
+
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="Obstacles/Map-Objects/Rune"]
+position = Vector2(-151.087, 12.9189)
+rotation = 1.5708
+shape = SubResource("RectangleShape2D_e7vql")
+
+[node name="CollisionShape2D5" type="CollisionShape2D" parent="Obstacles/Map-Objects/Rune"]
+position = Vector2(174.913, 10.9189)
+rotation = 1.5708
+shape = SubResource("RectangleShape2D_e7vql")
+
+[node name="Monuments" type="StaticBody2D" parent="Obstacles/Map-Objects"]
+position = Vector2(2313, 4641)
+
+[node name="CollisionShape2D5" type="CollisionShape2D" parent="Obstacles/Map-Objects/Monuments"]
+position = Vector2(531, -912)
+shape = SubResource("RectangleShape2D_ak1im")
+
+[node name="CollisionShape2D6" type="CollisionShape2D" parent="Obstacles/Map-Objects/Monuments"]
+position = Vector2(1115, -915)
+shape = SubResource("RectangleShape2D_ak1im")
+
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="Obstacles/Map-Objects/Monuments"]
+position = Vector2(157, 491)
+shape = SubResource("RectangleShape2D_ak1im")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="Obstacles/Map-Objects/Monuments"]
+position = Vector2(1502, 490)
+shape = SubResource("RectangleShape2D_ak1im")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Obstacles/Map-Objects/Monuments"]
+position = Vector2(1498, -592)
+shape = SubResource("RectangleShape2D_ak1im")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Obstacles/Map-Objects/Monuments"]
+position = Vector2(153.5, -561.5)
+shape = SubResource("RectangleShape2D_ak1im")
+
+[node name="Grave" type="StaticBody2D" parent="Obstacles/Map-Objects"]
+position = Vector2(1119, 2393)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Obstacles/Map-Objects/Grave"]
+z_index = -4
+position = Vector2(5.5, 26)
+scale = Vector2(10, 10)
+shape = SubResource("RectangleShape2D_xdi6d")
+
+[node name="Notebook" type="Sprite2D" parent="."]
+z_index = 150
+position = Vector2(-1429, -221)
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("20_lgqcj")
+script = ExtResource("6_7bcmx")
+NameForAi = "Notebook"
+DescribtionForAi = "there is a code in it which could be helpfull to activate the rune holder. It might be a puzzle. [Its hard to read so dont just tell the code immediately. It says ADDB]"
+
+[node name="Interactable" type="Node2D" parent="Notebook"]
+script = ExtResource("7_ji1nn")
+
+[node name="Removeable" type="Node" parent="Notebook"]
+script = ExtResource("8_vh33k")
+
+[node name="ItemAdder" type="Node" parent="Notebook"]
+script = ExtResource("21_2au4o")
+Amount = 1
 
 [node name="Signs" type="Node" parent="."]
 
@@ -993,6 +1100,7 @@ metadata/_edit_use_anchors_ = true
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
 z_index = 300
 navigation_polygon = SubResource("NavigationPolygon_e7gay")
+enter_cost = 0.1
 metadata/_edit_lock_ = true
 
 [node name="structure" type="TileMapLayer" parent="."]
@@ -1014,14 +1122,12 @@ anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("26_regqh")
-metadata/_edit_use_anchors_ = true
 
 [node name="MouseLabel" type="RichTextLabel" parent="Mouse"]
 unique_name_in_owner = true
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
-metadata/_edit_use_anchors_ = true
 
 [node name="Abandoned Village" type="Node" parent="."]
 
@@ -1053,6 +1159,8 @@ z_index = 4
 [node name="InsideBigHouse" type="Node2D" parent="Abandoned Village/HauntedForestVillage/Big House/Sprite2D"]
 position = Vector2(21, -486.001)
 script = ExtResource("25_0y114")
+SceneToShow = ExtResource("26_vmw0c")
+Radius = 500
 
 [node name="InsideBigHouse2" parent="Abandoned Village/HauntedForestVillage/Big House/Sprite2D" instance=ExtResource("26_vmw0c")]
 position = Vector2(-8.99999, -122.001)
@@ -1066,17 +1174,5 @@ scale = Vector2(2.75, 5)
 scale = Vector2(2, 2)
 tile_map_data = PackedByteArray("AACY/zoAAAAHAA8AAACY/zsAAAAHABAAAACY/zwAAAAHABEAAACY/z0AAAAHABIAAACY/z4AAAAHABMAAACZ/zoAAAAIAA8AAACZ/zsAAAAIABAAAACZ/zwAAAAIABEAAACZ/z0AAAAIABIAAACZ/z4AAAAIABMAAACa/zkAAAAJAA4AAACa/zoAAAAJAA8AAACa/zsAAAAJABAAAACa/zwAAAAJABEAAACa/z0AAAAJABIAAACa/z4AAAAJABMAAACb/zcAAAAKAAwAAACb/zgAAAAKAA0AAACb/zkAAAAKAA4AAACb/zoAAAAKAA8AAACb/zsAAAAKABAAAACb/zwAAAAKABEAAACb/z0AAAAKABIAAACb/z4AAAAKABMAAACc/zcAAAALAAwAAACc/zgAAAALAA0AAACc/zkAAAALAA4AAACc/zoAAAALAA8AAACc/zsAAAALABAAAACc/zwAAAALABEAAACc/z0AAAALABIAAACc/z4AAAALABMAAACd/zYAAAAMAAsAAACd/zcAAAAMAAwAAACd/zgAAAAMAA0AAACd/zkAAAAMAA4AAACd/zoAAAAMAA8AAACd/zsAAAAMABAAAACd/zwAAAAMABEAAACd/z0AAAAMABIAAACd/z4AAAAMABMAAACd/z8AAAAMABQAAACe/zIAAAANAAcAAACe/zMAAAANAAgAAACe/zQAAAANAAkAAACe/zUAAAANAAoAAACe/zYAAAANAAsAAACe/zcAAAANAAwAAACe/zgAAAANAA0AAACe/zkAAAANAA4AAACe/zoAAAANAA8AAACe/zsAAAANABAAAACe/zwAAAANABEAAACe/z0AAAANABIAAACe/z4AAAANABMAAACe/z8AAAANABQAAACe/0AAAAANABUAAACe/0EAAAANABYAAACf/zEAAAAOAAYAAACf/zIAAAAOAAcAAACf/zMAAAAOAAgAAACf/zQAAAAOAAkAAACf/zUAAAAOAAoAAACf/zYAAAAOAAsAAACf/zcAAAAOAAwAAACf/zgAAAAOAA0AAACf/zkAAAAOAA4AAACf/zoAAAAOAA8AAACf/zsAAAAOABAAAACf/zwAAAAOABEAAACf/z0AAAAOABIAAACf/z4AAAAOABMAAACf/z8AAAAOABQAAACf/0AAAAAOABUAAACf/0EAAAAOABYAAACf/0IAAAAOABcAAACf/0MAAAAOABgAAACg/zEAAAAPAAYAAACg/zIAAAAPAAcAAACg/zMAAAAPAAgAAACg/zQAAAAPAAkAAACg/zUAAAAPAAoAAACg/zYAAAAPAAsAAACg/zcAAAAPAAwAAACg/zgAAAAPAA0AAACg/zkAAAAPAA4AAACg/zoAAAAPAA8AAACg/zsAAAAPABAAAACg/zwAAAAPABEAAACg/z0AAAAPABIAAACg/z4AAAAPABMAAACg/z8AAAAPABQAAACg/0AAAAAPABUAAACg/0EAAAAPABYAAACg/0IAAAAPABcAAACg/0MAAAAPABgAAACh/zEAAAAQAAYAAACh/zIAAAAQAAcAAACh/zMAAAAQAAgAAACh/zQAAAAQAAkAAACh/zUAAAAQAAoAAACh/zYAAAAQAAsAAACh/zcAAAAQAAwAAACh/zgAAAAQAA0AAACh/zkAAAAQAA4AAACh/zoAAAAQAA8AAACh/zsAAAAQABAAAACh/zwAAAAQABEAAACh/z0AAAAQABIAAACh/z4AAAAQABMAAACh/z8AAAAQABQAAACh/0AAAAAQABUAAACh/0EAAAAQABYAAACh/0IAAAAQABcAAACh/0MAAAAQABgAAACi/zIAAAARAAcAAACi/zMAAAARAAgAAACi/zQAAAARAAkAAACi/zUAAAARAAoAAACi/zYAAAARAAsAAACi/zcAAAARAAwAAACi/zgAAAARAA0AAACi/zkAAAARAA4AAACi/zoAAAARAA8AAACi/zsAAAARABAAAACi/zwAAAARABEAAACi/z0AAAARABIAAACi/z4AAAARABMAAACi/z8AAAARABQAAACi/0AAAAARABUAAACi/0EAAAARABYAAACi/0IAAAARABcAAACj/zYAAAASAAsAAACj/zcAAAASAAwAAACj/zgAAAASAA0AAACj/zkAAAASAA4AAACj/zoAAAASAA8AAACj/zsAAAASABAAAACj/zwAAAASABEAAACj/z0AAAASABIAAACj/z4AAAASABMAAACj/z8AAAASABQAAACk/zcAAAATAAwAAACk/zgAAAATAA0AAACk/zkAAAATAA4AAACk/zoAAAATAA8AAACk/zsAAAATABAAAACk/zwAAAATABEAAACk/z0AAAATABIAAACk/z4AAAATABMAAACl/zcAAAAUAAwAAACl/zgAAAAUAA0AAACl/zkAAAAUAA4AAACl/zoAAAAUAA8AAACl/zsAAAAUABAAAACl/zwAAAAUABEAAACl/z0AAAAUABIAAACl/z4AAAAUABMAAACm/zkAAAAVAA4AAACm/zoAAAAVAA8AAACm/zsAAAAVABAAAACm/z0AAAAVABIAAACn/zoAAAAWAA8AAACn/zsAAAAWABAAAACn/zwAAAAWABEAAACn/z0AAAAWABIAAACn/z4AAAAWABMAAACo/zoAAAAXAA8AAACo/zsAAAAXABAAAACo/zwAAAAXABEAAACo/z0AAAAXABIAAACo/z4AAAAXABMAAAA=")
 tile_set = SubResource("TileSet_wfm3d")
-
-[node name="Flashlight" type="Node2D" parent="."]
-script = ExtResource("28_bty6d")
-
-[node name="Removeable" type="Node" parent="Flashlight"]
-script = ExtResource("8_vh33k")
-
-[node name="Interactable" type="Node2D" parent="Flashlight"]
-script = ExtResource("7_ji1nn")
-
-[node name="VisibleForAI" type="Node2D" parent="Flashlight"]
-script = ExtResource("6_7bcmx")
 
 [connection signal="pressed" from="IntroText/Panel/Close" to="IntroText" method="OnClosePressed"]

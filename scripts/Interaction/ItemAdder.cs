@@ -1,4 +1,3 @@
-/*
 using Game.Scripts;
 
 using Godot;
@@ -6,15 +5,24 @@ using Godot;
 using System;
 using System.Linq;
 
+using Game.Scripts.Items;
+
+using Material = Game.Scripts.Items.Material;
+
 [GlobalClass]
 public partial class ItemAdder : Node
 {
-	[Export] public Item? ItemToAdd { get; set; }
+	[Export] public String? ItemToAddName { get; set; }
+    public Material ItemToAdd { get; set; }
 	[Export] public int Amount { get; set; }
 	[Export] public bool ListenToInteract { get; set; } = true;
 
 	public override void _Ready()
-	{
+    {
+        if (Enum.TryParse(ItemToAddName, out Material parsedMaterial))
+        {
+            ItemToAdd = parsedMaterial;
+        }
 		if (ListenToInteract)
 		{
 			Interactable interactable = GetParent().GetNode<Interactable>("Interactable");
@@ -28,15 +36,14 @@ public partial class ItemAdder : Node
 	// Make this public so it can be called from anywhere
 	public void AddItem()
 	{
-		Core? core = GetTree().GetNodesInGroup(Core.GroupName).OfType<Core>().FirstOrDefault();
+		Core? core = GetTree().GetNodesInGroup("Core").OfType<Core>().FirstOrDefault();
 
 		GD.Print(core == null);
 		GD.Print(ItemToAdd == null);
 		if (core != null && ItemToAdd != null)
 		{
 			GD.Print("wow");
-			core.Inventory.AddItem(ItemToAdd, Amount);
+			core.Inventory.AddItem(new Itemstack(ItemToAdd));
 		}
 	}
 }
-*/

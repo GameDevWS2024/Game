@@ -48,7 +48,7 @@ public partial class CombatAlly : CharacterBody2D
     public void SetAllyInDarkness()
     {
         // Calculate the distance between Ally and Core
-        Vector2 distance = this.Position - new Vector2(500, 2000);
+        Vector2 distance = this.Position - _core.Position;
         float distanceLength = distance.Length(); // Get the length of the vector
 
         // If ally further away than big circle, he is in the darkness

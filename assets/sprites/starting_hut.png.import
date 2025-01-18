@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c23yq70qplrwt"
-path="res://.godot/imported/player1.png-8c99159fbf76beb5bab90ee30dda3da9.ctex"
+uid="uid://dukxj0xqyg8dc"
+path="res://.godot/imported/starting_hut.png-d9ea7832fd9848c3f4d6f06deacadd03.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/player1.png"
-dest_files=["res://.godot/imported/player1.png-8c99159fbf76beb5bab90ee30dda3da9.ctex"]
+source_file="res://assets/sprites/starting_hut.png"
+dest_files=["res://.godot/imported/starting_hut.png-d9ea7832fd9848c3f4d6f06deacadd03.ctex"]
 
 [params]
 

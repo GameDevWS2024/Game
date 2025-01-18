@@ -39,10 +39,8 @@ public partial class CombatAlly : CharacterBody2D
     public override void _Ready()
     {
         Health = GetNode<Health>("Health");
-        Chat.ResponseReceived += HandleResponse;
         _player = GetNode<Player>("%Player");
         _core = GetNode<Game.Scripts.Core>("%Core");
-        Chat.Visible = false;
     }
 
     public void SetAllyInDarkness()

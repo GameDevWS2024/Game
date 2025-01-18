@@ -20,8 +20,7 @@ public partial class Map : Node2D
     private Map _map = null!;
     private Game.Scripts.Core _core = null!; // Deklaration des Core-Objekts
     private Player _player = null!;
-    private static List<MapItem> s_items = null!;
-    public static List<MapItem> Items { get => s_items; set => s_items = value; }
+    public static List<MapItem> Items { get; private set; } = null!;
     double _timeElapsed = 0f;
     private int _startItemCount = 34;
 
@@ -30,7 +29,8 @@ public partial class Map : Node2D
         _map = this;
         _core = GetNode<Game.Scripts.Core>("%Core");
         _player = GetNode<Player>("%Player");
-        s_items = new List<MapItem>();
+        Items = [];
+
 
         // fill item list:
         Material[] materials = (Material[])Enum.GetValues(typeof(Material));
@@ -49,11 +49,11 @@ public partial class Map : Node2D
             {
                 randomY = random.Next(-2000, 2001);
             }
-            s_items.Add(new MapItem(new Itemstack(randomMaterial), new Location(randomX, randomY)));
+            Items.Add(new MapItem(new Itemstack(randomMaterial), new Location(randomX, randomY)));
         }
     }
 
-    public void DarknessDamage()
+    private void DarknessDamage()
     {
 
         if (_timeElapsed >= _allyHealthChangeIntervall)
@@ -82,7 +82,7 @@ public partial class Map : Node2D
                         throw new ArgumentOutOfRangeException();
                 }
 
-                GD.Print($"{entity.Name} Health: {entity.Health.Amount}");
+                // GD.Print($"{entity.Name} Health: {entity.Health.Amount}");
             }
 
             foreach (CombatAlly entity in combatAllyGroup)
@@ -103,7 +103,7 @@ public partial class Map : Node2D
                         break;
                 }
 
-                GD.Print($"{entity.Name} Health: {entity.Health.Amount}");
+                // int($"{entity.Name} Health: {entity.Health.Amount}");
             }
 
             Health playerhp = _player.GetNode<Health>("Health");
@@ -121,6 +121,8 @@ public partial class Map : Node2D
                 case Player.AllyState.BigCircle:
                     playerhp.Heal(_bigCircleHeal);
                     break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
             _timeElapsed = 0;
         }
@@ -138,34 +140,24 @@ public partial class Map : Node2D
 
     public void AddItem(Itemstack item, int x, int y)
     {
-        s_items.Add(new MapItem(item, x, y));
+        Items.Add(new MapItem(item, x, y));
     }
 
     public List<MapItem> GetItems()
     {
-        return s_items;
+        return Items;
     }
 
-    public List<Location> GetAllMaterialLocations(Material material)
+    private static List<Location> GetAllMaterialLocations(Material material)
+    {
+        return (from t in Items where t.Item.Material == material select t.Location).ToList();
+    }
+
+    private static List<Location> GetAllItemLocations()
     {
         List<Location> locations = new List<Location>();
 
-        for (int i = 0; i < s_items.Count; i++)
-        {
-            if (s_items[i].Item.Material == material)
-            {
-                locations.Add(s_items[i].Location);
-            }
-        }
-
-        return locations;
-    }
-
-    public static List<Location> GetAllItemLocations()
-    {
-        List<Location> locations = new List<Location>();
-
-        foreach (Location loc in s_items.Select(item => item.Location))
+        foreach (Location loc in Items.Select(item => item.Location))
         {
             locations.Add(loc);
         }
@@ -188,9 +180,9 @@ public partial class Map : Node2D
         float nearest = float.MaxValue;
         int index = -1;
 
-        for (int i = 0; i < s_items.Count; i++)
+        for (int i = 0; i < Items.Count; i++)
         {
-            float distance = loc.DistanceTo(s_items[i].Location);
+            float distance = loc.DistanceTo(Items[i].Location);
             if (distance > nearest) { continue; }
             nearest = distance;
             index = i;
@@ -198,8 +190,8 @@ public partial class Map : Node2D
 
         if (index < 0) { return new Itemstack(Game.Scripts.Items.Material.None); }
 
-        Itemstack item = s_items[index].Item;
-        s_items.RemoveAt(index);
+        Itemstack item = Items[index].Item;
+        Items.RemoveAt(index);
         return item;
     }
 }

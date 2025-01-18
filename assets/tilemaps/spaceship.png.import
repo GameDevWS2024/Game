@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ds35c4ylle7qd"
-path="res://.godot/imported/workerAlly.png-9373cb2f5441dea49116fa702746f8ab.ctex"
+uid="uid://ctl8fttcbljlm"
+path="res://.godot/imported/spaceship.png-24c30e5805c523854de611254d47e2b1.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/workerAlly.png"
-dest_files=["res://.godot/imported/workerAlly.png-9373cb2f5441dea49116fa702746f8ab.ctex"]
+source_file="res://assets/tilemaps/spaceship.png"
+dest_files=["res://.godot/imported/spaceship.png-24c30e5805c523854de611254d47e2b1.ctex"]
 
 [params]
 

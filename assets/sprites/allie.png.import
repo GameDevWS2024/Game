@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cmhtqgk8qwwvg"
-path="res://.godot/imported/ally.png-06e2c6efe193ce21aab785acd74913a3.ctex"
+uid="uid://cwes7vi2s0gjs"
+path="res://.godot/imported/allie.png-e0e542e570b3cb772a8810b38ed34c92.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/ally.png"
-dest_files=["res://.godot/imported/ally.png-06e2c6efe193ce21aab785acd74913a3.ctex"]
+source_file="res://assets/sprites/allie.png"
+dest_files=["res://.godot/imported/allie.png-e0e542e570b3cb772a8810b38ed34c92.ctex"]
 
 [params]
 
@@ -31,4 +31,4 @@ process/normal_map_invert_y=false
 process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
-detect_3d/compress_to=1
+detect_3d/compress_to=0

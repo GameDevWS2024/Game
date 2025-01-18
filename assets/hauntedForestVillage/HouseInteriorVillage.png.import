@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://gba1pbl4wpx0"
-path="res://.godot/imported/commander.png-b005e12bbcbf7f1cec6b78db81f23591.ctex"
+uid="uid://k3w0a01ja51l"
+path="res://.godot/imported/HouseInteriorVillage.png-fd9e4d9cbfc7c72da106e1dca67dff97.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/commander.png"
-dest_files=["res://.godot/imported/commander.png-b005e12bbcbf7f1cec6b78db81f23591.ctex"]
+source_file="res://assets/hauntedForestVillage/HouseInteriorVillage.png"
+dest_files=["res://.godot/imported/HouseInteriorVillage.png-fd9e4d9cbfc7c72da106e1dca67dff97.ctex"]
 
 [params]
 

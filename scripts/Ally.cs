@@ -1,27 +1,40 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
-using Game.Scripts;
 using Game.Scripts;
 using Game.Scripts.Items;
 
 using Godot;
 
+using Vector2 = Godot.Vector2;
+
 public partial class Ally : CharacterBody2D
 {
+    private readonly List<string> _interactionHistory = [];
+    [Export] private int _maxHistory = 5; // Number of interactions to keep
     public Health Health = null!;
     [Export] public Chat Chat = null!;
     [Export] RichTextLabel _responseField = null!;
     [Export] public PathFindingMovement PathFindingMovement = null!;
+    [Export] private int _visionRadius = 300;
+    [Export] private int _interactionRadius = 150;
     [Export] private Label _nameLabel = null!;
+    [Export] public VisibleForAI[] AlwaysVisible = [];
+    private bool _interactOnArrival = false;
     public bool FollowPlayer = true;
     private bool _busy;
     private bool _reached;
     private bool _harvest;
     private bool _returning;
-    private int _motivation;
+    private Motivation _motivation = null!;
     private readonly static Inventory SInventory = new Inventory(36);
     private Player _player = null!;
+    Chat? _chatNode;
+    private GenerativeAI.Methods.ChatSession? _chat;
+    private GeminiService? _geminiService;
 
     //Enum with states for ally in darkness, in bigger or smaller circle for map damage system
     public enum AllyState
@@ -37,18 +50,54 @@ public partial class Ally : CharacterBody2D
 
     public override void _Ready()
     {
+        _chatNode = GetNode<Chat>("Chat");
+        _geminiService = _chatNode.GeminiService;
+        _chat = _geminiService!.Chat;
+        base._Ready();
+        _motivation = GetNode<Motivation>("Motivation");
         Health = GetNode<Health>("Health");
         Chat.ResponseReceived += HandleResponse;
         _player = GetNode<Player>("%Player");
 
         _core = GetNode<Game.Scripts.Core>("%Core");
         Chat.Visible = false;
-        //GD.Print($"Path to Chat: {Chat.GetPath()}");
-        //GD.Print($"Path to ResponseField: {_responseField.GetPath()}");
-        //GD.Print($"Path to PathFindingMovement: {PathFindingMovement.GetPath()}");
+        PathFindingMovement.ReachedTarget += HandleTargetReached;
+        Chat.ResponseReceived += HandleResponse;
     }
 
-    public void SetAllyInDarkness()
+    private async void HandleTargetReached()
+    {
+        if (_interactOnArrival)
+        {
+            Interactable? interactable = GetCurrentlyInteractables().FirstOrDefault();
+            interactable?.Trigger(this);
+            _interactOnArrival = false;
+
+            GD.Print("Interacted");
+            List<VisibleForAI> visibleItems = GetCurrentlyVisible().Concat(AlwaysVisible).ToList();
+            string visibleItemsFormatted = string.Join<VisibleForAI>("\n", visibleItems);
+            string completeInput = $"Currently Visible:\n\n{visibleItemsFormatted}\n\n";
+
+            string? arrivalResponse = await _geminiService!.MakeQuerry(completeInput + "\n Tell the commander about what new things you see now.");
+            GD.Print("---: " + completeInput + "\n---: " + arrivalResponse + "---");
+            RichTextLabel label = GetNode<RichTextLabel>("ResponseField");
+            label.Text += "\n" + arrivalResponse;
+
+        }
+    }
+
+    public List<VisibleForAI> GetCurrentlyVisible()
+    {
+        IEnumerable<VisibleForAI> visibleForAiNodes = GetTree().GetNodesInGroup(VisibleForAI.GroupName).OfType<VisibleForAI>();
+        return visibleForAiNodes.Where(node => GlobalPosition.DistanceTo(node.GlobalPosition) <= _visionRadius).ToList();
+    }
+    public List<Interactable> GetCurrentlyInteractables()
+    {
+        IEnumerable<Interactable> interactable = GetTree().GetNodesInGroup(Interactable.GroupName).OfType<Interactable>();
+        return interactable.Where(node => GlobalPosition.DistanceTo(node.GlobalPosition) <= _interactionRadius).ToList();
+    }
+
+    private void SetAllyInDarkness()
     {
         // Berechne den Abstand zwischen Ally und Core
         Vector2 distance = this.Position - _core.Position;
@@ -79,14 +128,7 @@ public partial class Ally : CharacterBody2D
 
         UpdateTarget();
 
-        if (GlobalPosition.DistanceTo(PathFindingMovement.TargetPosition) < 300)
-        {
-            _reached = true;
-        }
-        else
-        {
-            _reached = false;
-        }
+        _reached = GlobalPosition.DistanceTo(PathFindingMovement.TargetPosition) < 300;
 
 
         if (_harvest && _reached) // Harvest logic
@@ -101,77 +143,211 @@ public partial class Ally : CharacterBody2D
         {
             PathFindingMovement.TargetPosition = _player.GlobalPosition;
         }
-
-
-
         if (_harvest)
         {
             if (_returning)
             {
                 PointLight2D cl = _core.GetNode<PointLight2D>("CoreLight");
-                Vector2 targ = new Vector2(0, 500);  // cl.GlobalPosition;
-                                                     // Target = core
-                PathFindingMovement.TargetPosition = targ; //_core.GlobalPosition;
-                                                           //GD.Print("Target position (should be CORE): " + PathFindingMovement.TargetPosition.ToString());
+                Vector2 targ = new Vector2(0, 500); // cl.GlobalPosition;
+                // Target = core
+                PathFindingMovement.TargetPosition = _core.GlobalPosition;
+                GD.Print("Target position (should be CORE): " + PathFindingMovement.TargetPosition.ToString());
             }
             else
             {
                 Location nearestLocation = Map.GetNearestItemLocation(new Location(GlobalPosition))!;
-
-                //GD.Print("going to nearest loc("+nearestLocation.X +", "+nearestLocation.Y+") from "+ GlobalPosition.X + " " + GlobalPosition.Y);
-                //Target = nearest item
+                //GD.Print("going to nearest loc("+nearestLocation.X +", "+nearestLocation.Y+") from "+ GlobalPosition.X + " " + GlobalPosition.Y);    //Target = nearest item
                 PathFindingMovement.TargetPosition = nearestLocation.ToVector2();
 
             }
         }
     }
 
-    private void HandleResponse(string response)
+    private async void HandleResponse(string response)
     {
 
-        _responseField.Text = response;
-
-        GD.Print($"Response: {response}");
-
-        string pattern = @"MOTIVATION:\s*(\d+)";
-        Regex regex = new Regex(pattern);
-        Match match = regex.Match(response);
-
-        if (match is { Success: true, Groups.Count: > 1 })
+        /* if (response.Contains("INTERACT"))
         {
-            try
-            {
-                _motivation = int.Parse(match.Groups[1].Value);
-            }
-            catch (Exception ex)
-            {
-                GD.Print(ex);
-            }
-        }
+            Interactable? interactable = GetCurrentlyInteractables().FirstOrDefault();
+            interactable?.Trigger(this);
+            GD.Print("interacted with: "+interactable!.GetName());
+        }*/
 
-        if (response.Contains("FOLLOW"))
+
+        // extract relevant lines from output and differentiate between command and arguments
+        if (response.Contains("follow"))
         {
             GD.Print("following");
             FollowPlayer = true;
+            _busy = false;
+            _returning = false;
         }
 
         if (response.Contains("STOP"))
         {
-            GD.Print("stop");
+            _harvest = false;
+            _busy = false;
             FollowPlayer = false;
         }
 
-        if (response.Contains("HARVEST") && !_busy)
+        if (response.Contains("GOTO"))
         {
-            GD.Print("harvesting");
-            if (Map.Items.Count > 0)
+            GD.Print("GOTO");
+        }
+
+        List<(string, string)> matches = ExtractRelevantLines(response);
+        string richtext = "";
+        foreach ((string op, string content) in matches)
+        {
+            string part = "";
+            richtext += FormatPart(part, op, content);
+
+            // differentiate what to do based on command op
+            switch (op)
             {
-                _harvest = true; // Change harvest state
-                _busy = true; // Change busy state
+                case "INTERACT":
+                    _interactOnArrival = true;
+                    break;
+                // set motivation from output
+                case "MOTIVATION":
+                    _motivation.SetMotivation(content.ToInt());
+                    break;
+                // set follow to true
+                case "FOLLOW":
+                    GD.Print("following");
+                    FollowPlayer = true;
+                    _busy = false;
+                    _returning = false;
+                    break;
+                // call goto with parsed coords
+                case "GOTO" or "go to" or "Go To" or "GO TO":
+                    {
+                        const string goToPattern = @"^\s*\(\s*(-?\d+)\s*,\s*(-?\d+)\s*\)\s*$"; // Updated pattern
+                        Match goToMatch = Regex.Match(content.Trim(), goToPattern);
+
+                        if (goToMatch.Success)
+                        {
+                            FollowPlayer = false;
+                            int x = int.Parse(goToMatch.Groups[1].Value);
+                            int y = int.Parse(goToMatch.Groups[2].Value);
+                            GD.Print(new Vector2(x, y).ToString());
+
+                            GetNode<PathFindingMovement>("PathFindingMovement").GoTo(new Vector2(x, y));
+                        }
+                        else
+                        {
+                            GD.Print($"goto couldn't match the position, content was: '{content}'");
+                        }
+                        break;
+                    }
+                // if harvest command and not walking somewhere and items on map
+                case "HARVEST" when !_busy && Map.Items.Count > 0:
+                    GD.Print("harvesting");
+                    Harvest();
+                    break;
+                // stop command stops ally from doing anything
+                case "STOP":
+                    _harvest = false;
+                    _busy = false;
+                    FollowPlayer = false;
+
+                    break;
+                // maybe for future
+                case "REMEMBER":
+                    break;
+            }
+        }
+        _responseField.ParseBbcode(richtext); // formatted text into response field
+    }
+
+    private static string FormatPart(string part, string op, string content)
+    {
+        return part += op switch // format response based on different ops or response types
+        {
+            "THOUGHT" => "[i]" + content + "[/i]\n",
+            "RESPONSE" or "COMMAND" or "STOP" => "[b]" + content + "[/b]\n",
+            _ => content + "\n"
+        };
+    }
+
+    private static List<(string, string)> ExtractRelevantLines(string response)
+    {
+        string[] lines = response.Split('\n').Where(line => line.Length > 0).ToArray();
+        for (int i = 0; i < lines.Length; i++)
+        {
+            GD.Print(lines[i] + " - " + i);
+        }
+        List<(string, string)> matches = [];
+
+        // Add commands to be extracted here
+        List<String> ops = ["MOTIVATION", "THOUGHT", "RESPONSE", "REMEMBER", "GOTO", "HARVEST", "FOLLOW", "INTERACT", "STOP"];
+        foreach (string line in lines)
+        {
+            foreach (string op in ops)
+            {
+                string pattern = op + @"[\s:]+.*";
+                Regex regex = new Regex(pattern, RegexOptions.IgnoreCase);
+                Match match = regex.Match(line);
+                if (match.Success)
+                {
+                    matches.Add((op, match.Value.Substring(op.Length + 1).Trim())); // Extract the operand
+                }
+                else
+                {
+                    pattern = op + @":\s*(.*)"; // anstatt .* \d+ für zahlen
+                    regex = new Regex(pattern);
+                    match = regex.Match(line);
+
+                    if (match is { Success: true, Groups.Count: > 1 })
+                    {
+                        matches.Add((op, match.Groups[1].Value));
+                    }
+                }
             }
         }
 
-        GD.Print($"Motivation: {_motivation}");
+        response = "";
+        return matches;
+    }
+
+    private async Task UpdateInteractionHistoryAsync(string rememberText, string richtext)
+    {
+        GD.Print(_interactionHistory.Count + " memory units full");
+        string histAsString = "";
+        foreach (string hist in _interactionHistory)
+        {
+            histAsString += hist;
+        }
+        // Check if history exceeds the maximum size
+        if (_interactionHistory.Count > _maxHistory)
+        {
+            GD.Print("summarizing:");
+            // Summarize the whole conversation history
+            string summary = await SummarizeConversationAsync(histAsString);
+            //  GD.Print(""+summary+"");
+
+            // Replace history with the summary
+            _interactionHistory.Clear();
+            _interactionHistory.Add(summary);
+        }
+        // string currentSummary = await SummarizeConversationAsync(newInteraction); 
+        _interactionHistory.Add(rememberText); //currentSummary
+        histAsString = "";
+        foreach (string hist in _interactionHistory)
+        {
+            histAsString += hist;
+            GD.Print(hist + "#");
+        }
+        Chat.SetSystemPrompt(histAsString);
+        _responseField.ParseBbcode(richtext + "\n" + rememberText);
+    }
+
+    private async Task<string> SummarizeConversationAsync(string conversation)
+    {
+        {
+            string? summary = await Chat.SummarizeConversation(conversation);
+            return summary ?? "Summary unavailable.";
+        }
     }
 
     private void Harvest()
@@ -204,7 +380,7 @@ public partial class Ally : CharacterBody2D
                 {
                     continue;
                 }
-                Core.MaterialCount += item.Amount;
+
                 Core.IncreaseScale();
                 GD.Print("Increased scale");
             }

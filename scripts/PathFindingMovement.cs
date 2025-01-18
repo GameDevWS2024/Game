@@ -36,6 +36,7 @@ public partial class PathFindingMovement : Node
 
     public void GoTo(Vector2 loc)
     {
+        GD.Print("GoTo");
         _agent.SetTargetPosition(loc);
         TargetPosition = loc;
     }

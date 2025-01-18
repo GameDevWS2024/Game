@@ -1,0 +1,22 @@
+[gd_resource type="TileSet" load_steps=3 format=3 uid="uid://65xh8o8gxcxu"]
+
+[ext_resource type="Texture2D" uid="uid://ic4l7t2su0vd" path="res://assets/hauntedForestVillage/TilesetAbandondedVillage.png" id="1_28p3a"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_vdkma"]
+texture = ExtResource("1_28p3a")
+margins = Vector2i(15, 0)
+texture_region_size = Vector2i(32, 32)
+17:2/size_in_atlas = Vector2i(5, 9)
+17:2/0 = 0
+22:4/size_in_atlas = Vector2i(6, 7)
+22:4/0 = 0
+28:2/size_in_atlas = Vector2i(6, 9)
+28:2/0 = 0
+34:6/size_in_atlas = Vector2i(7, 5)
+34:6/0 = 0
+41:1/size_in_atlas = Vector2i(9, 12)
+41:1/0 = 0
+
+[resource]
+tile_size = Vector2i(32, 32)
+sources/0 = SubResource("TileSetAtlasSource_vdkma")

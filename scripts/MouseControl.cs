@@ -11,15 +11,12 @@ public partial class MouseControl : Control
     private CharacterBody2D _selectedEntityGoto;
     private CharacterBody2D _selectedEntityChat;
     private int _clickRadius = 50;
-    Node _pathFindingMovement;
-
 
     public override void _Ready()
     {
         // Get the RichTextLabel node
         _richTextLabel = GetNode<RichTextLabel>("%MouseLabel");
         _richTextLabel.Visible = false;
-        _pathFindingMovement = GetNode<PathFindingMovement>("PathFindingMovementNode");
     }
 
     public override void _Input(InputEvent @event)

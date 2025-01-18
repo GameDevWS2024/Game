@@ -1,18 +1,21 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 using Godot;
 namespace Game.Scripts.Items;
 
-[GodotClassName("Inventory")]
-public partial class Inventory : Node
+public partial class Inventory
 {
     public int Size { get; }
     private Itemstack?[] Items { get; set; }
 
-    private Inventory? _inventory;
+    private readonly Inventory? _inventory;
 
-
+    public Inventory()
+    {
+        new Inventory(32);
+    }
 
     public Inventory(int size)
     {
@@ -80,8 +83,14 @@ public partial class Inventory : Node
         return false;
     }
 
+    public bool ContainsMaterial(Material name)
+    {
+        return Items.Any(itemstack => itemstack!.Material.Equals(name));
+    }
+
     public void AddItem(Itemstack itemstack)
     {
+        GD.Print(itemstack.Material.ToString() + " added to Inventory");
         if (itemstack.Amount == 0) { return; }
 
         int none = -1;
@@ -131,7 +140,7 @@ public partial class Inventory : Node
     {
         if (i < 0 || i >= Size)
         {
-            throw new Exception("Given index is out of bounds for inventory size " + Size);
+            throw new Exception($"Index {i} is out of bounds for inventory size {Size}");
         }
 
         Items[i] = itemstack;
@@ -153,7 +162,7 @@ public partial class Inventory : Node
     {
         if (i < 0 || i >= Size)
         {
-            throw new Exception("Given index is out of bounds for inventory size " + Size);
+            throw new Exception($"Index {i} is out of bounds for inventory size {Size}");
         }
 
         Items[i] = new Itemstack(Material.None);
@@ -163,7 +172,7 @@ public partial class Inventory : Node
     {
         if (i < 0 || i >= Size || j < 0 || j >= Size)
         {
-            throw new Exception("Given index is out of bounds for inventory size " + Size);
+            throw new Exception($"Index {i} is out of bounds for inventory size {Size}");
         }
 
         (Items[i], Items[j]) = (Items[j], Items[i]);

@@ -1,11 +1,11 @@
 [gd_scene load_steps=8 format=3 uid="uid://bgxxp0o5kdpkq"]
 
 [ext_resource type="Script" path="res://scripts/Enemy.cs" id="1_q3x6f"]
-[ext_resource type="Texture2D" uid="uid://dshsrl1x5xeta" path="res://assets/skeleton.png" id="2_n4lu4"]
+[ext_resource type="Texture2D" uid="uid://dshsrl1x5xeta" path="res://assets/sprites/skeleton.png" id="2_n4lu4"]
 [ext_resource type="Script" path="res://scripts/PathFindingMovement.cs" id="3_wks6h"]
 [ext_resource type="Script" path="res://scripts/HealthBar.cs" id="4_je6np"]
 [ext_resource type="Script" path="res://scripts/Health.cs" id="5_q8j80"]
-[ext_resource type="Script" path="res://scripts/Removeable.cs" id="6_as3e2"]
+[ext_resource type="Script" path="res://scripts/Interaction/Removeable.cs" id="6_d65sn"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_vgu86"]
 radius = 40.0
@@ -53,4 +53,4 @@ MaxHealth = 50.0
 Amount = 50.0
 
 [node name="Removable" type="Node" parent="."]
-script = ExtResource("6_as3e2")
+script = ExtResource("6_d65sn")

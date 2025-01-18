@@ -5,13 +5,17 @@ using System.Linq;
 using Godot;
 namespace Game.Scripts.Items;
 
-[GodotClassName("Inventory")]
-public partial class Inventory : Node
+public partial class Inventory
 {
     public int Size { get; }
     private Itemstack?[] Items { get; set; }
 
-    private Inventory? _inventory;
+    private readonly Inventory? _inventory;
+
+    public Inventory()
+    {
+        new Inventory(32);
+    }
 
     public Inventory(int size)
     {

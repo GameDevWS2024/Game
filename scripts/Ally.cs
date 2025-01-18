@@ -280,8 +280,7 @@ public partial class Ally : CharacterBody2D
         List<(string, string)> matches = [];
 
         // Add commands to be extracted here
-        List<String> ops = ["MOTIVATION", "THOUGHT", "RESPONSE", "REMEMBER",
-            "GOTO", "HARVEST", "FOLLOW", "INTERACT", "STOP"];
+        List<String> ops = ["MOTIVATION", "THOUGHT", "RESPONSE", "REMEMBER", "GOTO", "HARVEST", "FOLLOW", "INTERACT", "STOP"];
         foreach (string line in lines)
         {
             foreach (string op in ops)

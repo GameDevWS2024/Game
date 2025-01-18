@@ -30,6 +30,7 @@ public partial class Map : Node2D
         _core = GetNode<Game.Scripts.Core>("%Core");
         _player = GetNode<Player>("%Player");
         Items = [];
+        
 
         // fill item list:
         Material[] materials = (Material[])Enum.GetValues(typeof(Material));

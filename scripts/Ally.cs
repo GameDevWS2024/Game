@@ -30,6 +30,9 @@ public partial class Ally : CharacterBody2D
 	private Motivation _motivation = null!;
 	private readonly static Inventory SInventory = new Inventory(36);
 	private Player _player = null!;
+    Chat? _chatNode;
+    private GenerativeAI.Methods.ChatSession? _chat;
+    private GeminiService? _geminiService;
 
 	//Enum with states for ally in darkness, in bigger or smaller circle for map damage system
 	public enum AllyState
@@ -44,7 +47,10 @@ public partial class Ally : CharacterBody2D
 	private Game.Scripts.Core _core = null!;
 
 	public override void _Ready()
-	{
+    {
+        _chatNode = GetNode<Chat>("Chat");
+        _geminiService = _chatNode.GeminiService;
+        _chat = _geminiService!.Chat;
 		base._Ready();
 		_motivation = GetNode<Motivation>("Motivation");
 		Health = GetNode<Health>("Health");
@@ -57,7 +63,7 @@ public partial class Ally : CharacterBody2D
 		Chat.ResponseReceived += HandleResponse;
 	}
 
-	private void HandleTargetReached()
+	private async void HandleTargetReached()
 	{
 		if (_interactOnArrival)
 		{
@@ -66,7 +72,16 @@ public partial class Ally : CharacterBody2D
 			_interactOnArrival = false;
 
 			GD.Print("Interacted");
-		}
+            List<VisibleForAI> visibleItems = GetCurrentlyVisible().Concat(AlwaysVisible).ToList();
+            string visibleItemsFormatted = string.Join<VisibleForAI>("\n", visibleItems);
+            string completeInput = $"Currently Visible:\n\n{visibleItemsFormatted}\n\n";
+            
+            string? arrivalResponse = await _geminiService!.MakeQuerry(completeInput+"\n Tell the commander about what new things you see now.");
+            GD.Print("---: "+completeInput+"\n---: "+arrivalResponse+"---");
+            RichTextLabel label = GetNode<RichTextLabel>("ResponseField");
+            label.Text += "\n" + arrivalResponse;
+
+        }
 	}
 
 	public List<VisibleForAI> GetCurrentlyVisible()
@@ -148,8 +163,37 @@ public partial class Ally : CharacterBody2D
 
 private async void HandleResponse(string response)
 {
+    
+    /* if (response.Contains("INTERACT"))
+    {
+        Interactable? interactable = GetCurrentlyInteractables().FirstOrDefault();
+        interactable?.Trigger(this);
+        GD.Print("interacted with: "+interactable!.GetName());
+    }*/
+    
+        
 	// extract relevant lines from output and differentiate between command and arguments
-	List<(string, string)> matches = ExtractRelevantLines(response);
+    if (response.Contains("follow"))
+    {
+        GD.Print("following");
+        FollowPlayer = true;
+        _busy = false;
+        _returning = false;
+    }
+
+    if (response.Contains("STOP"))
+    {
+        _harvest = false;
+        _busy = false;
+        FollowPlayer = false;
+    }
+
+    if (response.Contains("GOTO"))
+    {
+        GD.Print("GOTO");
+    }
+    
+    List<(string, string)> matches = ExtractRelevantLines(response);
 	string richtext = ""; 
 	foreach ((string op, string content) in matches)
 	{
@@ -159,6 +203,9 @@ private async void HandleResponse(string response)
 		// differentiate what to do based on command op
 		switch (op) 
 		{
+            case "INTERACT":
+                _interactOnArrival = true;
+                break;
 			// set motivation from output
 			case "MOTIVATION":
 				_motivation.SetMotivation(content.ToInt());
@@ -201,6 +248,7 @@ private async void HandleResponse(string response)
 				_harvest = false;
 				_busy = false;
 				FollowPlayer = false;
+                
 				break;
 			// maybe for future
 			case "REMEMBER":
@@ -223,17 +271,21 @@ private async void HandleResponse(string response)
 	private static List<(string, string)> ExtractRelevantLines(string response)
 	{
 		string[] lines = response.Split('\n').Where(line => line.Length > 0).ToArray();
-		List<(string, string)> matches = [];
+        for (int i = 0; i < lines.Length; i++)
+        {
+            GD.Print(lines[i]+" - "+i);
+        }
+        List<(string, string)> matches = [];
 
 		// Add commands to be extracted here
 		List<String> ops = ["MOTIVATION", "THOUGHT", "RESPONSE", "REMEMBER", 
-			"GOTO", "HARVEST", "FOLLOW"];
+			"GOTO", "HARVEST", "FOLLOW", "INTERACT", "STOP"];
 		foreach (string line in lines)
 		{
 			foreach (string op in ops)
 			{
-				string pattern = op + @"\s+.*"; 
-				Regex regex = new Regex(pattern);
+                string pattern = op + @"[\s:]+.*"; 
+				Regex regex = new Regex(pattern, RegexOptions.IgnoreCase);
 				Match match = regex.Match(line);
 				if (match.Success)
 				{
@@ -253,6 +305,7 @@ private async void HandleResponse(string response)
 			}
 		}
 
+        response = "";
 		return matches;
 	}
 	

@@ -858,7 +858,7 @@ _allyHealthChangeIntervall = 5.0
 unique_name_in_owner = true
 z_index = 100
 material = SubResource("ShaderMaterial_hnti7")
-position = Vector2(599, 1844)
+position = Vector2(5000, -6000)
 _maxSpeed = 450.0
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
@@ -876,7 +876,7 @@ NameForAi = "Player/Commander"
 DescribtionForAi = "Me"
 
 [node name="Ally" parent="." instance=ExtResource("6_l8h37")]
-position = Vector2(542, 1200)
+position = Vector2(5000, -6200)
 
 [node name="CombatAlly" parent="." instance=ExtResource("13_668w2")]
 position = Vector2(536, -1030)
@@ -1020,7 +1020,7 @@ scale = Vector2(0.2, 0.2)
 texture = ExtResource("20_lgqcj")
 script = ExtResource("6_7bcmx")
 NameForAi = "Notebook"
-DescribtionForAi = "there is a code in it which could be helpfull to activate the rune holder. It might be a puzzle. [Its hard to read so dont just tell the code immediately. It says ADDB]"
+DescribtionForAi = "there is a Spaceport at (-1950, 2000)"
 
 [node name="Interactable" type="Node2D" parent="Notebook"]
 script = ExtResource("7_ji1nn")
@@ -1030,6 +1030,7 @@ script = ExtResource("8_vh33k")
 
 [node name="ItemAdder" type="Node" parent="Notebook"]
 script = ExtResource("21_2au4o")
+ItemToAddName = "Flashlight"
 Amount = 1
 
 [node name="Signs" type="Node" parent="."]
@@ -1174,5 +1175,28 @@ scale = Vector2(2.75, 5)
 scale = Vector2(2, 2)
 tile_map_data = PackedByteArray("AACY/zoAAAAHAA8AAACY/zsAAAAHABAAAACY/zwAAAAHABEAAACY/z0AAAAHABIAAACY/z4AAAAHABMAAACZ/zoAAAAIAA8AAACZ/zsAAAAIABAAAACZ/zwAAAAIABEAAACZ/z0AAAAIABIAAACZ/z4AAAAIABMAAACa/zkAAAAJAA4AAACa/zoAAAAJAA8AAACa/zsAAAAJABAAAACa/zwAAAAJABEAAACa/z0AAAAJABIAAACa/z4AAAAJABMAAACb/zcAAAAKAAwAAACb/zgAAAAKAA0AAACb/zkAAAAKAA4AAACb/zoAAAAKAA8AAACb/zsAAAAKABAAAACb/zwAAAAKABEAAACb/z0AAAAKABIAAACb/z4AAAAKABMAAACc/zcAAAALAAwAAACc/zgAAAALAA0AAACc/zkAAAALAA4AAACc/zoAAAALAA8AAACc/zsAAAALABAAAACc/zwAAAALABEAAACc/z0AAAALABIAAACc/z4AAAALABMAAACd/zYAAAAMAAsAAACd/zcAAAAMAAwAAACd/zgAAAAMAA0AAACd/zkAAAAMAA4AAACd/zoAAAAMAA8AAACd/zsAAAAMABAAAACd/zwAAAAMABEAAACd/z0AAAAMABIAAACd/z4AAAAMABMAAACd/z8AAAAMABQAAACe/zIAAAANAAcAAACe/zMAAAANAAgAAACe/zQAAAANAAkAAACe/zUAAAANAAoAAACe/zYAAAANAAsAAACe/zcAAAANAAwAAACe/zgAAAANAA0AAACe/zkAAAANAA4AAACe/zoAAAANAA8AAACe/zsAAAANABAAAACe/zwAAAANABEAAACe/z0AAAANABIAAACe/z4AAAANABMAAACe/z8AAAANABQAAACe/0AAAAANABUAAACe/0EAAAANABYAAACf/zEAAAAOAAYAAACf/zIAAAAOAAcAAACf/zMAAAAOAAgAAACf/zQAAAAOAAkAAACf/zUAAAAOAAoAAACf/zYAAAAOAAsAAACf/zcAAAAOAAwAAACf/zgAAAAOAA0AAACf/zkAAAAOAA4AAACf/zoAAAAOAA8AAACf/zsAAAAOABAAAACf/zwAAAAOABEAAACf/z0AAAAOABIAAACf/z4AAAAOABMAAACf/z8AAAAOABQAAACf/0AAAAAOABUAAACf/0EAAAAOABYAAACf/0IAAAAOABcAAACf/0MAAAAOABgAAACg/zEAAAAPAAYAAACg/zIAAAAPAAcAAACg/zMAAAAPAAgAAACg/zQAAAAPAAkAAACg/zUAAAAPAAoAAACg/zYAAAAPAAsAAACg/zcAAAAPAAwAAACg/zgAAAAPAA0AAACg/zkAAAAPAA4AAACg/zoAAAAPAA8AAACg/zsAAAAPABAAAACg/zwAAAAPABEAAACg/z0AAAAPABIAAACg/z4AAAAPABMAAACg/z8AAAAPABQAAACg/0AAAAAPABUAAACg/0EAAAAPABYAAACg/0IAAAAPABcAAACg/0MAAAAPABgAAACh/zEAAAAQAAYAAACh/zIAAAAQAAcAAACh/zMAAAAQAAgAAACh/zQAAAAQAAkAAACh/zUAAAAQAAoAAACh/zYAAAAQAAsAAACh/zcAAAAQAAwAAACh/zgAAAAQAA0AAACh/zkAAAAQAA4AAACh/zoAAAAQAA8AAACh/zsAAAAQABAAAACh/zwAAAAQABEAAACh/z0AAAAQABIAAACh/z4AAAAQABMAAACh/z8AAAAQABQAAACh/0AAAAAQABUAAACh/0EAAAAQABYAAACh/0IAAAAQABcAAACh/0MAAAAQABgAAACi/zIAAAARAAcAAACi/zMAAAARAAgAAACi/zQAAAARAAkAAACi/zUAAAARAAoAAACi/zYAAAARAAsAAACi/zcAAAARAAwAAACi/zgAAAARAA0AAACi/zkAAAARAA4AAACi/zoAAAARAA8AAACi/zsAAAARABAAAACi/zwAAAARABEAAACi/z0AAAARABIAAACi/z4AAAARABMAAACi/z8AAAARABQAAACi/0AAAAARABUAAACi/0EAAAARABYAAACi/0IAAAARABcAAACj/zYAAAASAAsAAACj/zcAAAASAAwAAACj/zgAAAASAA0AAACj/zkAAAASAA4AAACj/zoAAAASAA8AAACj/zsAAAASABAAAACj/zwAAAASABEAAACj/z0AAAASABIAAACj/z4AAAASABMAAACj/z8AAAASABQAAACk/zcAAAATAAwAAACk/zgAAAATAA0AAACk/zkAAAATAA4AAACk/zoAAAATAA8AAACk/zsAAAATABAAAACk/zwAAAATABEAAACk/z0AAAATABIAAACk/z4AAAATABMAAACl/zcAAAAUAAwAAACl/zgAAAAUAA0AAACl/zkAAAAUAA4AAACl/zoAAAAUAA8AAACl/zsAAAAUABAAAACl/zwAAAAUABEAAACl/z0AAAAUABIAAACl/z4AAAAUABMAAACm/zkAAAAVAA4AAACm/zoAAAAVAA8AAACm/zsAAAAVABAAAACm/z0AAAAVABIAAACn/zoAAAAWAA8AAACn/zsAAAAWABAAAACn/zwAAAAWABEAAACn/z0AAAAWABIAAACn/z4AAAAWABMAAACo/zoAAAAXAA8AAACo/zsAAAAXABAAAACo/zwAAAAXABEAAACo/z0AAAAXABIAAACo/z4AAAAXABMAAAA=")
 tile_set = SubResource("TileSet_wfm3d")
+
+[node name="Signs" type="Node2D" parent="Spaceport"]
+
+[node name="Space Port Sign" type="Node2D" parent="Spaceport/Signs"]
+position = Vector2(-1952, 1987)
+script = ExtResource("6_7bcmx")
+NameForAi = "Sign"
+DescribtionForAi = "Spaceport at (-3050, 2000)"
+
+[node name="Flashlight" type="Node2D" parent="."]
+position = Vector2(-5486, -466)
+script = ExtResource("6_7bcmx")
+NameForAi = "Flashlight"
+DescribtionForAi = "It might be useful in the Haunted Forest Village"
+
+[node name="ItemAdder" type="Node" parent="Flashlight"]
+script = ExtResource("21_2au4o")
+ItemToAddName = "Flashlight"
+Amount = 1
+
+[node name="Interactable" type="Node2D" parent="Flashlight"]
+position = Vector2(-1, 0)
+script = ExtResource("7_ji1nn")
 
 [connection signal="pressed" from="IntroText/Panel/Close" to="IntroText" method="OnClosePressed"]

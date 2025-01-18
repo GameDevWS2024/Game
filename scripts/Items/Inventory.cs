@@ -13,8 +13,6 @@ public partial class Inventory : Node
 
     private Inventory? _inventory;
 
-
-
     public Inventory(int size)
     {
         Size = size;
@@ -88,6 +86,7 @@ public partial class Inventory : Node
 
     public void AddItem(Itemstack itemstack)
     {
+        GD.Print(itemstack.Material.ToString()+" added to Inventory");
         if (itemstack.Amount == 0) { return; }
 
         int none = -1;

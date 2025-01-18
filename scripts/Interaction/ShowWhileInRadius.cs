@@ -24,7 +24,7 @@ public partial class ShowWhileInRadius : Node2D
 
     public override void _Ready()
     {
-        _core = GetTree().Root.GetNode<Core>("Core");
+        _core = GetTree().GetNodesInGroup("Core").Cast<Core>().SingleOrDefault();
     }
 
     public override void _PhysicsProcess(double delta)

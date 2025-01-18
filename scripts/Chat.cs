@@ -22,7 +22,7 @@ namespace Game.Scripts
 
         private string _systemPrompt = "";
         private string _introductionSystemPrompt = "";
-        private GeminiService? _geminiService;
+        public GeminiService? GeminiService;
         private readonly string _apiKeyPath = ProjectSettings.GlobalizePath("res://api_key.secret");
         private const string ChatPlaceholder = "Type here to chat";
         private const string EnterApiPlaceholder = "Enter API key";
@@ -67,7 +67,7 @@ namespace Game.Scripts
             }
 			//  _systemPrompt = updatedPrompt; // Update the current system prompt
             // Update the GeminiService instance
-            _geminiService?.SetSystemPrompt(updatedPrompt);
+            GeminiService?.SetSystemPrompt(updatedPrompt);
         }
 
 
@@ -75,9 +75,9 @@ namespace Game.Scripts
         {
             try
             {
-                _geminiService = new GeminiService(_apiKeyPath);
+                GeminiService = new GeminiService(_apiKeyPath);
 
-                _geminiService.SetSystemPrompt(_systemPrompt);
+                GeminiService.SetSystemPrompt(_systemPrompt);
 
                 PlaceholderText = ChatPlaceholder;
             }
@@ -91,13 +91,13 @@ namespace Game.Scripts
 
         public async Task<string?> SummarizeMessage(string conversation)
         {
-            if (_geminiService != null)
+            if (GeminiService != null)
             {
                 try
                 {
                     // You can modify the prompt here for the summarization request
                     string prompt = $"Extract only what needs to be remembered: {conversation}";
-                    string? response = await _geminiService.MakeQuerry(prompt);
+                    string? response = await GeminiService.MakeQuerry(prompt);
                     GD.Print("###" + response + " ist der verkürzte Conversation Context");
 
                     return response?.Trim();
@@ -115,13 +115,13 @@ namespace Game.Scripts
 
         public async Task<string?> SummarizeConversation(string conversation)
         {
-            if (_geminiService != null)
+            if (GeminiService != null)
             {
                 try
                 {
                     // You can modify the prompt here for the summarization request
                     string prompt = $"Extract only what needs to be remembered: {conversation}";
-                    string? response = await _geminiService.MakeQuerry(prompt);
+                    string? response = await GeminiService.MakeQuerry(prompt);
                     GD.Print("###" + response + " ist der verkürzte Conversation Context");
 
                     return response?.Trim();
@@ -144,12 +144,11 @@ namespace Game.Scripts
             string visibleItemsFormatted = string.Join<VisibleForAI>("\n", visibleItems);
 
             string completeInput = $"Currently Visible:\n\n{visibleItemsFormatted}\n\nPlayer: {input}";
-
             GD.Print($"-------------------------\nInput:\n{completeInput}");
 
-            if (_geminiService != null)
+            if (GeminiService != null)
             {
-                string? response = await _geminiService.MakeQuerry(completeInput);
+                string? response = await GeminiService.MakeQuerry(completeInput);
                 if (response != null)
                 {
                     EmitSignal(SignalName.ResponseReceived, response);

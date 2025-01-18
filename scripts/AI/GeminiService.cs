@@ -13,7 +13,7 @@ using Godot;
 public class GeminiService
 {
     private readonly GenerativeModel _model;
-    private ChatSession _chat;
+    public ChatSession Chat;
 
     public GeminiService(string apiKeyFilePath)
     {
@@ -44,7 +44,7 @@ public class GeminiService
                 new SafetySetting { Category = HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT, Threshold = HarmBlockThreshold.BLOCK_NONE }
             ];
 
-            _chat = _model.StartChat(new StartChatParams());
+            Chat = _model.StartChat(new StartChatParams());
         }
         catch (Exception ex) when (ex is not FileNotFoundException && ex is not ArgumentNullException)
         {
@@ -55,7 +55,7 @@ public class GeminiService
     public async void SetSystemPrompt(string prompt)
     {
         GD.Print(prompt);
-        await _chat.SendMessageAsync(prompt);
+        await Chat.SendMessageAsync(prompt);
     }
 
     public async Task<string?> MakeQuerry(string input)
@@ -63,7 +63,7 @@ public class GeminiService
         GD.Print(input);
         try
         {
-            return await _chat.SendMessageAsync(input);
+            return await Chat.SendMessageAsync(input);
         }
         catch (Exception ex)
         {
@@ -73,11 +73,11 @@ public class GeminiService
 
     public IReadOnlyList<Content> GetChatHistory()
     {
-        return _chat.History;
+        return Chat.History;
     }
 
     public void ClearChat()
     {
-        _chat = _model.StartChat(new StartChatParams());
+        Chat = _model.StartChat(new StartChatParams());
     }
 }

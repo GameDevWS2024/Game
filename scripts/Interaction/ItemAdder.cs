@@ -22,6 +22,11 @@ public partial class ItemAdder : Node
         if (Enum.TryParse(ItemToAddName, out Material parsedMaterial))
         {
             ItemToAdd = parsedMaterial;
+            GD.Print("item: "+ItemToAddName);
+        }
+        else
+        {
+            GD.Print("item not found");
         }
 		if (ListenToInteract)
 		{
@@ -36,6 +41,7 @@ public partial class ItemAdder : Node
 	// Make this public so it can be called from anywhere
 	public void AddItem()
 	{
+        GD.Print("item: "+ItemToAddName);
 		Core? core = GetTree().GetNodesInGroup("Core").OfType<Core>().FirstOrDefault();
 
 		GD.Print(core == null);
@@ -43,7 +49,9 @@ public partial class ItemAdder : Node
 		if (core != null && ItemToAdd != null)
 		{
 			GD.Print("wow");
-			core.Inventory.AddItem(new Itemstack(ItemToAdd));
-		}
+			core!.Inventory!.AddItem(new Itemstack(ItemToAdd));
+            GD.Print("should have added: ");
+            core.Inventory.Print();
+        }
 	}
 }

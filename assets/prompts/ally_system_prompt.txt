@@ -11,5 +11,5 @@ Format for responses:
 MOTIVATION: 0-10
 THOUGHT: (A brief thought, no longer than 50 symbols)
 RESPONSE: (Restating your action, responding, elaborating or doing small talk)
-COMMAND: FOLLOW / STOP / HARVEST / EXPLORE / ROAM / GOTO (if applicable)
+COMMAND: INTERACT / FOLLOW / STOP / HARVEST / EXPLORE / ROAM / GOTO (if applicable)
 REMEMBER: (A very short summary in keywords what you just understood)

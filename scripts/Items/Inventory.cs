@@ -86,7 +86,7 @@ public partial class Inventory : Node
 
     public void AddItem(Itemstack itemstack)
     {
-        GD.Print(itemstack.Material.ToString()+" added to Inventory");
+        GD.Print(itemstack.Material.ToString() + " added to Inventory");
         if (itemstack.Amount == 0) { return; }
 
         int none = -1;

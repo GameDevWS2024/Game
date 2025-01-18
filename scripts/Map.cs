@@ -30,7 +30,7 @@ public partial class Map : Node2D
         _core = GetNode<Game.Scripts.Core>("%Core");
         _player = GetNode<Player>("%Player");
         Items = [];
-        
+
 
         // fill item list:
         Material[] materials = (Material[])Enum.GetValues(typeof(Material));
@@ -82,7 +82,7 @@ public partial class Map : Node2D
                         throw new ArgumentOutOfRangeException();
                 }
 
-               // GD.Print($"{entity.Name} Health: {entity.Health.Amount}");
+                // GD.Print($"{entity.Name} Health: {entity.Health.Amount}");
             }
 
             foreach (CombatAlly entity in combatAllyGroup)
@@ -103,7 +103,7 @@ public partial class Map : Node2D
                         break;
                 }
 
-               // int($"{entity.Name} Health: {entity.Health.Amount}");
+                // int($"{entity.Name} Health: {entity.Health.Amount}");
             }
 
             Health playerhp = _player.GetNode<Health>("Health");

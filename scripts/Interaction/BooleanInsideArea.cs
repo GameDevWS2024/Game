@@ -1,20 +1,21 @@
-using Godot;
 using System;
+
+using Godot;
 
 public partial class BooleanInsideArea : Area2D
 {
     [Export(PropertyHint.NodePathToEditedNode, "Welcher Node hat das Skript, das wissen muss, ob die Fläche verlassen wurde?")] public NodePath? TargetNodePath; // Hier den Pfad zum anderen Knoten angeben
     public bool BodyInArea { get; set; } = false;
-    
-	// Called when the node enters the scene tree for the first time.
-	public override void _Ready()
-	{
-	}
 
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _PhysicsProcess(double delta)
-	{
-	}
+    // Called when the node enters the scene tree for the first time.
+    public override void _Ready()
+    {
+    }
+
+    // Called every frame. 'delta' is the elapsed time since the previous frame.
+    public override void _PhysicsProcess(double delta)
+    {
+    }
 
     public void OnBodyEntered(Node body)
     {
@@ -27,7 +28,7 @@ public partial class BooleanInsideArea : Area2D
         BodyInArea = false;
         UpdateTargetNode();
     }
-    
+
     private void UpdateTargetNode()
     {
         GD.Print("UpdateTargetNode called");
@@ -45,5 +46,5 @@ public partial class BooleanInsideArea : Area2D
             GD.PrintErr("No target node found");
         }
     }
-    
+
 }

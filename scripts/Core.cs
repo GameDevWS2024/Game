@@ -24,11 +24,11 @@ public partial class Core : Node2D
         LightRadiusBiggerCircle = s_coreLight.Scale.X * Pixelscale * 1.5f;
     }
 
-   /* private void SetCorePosition(Vector2 position)
-    {
-        this.Position = position;
-    }
-    */
+    /* private void SetCorePosition(Vector2 position)
+     {
+         this.Position = position;
+     }
+     */
 
     //Drawing both smaller and bigger circle
     private void DrawLightRadius()

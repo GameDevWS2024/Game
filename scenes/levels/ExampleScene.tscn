@@ -1199,4 +1199,10 @@ Amount = 1
 position = Vector2(-1, 0)
 script = ExtResource("7_ji1nn")
 
+[node name="VisibleForAI" type="Node2D" parent="Flashlight"]
+position = Vector2(10193, -5846.62)
+script = ExtResource("6_7bcmx")
+NameForAi = "Test"
+DescribtionForAi = "this is a test"
+
 [connection signal="pressed" from="IntroText/Panel/Close" to="IntroText" method="OnClosePressed"]

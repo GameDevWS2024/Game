@@ -51,7 +51,7 @@ public partial class EnemyManager : Node2D
         {
             SpawnEnemy();
             _timeSinceLastSpawn = 0;
-           // GD.Print($"{enemyCount} enemies on the scene");
+            // GD.Print($"{enemyCount} enemies on the scene");
             //GD.Print($"calculatedSpawnInterval: {spawnInterval}");
         }
     }
@@ -76,7 +76,7 @@ public partial class EnemyManager : Node2D
         );
 
 
-       // GD.Print("spawned new enemy at " + enemy.GlobalPosition.X + ", " + enemy.GlobalPosition.Y);
+        // GD.Print("spawned new enemy at " + enemy.GlobalPosition.X + ", " + enemy.GlobalPosition.Y);
     }
 
     private void CheckIfSpawn()

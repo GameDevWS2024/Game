@@ -1,10 +1,11 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net.Mail;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using System.Collections.Generic;
-using System.Linq;
+
 using Godot;
 namespace Game.Scripts
 {
@@ -14,7 +15,7 @@ namespace Game.Scripts
 
         [Export(PropertyHint.File, "ally_system_prompt.txt")]
         private string? _systemPromptFile;
-        
+
         [Export(PropertyHint.File, "introduction_ally_system_prompt.txt")]
         private string? _introductionSystemPromptFile;
 
@@ -36,7 +37,7 @@ namespace Game.Scripts
 
             string systemPromptAbsolutePath = ProjectSettings.GlobalizePath(_systemPromptFile);
             string introductionSystemPromptAbsolutePath = ProjectSettings.GlobalizePath(_introductionSystemPromptFile);
-            
+
             try
             {
                 _systemPrompt = File.ReadAllText(systemPromptAbsolutePath);
@@ -61,11 +62,11 @@ namespace Game.Scripts
             }
             else
             {
-				GD.Print("responding normally");
-      			// Combine conversation history and the original system prompt
+                GD.Print("responding normally");
+                // Combine conversation history and the original system prompt
                 updatedPrompt = $"Instructions:\n{_systemPrompt}\n You remember: {conversationHistory}\n---------";
             }
-			//  _systemPrompt = updatedPrompt; // Update the current system prompt
+            //  _systemPrompt = updatedPrompt; // Update the current system prompt
             // Update the GeminiService instance
             GeminiService?.SetSystemPrompt(updatedPrompt);
         }
@@ -137,7 +138,7 @@ namespace Game.Scripts
             return null;
         }
 
-    private async void OnTextSubmitted(string input)
+        private async void OnTextSubmitted(string input)
         {
 
             List<VisibleForAI> visibleItems = _ally.GetCurrentlyVisible().Concat(_ally.AlwaysVisible).ToList();

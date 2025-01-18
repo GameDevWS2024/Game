@@ -1,13 +1,13 @@
 ﻿
-using Game.Scripts;
-
-using Godot;
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
+using Game.Scripts;
+
+using Godot;
 using Godot.Collections;
+
 using Material = Game.Scripts.Items.Material;
 
 [GlobalClass]
@@ -15,7 +15,7 @@ public partial class ShowWhileInRadius : Node2D
 {
     [Export] public PackedScene? SceneToShow { get; set; }
     [Export] public int Radius { get; set; }
-    
+
     public bool IsInArea { get; set; } = false;
 
     [Export] public Material NeedsToBeInInventoryName { get; set; }
@@ -38,14 +38,14 @@ public partial class ShowWhileInRadius : Node2D
             if (entity is CharacterBody2D body)
             {
                 // GD.Print(body!.GlobalPosition);
-                if (body.GlobalPosition.DistanceTo(GlobalPosition) < Radius 
+                if (body.GlobalPosition.DistanceTo(GlobalPosition) < Radius
                     && (NeedsToBeInInventoryName == Game.Scripts.Items.Material.None || _core!.Inventory!.ContainsMaterial(NeedsToBeInInventoryName)))
                 {
-                    smallest = (int) Math.Min(body.GlobalPosition.DistanceTo(GlobalPosition), smallest);
+                    smallest = (int)Math.Min(body.GlobalPosition.DistanceTo(GlobalPosition), smallest);
                     show = true;
                 }
             }
-        } 
+        }
         if (this.GetName() != "Sprite2D")
         {
             Sprite2D? sprite = GetParent() as Sprite2D;
@@ -61,11 +61,11 @@ public partial class ShowWhileInRadius : Node2D
             SetShowSceneState(sprite, show);
         }
     }
-    
 
-// Make this public so it can be called from anywhere
+
     // Make this public so it can be called from anywhere
-    public static void SetShowSceneState (Sprite2D? sprite, bool state)
+    // Make this public so it can be called from anywhere
+    public static void SetShowSceneState(Sprite2D? sprite, bool state)
     {
         if (sprite != null)
         {

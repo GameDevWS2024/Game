@@ -12,11 +12,6 @@ public partial class Inventory
 
     private readonly Inventory? _inventory;
 
-    public Inventory()
-    {
-        new Inventory(32);
-    }
-
     public Inventory(int size)
     {
         Size = size;

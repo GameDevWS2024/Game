@@ -90,53 +90,6 @@ namespace Game.Scripts
             }
         }
 
-        public async Task<string?> SummarizeMessage(string conversation)
-        {
-            if (GeminiService != null)
-            {
-                try
-                {
-                    // You can modify the prompt here for the summarization request
-                    string prompt = $"Extract only what needs to be remembered: {conversation}";
-                    string? response = await GeminiService.MakeQuerry(prompt);
-                    GD.Print("###" + response + " ist der verkürzte Conversation Context");
-
-                    return response?.Trim();
-                }
-                catch (Exception ex)
-                {
-                    GD.PrintErr($"Failed to summarize conversation: {ex.Message}");
-                    return null;
-                }
-            }
-
-            GD.PrintErr("GeminiService not initialized.");
-            return null;
-        }
-
-        public async Task<string?> SummarizeConversation(string conversation)
-        {
-            if (GeminiService != null)
-            {
-                try
-                {
-                    // You can modify the prompt here for the summarization request
-                    string prompt = $"Extract only what needs to be remembered: {conversation}";
-                    string? response = await GeminiService.MakeQuerry(prompt);
-                    GD.Print("###" + response + " ist der verkürzte Conversation Context");
-
-                    return response?.Trim();
-                }
-                catch (Exception ex)
-                {
-                    GD.PrintErr($"Failed to summarize conversation: {ex.Message}");
-                    return null;
-                }
-            }
-
-            GD.PrintErr("GeminiService not initialized.");
-            return null;
-        }
 
         private async void OnTextSubmitted(string input)
         {

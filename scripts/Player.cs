@@ -24,35 +24,11 @@ public partial class Player : CharacterBody2D
         BigCircle
     }
 
-    /*   // Player cant move if this is uncommented
-	public Player(PlayerStats stats)
-	{
-		Stats = new PlayerStats(100, 100, 100, 100);
-	}
-	*/
-
-    // Stats and Player initialization
     public override void _Ready()
     {
         Health = GetNode<Health>("Health");
         _player = GetNode<Player>("%Player");
-        _core = GetNode<Game.Scripts.Core>("%Core");
-    }
-    public PlayerStats Stats { get; private set; } = new PlayerStats(100, 10, 100, 50);
-
-    public void Attack(Player target)
-    {
-        int damage = Stats.Strength;
-        target.Stats.TakeDamage(damage);
-        GD.Print($"{Name} attacked {target.Name} for {damage} damage.");
-    }
-    public void DisplayStats()
-    {
-        GD.Print($"Name: {Name}");
-        GD.Print($"Health: {Stats.Health}");
-        GD.Print($"Strength: {Stats.Strength}");
-        GD.Print($"Speed: {Stats.Speed}");
-        GD.Print($"Mana: {Stats.Mana}");
+        _core = GetNode<Core>("%Core");
     }
 
     public override void _PhysicsProcess(double delta)

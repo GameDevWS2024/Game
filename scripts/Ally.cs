@@ -163,17 +163,8 @@ public partial class Ally : CharacterBody2D
         }
     }
 
-    private async void HandleResponse(string response)
+    private void HandleResponse(string response)
     {
-
-        /* if (response.Contains("INTERACT"))
-        {
-            Interactable? interactable = GetCurrentlyInteractables().FirstOrDefault();
-            interactable?.Trigger(this);
-            GD.Print("interacted with: "+interactable!.GetName());
-        }*/
-
-
         // extract relevant lines from output and differentiate between command and arguments
         if (response.Contains("follow"))
         {
@@ -308,46 +299,6 @@ public partial class Ally : CharacterBody2D
 
         response = "";
         return matches;
-    }
-
-    private async Task UpdateInteractionHistoryAsync(string rememberText, string richtext)
-    {
-        GD.Print(_interactionHistory.Count + " memory units full");
-        string histAsString = "";
-        foreach (string hist in _interactionHistory)
-        {
-            histAsString += hist;
-        }
-        // Check if history exceeds the maximum size
-        if (_interactionHistory.Count > _maxHistory)
-        {
-            GD.Print("summarizing:");
-            // Summarize the whole conversation history
-            string summary = await SummarizeConversationAsync(histAsString);
-            //  GD.Print(""+summary+"");
-
-            // Replace history with the summary
-            _interactionHistory.Clear();
-            _interactionHistory.Add(summary);
-        }
-        // string currentSummary = await SummarizeConversationAsync(newInteraction); 
-        _interactionHistory.Add(rememberText); //currentSummary
-        histAsString = "";
-        foreach (string hist in _interactionHistory)
-        {
-            histAsString += hist;
-            GD.Print(hist + "#");
-        }
-        Chat.SetSystemPrompt(histAsString);
-        _responseField.ParseBbcode(richtext + "\n" + rememberText);
-    }
-
-    private async Task<string> SummarizeConversationAsync(string conversation)
-    {
-        {
-            string? summary = await Chat.SummarizeConversation(conversation);
-            return summary ?? "Summary unavailable.";
-        }
     }
 
     private void Harvest()

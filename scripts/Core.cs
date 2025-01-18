@@ -14,8 +14,6 @@ public partial class Core : Node2D
 
     public override void _Ready()
     {
-        // Inventory.AddItem(new Itemstack(Game.Scripts.Items.Material.Stone));
-
         // Get scale of PointLight2D
         s_coreLight = GetNode<PointLight2D>("%CoreLight");
         this.Scale = s_coreLight.Scale;
@@ -24,11 +22,7 @@ public partial class Core : Node2D
         LightRadiusBiggerCircle = s_coreLight.Scale.X * Pixelscale * 1.5f;
     }
 
-    /* private void SetCorePosition(Vector2 position)
-     {
-         this.Position = position;
-     }
-     */
+
 
     //Drawing both smaller and bigger circle
     private void DrawLightRadius()

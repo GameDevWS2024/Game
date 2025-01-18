@@ -62,9 +62,6 @@ public partial class ShowWhileInRadius : Node2D
         }
     }
 
-
-    // Make this public so it can be called from anywhere
-    // Make this public so it can be called from anywhere
     public static void SetShowSceneState(Sprite2D? sprite, bool state)
     {
         if (sprite != null)

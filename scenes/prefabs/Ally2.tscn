@@ -55,6 +55,7 @@ metadata/_edit_use_anchors_ = true
 
 [node name="Removable" type="Node" parent="."]
 script = ExtResource("7_ga7xx")
+ListenToInteract = false
 
 [node name="Label" type="Label" parent="."]
 offset_left = -21.0

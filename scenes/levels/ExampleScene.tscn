@@ -881,6 +881,16 @@ offset_right = 19.0
 offset_bottom = -122.0
 text = "Jones"
 
+[node name="ResponseField" type="RichTextLabel" parent="Ally2"]
+modulate = Color(0, 0, 0, 1)
+self_modulate = Color(0, 0, 0, 1)
+offset_left = 47.0
+offset_top = -60.0
+offset_right = 479.0
+offset_bottom = 54.0
+bbcode_enabled = true
+fit_content = true
+
 [node name="Ally" parent="." node_paths=PackedStringArray("Chat") groups=["navigation"] instance=ExtResource("6_l8h37")]
 position = Vector2(5000, -6200)
 Chat = NodePath("Ally1Cam/Ally1Chat")
@@ -912,6 +922,16 @@ offset_top = -145.0
 offset_right = 19.0
 offset_bottom = -122.0
 text = "James"
+
+[node name="ResponseField" type="RichTextLabel" parent="Ally"]
+modulate = Color(0, 0, 0, 1)
+self_modulate = Color(0, 0, 0, 1)
+offset_left = 47.0
+offset_top = -60.0
+offset_right = 479.0
+offset_bottom = 54.0
+bbcode_enabled = true
+fit_content = true
 
 [node name="CombatAlly" parent="." instance=ExtResource("13_668w2")]
 position = Vector2(536, -1030)

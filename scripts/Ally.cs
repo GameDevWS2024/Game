@@ -194,6 +194,7 @@ public partial class Ally : CharacterBody2D
 
 	private void HandleResponse(string response)
 	{
+		GD.Print("DEBUG: HandleResponse");
 		List<(string, string)> matches = ExtractRelevantLines(response);
 		string richtext = "";
 		foreach ((string op, string content) in matches)
@@ -209,6 +210,7 @@ public partial class Ally : CharacterBody2D
 					break;
 				case "INTERACT":
 					SetInteractOnArrival(true);
+					GD.Print("DEBUG: INTERACT Match");
 					break;
 				case "GOTO AND INTERACT":
 					SetInteractOnArrival(true);
@@ -227,6 +229,9 @@ public partial class Ally : CharacterBody2D
 				case "STOP": // stop command stops ally from doing anything
 					_harvest = false;
 					_busy = false;
+					break;
+				default:
+					GD.Print("DEBUG: NO MATCH FOR : "+op);
 					break;
 			}
 		}

@@ -13,22 +13,11 @@
 radius = 35.0
 height = 120.0
 
-[node name="Ally" type="CharacterBody2D" node_paths=PackedStringArray("_responseField", "PathFindingMovement", "_nameLabel") groups=["Entities"]]
+[node name="Ally" type="CharacterBody2D" node_paths=PackedStringArray("_responseField", "PathFindingMovement") groups=["Entities"]]
 z_index = 50
 script = ExtResource("1_anjrv")
-_responseField = NodePath("ResponseField")
+_responseField = NodePath("")
 PathFindingMovement = NodePath("PathFindingMovement")
-_nameLabel = NodePath("")
-
-[node name="ResponseField" type="RichTextLabel" parent="."]
-modulate = Color(0, 0, 0, 1)
-self_modulate = Color(0, 0, 0, 1)
-offset_left = 47.0
-offset_top = -60.0
-offset_right = 479.0
-offset_bottom = 54.0
-bbcode_enabled = true
-fit_content = true
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 path_max_distance = 20.0

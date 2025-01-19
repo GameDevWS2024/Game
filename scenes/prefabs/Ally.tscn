@@ -1,7 +1,6 @@
-[gd_scene load_steps=11 format=3 uid="uid://6gwtt7kwq2p"]
+[gd_scene load_steps=10 format=3 uid="uid://6gwtt7kwq2p"]
 
 [ext_resource type="Script" path="res://scripts/Ally.cs" id="1_anjrv"]
-[ext_resource type="Script" path="res://scripts/Chat.cs" id="2_k8ael"]
 [ext_resource type="Texture2D" uid="uid://ds35c4ylle7qd" path="res://assets/sprites/workerAlly.png" id="3_xbwev"]
 [ext_resource type="Script" path="res://scripts/PathFindingMovement.cs" id="4_v650j"]
 [ext_resource type="Script" path="res://scripts/Health.cs" id="5_moxt6"]
@@ -14,22 +13,12 @@
 radius = 35.0
 height = 120.0
 
-[node name="Ally" type="CharacterBody2D" node_paths=PackedStringArray("Chat", "_responseField", "PathFindingMovement", "_nameLabel") groups=["Entities"]]
+[node name="Ally" type="CharacterBody2D" node_paths=PackedStringArray("_responseField", "PathFindingMovement", "_nameLabel") groups=["Entities"]]
 z_index = 50
 script = ExtResource("1_anjrv")
-Chat = NodePath("Chat")
 _responseField = NodePath("ResponseField")
 PathFindingMovement = NodePath("PathFindingMovement")
-_nameLabel = NodePath("Label")
-
-[node name="Chat" type="LineEdit" parent="."]
-offset_left = 37.0
-offset_top = -251.0
-offset_right = 419.0
-offset_bottom = -73.0
-script = ExtResource("2_k8ael")
-_systemPromptFile = "res://assets/prompts/ally_system_prompt.txt"
-_introductionSystemPromptFile = "res://assets/prompts/introduction_ally_system_prompt.txt"
+_nameLabel = NodePath("")
 
 [node name="ResponseField" type="RichTextLabel" parent="."]
 modulate = Color(0, 0, 0, 1)
@@ -77,13 +66,6 @@ _health = NodePath("../Health")
 [node name="Removable" type="Node" parent="."]
 script = ExtResource("7_2n21g")
 ListenToInteract = false
-
-[node name="Label" type="Label" parent="."]
-offset_left = -21.0
-offset_top = -145.0
-offset_right = 19.0
-offset_bottom = -122.0
-text = "James"
 
 [node name="MotivationBar" type="ProgressBar" parent="." node_paths=PackedStringArray("_motivation")]
 modulate = Color(0.0627451, 0.74902, 1, 1)

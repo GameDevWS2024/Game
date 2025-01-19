@@ -1,129 +1,168 @@
 using System;
 using System.Collections.Generic;
+using Game.Scripts;
 using System.Linq;
+using System.Threading.Tasks;
 
 using Godot;
 
 public partial class MouseControl : Control
 {
-    // The RichTextLabel that will follow the mouse
-    private RichTextLabel _richTextLabel = null!;
-    private CharacterBody2D? _selectedEntityGoto, _selectedEntityChat;
-    private int _clickRadius = 50;
+	// The RichTextLabel that will follow the mouse
+	private RichTextLabel _richTextLabel = null!;
+	private CharacterBody2D _selectedEntityGoto;
+	private CharacterBody2D _selectedEntityChat;
+	private int _clickRadius = 50;
+	Node _pathFindingMovement;
+	public int CurrentCamera = 2;
+	public Camera2D _camera1;
+	public Camera2D _camera2;
+	public Chat chat;
+	public Ally ally1;
+	public Ally ally2;
 
-    public override void _Ready()
-    {
-        // Get the RichTextLabel node
-        _richTextLabel = GetNode<RichTextLabel>("%MouseLabel");
-        _richTextLabel.Visible = false;
-    }
+	public override void _Ready()
+	{
+		// Get the RichTextLabel node
+		_camera1 = GetParent().GetNode<Camera2D>("Ally/Ally1Cam");
+		_camera2 = GetParent().GetNode<Camera2D>("Ally2/Ally2Cam");
+		_richTextLabel = GetNode<RichTextLabel>("%MouseLabel");
+		_richTextLabel.Visible = false;
+		_pathFindingMovement = GetNode<PathFindingMovement>("PathFindingMovementNode");
+	}
 
-    public override void _Input(InputEvent @event)
-    {
-        // Check if the event is a mouse button event and if it's the left button and select entity for goto
-        if (@event is InputEventMouseButton mouseEvent && mouseEvent.Pressed && mouseEvent.ButtonIndex == MouseButton.Left)
-        {
-            EntityGoto(GetGlobalMousePosition());
-        }
-        // Check if the event is a mouse button event and if it's the right button and open chat up
-        else if (@event is InputEventMouseButton mouseEvent1 && mouseEvent1.Pressed && mouseEvent1.ButtonIndex == MouseButton.Right)
-        {
-            ChatPopUp(GetGlobalMousePosition());
-        }
-    }
+	public override void _Input(InputEvent @event)
+	{
+		// Check if the event is a mouse button event and if it's the left button and select entity for goto
+		if (@event is InputEventMouseButton mouseEvent && mouseEvent.Pressed && mouseEvent.ButtonIndex == MouseButton.Left)
+		{
+			EntityGoto(GetGlobalMousePosition());
+		}
+		// Check if the event is a mouse button event and if it's the right button and open chat up
+		/*else if (@event is InputEventMouseButton mouseEvent1 && mouseEvent1.Pressed && mouseEvent1.ButtonIndex == MouseButton.Right)
+		{
+			ChatPopUp(GetGlobalMousePosition());
+		}*/
+		else if (@event is InputEventMouseButton mouseEvent1 && mouseEvent1.Pressed && mouseEvent1.ButtonIndex == MouseButton.Right){
+			SwitchCamera();
+		}
+	}
 
-    private Tuple<CharacterBody2D?, float> SearchNearestEntity(Vector2 clickPosition)
-    {
-        CharacterBody2D nearestEntity = null;
-        float nearestDistance = float.MaxValue;
+	private void SwitchCamera(){
+		GD.Print("DEBUG: Switching camera");
+		if(CurrentCamera == 1){
+			GD.Print("DEBUG: WAS CAMERA 1");
+			_camera2.Enabled = true;
+			_camera1.Enabled = false;
+			_camera1.GetNode<Chat>("Ally1Chat").Visible = false;
+			_camera2.GetNode<Chat>("Ally2Chat").GrabFocus();
+			_camera2.GetNode<Chat>("Ally2Chat").Visible = true;
+			GD.Print("DEBUG: setting camera to 2");
+			CurrentCamera = 2;
+		}
+		else if(CurrentCamera == 2){
+			GD.Print("DEBUG: WAS CAMERA 2");
+			_camera1.Enabled = true;
+			_camera2.Enabled = false;
+			_camera1.GetNode<Chat>("Ally1Chat").Visible = true;
+			_camera1.GetNode<Chat>("Ally1Chat").GrabFocus();
+			_camera2.GetNode<Chat>("Ally2Chat").Visible = false;
+			CurrentCamera = 1;
+		}
+	}
 
-        List<CharacterBody2D> entityGroup = GetTree().GetNodesInGroup("Entities").OfType<CharacterBody2D>().ToList();
+	private Tuple<CharacterBody2D, float> SearchNearestEntity(Vector2 clickPosition)
+	{
+		CharacterBody2D nearestEntity = null;
+		float nearestDistance = float.MaxValue;
 
-        foreach (CharacterBody2D entity in entityGroup)
-        {
-            float distance = entity.GlobalPosition.DistanceTo(clickPosition);
-            if (distance < nearestDistance)
-            {
-                nearestDistance = distance;
-                nearestEntity = entity;
-            }
-        }
-        return Tuple.Create(nearestEntity, nearestDistance);
-    }
-    //chat pop up function on right click
-    private void ChatPopUp(Vector2 clickPosition)
-    {
-        Tuple<CharacterBody2D?, float> resultTuple = SearchNearestEntity(clickPosition);
-        CharacterBody2D? nearestEntity = resultTuple.Item1;
-        float nearestDistance = resultTuple.Item2;
+		List<CharacterBody2D> entityGroup = GetTree().GetNodesInGroup("Entities").OfType<CharacterBody2D>().ToList();
 
-        // select nearest entity and set coordinates visible
-        if (nearestDistance <= _clickRadius && _selectedEntityChat == null)
-        {
-            _selectedEntityChat = nearestEntity;
-            //check what type the entity is and focus on the text box
-            if (_selectedEntityChat is Game.Scripts.Ally ally)
-            {
-                ally.Chat.Visible = true;
-                ally.Chat.GrabFocus();
-            }
-            else if (_selectedEntityChat is Game.Scripts.CombatAlly combatAlly)
-            {
-                combatAlly.Chat.Visible = true;
-                combatAlly.Chat.GrabFocus();
-            }
-        }
-        //if mouseclick was outside of defined radius
-        else if (_selectedEntityChat != null)
-        {
-            //check type to send ally or combat ally to selected coordinates 
-            if (_selectedEntityChat is Game.Scripts.Ally ally)
-            {
-                ally.Chat.Visible = false;
-            }
-            else if (_selectedEntityChat is Game.Scripts.CombatAlly combatAlly)
-            {
-                combatAlly.Chat.Visible = false;
-            }
-            _selectedEntityChat = null;
-        }
-    }
+		foreach (CharacterBody2D entity in entityGroup)
+		{
+			float distance = entity.GlobalPosition.DistanceTo(clickPosition);
+			if (distance < nearestDistance)
+			{
+				nearestDistance = distance;
+				nearestEntity = entity;
+			}
+		}
+		return Tuple.Create(nearestEntity, nearestDistance);
+	}
+	//chat pop up function on right click
+	private void ChatPopUp(Vector2 clickPosition)
+	{
+		Tuple<CharacterBody2D, float> resultTuple = SearchNearestEntity(clickPosition);
+		CharacterBody2D nearestEntity = resultTuple.Item1;
+		float nearestDistance = resultTuple.Item2;
 
-    //Select nearest Entity to mouseclick
-    private void EntityGoto(Vector2 clickPosition)
-    {
-        Tuple<CharacterBody2D?, float> resultTuple = SearchNearestEntity(clickPosition);
-        CharacterBody2D? nearestEntity = resultTuple.Item1;
-        float nearestDistance = resultTuple.Item2;
+		// select nearest entity and set coordinates visible
+		if (nearestDistance <= _clickRadius && _selectedEntityChat == null)
+		{
+			_selectedEntityChat = nearestEntity;
+			//check what type the entity is and focus on the text box
+			if (_selectedEntityChat is Ally ally)
+			{
+				ally.Chat.Visible = true;
+				ally.Chat.GrabFocus();
+			}
+			else if (_selectedEntityChat is CombatAlly combatAlly)
+			{
+				combatAlly.Chat.Visible = true;
+				combatAlly.Chat.GrabFocus();
+			}
+		}
+		//if mouseclick was outside of defined radius
+		else if (_selectedEntityChat != null)
+		{
+			//check type to send ally or combat ally to selected coordinates 
+			if (_selectedEntityChat is Ally ally)
+			{
+				ally.Chat.Visible = false;
+			}
+			else if (_selectedEntityChat is CombatAlly combatAlly)
+			{
+				combatAlly.Chat.Visible = false;
+			}
+			_selectedEntityChat = null;
+		}
+	}
 
-        // select nearest entity and set coordinates visible
-        if (nearestDistance <= _clickRadius)
-        {
-            _richTextLabel.Visible = true;
-            _selectedEntityGoto = nearestEntity;
-        }
-        //if mouseclick was outside of defined radius
-        else if (_selectedEntityGoto != null)
-        {
-            //check type to send ally or combat ally to selected coordinates 
-            if (_selectedEntityGoto is Game.Scripts.Ally ally)
-            {
-                ally.PathFindingMovement.TargetPosition = clickPosition;
-            }
-            else if (_selectedEntityGoto is Game.Scripts.CombatAlly combatAlly)
-            {
-                combatAlly.PathFindingMovement.TargetPosition = clickPosition;
-            }
-            _selectedEntityGoto = null;
-            _richTextLabel.Visible = false;
-        }
-    }
+	//Select nearest Entity to mouseclick
+	private void EntityGoto(Vector2 clickPosition)
+	{
+		Tuple<CharacterBody2D, float> resultTuple = SearchNearestEntity(clickPosition);
+		CharacterBody2D nearestEntity = resultTuple.Item1;
+		float nearestDistance = resultTuple.Item2;
 
-    public override void _PhysicsProcess(double delta)
-    {
-        // Set the position of the RichTextLabel to the mouse position
-        Vector2 mousePosition = GetGlobalMousePosition();
-        _richTextLabel.Text = "x: " + (int)mousePosition.X + " y: " + (int)mousePosition.Y;
-        _richTextLabel.Position = mousePosition;
-    }
+		// select nearest entity and set coordinates visible
+		if (nearestDistance <= _clickRadius)
+		{
+			_richTextLabel.Visible = true;
+			_selectedEntityGoto = nearestEntity;
+		}
+		//if mouseclick was outside of defined radius
+		else if (_selectedEntityGoto != null)
+		{
+			//check type to send ally or combat ally to selected coordinates 
+			if (_selectedEntityGoto is Ally ally)
+			{
+				ally.PathFindingMovement.TargetPosition = clickPosition;
+			}
+			else if (_selectedEntityGoto is CombatAlly combatAlly)
+			{
+				combatAlly.PathFindingMovement.TargetPosition = clickPosition;
+			}
+			_selectedEntityGoto = null;
+			_richTextLabel.Visible = false;
+		}
+	}
+
+	public override void _PhysicsProcess(double delta)
+	{
+		// Set the position of the RichTextLabel to the mouse position
+		Vector2 mousePosition = GetGlobalMousePosition();
+		_richTextLabel.Text = "x: " + (int)mousePosition.X + " y: " + (int)mousePosition.Y;
+		_richTextLabel.Position = mousePosition;
+	}
 }

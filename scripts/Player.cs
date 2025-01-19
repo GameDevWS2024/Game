@@ -13,7 +13,7 @@ public partial class Player : CharacterBody2D
 
     // Store the current velocity as a class field to maintain it between frames
     private Vector2 _currentVelocity = Vector2.Zero;
-    private Core _core = null!;
+    public Core Core = null!;
     private Player _player = null!;
     public Health Health = null!;
     public AllyState CurrentState { get; private set; } = AllyState.SmallCircle;
@@ -28,7 +28,7 @@ public partial class Player : CharacterBody2D
     {
         Health = GetNode<Health>("Health");
         _player = GetNode<Player>("%Player");
-        _core = GetNode<Core>("%Core");
+        Core = GetNode<Core>("%Core");
     }
 
     public override void _PhysicsProcess(double delta)
@@ -94,7 +94,7 @@ public partial class Player : CharacterBody2D
     public void SetAllyInDarkness()
     {
         // Berechne den Abstand zwischen Ally und Core
-        Vector2 distance = this.Position - _core.Position;
+        Vector2 distance = this.Position - Core.Position;
         float distanceLength = distance.Length();  // Berechne die Länge des Vektors
 
         // If ally further away than big circle, he is in the darkness

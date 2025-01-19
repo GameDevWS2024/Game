@@ -13,8 +13,10 @@
 radius = 35.0
 height = 120.0
 
-[node name="Ally2" type="CharacterBody2D" node_paths=PackedStringArray("PathFindingMovement", "_nameLabel") groups=["Entities"]]
+[node name="Ally2" type="CharacterBody2D" node_paths=PackedStringArray("PathFindingMovement", "_nameLabel", "PathFindingMovement", "_nameLabel") groups=["Entities"]]
 script = ExtResource("1_qr8gm")
+PathFindingMovement = NodePath("PathFindingMovement")
+_nameLabel = NodePath("Label")
 PathFindingMovement = NodePath("PathFindingMovement")
 _nameLabel = NodePath("Label")
 
@@ -53,7 +55,6 @@ metadata/_edit_use_anchors_ = true
 
 [node name="Removable" type="Node" parent="."]
 script = ExtResource("7_ga7xx")
-ListenToInteract = false
 
 [node name="Label" type="Label" parent="."]
 offset_left = -21.0

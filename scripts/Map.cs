@@ -11,24 +11,22 @@ using MapItem = Game.Scripts.Items.MapItem;
 using Material = Game.Scripts.Items.Material;
 
 
+namespace Game.scripts;
+
 public partial class Map : Node2D
 {
     [Export] private int _smallCircleHeal = 30;
     [Export] private int _bigCircleHeal = 10;
     [Export] private int _darknessCircleDamage = 30;
     [Export] private float _allyHealthChangeIntervall = 3f;
-    private Map _map = null!;
     private Game.Scripts.Core _core = null!; // Deklaration des Core-Objekts
-    private Player _player = null!;
     public static List<MapItem> Items { get; private set; } = null!;
     double _timeElapsed = 0f;
     private int _startItemCount = 34;
 
     public override void _Ready()
     {
-        _map = this;
         _core = GetNode<Game.Scripts.Core>("%Core");
-        _player = GetNode<Player>("%Player");
         Items = [];
 
 
@@ -39,8 +37,7 @@ public partial class Map : Node2D
         for (int i = 0; i < _startItemCount; i++)
         {
             Material randomMaterial = materials[random.Next(materials.Length - 1) + 1];
-            int randomX = random.Next(-2000, 2001);
-            int randomY = random.Next(-2000, 2001);
+            int randomX = random.Next(-2000, 2001), randomY = random.Next(-2000, 2001);
             while (randomX is < 700 and > -700)
             {
                 randomX = random.Next(-2000, 2001);
@@ -58,24 +55,24 @@ public partial class Map : Node2D
 
         if (_timeElapsed >= _allyHealthChangeIntervall)
         {
-            List<Ally> allyGroup = GetTree().GetNodesInGroup("Entities").OfType<Ally>().ToList();
+            List<Game.scripts.Ally> allyGroup = GetTree().GetNodesInGroup("Entities").OfType<Game.scripts.Ally>().ToList();
             List<CombatAlly> combatAllyGroup = GetTree().GetNodesInGroup("Entities").OfType<CombatAlly>().ToList();
 
-            foreach (Ally entity in allyGroup)
+            foreach (Game.scripts.Ally entity in allyGroup)
             {
                 Health hp = entity.GetNode<Health>("Health");
                 switch (entity.CurrentState)
                 {
                     //if ally is in darkness, its health is reduced by 1 point per Intervals
-                    case Ally.AllyState.Darkness:
+                    case Game.scripts.Ally.AllyState.Darkness:
                         hp.Damage(_darknessCircleDamage);
                         break;
                     //if ally is in small circle, it gets 3 health points per Interval
-                    case Ally.AllyState.SmallCircle:
+                    case Game.scripts.Ally.AllyState.SmallCircle:
                         hp.Heal(_smallCircleHeal);
                         break;
                     //if ally is in big circle, it gets 1 health points per Interval
-                    case Ally.AllyState.BigCircle:
+                    case Game.scripts.Ally.AllyState.BigCircle:
                         hp.Heal(_bigCircleHeal);
                         break;
                     default:
@@ -83,46 +80,6 @@ public partial class Map : Node2D
                 }
 
                 // GD.Print($"{entity.Name} Health: {entity.Health.Amount}");
-            }
-
-            foreach (CombatAlly entity in combatAllyGroup)
-            {
-                switch (entity.CurrentState)
-                {
-                    //if ally is in darkness, its health is reduced by 1 point per Intervals
-                    case CombatAlly.AllyState.Darkness:
-                        entity.Health.Damage(_darknessCircleDamage);
-                        break;
-                    //if ally is in small circle, it gets 3 health points per Interval
-                    case CombatAlly.AllyState.SmallCircle:
-                        entity.Health.Heal(_smallCircleHeal);
-                        break;
-                    //if ally is in big circle, it gets 1 health points per Interval
-                    case CombatAlly.AllyState.BigCircle:
-                        entity.Health.Heal(_bigCircleHeal);
-                        break;
-                }
-
-                // int($"{entity.Name} Health: {entity.Health.Amount}");
-            }
-
-            Health playerhp = _player.GetNode<Health>("Health");
-            switch (_player.CurrentState)
-            {
-                //if ally is in darkness, its health is reduced by 1 point per Intervals
-                case Player.AllyState.Darkness:
-                    playerhp.Damage(_darknessCircleDamage);
-                    break;
-                //if ally is in small circle, it gets 3 health points per Interval
-                case Player.AllyState.SmallCircle:
-                    playerhp.Heal(_smallCircleHeal);
-                    break;
-                //if ally is in big circle, it gets 1 health points per Interval
-                case Player.AllyState.BigCircle:
-                    playerhp.Heal(_bigCircleHeal);
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
             }
             _timeElapsed = 0;
         }
@@ -138,12 +95,12 @@ public partial class Map : Node2D
         _core.QueueRedraw();
     }
 
-    public void AddItem(Itemstack item, int x, int y)
+    public static void AddItem(Itemstack item, int x, int y)
     {
         Items.Add(new MapItem(item, x, y));
     }
 
-    public List<MapItem> GetItems()
+    public static List<MapItem> GetItems()
     {
         return Items;
     }
@@ -155,14 +112,7 @@ public partial class Map : Node2D
 
     private static List<Location> GetAllItemLocations()
     {
-        List<Location> locations = new List<Location>();
-
-        foreach (Location loc in Items.Select(item => item.Location))
-        {
-            locations.Add(loc);
-        }
-
-        return locations;
+        return Items.Select(item => item.Location).ToList();
     }
 
     public static Location? GetNearestItemLocation(Location loc)

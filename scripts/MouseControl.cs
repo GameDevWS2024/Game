@@ -63,7 +63,7 @@ public partial class MouseControl : Control
         {
             _selectedEntityChat = nearestEntity;
             //check what type the entity is and focus on the text box
-            if (_selectedEntityChat is Ally ally)
+            if (_selectedEntityChat is Game.scripts.Ally ally)
             {
                 ally.Chat.Visible = true;
                 ally.Chat.GrabFocus();
@@ -78,7 +78,7 @@ public partial class MouseControl : Control
         else if (_selectedEntityChat != null)
         {
             //check type to send ally or combat ally to selected coordinates 
-            if (_selectedEntityChat is Ally ally)
+            if (_selectedEntityChat is Game.scripts.Ally ally)
             {
                 ally.Chat.Visible = false;
             }
@@ -107,14 +107,12 @@ public partial class MouseControl : Control
         else if (_selectedEntityGoto != null)
         {
             //check type to send ally or combat ally to selected coordinates 
-            if (_selectedEntityGoto is Ally ally)
+            if (_selectedEntityGoto is Game.scripts.Ally ally)
             {
-                ally.FollowPlayer = false;
                 ally.PathFindingMovement.TargetPosition = clickPosition;
             }
             else if (_selectedEntityGoto is CombatAlly combatAlly)
             {
-                combatAlly.FollowPlayer = false;
                 combatAlly.PathFindingMovement.TargetPosition = clickPosition;
             }
             _selectedEntityGoto = null;

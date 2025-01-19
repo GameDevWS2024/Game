@@ -1,22 +1,22 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
 
 using Game.Scripts;
 
 using Godot;
 using Godot.Collections;
 
-public partial class CombatAlly : Game.scripts.Ally
+namespace Game.Scripts;
+
+public partial class CombatAlly : Ally
 {
-    public new Health Health = null!;
-    [Export] public new Chat Chat = null!;
+    private Health _health = null!;
+    [Export] public Chat Chat = null!;
     [Export] RichTextLabel _responseField = null!;
-    [Export] public new PathFindingMovement PathFindingMovement = null!;
+    [Export] public PathFindingMovement PathFindingMovement = null!;
     [Export] private Label _nameLabel = null!;
     private int _motivation;
-    
+
     private float _attackCooldown = 0.5f; // Time between attacks in seconds
     private float _timeSinceLastAttack = 0.0f; // Time accumulator
     private const float AttackRange = 170.0f; // Distance at which ally can attack
@@ -24,10 +24,10 @@ public partial class CombatAlly : Game.scripts.Ally
 
     public override void _Ready()
     {
-        Health = GetNode<Health>("Health");
+        _health = GetNode<Health>("Health");
         _core = GetNode<Core>("%Core");
     }
-    
+
 
     public override void _PhysicsProcess(double delta)
     {

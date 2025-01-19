@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 
+using Game.scripts;
 using Game.Scripts;
 using Game.Scripts.Items;
 
@@ -10,7 +11,7 @@ using Godot;
 
 using Vector2 = Godot.Vector2;
 
-namespace Game.scripts;
+namespace Game.Scripts;
 
 public partial class Ally : CharacterBody2D
 {
@@ -19,14 +20,15 @@ public partial class Ally : CharacterBody2D
     [Export] private Label _nameLabel = null!;
     private Motivation _motivation = null!;
     private Health _health = null!;
-    public Game.Scripts.Core _core = null!;
+    protected Game.Scripts.Core _core = null!;
     private static readonly Inventory SsInventory = new Inventory(36);
 
     [Export] private int _visionRadius = 300;
     [Export] private int _interactionRadius = 150;
     private bool _interactOnArrival, _busy, _reached, _harvest, _returning;
-    
+
     [Export] public Chat Chat = null!;
+    public Map? Map;
     Chat? _chatNode;
     [Export] public VisibleForAI[] AlwaysVisible = [];
     private GenerativeAI.Methods.ChatSession? _chat;
@@ -41,12 +43,12 @@ public partial class Ally : CharacterBody2D
         SmallCircle,
         BigCircle
     }
-
     public AllyState CurrentState { get; private set; } = AllyState.SmallCircle;
 
 
     public override void _Ready()
     {
+        Map = GetTree().Root.GetNode<Map>("Node2D");
         _chatNode = GetNode<Chat>("Chat");
         _geminiService = _chatNode.GeminiService;
         _chat = _geminiService!.Chat;
@@ -75,16 +77,18 @@ public partial class Ally : CharacterBody2D
             string completeInput = $"Currently Visible:\n\n{visibleItemsFormatted}\n\n";
 
             string originalSystemPrompt = Chat.SystemPrompt;
-            Chat.SystemPrompt = "In the following you'll get a list of things you see with coordinates. Respond by telling the commander just what might be important or ask clarifying questions on what to do next. \n";
+            Chat.SystemPrompt =
+                "In the following you'll get a list of things you see with coordinates. Respond by telling the commander just what might be important or ask clarifying questions on what to do next. \n";
             string? arrivalResponse = await _geminiService!.MakeQuery(completeInput);
             List<(string, string)> responseGroups = ExtractRelevantLines(arrivalResponse!);
             foreach ((string, string) response in responseGroups)
             {
                 if (response.Item1 == "RESPONSE")
                 {
-                    GD.Print(response.Item2+" ADFIUODSOFJ");
-                } 
+                    GD.Print(response.Item2);
+                }
             }
+
             RichTextLabel label = GetNode<RichTextLabel>("ResponseField");
             label.Text += "\n" + arrivalResponse;
 
@@ -94,20 +98,25 @@ public partial class Ally : CharacterBody2D
 
     public List<VisibleForAI> GetCurrentlyVisible()
     {
-        IEnumerable<VisibleForAI> visibleForAiNodes = GetTree().GetNodesInGroup(VisibleForAI.GroupName).OfType<VisibleForAI>();
-        return visibleForAiNodes.Where(node => GlobalPosition.DistanceTo(node.GlobalPosition) <= _visionRadius).ToList();
+        IEnumerable<VisibleForAI> visibleForAiNodes =
+            GetTree().GetNodesInGroup(VisibleForAI.GroupName).OfType<VisibleForAI>();
+        return visibleForAiNodes.Where(node => GlobalPosition.DistanceTo(node.GlobalPosition) <= _visionRadius)
+            .ToList();
     }
+
     public List<Interactable> GetCurrentlyInteractables()
     {
-        IEnumerable<Interactable> interactable = GetTree().GetNodesInGroup(Interactable.GroupName).OfType<Interactable>();
-        return interactable.Where(node => GlobalPosition.DistanceTo(node.GlobalPosition) <= _interactionRadius).ToList();
+        IEnumerable<Interactable> interactable =
+            GetTree().GetNodesInGroup(Interactable.GroupName).OfType<Interactable>();
+        return interactable.Where(node => GlobalPosition.DistanceTo(node.GlobalPosition) <= _interactionRadius)
+            .ToList();
     }
 
     public void SetAllyInDarkness()
     {
         // Berechne den Abstand zwischen Ally und Core
         Vector2 distance = this.Position - _core.Position;
-        float distanceLength = distance.Length();  // Berechne die Länge des Vektors
+        float distanceLength = distance.Length(); // Berechne die Länge des Vektors
 
         // If ally further away than big circle, he is in the darkness
         if (distanceLength > Core.LightRadiusBiggerCircle)
@@ -151,7 +160,7 @@ public partial class Ally : CharacterBody2D
             {
                 PointLight2D cl = _core.GetNode<PointLight2D>("CoreLight");
                 Vector2 targ = new Vector2(0, 500); // cl.GlobalPosition;
-                // Target = core
+                                                    // Target = core
                 PathFindingMovement.TargetPosition = _core.GlobalPosition;
                 GD.Print("Target position (should be CORE): " + PathFindingMovement.TargetPosition.ToString());
             }
@@ -190,7 +199,9 @@ public partial class Ally : CharacterBody2D
                 case "GOTO":
                     Goto(content);
                     break;
-                case "HARVEST" when !_busy && Map.Items.Count > 0:  // if harvest command and not walking somewhere and items on map
+                case "HARVEST"
+                    when !_busy && Map.Items.Count > 0
+                    : // if harvest command and not walking somewhere and items on map
                     GD.Print("harvesting");
                     Harvest();
                     break;
@@ -200,6 +211,7 @@ public partial class Ally : CharacterBody2D
                     break;
             }
         }
+
         _responseField.ParseBbcode(richtext); // formatted text into response field
     }
 
@@ -207,7 +219,7 @@ public partial class Ally : CharacterBody2D
     {
         _interactOnArrival = interactOnArrival;
     }
-    
+
     private void Goto(String content)
     {
         const string goToPattern = @"^\s*\(\s*(-?\d+)\s*,\s*(-?\d+)\s*\)\s*$";
@@ -224,7 +236,7 @@ public partial class Ally : CharacterBody2D
             GD.Print($"goto couldn't match the position, content was: '{content}'");
         }
     }
-    
+
     private static string FormatPart(string part, string op, string content)
     {
         return part += op switch // format response based on different ops or response types
@@ -241,9 +253,20 @@ public partial class Ally : CharacterBody2D
         List<(string, string)> matches = [];
 
         // Add commands to be extracted here
-        List<String> ops = ["MOTIVATION", "THOUGHT", "RESPONSE", "REMEMBER", 
-            "GOTO AND INTERACT", "GOTO", "INTERACT", "HARVEST", "FOLLOW", "STOP"];
-        
+        List<String> ops =
+        [
+            "MOTIVATION",
+            "THOUGHT",
+            "RESPONSE",
+            "REMEMBER",
+            "GOTO AND INTERACT",
+            "GOTO",
+            "INTERACT",
+            "HARVEST",
+            "FOLLOW",
+            "STOP"
+        ];
+
         foreach (string line in lines)
         {
             foreach (string op in ops)
@@ -299,6 +322,7 @@ public partial class Ally : CharacterBody2D
                 Core.IncreaseScale();
                 GD.Print("Increased scale");
             }
+
             SsInventory.Clear();
             _busy = false; // Change busy state  
             _harvest = false; // Change harvest state

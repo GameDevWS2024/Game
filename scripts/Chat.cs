@@ -16,7 +16,7 @@ namespace Game.Scripts
         [Export(PropertyHint.File, "introduction_ally_system_prompt.txt")]
         private string? _introductionSystemPromptFile;
 
-        private scripts.Ally _ally = null!;
+        private Scripts.Ally _ally = null!;
 
         public string SystemPrompt = "";
         private string _introductionSystemPrompt = "";
@@ -28,7 +28,7 @@ namespace Game.Scripts
 
         public override void _Ready()
         {
-            _ally = GetParent<scripts.Ally>();
+            _ally = GetParent<Scripts.Ally>();
             _responseCount = 0;
             TextSubmitted += OnTextSubmitted;
 

@@ -1,8 +1,6 @@
-[gd_scene load_steps=38 format=4 uid="uid://dfkwq6qwtxw25"]
+[gd_scene load_steps=35 format=4 uid="uid://dfkwq6qwtxw25"]
 
-[ext_resource type="PackedScene" uid="uid://clfnjh8aelj66" path="res://scenes/prefabs/Player.tscn" id="1_7owxc"]
 [ext_resource type="Script" path="res://scripts/EnemyManager.cs" id="1_bmkfv"]
-[ext_resource type="Shader" path="res://scenes/levels/ExampleScene.gdshader" id="1_kbklw"]
 [ext_resource type="Script" path="res://scripts/Map.cs" id="1_pa1ge"]
 [ext_resource type="PackedScene" uid="uid://dkcg0yrtwyo0k" path="res://scenes/prefabs/PointLight.tscn" id="3_0raeo"]
 [ext_resource type="Script" path="res://scripts/AI/VisibleForAI.cs" id="6_7bcmx"]
@@ -26,9 +24,6 @@
 [ext_resource type="Script" path="res://scripts/MouseControl.cs" id="26_regqh"]
 [ext_resource type="PackedScene" uid="uid://dlswxsom74twu" path="res://scenes/levels/HauntedForest/insideBigHouse.tscn" id="26_vmw0c"]
 [ext_resource type="Texture2D" uid="uid://ctl8fttcbljlm" path="res://assets/tilemaps/spaceship.png" id="27_lqhmv"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_hnti7"]
-shader = ExtResource("1_kbklw")
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_e7vql"]
 size = Vector2(88, 49)
@@ -854,29 +849,17 @@ script = ExtResource("1_pa1ge")
 _darknessCircleDamage = 1
 _allyHealthChangeIntervall = 5.0
 
-[node name="Player" parent="." instance=ExtResource("1_7owxc")]
-unique_name_in_owner = true
-z_index = 100
-material = SubResource("ShaderMaterial_hnti7")
-position = Vector2(5000, -6000)
-_maxSpeed = 450.0
+[node name="Ally" parent="." instance=ExtResource("6_l8h37")]
+position = Vector2(5000, -6200)
 
-[node name="Camera2D" type="Camera2D" parent="Player"]
+[node name="Camera2D" type="Camera2D" parent="Ally"]
 light_mask = 2
 visibility_layer = 2
-position = Vector2(-2, 9.99999)
+position = Vector2(-2, 210)
 scale = Vector2(0.5, 0.570093)
 zoom = Vector2(0.8, 0.8)
 position_smoothing_enabled = true
 position_smoothing_speed = 7.0
-
-[node name="PlayerVisibleForAI" type="Node2D" parent="Player"]
-script = ExtResource("6_7bcmx")
-NameForAi = "Player/Commander"
-DescribtionForAi = "Me"
-
-[node name="Ally" parent="." instance=ExtResource("6_l8h37")]
-position = Vector2(5000, -6200)
 
 [node name="CombatAlly" parent="." instance=ExtResource("13_668w2")]
 position = Vector2(536, -1030)
@@ -1185,7 +1168,7 @@ NameForAi = "Sign"
 DescribtionForAi = "Spaceport at (-3050, 2000)"
 
 [node name="Flashlight" type="Node2D" parent="."]
-position = Vector2(-5486, -466)
+position = Vector2(5630, -5543)
 script = ExtResource("6_7bcmx")
 NameForAi = "Flashlight"
 DescribtionForAi = "It might be useful in the Haunted Forest Village"
@@ -1200,9 +1183,9 @@ position = Vector2(-1, 0)
 script = ExtResource("7_ji1nn")
 
 [node name="VisibleForAI" type="Node2D" parent="Flashlight"]
-position = Vector2(10193, -5846.62)
+position = Vector2(0, 7)
 script = ExtResource("6_7bcmx")
-NameForAi = "Test"
-DescribtionForAi = "this is a test"
+NameForAi = "Flashlight"
+DescribtionForAi = "pick it up with INTERACT"
 
 [connection signal="pressed" from="IntroText/Panel/Close" to="IntroText" method="OnClosePressed"]

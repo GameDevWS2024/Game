@@ -2,9 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net.Mail;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 using Godot;
 namespace Game.Scripts
@@ -19,9 +16,9 @@ namespace Game.Scripts
         [Export(PropertyHint.File, "introduction_ally_system_prompt.txt")]
         private string? _introductionSystemPromptFile;
 
-        private Ally _ally = null!;
+        private Scripts.Ally _ally = null!;
 
-        private string _systemPrompt = "";
+        public string SystemPrompt = "";
         private string _introductionSystemPrompt = "";
         public GeminiService? GeminiService;
         private readonly string _apiKeyPath = ProjectSettings.GlobalizePath("res://api_key.secret");
@@ -31,7 +28,7 @@ namespace Game.Scripts
 
         public override void _Ready()
         {
-            _ally = GetParent<Ally>();
+            _ally = GetParent<Scripts.Ally>();
             _responseCount = 0;
             TextSubmitted += OnTextSubmitted;
 
@@ -40,7 +37,7 @@ namespace Game.Scripts
 
             try
             {
-                _systemPrompt = File.ReadAllText(systemPromptAbsolutePath);
+                SystemPrompt = File.ReadAllText(systemPromptAbsolutePath);
                 _introductionSystemPrompt = File.ReadAllText(introductionSystemPromptAbsolutePath);
             }
             catch (Exception ex)
@@ -64,7 +61,7 @@ namespace Game.Scripts
             {
                 GD.Print("responding normally");
                 // Combine conversation history and the original system prompt
-                updatedPrompt = $"Instructions:\n{_systemPrompt}\n You remember: {conversationHistory}\n---------";
+                updatedPrompt = $"Instructions:\n{SystemPrompt}\n You remember: {conversationHistory}\n---------";
             }
             //  _systemPrompt = updatedPrompt; // Update the current system prompt
             // Update the GeminiService instance
@@ -78,7 +75,7 @@ namespace Game.Scripts
             {
                 GeminiService = new GeminiService(_apiKeyPath);
 
-                GeminiService.SetSystemPrompt(_systemPrompt);
+                GeminiService.SetSystemPrompt(SystemPrompt);
 
                 PlaceholderText = ChatPlaceholder;
             }
@@ -102,7 +99,7 @@ namespace Game.Scripts
 
             if (GeminiService != null)
             {
-                string? response = await GeminiService.MakeQuerry(completeInput);
+                string? response = await GeminiService.MakeQuery(completeInput);
                 if (response != null)
                 {
                     EmitSignal(SignalName.ResponseReceived, response);

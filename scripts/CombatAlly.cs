@@ -1,35 +1,21 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
 
 using Game.Scripts;
 
 using Godot;
 using Godot.Collections;
 
-public partial class CombatAlly : CharacterBody2D
+namespace Game.Scripts;
+
+public partial class CombatAlly : Ally
 {
-    public Health Health = null!;
+    private Health _health = null!;
     [Export] public Chat Chat = null!;
     [Export] RichTextLabel _responseField = null!;
     [Export] public PathFindingMovement PathFindingMovement = null!;
     [Export] private Label _nameLabel = null!;
-    public bool FollowPlayer = true;
     private int _motivation;
-    private Player _player = null!;
-
-    // Enum with states for ally in darkness, in bigger or smaller circle for map damage system
-    public enum AllyState
-    {
-        Darkness,
-        SmallCircle,
-        BigCircle
-    }
-
-    public AllyState CurrentState { get; private set; } = AllyState.SmallCircle;
-
-    private Game.Scripts.Core _core = null!;
 
     private float _attackCooldown = 0.5f; // Time between attacks in seconds
     private float _timeSinceLastAttack = 0.0f; // Time accumulator
@@ -38,33 +24,10 @@ public partial class CombatAlly : CharacterBody2D
 
     public override void _Ready()
     {
-        Health = GetNode<Health>("Health");
-        _player = GetNode<Player>("%Player");
-        _core = GetNode<Game.Scripts.Core>("%Core");
+        _health = GetNode<Health>("Health");
+        _core = GetNode<Core>("%Core");
     }
 
-    public void SetAllyInDarkness()
-    {
-        // Calculate the distance between Ally and Core
-        Vector2 distance = this.Position - _core.Position;
-        float distanceLength = distance.Length(); // Get the length of the vector
-
-        // If ally further away than big circle, he is in the darkness
-        if (distanceLength > Core.LightRadiusBiggerCircle)
-        {
-            CurrentState = AllyState.Darkness;
-        }
-        // If ally not in darkness and closer than the small Light Radius, he is in small circle
-        else if (distanceLength < Core.LightRadiusSmallerCircle)
-        {
-            CurrentState = AllyState.SmallCircle;
-        }
-        // If ally not in darkness and not in small circle, ally is in big circle
-        else
-        {
-            CurrentState = AllyState.BigCircle;
-        }
-    }
 
     public override void _PhysicsProcess(double delta)
     {
@@ -72,22 +35,15 @@ public partial class CombatAlly : CharacterBody2D
 
         // Check where ally is (darkness, bigger, smaller)
         SetAllyInDarkness();
-
-        if (FollowPlayer)
-        {
-            PathFindingMovement.TargetPosition = _player.GlobalPosition;
-        }
-
         AttackNearestEnemy();
     }
 
     private void AttackNearestEnemy()
     {
-        // Get the list of enemies
         Array<Node> enemyGroup = GetTree().GetNodesInGroup("Enemies");
         if (enemyGroup == null || enemyGroup.Count == 0)
         {
-            return; // No enemies to attack
+            return;
         }
 
         // Find the nearest enemy
@@ -95,70 +51,29 @@ public partial class CombatAlly : CharacterBody2D
             .OfType<Node2D>()
             .Select(enemy => (enemy, distance: enemy.GlobalPosition.DistanceTo(GlobalPosition)))
             .ToList();
-
         Node2D? nearestEnemy = nearestEnemies.OrderBy(t => t.distance).FirstOrDefault().enemy;
 
-        if (nearestEnemy != null)
+        if (nearestEnemy == null)
         {
-            Vector2 targetPosition = nearestEnemy.GlobalPosition;
-            float distanceToTarget = targetPosition.DistanceTo(GlobalPosition);
-
-            // Move toward the target
-            PathFindingMovement.TargetPosition = targetPosition;
-
-            // Attack if within range and cooldown allows
-            if (distanceToTarget < AttackRange && _timeSinceLastAttack >= _attackCooldown)
-            {
-                if (nearestEnemy.HasNode("Health"))
-                {
-                    Health enemyHealth = nearestEnemy.GetNode<Health>("Health");
-                    enemyHealth.Damage(_damage);
-                }
-                _timeSinceLastAttack = 0;
-            }
-        }
-    }
-
-    private void HandleResponse(string response)
-    {
-        _responseField.Text = response;
-
-        GD.Print($"Response: {response}");
-
-        string pattern = @"MOTIVATION:\s*(\d+)";
-        Regex regex = new Regex(pattern);
-        Match match = regex.Match(response);
-
-        if (match.Success && match.Groups.Count > 1)
-        {
-            try
-            {
-                _motivation = int.Parse(match.Groups[1].Value);
-            }
-            catch (Exception ex)
-            {
-                GD.Print(ex);
-            }
+            return;
         }
 
-        if (response.Contains("FOLLOW"))
+        Vector2 targetPosition = nearestEnemy.GlobalPosition;
+        float distanceToTarget = targetPosition.DistanceTo(GlobalPosition);
+
+        // Move toward the target
+        PathFindingMovement.TargetPosition = targetPosition;
+
+        if (!(distanceToTarget < AttackRange) || !(_timeSinceLastAttack >= _attackCooldown))
         {
-            GD.Print("Following");
-            FollowPlayer = true;
+            return;
         }
 
-        if (response.Contains("STOP"))
+        if (nearestEnemy.HasNode("Health"))
         {
-            GD.Print("Stop");
-            FollowPlayer = false;
+            Health enemyHealth = nearestEnemy.GetNode<Health>("Health");
+            enemyHealth.Damage(_damage);
         }
-
-        if (response.Contains("DEFEND"))
-        {
-            GD.Print("Following and defending Player");
-            FollowPlayer = true;
-        }
-
-        GD.Print($"Motivation: {_motivation}");
+        _timeSinceLastAttack = 0;
     }
 }

@@ -54,11 +54,17 @@ public class GeminiService
 
     public async void SetSystemPrompt(string prompt)
     {
-        GD.Print(prompt);
-        await Chat.SendMessageAsync(prompt);
+        try
+        {
+            // GD.Print(prompt);
+            await Chat.SendMessageAsync(prompt);
+        }
+        catch (Exception e)
+        {
+            throw new Exception("Error setting system prompt", e);
+        }
     }
-
-    public async Task<string?> MakeQuerry(string input)
+    public async Task<string?> MakeQuery(string input)
     {
         GD.Print(input);
         try

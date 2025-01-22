@@ -2,8 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-
-using Game.scripts;
 using Game.Scripts;
 using Game.Scripts.Items;
 
@@ -80,7 +78,7 @@ public partial class Ally : CharacterBody2D
             Chat.SystemPrompt =
                 "In the following you'll get a list of things you see with coordinates. Respond by telling the commander just what might be important or ask clarifying questions on what to do next. \n";
             string? arrivalResponse = await _geminiService!.MakeQuery(completeInput);
-            List<(string, string)> responseGroups = ExtractRelevantLines(arrivalResponse!);
+            List<(string, string)>? responseGroups = ExtractRelevantLines(arrivalResponse!);
             foreach ((string, string) response in responseGroups)
             {
                 if (response.Item1 == "RESPONSE")
@@ -174,14 +172,16 @@ public partial class Ally : CharacterBody2D
         }
     }
 
+    private List<(string, string)>? _matches;
+    private string _richtext = "", _part = "";
     private void HandleResponse(string response)
     {
-        List<(string, string)> matches = ExtractRelevantLines(response);
-        string richtext = "";
-        foreach ((string op, string content) in matches)
+        _matches = ExtractRelevantLines(response);
+        _richtext = "";
+        foreach ((string op, string content) in _matches)
         {
-            const string part = "";
-            richtext += FormatPart(part, op, content);
+            _part = "";
+            _richtext += FormatPart(_part, op, content);
 
             // differentiate what to do based on command op
             switch (op)
@@ -212,7 +212,7 @@ public partial class Ally : CharacterBody2D
             }
         }
 
-        _responseField.ParseBbcode(richtext); // formatted text into response field
+        _responseField.ParseBbcode(_richtext); // formatted text into response field
     }
 
     private void SetInteractOnArrival(bool interactOnArrival)
@@ -247,10 +247,10 @@ public partial class Ally : CharacterBody2D
         };
     }
 
-    private static List<(string, string)> ExtractRelevantLines(string response)
+    private static List<(string, string)>? ExtractRelevantLines(string response)
     {
         string[] lines = response.Split('\n').Where(line => line.Length > 0).ToArray();
-        List<(string, string)> matches = [];
+        List<(string, string)>? matches = [];
 
         // Add commands to be extracted here
         List<String> ops =

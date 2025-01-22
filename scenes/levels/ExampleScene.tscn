@@ -12,13 +12,13 @@
 [ext_resource type="PackedScene" uid="uid://bgxxp0o5kdpkq" path="res://scenes/prefabs/Enemy.tscn" id="10_tv6x7"]
 [ext_resource type="Script" path="res://scripts/Core.cs" id="11_wagl7"]
 [ext_resource type="PackedScene" uid="uid://dktm5pdu27ai2" path="res://scenes/prefabs/Ally2.tscn" id="13_668w2"]
-[ext_resource type="Script" path="res://scenes/levels/IntroText.cs" id="14_trtui"]
 [ext_resource type="Texture2D" uid="uid://desfy4vbdj1ld" path="res://assets/tilemaps/TX Props.png" id="18_mna0q"]
 [ext_resource type="Texture2D" uid="uid://dtw1kjrq4qor4" path="res://assets/tilemaps/TX Tileset Grass.png" id="19_jd32h"]
 [ext_resource type="Texture2D" uid="uid://cmooytb3c0mki" path="res://assets/sprites/Pasted image.png" id="20_lgqcj"]
 [ext_resource type="Script" path="res://scripts/Interaction/ItemAdder.cs" id="21_2au4o"]
 [ext_resource type="TileSet" uid="uid://b57mlmhoqye7c" path="res://assets/hauntedForestVillage/Interior.tres" id="23_6wlm7"]
 [ext_resource type="TileSet" uid="uid://c2meivnk57unc" path="res://assets/hauntedForestVillage/HauntedForestVillage.tres" id="24_igx6k"]
+[ext_resource type="PackedScene" uid="uid://cp62xh0okgxnf" path="res://scenes/levels/intro_scene.tscn" id="24_jfxsq"]
 [ext_resource type="Script" path="res://scripts/Interaction/ShowWhileInRadius.cs" id="25_0y114"]
 [ext_resource type="PackedScene" uid="uid://cg2nij0k76my6" path="res://scenes/levels/HauntedForest/HauntedForestVillage.tscn" id="25_lc565"]
 [ext_resource type="Script" path="res://scripts/MouseControl.cs" id="26_regqh"]
@@ -850,9 +850,10 @@ _darknessCircleDamage = 1
 _allyHealthChangeIntervall = 5.0
 
 [node name="Ally" parent="." instance=ExtResource("6_l8h37")]
-position = Vector2(5000, -6200)
+position = Vector2(870, 83)
 
 [node name="Camera2D" type="Camera2D" parent="Ally"]
+process_mode = 3
 light_mask = 2
 visibility_layer = 2
 position = Vector2(-2, 210)
@@ -862,7 +863,7 @@ position_smoothing_enabled = true
 position_smoothing_speed = 7.0
 
 [node name="CombatAlly" parent="." instance=ExtResource("13_668w2")]
-position = Vector2(536, -1030)
+position = Vector2(1370, 87)
 
 [node name="Core" type="Node2D" parent="." groups=["Core"]]
 unique_name_in_owner = true
@@ -1045,42 +1046,6 @@ _minSpawnInterval = 5.0
 _maxEnemies = 5
 _baseInterval = 5.0
 
-[node name="IntroText" type="CanvasLayer" parent="."]
-script = ExtResource("14_trtui")
-
-[node name="Panel" type="Panel" parent="IntroText"]
-offset_left = 2584.0
-offset_top = 2503.0
-offset_right = 2624.0
-offset_bottom = 2543.0
-metadata/_edit_use_anchors_ = true
-
-[node name="Label" type="Label" parent="IntroText/Panel"]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 2.65
-anchor_top = 2.85
-anchor_right = 15.05
-anchor_bottom = 2.85
-offset_right = 40.0
-offset_bottom = 23.0
-text = "\"Stay in the light! Say 'Harvest' to tell your ally to get some resources\""
-metadata/_edit_use_anchors_ = true
-
-[node name="Close" type="Button" parent="IntroText/Panel"]
-process_mode = 2
-z_index = 20
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 1.075
-anchor_top = 2.075
-anchor_right = 2.85
-anchor_bottom = 2.65
-offset_right = 8.0
-offset_bottom = 8.0
-text = "Continue"
-metadata/_edit_use_anchors_ = true
-
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
 z_index = 300
 navigation_polygon = SubResource("NavigationPolygon_e7gay")
@@ -1188,4 +1153,8 @@ script = ExtResource("6_7bcmx")
 NameForAi = "Flashlight"
 DescribtionForAi = "pick it up with INTERACT"
 
-[connection signal="pressed" from="IntroText/Panel/Close" to="IntroText" method="OnClosePressed"]
+[node name="IntroScene" parent="." instance=ExtResource("24_jfxsq")]
+offset_left = 389.0
+offset_top = 26.9998
+offset_right = 2479.0
+offset_bottom = 690.0

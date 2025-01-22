@@ -14,26 +14,25 @@
 radius = 35.0
 height = 120.0
 
-[node name="Ally" type="CharacterBody2D" node_paths=PackedStringArray("Chat", "_responseField", "PathFindingMovement", "_nameLabel") groups=["Entities"]]
+[node name="Ally" type="CharacterBody2D" node_paths=PackedStringArray("_responseField", "PathFindingMovement", "_nameLabel", "Chat") groups=["Entities"]]
 z_index = 50
 script = ExtResource("1_anjrv")
-Chat = NodePath("Chat")
 _responseField = NodePath("ResponseField")
 PathFindingMovement = NodePath("PathFindingMovement")
 _nameLabel = NodePath("Label")
+Chat = NodePath("Chat")
 
 [node name="Chat" type="LineEdit" parent="."]
 offset_left = 37.0
 offset_top = -251.0
 offset_right = 419.0
 offset_bottom = -73.0
+placeholder_text = "Chat with your Ally"
 script = ExtResource("2_k8ael")
 _systemPromptFile = "res://assets/prompts/ally_system_prompt.txt"
 _introductionSystemPromptFile = "res://assets/prompts/introduction_ally_system_prompt.txt"
 
 [node name="ResponseField" type="RichTextLabel" parent="."]
-modulate = Color(0, 0, 0, 1)
-self_modulate = Color(0, 0, 0, 1)
 offset_left = 47.0
 offset_top = -60.0
 offset_right = 479.0

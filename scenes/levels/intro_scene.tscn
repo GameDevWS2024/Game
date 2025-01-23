@@ -15,6 +15,7 @@ shadow_size = 7
 
 [sub_resource type="SystemFont" id="SystemFont_s3oh0"]
 font_names = PackedStringArray("Fantasy")
+subpixel_positioning = 0
 
 [node name="IntroScene" type="Control"]
 process_mode = 2
@@ -28,7 +29,7 @@ mouse_default_cursor_shape = 2
 script = ExtResource("1_wmi33")
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
-z_index = -5
+z_index = 1
 layout_mode = 0
 offset_left = -486.0
 offset_top = 560.0
@@ -37,8 +38,17 @@ offset_bottom = 849.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_vuppq")
 
 [node name="Label" type="Label" parent="PanelContainer"]
+z_index = 1
 layout_mode = 2
 theme_override_fonts/font = SubResource("SystemFont_s3oh0")
 theme_override_font_sizes/font_size = 52
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 0
+offset_left = -2248.0
+offset_top = -1057.0
+offset_right = 3774.0
+offset_bottom = 1907.0
+color = Color(0, 0, 0, 1)

@@ -8,7 +8,7 @@ using Game.Scripts.Items;
 using Godot;
 
 public partial class Ally : CharacterBody2D
-{ // TEST (this comment can be removed)
+{ // TEST2 (this comment can be removed)
     public Health Health = null!;
     [Export] Chat _chat = null!;
     [Export] RichTextLabel _responseField = null!;

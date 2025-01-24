@@ -10,8 +10,6 @@ public partial class Inventory
     public int Size { get; }
     private Itemstack?[] Items { get; set; }
 
-    private readonly Inventory? _inventory;
-
     public Inventory(int size)
     {
         Size = size;

@@ -1,0 +1,96 @@
+[gd_scene load_steps=11 format=3 uid="uid://dnc2vvs8id2oa"]
+
+[ext_resource type="Script" path="res://scripts/Ally.cs" id="1_15nmj"]
+[ext_resource type="Texture2D" uid="uid://ds35c4ylle7qd" path="res://assets/sprites/workerAlly.png" id="3_8g8rm"]
+[ext_resource type="Script" path="res://scripts/PathFindingMovement.cs" id="4_q3grj"]
+[ext_resource type="Script" path="res://scripts/Health.cs" id="5_0ll33"]
+[ext_resource type="Script" path="res://scripts/HealthBar.cs" id="6_lpoq5"]
+[ext_resource type="Script" path="res://scripts/Interaction/Removeable.cs" id="7_5g4cy"]
+[ext_resource type="Script" path="res://scripts/Items/Inventory.cs" id="8_asv34"]
+[ext_resource type="Script" path="res://scripts/MotivationBar.cs" id="9_wly35"]
+[ext_resource type="Script" path="res://scripts/Motivation.cs" id="10_eieqm"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_rn1pq"]
+radius = 35.0
+height = 120.0
+
+[node name="Ally" type="CharacterBody2D" node_paths=PackedStringArray("_responseField", "PathFindingMovement", "_nameLabel") groups=["Entities"]]
+script = ExtResource("1_15nmj")
+_responseField = NodePath("ResponseField")
+PathFindingMovement = NodePath("PathFindingMovement")
+_nameLabel = NodePath("Label")
+
+[node name="ResponseField" type="RichTextLabel" parent="."]
+modulate = Color(0, 0, 0, 1)
+self_modulate = Color(0, 0, 0, 1)
+offset_left = 47.0
+offset_top = -60.0
+offset_right = 479.0
+offset_bottom = 54.0
+bbcode_enabled = true
+fit_content = true
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+path_max_distance = 20.0
+simplify_path = true
+debug_enabled = true
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(1.675, 1.675)
+texture = ExtResource("3_8g8rm")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_rn1pq")
+
+[node name="PathFindingMovement" type="Node" parent="." node_paths=PackedStringArray("_character", "_agent", "_sprite")]
+script = ExtResource("4_q3grj")
+_character = NodePath("..")
+_agent = NodePath("../NavigationAgent2D")
+_sprite = NodePath("../Sprite2D")
+
+[node name="Health" type="Node" parent="."]
+script = ExtResource("5_0ll33")
+
+[node name="ProgressBar" type="ProgressBar" parent="." node_paths=PackedStringArray("_health")]
+self_modulate = Color(1.26103e-05, 0.840319, 1.15514e-06, 1)
+offset_left = -33.0
+offset_top = -115.0
+offset_right = 39.0
+offset_bottom = -97.0
+value = 50.0
+show_percentage = false
+script = ExtResource("6_lpoq5")
+_health = NodePath("../Health")
+
+[node name="Removable" type="Node" parent="."]
+script = ExtResource("7_5g4cy")
+
+[node name="Label" type="Label" parent="."]
+offset_left = -21.0
+offset_top = -145.0
+offset_right = 19.0
+offset_bottom = -122.0
+text = "Carlos"
+
+[node name="Inventory" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("8_asv34")
+
+[node name="MotivationBar" type="ProgressBar" parent="." node_paths=PackedStringArray("_motivation")]
+modulate = Color(0.0627451, 0.74902, 1, 1)
+self_modulate = Color(0.0627451, 0.301961, 1, 1)
+offset_left = -33.0
+offset_top = -88.0
+offset_right = 38.0
+offset_bottom = -61.0
+max_value = 10.0
+value = 10.0
+rounded = true
+show_percentage = false
+script = ExtResource("9_wly35")
+_motivation = NodePath("../Motivation")
+
+[node name="Motivation" type="Node" parent="."]
+script = ExtResource("10_eieqm")
+
+[connection signal="Death" from="Health" to="Removable" method="Remove"]

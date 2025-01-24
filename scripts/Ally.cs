@@ -2,8 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using Game.Scripts.Items;
+
 using Game.Scripts;
+using Game.Scripts.Items;
+
 using Godot;
 
 using Vector2 = Godot.Vector2;
@@ -26,7 +28,6 @@ public partial class Ally : CharacterBody2D
 
     [Export] public Chat Chat = null!;
     public Map? Map;
-    Chat? _chatNode;
     [Export] public VisibleForAI[] AlwaysVisible = [];
     private GenerativeAI.Methods.ChatSession? _chat;
     private GeminiService? _geminiService;
@@ -42,24 +43,23 @@ public partial class Ally : CharacterBody2D
     }
     public AllyState CurrentState { get; private set; } = AllyState.SmallCircle;
 
-
     public override void _Ready()
     {
         _core = GetTree().GetNodesInGroup("Core").OfType<Core>().FirstOrDefault()!;
         Map = GetTree().Root.GetNode<Map>("Node2D");
-        _chatNode = GetChildren().Select(node=>node.GetType().Equals(Chat));
-        
-        _geminiService = _chatNode.GeminiService;
+
+        _geminiService = Chat.GeminiService;
         _chat = _geminiService!.Chat;
         base._Ready();
         _motivation = GetNode<Motivation>("Motivation");
         _health = GetNode<Health>("Health");
         Chat.ResponseReceived += HandleResponse;
-        
+
 
         GD.Print(GetTree().GetFirstNodeInGroup("Core").GetType());
-        
-        if(_core == null) {
+
+        if (_core == null)
+        {
             GD.Print("Core null");
         }
         Chat.Visible = false;
@@ -189,39 +189,39 @@ public partial class Ally : CharacterBody2D
             _part = "";
             _richtext += FormatPart(_part, op, content);
 
-			// differentiate what to do based on command op
-			switch (op)
-			{
-				case "MOTIVATION": // set motivation from output
-					_motivation.SetMotivation(content.ToInt());
-					break;
-				case "INTERACT":
-					SetInteractOnArrival(true);
-					GD.Print("DEBUG: INTERACT Match");
-					break;
-				case "GOTO AND INTERACT":
-					SetInteractOnArrival(true);
-					Goto(content);
-					break;
-				case "GOTO":
-					GD.Print("DEBUG: GOTO Match");
-					Goto(content);
-					break;
-				case "HARVEST"
-					when !_busy && Map.Items.Count > 0
-					: // if harvest command and not walking somewhere and items on map
-					GD.Print("harvesting");
-					Harvest();
-					break;
-				case "STOP": // stop command stops ally from doing anything
-					_harvest = false;
-					_busy = false;
-					break;
-				default:
-					GD.Print("DEBUG: NO MATCH FOR : "+op);
-					break;
-			}
-		}
+            // differentiate what to do based on command op
+            switch (op)
+            {
+                case "MOTIVATION": // set motivation from output
+                    _motivation.SetMotivation(content.ToInt());
+                    break;
+                case "INTERACT":
+                    SetInteractOnArrival(true);
+                    GD.Print("DEBUG: INTERACT Match");
+                    break;
+                case "GOTO AND INTERACT":
+                    SetInteractOnArrival(true);
+                    Goto(content);
+                    break;
+                case "GOTO":
+                    GD.Print("DEBUG: GOTO Match");
+                    Goto(content);
+                    break;
+                case "HARVEST"
+                    when !_busy && Map.Items.Count > 0
+                    : // if harvest command and not walking somewhere and items on map
+                    GD.Print("harvesting");
+                    Harvest();
+                    break;
+                case "STOP": // stop command stops ally from doing anything
+                    _harvest = false;
+                    _busy = false;
+                    break;
+                default:
+                    GD.Print("DEBUG: NO MATCH FOR : " + op);
+                    break;
+            }
+        }
 
         _responseField.ParseBbcode(_richtext); // formatted text into response field
     }

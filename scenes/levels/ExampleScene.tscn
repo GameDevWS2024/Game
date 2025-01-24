@@ -1,8 +1,9 @@
-[gd_scene load_steps=34 format=4 uid="uid://dfkwq6qwtxw25"]
+[gd_scene load_steps=41 format=4 uid="uid://dfkwq6qwtxw25"]
 
 [ext_resource type="Script" path="res://scripts/EnemyManager.cs" id="1_bmkfv"]
 [ext_resource type="Script" path="res://scripts/Map.cs" id="1_pa1ge"]
 [ext_resource type="PackedScene" uid="uid://dkcg0yrtwyo0k" path="res://scenes/prefabs/PointLight.tscn" id="3_0raeo"]
+[ext_resource type="Script" path="res://scripts/Chat.cs" id="3_m6i6e"]
 [ext_resource type="Script" path="res://scripts/AI/VisibleForAI.cs" id="6_7bcmx"]
 [ext_resource type="PackedScene" uid="uid://6gwtt7kwq2p" path="res://scenes/prefabs/Ally.tscn" id="6_l8h37"]
 [ext_resource type="Script" path="res://scripts/Interaction/Interactable.cs" id="7_ji1nn"]
@@ -11,7 +12,6 @@
 [ext_resource type="PackedScene" uid="uid://ki7e88gvvcs" path="res://scenes/prefabs/ice_tree.tscn" id="9_tf77n"]
 [ext_resource type="PackedScene" uid="uid://bgxxp0o5kdpkq" path="res://scenes/prefabs/Enemy.tscn" id="10_tv6x7"]
 [ext_resource type="Script" path="res://scripts/Core.cs" id="11_wagl7"]
-[ext_resource type="PackedScene" uid="uid://dktm5pdu27ai2" path="res://scenes/prefabs/Ally2.tscn" id="13_668w2"]
 [ext_resource type="Texture2D" uid="uid://desfy4vbdj1ld" path="res://assets/tilemaps/TX Props.png" id="18_mna0q"]
 [ext_resource type="Texture2D" uid="uid://dtw1kjrq4qor4" path="res://assets/tilemaps/TX Tileset Grass.png" id="19_jd32h"]
 [ext_resource type="Texture2D" uid="uid://cmooytb3c0mki" path="res://assets/sprites/Pasted image.png" id="20_lgqcj"]
@@ -19,10 +19,18 @@
 [ext_resource type="TileSet" uid="uid://b57mlmhoqye7c" path="res://assets/hauntedForestVillage/Interior.tres" id="23_6wlm7"]
 [ext_resource type="TileSet" uid="uid://c2meivnk57unc" path="res://assets/hauntedForestVillage/HauntedForestVillage.tres" id="24_igx6k"]
 [ext_resource type="Script" path="res://scripts/Interaction/ShowWhileInRadius.cs" id="25_0y114"]
+[ext_resource type="Script" path="res://scenes/levels/AudioManager.cs" id="25_fif0r"]
 [ext_resource type="PackedScene" uid="uid://cg2nij0k76my6" path="res://scenes/levels/HauntedForest/HauntedForestVillage.tscn" id="25_lc565"]
 [ext_resource type="Script" path="res://scripts/MouseControl.cs" id="26_regqh"]
+[ext_resource type="AudioStream" uid="uid://dakeblpcjdlfw" path="res://assets/audio/creepy_music.mp3" id="26_rqvqj"]
 [ext_resource type="PackedScene" uid="uid://dlswxsom74twu" path="res://scenes/levels/HauntedForest/insideBigHouse.tscn" id="26_vmw0c"]
 [ext_resource type="Texture2D" uid="uid://ctl8fttcbljlm" path="res://assets/tilemaps/spaceship.png" id="27_lqhmv"]
+[ext_resource type="AudioStream" uid="uid://miidgr6peqh" path="res://assets/audio/game_music.mp3" id="27_n56s6"]
+[ext_resource type="AudioStream" uid="uid://dk6o3bfgpq5as" path="res://assets/audio/intro_song.mp3" id="28_u8gsi"]
+[ext_resource type="AudioStream" uid="uid://ckepkjqosl80g" path="res://assets/audio/gameOver.mp3" id="29_jcr58"]
+[ext_resource type="AudioStream" uid="uid://dpq5uuhy4kxlo" path="res://assets/audio/victoryScreen.mp3" id="30_4ukal"]
+
+[sub_resource type="Theme" id="Theme_d0vdd"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_e7vql"]
 size = Vector2(88, 49)
@@ -851,18 +859,90 @@ _allyHealthChangeIntervall = 5.0
 [node name="Ally" parent="." instance=ExtResource("6_l8h37")]
 position = Vector2(870, 83)
 
-[node name="Camera2D" type="Camera2D" parent="Ally"]
-process_mode = 3
+[node name="Ally1Cam" type="Camera2D" parent="Ally"]
 light_mask = 2
 visibility_layer = 2
-position = Vector2(-2, 4)
+position = Vector2(-4, 2)
 scale = Vector2(0.5, 0.570093)
 zoom = Vector2(0.8, 0.8)
-position_smoothing_enabled = true
 position_smoothing_speed = 7.0
 
-[node name="CombatAlly" parent="." instance=ExtResource("13_668w2")]
-position = Vector2(1370, 87)
+[node name="Ally1Chat" type="LineEdit" parent="Ally/Ally1Cam" groups=["Chat"]]
+custom_minimum_size = Vector2(1200, 200)
+offset_left = 1100.0
+offset_top = 900.0
+offset_right = 2300.0
+offset_bottom = 1100.0
+script = ExtResource("3_m6i6e")
+_systemPromptFile = "res://assets/prompts/ally_system_prompt.txt"
+_introductionSystemPromptFile = "res://assets/prompts/introduction_ally_system_prompt.txt"
+
+[node name="VisibleForAI" type="Node2D" parent="Ally"]
+script = ExtResource("6_7bcmx")
+
+[node name="Label" type="Label" parent="Ally"]
+offset_left = -21.0
+offset_top = -145.0
+offset_right = 19.0
+offset_bottom = -122.0
+text = "James"
+
+[node name="ResponseField" type="RichTextLabel" parent="Ally"]
+modulate = Color(0, 0, 0, 1)
+self_modulate = Color(0, 0, 0, 1)
+offset_left = 47.0
+offset_top = -60.0
+offset_right = 479.0
+offset_bottom = 54.0
+bbcode_enabled = true
+fit_content = true
+
+[node name="Ally2" parent="." node_paths=PackedStringArray("_responseField", "_nameLabel", "Chat") groups=["navigation"] instance=ExtResource("6_l8h37")]
+_responseField = NodePath("ResponseField")
+_nameLabel = NodePath("Label")
+Chat = NodePath("Ally2Cam/Ally2Chat")
+
+[node name="Ally2Cam" type="Camera2D" parent="Ally2"]
+light_mask = 2
+visibility_layer = 2
+position = Vector2(5, -2)
+scale = Vector2(0.5, 0.570093)
+zoom = Vector2(0.8, 0.8)
+position_smoothing_speed = 7.0
+
+[node name="Ally2Chat" type="LineEdit" parent="Ally2/Ally2Cam" groups=["Chat"]]
+custom_minimum_size = Vector2(1200, 200)
+offset_left = 1100.0
+offset_top = 900.0
+offset_right = 2300.0
+offset_bottom = 1100.0
+theme = SubResource("Theme_d0vdd")
+script = ExtResource("3_m6i6e")
+_systemPromptFile = "res://assets/prompts/ally_system_prompt.txt"
+_introductionSystemPromptFile = "res://assets/prompts/introduction_ally_system_prompt.txt"
+
+[node name="VisibleForAI" type="Node2D" parent="Ally2"]
+script = ExtResource("6_7bcmx")
+
+[node name="Label" type="Label" parent="Ally2"]
+offset_left = -21.0
+offset_top = -145.0
+offset_right = 19.0
+offset_bottom = -122.0
+text = "Jones"
+
+[node name="ResponseField" type="RichTextLabel" parent="Ally2"]
+modulate = Color(0, 0, 0, 1)
+self_modulate = Color(0, 0, 0, 1)
+offset_left = 47.0
+offset_top = -60.0
+offset_right = 479.0
+offset_bottom = 54.0
+bbcode_enabled = true
+fit_content = true
+
+[node name="Ally3" parent="." groups=["navigation"] instance=ExtResource("6_l8h37")]
+position = Vector2(5000, -6200)
 
 [node name="Core" type="Node2D" parent="." groups=["Core"]]
 unique_name_in_owner = true
@@ -871,6 +951,7 @@ script = ExtResource("11_wagl7")
 
 [node name="CoreLight" parent="Core" instance=ExtResource("3_0raeo")]
 unique_name_in_owner = true
+position = Vector2(0, -34)
 color = Color(0.767814, 0.714527, 0.618239, 1)
 energy = 4.8
 shadow_enabled = true
@@ -885,6 +966,12 @@ offset_top = 272.0
 offset_right = 902.0
 offset_bottom = 447.0
 metadata/_edit_use_anchors_ = true
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="CanvasModulate" type="CanvasModulate" parent="ColorRect"]
 
 [node name="Obstacles" type="Node" parent="."]
 
@@ -1151,3 +1238,21 @@ position = Vector2(0, 7)
 script = ExtResource("6_7bcmx")
 NameForAi = "Flashlight"
 DescribtionForAi = "pick it up with INTERACT"
+
+[node name="AudioManager" type="Node" parent="."]
+script = ExtResource("25_fif0r")
+
+[node name="creepy_music" type="AudioStreamPlayer" parent="AudioManager"]
+stream = ExtResource("26_rqvqj")
+
+[node name="game_music" type="AudioStreamPlayer" parent="AudioManager"]
+stream = ExtResource("27_n56s6")
+
+[node name="intro_music" type="AudioStreamPlayer" parent="AudioManager"]
+stream = ExtResource("28_u8gsi")
+
+[node name="game_over" type="AudioStreamPlayer" parent="AudioManager"]
+stream = ExtResource("29_jcr58")
+
+[node name="victory" type="AudioStreamPlayer" parent="AudioManager"]
+stream = ExtResource("30_4ukal")

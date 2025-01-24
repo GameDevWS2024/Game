@@ -1,6 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+
+using Game.Scripts;
 
 using Godot;
 
@@ -8,14 +11,25 @@ public partial class MouseControl : Control
 {
     // The RichTextLabel that will follow the mouse
     private RichTextLabel _richTextLabel = null!;
-    private CharacterBody2D? _selectedEntityGoto, _selectedEntityChat;
+    private CharacterBody2D _selectedEntityGoto = null!;
+    private CharacterBody2D _selectedEntityChat = null!;
     private int _clickRadius = 50;
+    Node _pathFindingMovement = null!;
+    public int CurrentCamera = 2;
+    public Camera2D Camera1 = null!;
+    public Camera2D Camera2 = null!;
+    public Chat Chat = null!;
+    public Ally Ally1 = null!;
+    public Ally Ally2 = null!;
 
     public override void _Ready()
     {
         // Get the RichTextLabel node
+        Camera1 = GetParent().GetNode<Camera2D>("Ally/Ally1Cam");
+        Camera2 = GetParent().GetNode<Camera2D>("Ally2/Ally2Cam");
         _richTextLabel = GetNode<RichTextLabel>("%MouseLabel");
         _richTextLabel.Visible = false;
+        _pathFindingMovement = GetNode<PathFindingMovement>("PathFindingMovementNode");
     }
 
     public override void _Input(InputEvent @event)
@@ -26,13 +40,43 @@ public partial class MouseControl : Control
             EntityGoto(GetGlobalMousePosition());
         }
         // Check if the event is a mouse button event and if it's the right button and open chat up
+        /*else if (@event is InputEventMouseButton mouseEvent1 && mouseEvent1.Pressed && mouseEvent1.ButtonIndex == MouseButton.Right)
+		{
+			ChatPopUp(GetGlobalMousePosition());
+		}*/
         else if (@event is InputEventMouseButton mouseEvent1 && mouseEvent1.Pressed && mouseEvent1.ButtonIndex == MouseButton.Right)
         {
-            ChatPopUp(GetGlobalMousePosition());
+            SwitchCamera();
         }
     }
 
-    private Tuple<CharacterBody2D?, float> SearchNearestEntity(Vector2 clickPosition)
+    private void SwitchCamera()
+    {
+        GD.Print("DEBUG: Switching camera");
+        if (CurrentCamera == 1)
+        {
+            GD.Print("DEBUG: WAS CAMERA 1");
+            Camera2.Enabled = true;
+            Camera1.Enabled = false;
+            Camera1.GetNode<Chat>("Ally1Chat").Visible = false;
+            Camera2.GetNode<Chat>("Ally2Chat").GrabFocus();
+            Camera2.GetNode<Chat>("Ally2Chat").Visible = true;
+            GD.Print("DEBUG: setting camera to 2");
+            CurrentCamera = 2;
+        }
+        else if (CurrentCamera == 2)
+        {
+            GD.Print("DEBUG: WAS CAMERA 2");
+            Camera1.Enabled = true;
+            Camera2.Enabled = false;
+            Camera1.GetNode<Chat>("Ally1Chat").Visible = true;
+            Camera1.GetNode<Chat>("Ally1Chat").GrabFocus();
+            Camera2.GetNode<Chat>("Ally2Chat").Visible = false;
+            CurrentCamera = 1;
+        }
+    }
+
+    private Tuple<CharacterBody2D, float> SearchNearestEntity(Vector2 clickPosition)
     {
         CharacterBody2D nearestEntity = null;
         float nearestDistance = float.MaxValue;
@@ -53,8 +97,8 @@ public partial class MouseControl : Control
     //chat pop up function on right click
     private void ChatPopUp(Vector2 clickPosition)
     {
-        Tuple<CharacterBody2D?, float> resultTuple = SearchNearestEntity(clickPosition);
-        CharacterBody2D? nearestEntity = resultTuple.Item1;
+        Tuple<CharacterBody2D, float> resultTuple = SearchNearestEntity(clickPosition);
+        CharacterBody2D nearestEntity = resultTuple.Item1;
         float nearestDistance = resultTuple.Item2;
 
         // select nearest entity and set coordinates visible
@@ -62,12 +106,12 @@ public partial class MouseControl : Control
         {
             _selectedEntityChat = nearestEntity;
             //check what type the entity is and focus on the text box
-            if (_selectedEntityChat is Game.Scripts.Ally ally)
+            if (_selectedEntityChat is Ally ally)
             {
                 ally.Chat.Visible = true;
                 ally.Chat.GrabFocus();
             }
-            else if (_selectedEntityChat is Game.Scripts.CombatAlly combatAlly)
+            else if (_selectedEntityChat is CombatAlly combatAlly)
             {
                 combatAlly.Chat.Visible = true;
                 combatAlly.Chat.GrabFocus();
@@ -77,11 +121,11 @@ public partial class MouseControl : Control
         else if (_selectedEntityChat != null)
         {
             //check type to send ally or combat ally to selected coordinates 
-            if (_selectedEntityChat is Game.Scripts.Ally ally)
+            if (_selectedEntityChat is Ally ally)
             {
                 ally.Chat.Visible = false;
             }
-            else if (_selectedEntityChat is Game.Scripts.CombatAlly combatAlly)
+            else if (_selectedEntityChat is CombatAlly combatAlly)
             {
                 combatAlly.Chat.Visible = false;
             }
@@ -92,8 +136,8 @@ public partial class MouseControl : Control
     //Select nearest Entity to mouseclick
     private void EntityGoto(Vector2 clickPosition)
     {
-        Tuple<CharacterBody2D?, float> resultTuple = SearchNearestEntity(clickPosition);
-        CharacterBody2D? nearestEntity = resultTuple.Item1;
+        Tuple<CharacterBody2D, float> resultTuple = SearchNearestEntity(clickPosition);
+        CharacterBody2D nearestEntity = resultTuple.Item1;
         float nearestDistance = resultTuple.Item2;
 
         // select nearest entity and set coordinates visible
@@ -106,11 +150,11 @@ public partial class MouseControl : Control
         else if (_selectedEntityGoto != null)
         {
             //check type to send ally or combat ally to selected coordinates 
-            if (_selectedEntityGoto is Game.Scripts.Ally ally)
+            if (_selectedEntityGoto is Ally ally)
             {
                 ally.PathFindingMovement.TargetPosition = clickPosition;
             }
-            else if (_selectedEntityGoto is Game.Scripts.CombatAlly combatAlly)
+            else if (_selectedEntityGoto is CombatAlly combatAlly)
             {
                 combatAlly.PathFindingMovement.TargetPosition = clickPosition;
             }

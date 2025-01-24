@@ -16,12 +16,12 @@ public partial class IntroScene : Control
 		"Please! Wake up!",
 		"We need you... Wake up!",
 		"You are finally awake! I was losing hope...",
-		"Something terrible has happened! All the Light has disappeared.",
-		"The Darkness is dangerous and harmful. We can’t endure it for long...",
+		"Something terrible has happened! All the light has disappeared.",
+		"The darkness is dangerous and harmful. We can’t endure it for long...",
 		"You are our last hope!",
 		"I sense that there is something in the nearby village...",
 		"I know you can’t move outside the core...",
-		"But Ally1 and Ally2 can be your hands, eyes, and ears in this world. You are connected.",
+		"But your allies can be your hands, eyes, and ears in this world. You are connected.",
 		"You may have forgotten everything, but they are your faithful companions and will listen to your command."
 	};
 

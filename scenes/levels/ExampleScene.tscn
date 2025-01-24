@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=4 uid="uid://dfkwq6qwtxw25"]
+[gd_scene load_steps=34 format=4 uid="uid://dfkwq6qwtxw25"]
 
 [ext_resource type="Script" path="res://scripts/EnemyManager.cs" id="1_bmkfv"]
 [ext_resource type="Script" path="res://scripts/Map.cs" id="1_pa1ge"]
@@ -18,7 +18,6 @@
 [ext_resource type="Script" path="res://scripts/Interaction/ItemAdder.cs" id="21_2au4o"]
 [ext_resource type="TileSet" uid="uid://b57mlmhoqye7c" path="res://assets/hauntedForestVillage/Interior.tres" id="23_6wlm7"]
 [ext_resource type="TileSet" uid="uid://c2meivnk57unc" path="res://assets/hauntedForestVillage/HauntedForestVillage.tres" id="24_igx6k"]
-[ext_resource type="PackedScene" uid="uid://cp62xh0okgxnf" path="res://scenes/levels/intro_scene.tscn" id="24_jfxsq"]
 [ext_resource type="Script" path="res://scripts/Interaction/ShowWhileInRadius.cs" id="25_0y114"]
 [ext_resource type="PackedScene" uid="uid://cg2nij0k76my6" path="res://scenes/levels/HauntedForest/HauntedForestVillage.tscn" id="25_lc565"]
 [ext_resource type="Script" path="res://scripts/MouseControl.cs" id="26_regqh"]
@@ -1152,9 +1151,3 @@ position = Vector2(0, 7)
 script = ExtResource("6_7bcmx")
 NameForAi = "Flashlight"
 DescribtionForAi = "pick it up with INTERACT"
-
-[node name="IntroScene" parent="." instance=ExtResource("24_jfxsq")]
-offset_left = 389.0
-offset_top = 26.9998
-offset_right = 2479.0
-offset_bottom = 690.0

@@ -1,6 +1,6 @@
 using Godot;
 
-namespace Game.scenes.levels;
+namespace Game.Scenes.Levels;
 
 public partial class AudioManager : Node
 {

@@ -11,22 +11,22 @@ public partial class MouseControl : Control
 {
     // The RichTextLabel that will follow the mouse
     private RichTextLabel _richTextLabel = null!;
-    private CharacterBody2D _selectedEntityGoto;
-    private CharacterBody2D _selectedEntityChat;
+    private CharacterBody2D _selectedEntityGoto = null!;
+    private CharacterBody2D _selectedEntityChat = null!;
     private int _clickRadius = 50;
-    Node _pathFindingMovement;
+    Node _pathFindingMovement = null!;
     public int CurrentCamera = 2;
-    public Camera2D _camera1;
-    public Camera2D _camera2;
-    public Chat chat;
-    public Ally ally1;
-    public Ally ally2;
+    public Camera2D Camera1 = null!;
+    public Camera2D Camera2 = null!;
+    public Chat Chat = null!;
+    public Ally Ally1 = null!;
+    public Ally Ally2 = null!;
 
     public override void _Ready()
     {
         // Get the RichTextLabel node
-        _camera1 = GetParent().GetNode<Camera2D>("Ally/Ally1Cam");
-        _camera2 = GetParent().GetNode<Camera2D>("Ally2/Ally2Cam");
+        Camera1 = GetParent().GetNode<Camera2D>("Ally/Ally1Cam");
+        Camera2 = GetParent().GetNode<Camera2D>("Ally2/Ally2Cam");
         _richTextLabel = GetNode<RichTextLabel>("%MouseLabel");
         _richTextLabel.Visible = false;
         _pathFindingMovement = GetNode<PathFindingMovement>("PathFindingMovementNode");
@@ -56,22 +56,22 @@ public partial class MouseControl : Control
         if (CurrentCamera == 1)
         {
             GD.Print("DEBUG: WAS CAMERA 1");
-            _camera2.Enabled = true;
-            _camera1.Enabled = false;
-            _camera1.GetNode<Chat>("Ally1Chat").Visible = false;
-            _camera2.GetNode<Chat>("Ally2Chat").GrabFocus();
-            _camera2.GetNode<Chat>("Ally2Chat").Visible = true;
+            Camera2.Enabled = true;
+            Camera1.Enabled = false;
+            Camera1.GetNode<Chat>("Ally1Chat").Visible = false;
+            Camera2.GetNode<Chat>("Ally2Chat").GrabFocus();
+            Camera2.GetNode<Chat>("Ally2Chat").Visible = true;
             GD.Print("DEBUG: setting camera to 2");
             CurrentCamera = 2;
         }
         else if (CurrentCamera == 2)
         {
             GD.Print("DEBUG: WAS CAMERA 2");
-            _camera1.Enabled = true;
-            _camera2.Enabled = false;
-            _camera1.GetNode<Chat>("Ally1Chat").Visible = true;
-            _camera1.GetNode<Chat>("Ally1Chat").GrabFocus();
-            _camera2.GetNode<Chat>("Ally2Chat").Visible = false;
+            Camera1.Enabled = true;
+            Camera2.Enabled = false;
+            Camera1.GetNode<Chat>("Ally1Chat").Visible = true;
+            Camera1.GetNode<Chat>("Ally1Chat").GrabFocus();
+            Camera2.GetNode<Chat>("Ally2Chat").Visible = false;
             CurrentCamera = 1;
         }
     }

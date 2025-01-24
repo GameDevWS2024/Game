@@ -1,4 +1,4 @@
-[gd_scene load_steps=42 format=4 uid="uid://dfkwq6qwtxw25"]
+[gd_scene load_steps=41 format=4 uid="uid://dfkwq6qwtxw25"]
 
 [ext_resource type="Script" path="res://scripts/EnemyManager.cs" id="1_bmkfv"]
 [ext_resource type="Script" path="res://scripts/Map.cs" id="1_pa1ge"]
@@ -12,7 +12,6 @@
 [ext_resource type="PackedScene" uid="uid://ki7e88gvvcs" path="res://scenes/prefabs/ice_tree.tscn" id="9_tf77n"]
 [ext_resource type="PackedScene" uid="uid://bgxxp0o5kdpkq" path="res://scenes/prefabs/Enemy.tscn" id="10_tv6x7"]
 [ext_resource type="Script" path="res://scripts/Core.cs" id="11_wagl7"]
-[ext_resource type="Script" path="res://scenes/levels/IntroText.cs" id="14_trtui"]
 [ext_resource type="Texture2D" uid="uid://desfy4vbdj1ld" path="res://assets/tilemaps/TX Props.png" id="18_mna0q"]
 [ext_resource type="Texture2D" uid="uid://dtw1kjrq4qor4" path="res://assets/tilemaps/TX Tileset Grass.png" id="19_jd32h"]
 [ext_resource type="Texture2D" uid="uid://cmooytb3c0mki" path="res://assets/sprites/Pasted image.png" id="20_lgqcj"]
@@ -857,6 +856,47 @@ script = ExtResource("1_pa1ge")
 _darknessCircleDamage = 1
 _allyHealthChangeIntervall = 5.0
 
+[node name="Ally" parent="." instance=ExtResource("6_l8h37")]
+position = Vector2(870, 83)
+
+[node name="Ally1Cam" type="Camera2D" parent="Ally"]
+light_mask = 2
+visibility_layer = 2
+position = Vector2(-4, 2)
+scale = Vector2(0.5, 0.570093)
+zoom = Vector2(0.8, 0.8)
+position_smoothing_speed = 7.0
+
+[node name="Ally1Chat" type="LineEdit" parent="Ally/Ally1Cam" groups=["Chat"]]
+custom_minimum_size = Vector2(1200, 200)
+offset_left = 1100.0
+offset_top = 900.0
+offset_right = 2300.0
+offset_bottom = 1100.0
+script = ExtResource("3_m6i6e")
+_systemPromptFile = "res://assets/prompts/ally_system_prompt.txt"
+_introductionSystemPromptFile = "res://assets/prompts/introduction_ally_system_prompt.txt"
+
+[node name="VisibleForAI" type="Node2D" parent="Ally"]
+script = ExtResource("6_7bcmx")
+
+[node name="Label" type="Label" parent="Ally"]
+offset_left = -21.0
+offset_top = -145.0
+offset_right = 19.0
+offset_bottom = -122.0
+text = "James"
+
+[node name="ResponseField" type="RichTextLabel" parent="Ally"]
+modulate = Color(0, 0, 0, 1)
+self_modulate = Color(0, 0, 0, 1)
+offset_left = 47.0
+offset_top = -60.0
+offset_right = 479.0
+offset_bottom = 54.0
+bbcode_enabled = true
+fit_content = true
+
 [node name="Ally2" parent="." node_paths=PackedStringArray("_responseField", "_nameLabel", "Chat") groups=["navigation"] instance=ExtResource("6_l8h37")]
 _responseField = NodePath("ResponseField")
 _nameLabel = NodePath("Label")
@@ -901,49 +941,8 @@ offset_bottom = 54.0
 bbcode_enabled = true
 fit_content = true
 
-[node name="Ally" parent="." node_paths=PackedStringArray("_responseField", "_nameLabel", "Chat") groups=["navigation"] instance=ExtResource("6_l8h37")]
+[node name="Ally3" parent="." groups=["navigation"] instance=ExtResource("6_l8h37")]
 position = Vector2(5000, -6200)
-_responseField = NodePath("ResponseField")
-_nameLabel = NodePath("Label")
-Chat = NodePath("Ally1Cam/Ally1Chat")
-
-[node name="Ally1Cam" type="Camera2D" parent="Ally"]
-light_mask = 2
-visibility_layer = 2
-position = Vector2(-4, 2)
-scale = Vector2(0.5, 0.570093)
-zoom = Vector2(0.8, 0.8)
-position_smoothing_speed = 7.0
-
-[node name="Ally1Chat" type="LineEdit" parent="Ally/Ally1Cam" groups=["Chat"]]
-custom_minimum_size = Vector2(1200, 200)
-offset_left = 1100.0
-offset_top = 900.0
-offset_right = 2300.0
-offset_bottom = 1100.0
-script = ExtResource("3_m6i6e")
-_systemPromptFile = "res://assets/prompts/ally_system_prompt.txt"
-_introductionSystemPromptFile = "res://assets/prompts/introduction_ally_system_prompt.txt"
-
-[node name="VisibleForAI" type="Node2D" parent="Ally"]
-script = ExtResource("6_7bcmx")
-
-[node name="Label" type="Label" parent="Ally"]
-offset_left = -21.0
-offset_top = -145.0
-offset_right = 19.0
-offset_bottom = -122.0
-text = "James"
-
-[node name="ResponseField" type="RichTextLabel" parent="Ally"]
-modulate = Color(0, 0, 0, 1)
-self_modulate = Color(0, 0, 0, 1)
-offset_left = 47.0
-offset_top = -60.0
-offset_right = 479.0
-offset_bottom = 54.0
-bbcode_enabled = true
-fit_content = true
 
 [node name="Core" type="Node2D" parent="." groups=["Core"]]
 unique_name_in_owner = true
@@ -1133,42 +1132,6 @@ _minSpawnInterval = 5.0
 _maxEnemies = 5
 _baseInterval = 5.0
 
-[node name="IntroText" type="CanvasLayer" parent="."]
-script = ExtResource("14_trtui")
-
-[node name="Panel" type="Panel" parent="IntroText"]
-offset_left = 2584.0
-offset_top = 2503.0
-offset_right = 2624.0
-offset_bottom = 2543.0
-metadata/_edit_use_anchors_ = true
-
-[node name="Label" type="Label" parent="IntroText/Panel"]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 2.65
-anchor_top = 2.85
-anchor_right = 15.05
-anchor_bottom = 2.85
-offset_right = 40.0
-offset_bottom = 23.0
-text = "\"Stay in the light! Say 'Harvest' to tell your ally to get some resources\""
-metadata/_edit_use_anchors_ = true
-
-[node name="Close" type="Button" parent="IntroText/Panel"]
-process_mode = 2
-z_index = 20
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 1.075
-anchor_top = 2.075
-anchor_right = 2.85
-anchor_bottom = 2.65
-offset_right = 8.0
-offset_bottom = 8.0
-text = "Continue"
-metadata/_edit_use_anchors_ = true
-
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
 z_index = 300
 navigation_polygon = SubResource("NavigationPolygon_e7gay")
@@ -1293,5 +1256,3 @@ stream = ExtResource("29_jcr58")
 
 [node name="victory" type="AudioStreamPlayer" parent="AudioManager"]
 stream = ExtResource("30_4ukal")
-
-[connection signal="pressed" from="IntroText/Panel/Close" to="IntroText" method="OnClosePressed"]

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 
-using Game.scripts;
 using Game.Scripts;
 using Game.Scripts.Items;
 
@@ -29,7 +28,6 @@ public partial class Ally : CharacterBody2D
 
     [Export] public Chat Chat = null!;
     public Map? Map;
-    Chat? _chatNode;
     [Export] public VisibleForAI[] AlwaysVisible = [];
     private GenerativeAI.Methods.ChatSession? _chat;
     private GeminiService? _geminiService;
@@ -45,19 +43,25 @@ public partial class Ally : CharacterBody2D
     }
     public AllyState CurrentState { get; private set; } = AllyState.SmallCircle;
 
-
     public override void _Ready()
     {
+        _core = GetTree().GetNodesInGroup("Core").OfType<Core>().FirstOrDefault()!;
         Map = GetTree().Root.GetNode<Map>("Node2D");
-        _chatNode = GetNode<Chat>("Chat");
-        _geminiService = _chatNode.GeminiService;
+
+        _geminiService = Chat.GeminiService;
         _chat = _geminiService!.Chat;
         base._Ready();
         _motivation = GetNode<Motivation>("Motivation");
         _health = GetNode<Health>("Health");
         Chat.ResponseReceived += HandleResponse;
 
-        _core = GetNode<Game.Scripts.Core>("%Core");
+
+        GD.Print(GetTree().GetFirstNodeInGroup("Core").GetType());
+
+        if (_core == null)
+        {
+            GD.Print("Core null");
+        }
         Chat.Visible = false;
         PathFindingMovement.ReachedTarget += HandleTargetReached;
         Chat.ResponseReceived += HandleResponse;
@@ -80,7 +84,7 @@ public partial class Ally : CharacterBody2D
             Chat.SystemPrompt =
                 "In the following you'll get a list of things you see with coordinates. Respond by telling the commander just what might be important or ask clarifying questions on what to do next. \n";
             string? arrivalResponse = await _geminiService!.MakeQuery(completeInput);
-            List<(string, string)> responseGroups = ExtractRelevantLines(arrivalResponse!);
+            List<(string, string)>? responseGroups = ExtractRelevantLines(arrivalResponse!);
             foreach ((string, string) response in responseGroups)
             {
                 if (response.Item1 == "RESPONSE")
@@ -115,7 +119,7 @@ public partial class Ally : CharacterBody2D
     public void SetAllyInDarkness()
     {
         // Berechne den Abstand zwischen Ally und Core
-        Vector2 distance = this.Position - _core.Position;
+        Vector2 distance = this.GlobalPosition - _core.GlobalPosition;
         float distanceLength = distance.Length(); // Berechne die Länge des Vektors
 
         // If ally further away than big circle, he is in the darkness
@@ -174,14 +178,16 @@ public partial class Ally : CharacterBody2D
         }
     }
 
+    private List<(string, string)>? _matches;
+    private string _richtext = "", _part = "";
     private void HandleResponse(string response)
     {
-        List<(string, string)> matches = ExtractRelevantLines(response);
-        string richtext = "";
-        foreach ((string op, string content) in matches)
+        _matches = ExtractRelevantLines(response);
+        _richtext = "";
+        foreach ((string op, string content) in _matches)
         {
-            const string part = "";
-            richtext += FormatPart(part, op, content);
+            _part = "";
+            _richtext += FormatPart(_part, op, content);
 
             // differentiate what to do based on command op
             switch (op)
@@ -191,12 +197,14 @@ public partial class Ally : CharacterBody2D
                     break;
                 case "INTERACT":
                     SetInteractOnArrival(true);
+                    GD.Print("DEBUG: INTERACT Match");
                     break;
                 case "GOTO AND INTERACT":
                     SetInteractOnArrival(true);
                     Goto(content);
                     break;
                 case "GOTO":
+                    GD.Print("DEBUG: GOTO Match");
                     Goto(content);
                     break;
                 case "HARVEST"
@@ -209,10 +217,13 @@ public partial class Ally : CharacterBody2D
                     _harvest = false;
                     _busy = false;
                     break;
+                default:
+                    GD.Print("DEBUG: NO MATCH FOR : " + op);
+                    break;
             }
         }
 
-        _responseField.ParseBbcode(richtext); // formatted text into response field
+        _responseField.ParseBbcode(_richtext); // formatted text into response field
     }
 
     private void SetInteractOnArrival(bool interactOnArrival)
@@ -247,10 +258,10 @@ public partial class Ally : CharacterBody2D
         };
     }
 
-    private static List<(string, string)> ExtractRelevantLines(string response)
+    private static List<(string, string)>? ExtractRelevantLines(string response)
     {
         string[] lines = response.Split('\n').Where(line => line.Length > 0).ToArray();
-        List<(string, string)> matches = [];
+        List<(string, string)>? matches = [];
 
         // Add commands to be extracted here
         List<String> ops =

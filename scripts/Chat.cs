@@ -28,7 +28,7 @@ namespace Game.Scripts
 
         public override void _Ready()
         {
-            _ally = GetParent<Scripts.Ally>();
+            _ally = GetParent().GetParent<Ally>(); ;
             _responseCount = 0;
             TextSubmitted += OnTextSubmitted;
 

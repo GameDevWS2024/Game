@@ -28,7 +28,7 @@ public partial class MouseControl : Control
         Camera1 = GetParent().GetNode<Camera2D>("Ally/Ally1Cam");
         Camera2 = GetParent().GetNode<Camera2D>("Ally2/Ally2Cam");
         _richTextLabel = GetNode<RichTextLabel>("%MouseLabel");
-        _richTextLabel.Visible = false;
+        _richTextLabel.Visible = true;
         _pathFindingMovement = GetNode<PathFindingMovement>("PathFindingMovementNode");
     }
 

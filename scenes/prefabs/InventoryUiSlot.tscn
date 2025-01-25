@@ -1,0 +1,113 @@
+[gd_scene load_steps=5 format=3 uid="uid://h43om0knuopg"]
+
+[ext_resource type="Texture2D" uid="uid://cgt2k1ypvb8hc" path="res://assets/inventory/inventory-slot.png" id="1_u36g2"]
+[ext_resource type="FontFile" uid="uid://ci21nsjo847iy" path="res://assets/fonts/font1.tres" id="2_duihe"]
+
+[sub_resource type="CSharpScript" id="CSharpScript_qnvy2"]
+script/source = "using Godot;
+using System;
+
+using Game.Scripts.Items;
+
+public partial class InventoryUiSlot : Panel
+{
+	private Sprite2D _icon = null!;
+	public override void _Ready()
+	{
+		_icon = GetChild<CenterContainer>(1).GetChild<Panel>(0).GetChild<Sprite2D>(0);
+		if (_icon == null)
+		{
+			GD.PrintErr(\"ERR: Can't find icon <InventoryUISlot.cs>\");
+		}
+	}
+
+
+	public override void _Process(double delta)
+	{
+	}
+
+	public void Update(Itemstack item)
+	{
+		GD.Print(\"Update slot \"+item.Material);
+		switch (item.Material)
+		{
+			case Game.Scripts.Items.Material.None:
+				_icon.Visible = false;
+				break;
+			case Game.Scripts.Items.Material.Diamond:
+				_icon.Visible = true;
+				_icon.Texture = GD.Load<Texture2D>(\"res://assets/items/diamond.png\");
+				break;
+			case Game.Scripts.Items.Material.Iron:
+				_icon.Visible = true;
+				_icon.Texture = GD.Load<Texture2D>(\"res://assets/items/iron.png\");
+				break;
+			case Game.Scripts.Items.Material.Copper:
+				_icon.Visible = true;
+				_icon.Texture = GD.Load<Texture2D>(\"res://assets/items/copper.png\");
+				break;
+
+			case Game.Scripts.Items.Material.Wood:
+				_icon.Visible = true;
+				_icon.Texture = GD.Load<Texture2D>(\"res://assets/items/wood.png\");
+				break;
+
+			case Game.Scripts.Items.Material.Stone:
+				_icon.Visible = true;
+				_icon.Texture = GD.Load<Texture2D>(\"res://assets/items/stone.png\");
+				break;
+
+			case Game.Scripts.Items.Material.Gold:
+				_icon.Visible = true;
+				_icon.Texture = GD.Load<Texture2D>(\"res://assets/items/gold.png\");
+				break;
+
+			case Game.Scripts.Items.Material.Flashlight:
+				_icon.Visible = true;
+				_icon.Texture = GD.Load<Texture2D>(\"res://assets/items/flashlight.png\");
+				break;
+
+			case Game.Scripts.Items.Material.Notebook:
+				_icon.Visible = true;
+				_icon.Texture = GD.Load<Texture2D>(\"res://assets/items/notebook.png\");
+				break;
+
+		}
+	}
+}
+"
+
+[sub_resource type="LabelSettings" id="LabelSettings_22tb5"]
+
+[node name="InventoryUiSlot" type="Panel"]
+self_modulate = Color(1, 1, 1, 0)
+custom_minimum_size = Vector2(16, 16)
+offset_right = 16.0
+offset_bottom = 16.0
+script = SubResource("CSharpScript_qnvy2")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_u36g2")
+centered = false
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 0
+offset_right = 16.0
+offset_bottom = 16.0
+
+[node name="Panel" type="Panel" parent="CenterContainer"]
+layout_mode = 2
+
+[node name="item_display" type="Sprite2D" parent="CenterContainer/Panel"]
+scale = Vector2(0.21875, 0.21875)
+
+[node name="Label" type="Label" parent="CenterContainer/Panel"]
+layout_mode = 0
+offset_left = -7.0
+offset_top = 1.0
+offset_right = 16.0
+offset_bottom = 24.0
+scale = Vector2(0.28, 0.28)
+theme_override_fonts/font = ExtResource("2_duihe")
+label_settings = SubResource("LabelSettings_22tb5")

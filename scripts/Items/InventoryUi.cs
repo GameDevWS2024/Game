@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Linq;
 
 using Game.Scripts;
 using Game.Scripts.Items;
@@ -10,29 +11,28 @@ public partial class InventoryUi : Control
 {
  
 	private bool _isOpen = false;
-    private Array<InventoryUiSlot> _slots = null!;
-    private Ally _parent = null!;
+	private Array<InventoryUiSlot> _slots = null!;
+	private Ally _parent = null!;
 	
 	public override void _Ready()
-    {
-        _parent = GetParent<Ally>();
-        
+	{
+		_parent = GetParent<Ally>();
+		_slots = [];
+		
 		Visible = false;
-        foreach (Node child in GetChild<NinePatchRect>(0).GetChild<GridContainer>(0).GetChildren())
-        {
-            if (child is InventoryUiSlot slot)
-            {
-                _slots.Add(slot);
-            }
-        }
+		foreach (Panel child in GetChild(0).GetChild(0).GetChildren().OfType<Panel>())
+		{
+			GD.Print(child.GetScript().ToString());
+			_slots.Add(child as InventoryUiSlot);
+		}
 	}
 	public override void _Process(double delta)
 	{
-        if (_isOpen)
-        {
-            UpdateSlots();
-        }
-        
+		if (_isOpen)
+		{
+			UpdateSlots();
+		}
+		
 		if (Input.IsActionJustPressed("e"))
 		{
 			if (_isOpen)
@@ -59,12 +59,15 @@ public partial class InventoryUi : Control
 	}
 
 	private void UpdateSlots()
-    {
-        Inventory inv = _parent.SsInventory;
-        for (int i = 0; i < Math.Min(_slots.Count, inv.Size); i++)
-        {
-            _slots[i].Update(inv.GetItem(i));
-        }
+	{
+		Inventory inv = _parent.Inventory;
+		inv.Print();
+		GD.Print("UpdateSlots "+ Math.Min(_slots.Count, inv.Size));
+		for (int i = 0; i < Math.Min(_slots.Count, inv.Size); i++)
+		{
+			GD.Print("(UpdateSlots()) item: "+inv.GetItem(i).Material.ToString());
+			_slots[i].Update(inv.GetItem(i));
+		}
 	}
 	
 }

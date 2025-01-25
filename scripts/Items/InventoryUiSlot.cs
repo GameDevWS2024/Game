@@ -22,6 +22,7 @@ public partial class InventoryUiSlot : Panel
 
 	public void Update(Itemstack item)
 	{
+		GD.Print("Update slot "+item.Material);
 		switch (item.Material)
 		{
 			case Game.Scripts.Items.Material.None:

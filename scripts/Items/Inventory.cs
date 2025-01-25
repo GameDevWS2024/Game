@@ -24,21 +24,12 @@ public partial class Inventory
     {
         string inv = "Inventory: [";
 
-        bool isEmpty = true;
         for (int i = 0; i < Size; i++)
         {
-            if (Items[i].Material != Material.None)
-            {
-                isEmpty = false;
-                inv += Items[i].Material + " : " + Items[i].Amount + ", ";
-            }
+            inv += Items[i].Material + " : " + Items[i].Amount + ", ";
         }
 
-        if (isEmpty)
-        {
-            inv += "Empty";
-        }
-        else if (inv.EndsWith(", "))
+        if (inv.EndsWith(", "))
         {
             inv = inv.Remove(inv.Length - 2); // Remove trailing comma and space
         }

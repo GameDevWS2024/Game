@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://scripts/Items/InventoryUi.cs" id="1_vbuuf"]
 [ext_resource type="Texture2D" uid="uid://nd4sv1nmlvsy" path="res://assets/inventory/inventory-background.png" id="2_wd336"]
-[ext_resource type="PackedScene" uid="uid://h43om0knuopg" path="res://scenes/prefabs/inventory_ui_slot.tscn" id="3_lyhpy"]
+[ext_resource type="PackedScene" uid="uid://h43om0knuopg" path="res://scenes/prefabs/InventoryUiSlot.tscn" id="3_lyhpy"]
 
 [node name="InventoryUI" type="Control"]
 custom_minimum_size = Vector2(94, 70)
@@ -38,38 +38,38 @@ grow_horizontal = 2
 grow_vertical = 2
 columns = 4
 
-[node name="Inventory_UI_slot1" parent="NinePatchRect/GridContainer" instance=ExtResource("3_lyhpy")]
+[node name="InventoryUiSlot1" parent="NinePatchRect/GridContainer" instance=ExtResource("3_lyhpy")]
 layout_mode = 2
 
-[node name="Inventory_UI_slot2" parent="NinePatchRect/GridContainer" instance=ExtResource("3_lyhpy")]
+[node name="InventoryUiSlot2" parent="NinePatchRect/GridContainer" instance=ExtResource("3_lyhpy")]
 layout_mode = 2
 
-[node name="Inventory_UI_slot3" parent="NinePatchRect/GridContainer" instance=ExtResource("3_lyhpy")]
+[node name="InventoryUiSlot3" parent="NinePatchRect/GridContainer" instance=ExtResource("3_lyhpy")]
 layout_mode = 2
 
-[node name="Inventory_UI_slot4" parent="NinePatchRect/GridContainer" instance=ExtResource("3_lyhpy")]
+[node name="InventoryUiSlot4" parent="NinePatchRect/GridContainer" instance=ExtResource("3_lyhpy")]
 layout_mode = 2
 
-[node name="Inventory_UI_slot5" parent="NinePatchRect/GridContainer" instance=ExtResource("3_lyhpy")]
+[node name="InventoryUiSlot5" parent="NinePatchRect/GridContainer" instance=ExtResource("3_lyhpy")]
 layout_mode = 2
 
-[node name="Inventory_UI_slot6" parent="NinePatchRect/GridContainer" instance=ExtResource("3_lyhpy")]
+[node name="InventoryUiSlot6" parent="NinePatchRect/GridContainer" instance=ExtResource("3_lyhpy")]
 layout_mode = 2
 
-[node name="Inventory_UI_slot7" parent="NinePatchRect/GridContainer" instance=ExtResource("3_lyhpy")]
+[node name="InventoryUiSlot7" parent="NinePatchRect/GridContainer" instance=ExtResource("3_lyhpy")]
 layout_mode = 2
 
-[node name="Inventory_UI_slot8" parent="NinePatchRect/GridContainer" instance=ExtResource("3_lyhpy")]
+[node name="InventoryUiSlot8" parent="NinePatchRect/GridContainer" instance=ExtResource("3_lyhpy")]
 layout_mode = 2
 
-[node name="Inventory_UI_slot9" parent="NinePatchRect/GridContainer" instance=ExtResource("3_lyhpy")]
+[node name="InventoryUiSlot9" parent="NinePatchRect/GridContainer" instance=ExtResource("3_lyhpy")]
 layout_mode = 2
 
-[node name="Inventory_UI_slot10" parent="NinePatchRect/GridContainer" instance=ExtResource("3_lyhpy")]
+[node name="InventoryUiSlot10" parent="NinePatchRect/GridContainer" instance=ExtResource("3_lyhpy")]
 layout_mode = 2
 
-[node name="Inventory_UI_slot11" parent="NinePatchRect/GridContainer" instance=ExtResource("3_lyhpy")]
+[node name="InventoryUiSlot11" parent="NinePatchRect/GridContainer" instance=ExtResource("3_lyhpy")]
 layout_mode = 2
 
-[node name="Inventory_UI_slot12" parent="NinePatchRect/GridContainer" instance=ExtResource("3_lyhpy")]
+[node name="InventoryUiSlot12" parent="NinePatchRect/GridContainer" instance=ExtResource("3_lyhpy")]
 layout_mode = 2

@@ -91,8 +91,8 @@ namespace Game.Scripts
         private async void OnTextSubmitted(string input)
         {
 
-            List<VisibleForAI> visibleItems = _ally.GetCurrentlyVisible().Concat(_ally.AlwaysVisible).ToList();
-            string visibleItemsFormatted = string.Join<VisibleForAI>("\n", visibleItems);
+            List<scripts.AI.VisibleForAi> visibleItems = _ally.GetCurrentlyVisible().Concat(_ally.AlwaysVisible).ToList();
+            string visibleItemsFormatted = string.Join<scripts.AI.VisibleForAi>("\n", visibleItems);
 
             string completeInput = $"Currently Visible:\n\n{visibleItemsFormatted}\n\nPlayer: {input}";
             GD.Print($"-------------------------\nInput:\n{completeInput}");

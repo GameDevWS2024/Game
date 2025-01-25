@@ -884,6 +884,8 @@ metadata/_edit_use_anchors_ = true
 
 [node name="VisibleForAI" type="Node2D" parent="Ally"]
 script = ExtResource("6_7bcmx")
+NameForAi = null
+DescribtionForAi = null
 
 [node name="Label" type="Label" parent="Ally"]
 offset_left = -21.0
@@ -931,6 +933,8 @@ _introductionSystemPromptFile = "res://assets/prompts/introduction_ally_system_p
 
 [node name="VisibleForAI" type="Node2D" parent="Ally2"]
 script = ExtResource("6_7bcmx")
+NameForAi = null
+DescribtionForAi = null
 
 [node name="Label" type="Label" parent="Ally2"]
 offset_left = -21.0
@@ -974,12 +978,22 @@ offset_right = 902.0
 offset_bottom = 447.0
 metadata/_edit_use_anchors_ = true
 
+[node name="IntroScene" parent="." node_paths=PackedStringArray("_ally") instance=ExtResource("30_r4rhe")]
+offset_left = 389.0
+offset_top = -100.0
+offset_right = 2479.0
+offset_bottom = 563.0
+_ally = NodePath("../Ally")
+metadata/_edit_use_anchors_ = true
+
 [node name="ColorRect" type="ColorRect" parent="."]
 offset_right = 40.0
 offset_bottom = 40.0
+color = Color(0.111197, 0.111197, 0.111197, 0.65098)
 metadata/_edit_use_anchors_ = true
 
 [node name="CanvasModulate" type="CanvasModulate" parent="ColorRect"]
+color = Color(0.241156, 0.241156, 0.241156, 0.803922)
 
 [node name="Obstacles" type="Node" parent="."]
 
@@ -1266,11 +1280,3 @@ stream = ExtResource("29_jcr58")
 
 [node name="victory" type="AudioStreamPlayer" parent="AudioManager"]
 stream = ExtResource("30_4ukal")
-
-[node name="IntroScene" parent="." node_paths=PackedStringArray("_ally") instance=ExtResource("30_r4rhe")]
-offset_left = 389.0
-offset_top = -100.0
-offset_right = 2479.0
-offset_bottom = 563.0
-_ally = NodePath("../Ally")
-metadata/_edit_use_anchors_ = true

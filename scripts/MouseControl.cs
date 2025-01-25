@@ -1,11 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 using Game.Scripts;
 
 using Godot;
+
+namespace Game.scripts;
 
 public partial class MouseControl : Control
 {
@@ -16,11 +17,9 @@ public partial class MouseControl : Control
     private int _clickRadius = 50;
     Node _pathFindingMovement = null!;
     public int CurrentCamera = 2;
-    public Camera2D Camera1 = null!;
-    public Camera2D Camera2 = null!;
+    public Camera2D Camera1 = null!, Camera2 = null!;
     public Chat Chat = null!;
-    public Ally Ally1 = null!;
-    public Ally Ally2 = null!;
+    public Ally Ally1 = null!, Ally2 = null!;
 
     public override void _Ready()
     {
@@ -29,7 +28,7 @@ public partial class MouseControl : Control
         Camera2 = GetParent().GetNode<Camera2D>("Ally2/Ally2Cam");
         _richTextLabel = GetNode<RichTextLabel>("%MouseLabel");
         _richTextLabel.Visible = true;
-        _pathFindingMovement = GetNode<PathFindingMovement>("PathFindingMovementNode");
+        // _pathFindingMovement = GetNode<PathFindingMovement>("PathFindingMovementNode");
     }
 
     public override void _Input(InputEvent @event)
@@ -41,9 +40,9 @@ public partial class MouseControl : Control
         }
         // Check if the event is a mouse button event and if it's the right button and open chat up
         /*else if (@event is InputEventMouseButton mouseEvent1 && mouseEvent1.Pressed && mouseEvent1.ButtonIndex == MouseButton.Right)
-		{
-			ChatPopUp(GetGlobalMousePosition());
-		}*/
+    {
+        ChatPopUp(GetGlobalMousePosition());
+    }*/
         else if (@event is InputEventMouseButton mouseEvent1 && mouseEvent1.Pressed && mouseEvent1.ButtonIndex == MouseButton.Right)
         {
             SwitchCamera();
@@ -78,7 +77,7 @@ public partial class MouseControl : Control
 
     private Tuple<CharacterBody2D, float> SearchNearestEntity(Vector2 clickPosition)
     {
-        CharacterBody2D nearestEntity = null;
+        CharacterBody2D nearestEntity = null!;
         float nearestDistance = float.MaxValue;
 
         List<CharacterBody2D> entityGroup = GetTree().GetNodesInGroup("Entities").OfType<CharacterBody2D>().ToList();
@@ -129,7 +128,7 @@ public partial class MouseControl : Control
             {
                 combatAlly.Chat.Visible = false;
             }
-            _selectedEntityChat = null;
+            _selectedEntityChat = null!;
         }
     }
 

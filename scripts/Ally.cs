@@ -28,7 +28,7 @@ public partial class Ally : CharacterBody2D
 
     [Export] public Chat Chat = null!;
     public Map? Map;
-    [Export] public VisibleForAI[] AlwaysVisible = [];
+    [Export] public scripts.AI.VisibleForAi[] AlwaysVisible = [];
     private GenerativeAI.Methods.ChatSession? _chat;
     private GeminiService? _geminiService;
     private readonly List<string> _interactionHistory = [];
@@ -76,8 +76,8 @@ public partial class Ally : CharacterBody2D
             _interactOnArrival = false;
 
             GD.Print("Interacted");
-            List<VisibleForAI> visibleItems = GetCurrentlyVisible().Concat(AlwaysVisible).ToList();
-            string visibleItemsFormatted = string.Join<VisibleForAI>("\n", visibleItems);
+            List<scripts.AI.VisibleForAi> visibleItems = GetCurrentlyVisible().Concat(AlwaysVisible).ToList();
+            string visibleItemsFormatted = string.Join<scripts.AI.VisibleForAi>("\n", visibleItems);
             string completeInput = $"Currently Visible:\n\n{visibleItemsFormatted}\n\n";
 
             string originalSystemPrompt = Chat.SystemPrompt;
@@ -100,10 +100,10 @@ public partial class Ally : CharacterBody2D
         }
     }
 
-    public List<VisibleForAI> GetCurrentlyVisible()
+    public List<scripts.AI.VisibleForAi> GetCurrentlyVisible()
     {
-        IEnumerable<VisibleForAI> visibleForAiNodes =
-            GetTree().GetNodesInGroup(VisibleForAI.GroupName).OfType<VisibleForAI>();
+        IEnumerable<scripts.AI.VisibleForAi> visibleForAiNodes =
+            GetTree().GetNodesInGroup(scripts.AI.VisibleForAi.GroupName).OfType<scripts.AI.VisibleForAi>();
         return visibleForAiNodes.Where(node => GlobalPosition.DistanceTo(node.GlobalPosition) <= _visionRadius)
             .ToList();
     }
@@ -154,6 +154,8 @@ public partial class Ally : CharacterBody2D
         {
             Harvest();
         }
+        
+        SetVelocity(GetVelocity()*(_motivation.Amount - 10)/10);
     }
 
     private void UpdateTarget()

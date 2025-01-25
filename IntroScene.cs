@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 
+using Game.Scripts;
+
 using Godot;
 
 public partial class IntroScene : Control
@@ -9,6 +11,7 @@ public partial class IntroScene : Control
     private Label? _label; // Label for displaying dialog text
     private Camera2D? _mainCamera; // Reference to the main camera
     private ColorRect? _blackoutRect; // For the "waking up" effect (screen blackout)
+    [Export] private Ally _ally = null!;
 
     // Dialog text lines
     private readonly List<string> _dialogLines = new List<string>
@@ -51,7 +54,7 @@ public partial class IntroScene : Control
     public override void _Ready()
     {
         // Find the main camera
-        _mainCamera = GetNodeOrNull<Camera2D>("../Ally/Camera2D");
+        _mainCamera = GetNodeOrNull<Camera2D>("../Ally/Ally1Cam");
         if (_mainCamera == null)
         {
             GD.PrintErr("Main camera not found!");
@@ -101,6 +104,7 @@ public partial class IntroScene : Control
 
         // Display the first line of dialog
         ShowCurrentLine();
+
     }
 
     public override void _Process(double delta)
@@ -212,7 +216,7 @@ public partial class IntroScene : Control
         // Reset the camera to follow the player
         if (_mainCamera != null)
         {
-            _mainCamera.Position = _mainCamera.GetParent<Node2D>().Position; // Reset to the parent node's position
+            _mainCamera.GlobalPosition = _ally.GlobalPosition; // Reset to the parent node's position
             _mainCamera.MakeCurrent(); // Reactivate camera follow
         }
 

@@ -20,7 +20,7 @@ public partial class Ally : CharacterBody2D
     private Motivation _motivation = null!;
     private Health _health = null!;
     protected Game.Scripts.Core _core = null!;
-    private static readonly Inventory SsInventory = new Inventory(36);
+    public Inventory SsInventory { get; } = new Inventory(36);
 
     [Export] private int _visionRadius = 300;
     [Export] private int _interactionRadius = 150;

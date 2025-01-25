@@ -52,6 +52,15 @@ public partial class Inventory
         GD.Print(ToString());
     }
 
+    public Itemstack GetItem(int i)
+    {
+        if (i < 0 || i > Size)
+        {
+            return new Itemstack(Material.None);
+        }
+        return Items[i];
+    }
+
     public bool FitItem(Itemstack stack)
     {
         Material mat = stack.Material;

@@ -32,6 +32,7 @@ public partial class Ally : CharacterBody2D
     private GenerativeAI.Methods.ChatSession? _chat;
     private GeminiService? _geminiService;
     private readonly List<string> _interactionHistory = [];
+
     [Export] private int _maxHistory = 5; // Number of interactions to keep
 
     //Enum with states for ally in darkness, in bigger or smaller circle for map damage system
@@ -55,13 +56,13 @@ public partial class Ally : CharacterBody2D
         _health = GetNode<Health>("Health");
         Chat.ResponseReceived += HandleResponse;
 
-
         GD.Print(GetTree().GetFirstNodeInGroup("Core").GetType());
 
         if (_core == null)
         {
             GD.Print("Core null");
         }
+
         Chat.Visible = false;
         PathFindingMovement.ReachedTarget += HandleTargetReached;
         Chat.ResponseReceived += HandleResponse;
@@ -104,7 +105,7 @@ public partial class Ally : CharacterBody2D
     {
         IEnumerable<VisibleForAI> visibleForAiNodes =
             GetTree().GetNodesInGroup(VisibleForAI.GroupName).OfType<VisibleForAI>();
-        return visibleForAiNodes.Where(node => GlobalPosition.DistanceTo(node.GlobalPosition) <= _visionRadius)
+        return visibleForAiNodes.Where(node => GlobalPosition.DistanceTo(node.GlobalPosition) <= _visionRadius).Where(node => node.GetParent() != this)
             .ToList();
     }
 
@@ -258,7 +259,7 @@ public partial class Ally : CharacterBody2D
         };
     }
 
-    private static List<(string, string)>? ExtractRelevantLines(string response)
+    public static List<(string, string)>? ExtractRelevantLines(string response)
     {
         string[] lines = response.Split('\n').Where(line => line.Length > 0).ToArray();
         List<(string, string)>? matches = [];

@@ -7,8 +7,7 @@ public partial class VisibleForAI : Node2D
 {
     public const string GroupName = "AiVisible";
     [Export] public string NameForAi = "";
-    [Export]
-    public string DescribtionForAi = "";
+    [Export] public string DescribtionForAi = "";
 
     public override void _Ready()
     {

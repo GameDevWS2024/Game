@@ -1,4 +1,4 @@
-[gd_scene load_steps=42 format=4 uid="uid://dfkwq6qwtxw25"]
+[gd_scene load_steps=43 format=4 uid="uid://dfkwq6qwtxw25"]
 
 [ext_resource type="Script" path="res://scripts/EnemyManager.cs" id="1_bmkfv"]
 [ext_resource type="Script" path="res://scripts/Map.cs" id="1_pa1ge"]
@@ -31,7 +31,11 @@
 [ext_resource type="AudioStream" uid="uid://dpq5uuhy4kxlo" path="res://assets/audio/victoryScreen.mp3" id="30_4ukal"]
 [ext_resource type="PackedScene" uid="uid://cp62xh0okgxnf" path="res://scenes/levels/intro_scene.tscn" id="30_r4rhe"]
 
+[sub_resource type="Theme" id="Theme_tkil0"]
+default_font_size = 50
+
 [sub_resource type="Theme" id="Theme_d0vdd"]
+default_font_size = 50
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_e7vql"]
 size = Vector2(88, 49)
@@ -861,6 +865,7 @@ _allyHealthChangeIntervall = 5.0
 position = Vector2(870, 83)
 _responseField = NodePath("ResponseField")
 _nameLabel = NodePath("Label")
+_visionRadius = 100
 Chat = NodePath("Ally1Cam/Ally1Chat")
 
 [node name="Ally1Cam" type="Camera2D" parent="Ally"]
@@ -877,13 +882,17 @@ offset_left = 1100.0
 offset_top = 900.0
 offset_right = 2300.0
 offset_bottom = 1100.0
+theme = SubResource("Theme_tkil0")
 script = ExtResource("3_m6i6e")
 _systemPromptFile = "res://assets/prompts/ally_system_prompt.txt"
 _introductionSystemPromptFile = "res://assets/prompts/introduction_ally_system_prompt.txt"
 metadata/_edit_use_anchors_ = true
 
 [node name="VisibleForAI" type="Node2D" parent="Ally"]
+visible = false
 script = ExtResource("6_7bcmx")
+NameForAi = "James"
+DescribtionForAi = "The ally James"
 
 [node name="Label" type="Label" parent="Ally"]
 offset_left = -21.0
@@ -907,6 +916,7 @@ metadata/_edit_use_anchors_ = true
 [node name="Ally2" parent="." node_paths=PackedStringArray("_responseField", "_nameLabel", "Chat") groups=["navigation"] instance=ExtResource("6_l8h37")]
 _responseField = NodePath("ResponseField")
 _nameLabel = NodePath("Label")
+_visionRadius = 100
 Chat = NodePath("Ally2Cam/Ally2Chat")
 
 [node name="Ally2Cam" type="Camera2D" parent="Ally2"]
@@ -926,11 +936,14 @@ offset_right = 2300.0
 offset_bottom = 1100.0
 theme = SubResource("Theme_d0vdd")
 script = ExtResource("3_m6i6e")
-_systemPromptFile = "res://assets/prompts/ally_system_prompt.txt"
-_introductionSystemPromptFile = "res://assets/prompts/introduction_ally_system_prompt.txt"
+_systemPromptFile = "res://assets/prompts/ally2_prompt.txt"
+_introductionSystemPromptFile = "res://assets/prompts/introduction_ally2.txt"
 
 [node name="VisibleForAI" type="Node2D" parent="Ally2"]
+visible = false
 script = ExtResource("6_7bcmx")
+NameForAi = "Jones"
+DescribtionForAi = "The ally Jones"
 
 [node name="Label" type="Label" parent="Ally2"]
 offset_left = -21.0
@@ -1159,12 +1172,14 @@ tile_map_data = PackedByteArray("AAD8//3/AAAAAA0AAAD8//7/AAABAA0AAAD8////AAAKAAA
 tile_set = SubResource("TileSet_3tff0")
 metadata/_edit_lock_ = true
 
-[node name="Mouse" type="Control" parent="."]
+[node name="Mouse" type="Control" parent="." node_paths=PackedStringArray("Ally1", "Ally2")]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("26_regqh")
+Ally1 = NodePath("../Ally")
+Ally2 = NodePath("../Ally2")
 metadata/_edit_use_anchors_ = true
 
 [node name="MouseLabel" type="RichTextLabel" parent="Mouse"]

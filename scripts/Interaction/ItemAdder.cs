@@ -43,14 +43,10 @@ public partial class ItemAdder : Node
         GD.Print("item: " + ItemToAddName);
         Core? core = GetTree().GetNodesInGroup("Core").OfType<Core>().FirstOrDefault();
 
-        GD.Print(core == null);
-        GD.Print(ItemToAdd == null);
-        if (core != null && ItemToAdd != null)
+        if (core != null)
         {
-            GD.Print("wow");
             core!.Inventory!.AddItem(new Itemstack(ItemToAdd));
-            GD.Print("should have added: ");
             core.Inventory.Print();
-        }
+        } 
     }
 }

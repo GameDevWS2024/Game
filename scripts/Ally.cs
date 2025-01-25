@@ -85,7 +85,7 @@ public partial class Ally : CharacterBody2D
                 "In the following you'll get a list of things you see with coordinates. Respond by telling the commander just what might be important or ask clarifying questions on what to do next. \n";
             string? arrivalResponse = await _geminiService!.MakeQuery(completeInput);
             List<(string, string)>? responseGroups = ExtractRelevantLines(arrivalResponse!);
-            foreach ((string, string) response in responseGroups)
+            foreach ((string, string) response in responseGroups!)
             {
                 if (response.Item1 == "RESPONSE")
                 {

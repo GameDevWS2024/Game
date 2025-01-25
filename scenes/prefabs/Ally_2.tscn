@@ -10,9 +10,8 @@
 [ext_resource type="Script" path="res://scripts/MotivationBar.cs" id="9_wly35"]
 [ext_resource type="Script" path="res://scripts/Motivation.cs" id="10_eieqm"]
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_rn1pq"]
-radius = 35.0
-height = 120.0
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_08xkv"]
+height = 48.0
 
 [node name="Ally" type="CharacterBody2D" node_paths=PackedStringArray("_responseField", "PathFindingMovement", "_nameLabel") groups=["Entities"]]
 script = ExtResource("1_15nmj")
@@ -38,9 +37,6 @@ debug_enabled = true
 [node name="Sprite2D" type="Sprite2D" parent="."]
 scale = Vector2(1.675, 1.675)
 texture = ExtResource("3_8g8rm")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("CapsuleShape2D_rn1pq")
 
 [node name="PathFindingMovement" type="Node" parent="." node_paths=PackedStringArray("_character", "_agent", "_sprite")]
 script = ExtResource("4_q3grj")
@@ -92,5 +88,10 @@ _motivation = NodePath("../Motivation")
 
 [node name="Motivation" type="Node" parent="."]
 script = ExtResource("10_eieqm")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(4, 41)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_08xkv")
 
 [connection signal="Death" from="Health" to="Removable" method="Remove"]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=42 format=4 uid="uid://dfkwq6qwtxw25"]
+[gd_scene load_steps=49 format=4 uid="uid://dfkwq6qwtxw25"]
 
 [ext_resource type="Script" path="res://scripts/EnemyManager.cs" id="1_bmkfv"]
 [ext_resource type="Script" path="res://scripts/Map.cs" id="1_pa1ge"]
@@ -37,10 +37,30 @@
 size = Vector2(88, 49)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ak1im"]
-size = Vector2(133, 341.5)
+size = Vector2(122.5, 113.75)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xdi6d"]
-size = Vector2(21.9, 13.4)
+size = Vector2(25.15, 9.6)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2qrsm"]
+size = Vector2(128, 107)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_45hk5"]
+size = Vector2(148, 100)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_s1x0w"]
+size = Vector2(128, 100)
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_8vmdc"]
+radius = 71.0
+height = 216.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_4hvsk"]
+radius = 51.0
+height = 524.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hemdh"]
+size = Vector2(224, 64)
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_e7gay"]
 vertices = PackedVector2Array(-366.422, -340, 1935.71, -347.219, 1976, -336.422, 1242.29, 377.219, 1202, 366.422, -377.219, -299.711, 1161.71, 377.219, 333.578, 366, 322.781, 325.711, 1976, -497.578, 1935.71, -486.781, 285.578, -707, 274.781, -747.289, 293.289, 435.781, 431.711, 772.219, 402.219, 801.711, -122.422, 777, -133.219, 736.711, 253, 446.578, 1906.22, -376.711, 1029.71, 844.219, 1000.22, 873.711, 552.578, 842, 541.781, 801.711, 1132.22, 406.711, 1906.22, -457.289, 2056.58, -417, 14136.9, -13789, 14136.9, 6745.6, 2045.78, -376.711, 2045.78, -457.289, 1271.78, 487.289, 1282.58, 447, 2016.29, -347.219, 1271.78, 406.711, 245.289, -637.219, 1895.42, -417, -377.219, -380.289, 205, -626.422, 391.422, 842, -133.219, 817.289, 1121.42, 447, 322.781, 406.289, 1150.58, 914, 1139.78, 954.289, 1242.29, 516.781, 1139.78, 873.711, 1202, 527.578, 1110.29, 844.219, 989.422, 914, 541.781, 882.289, 274.781, -666.711, 2016.29, -486.781, -14253.9, -13860.8, 253, 285.422, -801.422, 181, -406.711, -270.219, -447, -259.422, -812.219, 140.711, -487.289, -270.219, -841.711, 111.219, 1161.71, 516.781, 1070, 833.422, -516.781, -299.711, -882, 100.422, -698.219, -979.711, -687.422, -1020, 402.219, 882.289, -162.711, 846.781, 1132.22, 487.289, 512.289, 772.219, 1000.22, 954.289, 512.289, 911.781, 1110.29, 983.781, -14264.9, 6527.23, 1070, 994.578, 1029.71, 983.781, 472, 922.578, -698.219, -1060.29, 472, 761.422, 212.711, 435.781, 183.219, 406.289, -162.711, 707.219, 172.422, 366, -203, 696.422, -527.578, -340, -922.289, 111.219, -727.711, -950.219, 205, -787.578, 431.711, 911.781, -203, 857.578, 164.711, -637.219, 135.219, -666.711, 124.422, -707, -406.711, -409.781, -243.289, 846.781, -272.781, 817.289, -283.578, 777, -272.781, 736.711, 135.219, -747.289, -447, -420.578, 293.289, 296.219, 245.289, -776.781, 183.219, 325.711, -243.289, 707.219, -727.711, -1089.78, -768, -1100.58, -808.289, -1089.78, -837.781, -1060.29, -848.578, -1020, -837.781, -979.711, -808.289, -950.219, -768, -939.422, -516.781, -380.289, -951.781, 140.711, -841.711, 250.781, 212.711, 296.219, -882, 261.578, 164.711, -776.781, -487.289, -409.781, -962.578, 181, -812.219, 221.289, -922.289, 250.781, -951.781, 221.289)
@@ -851,6 +871,9 @@ texture = ExtResource("27_lqhmv")
 [sub_resource type="TileSet" id="TileSet_wfm3d"]
 sources/0 = SubResource("TileSetAtlasSource_y327u")
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wnlc1"]
+size = Vector2(104, 20)
+
 [node name="Node2D" type="Node2D"]
 position = Vector2(2595, 2509)
 script = ExtResource("1_pa1ge")
@@ -1059,27 +1082,27 @@ shape = SubResource("RectangleShape2D_e7vql")
 position = Vector2(2313, 4641)
 
 [node name="CollisionShape2D5" type="CollisionShape2D" parent="Obstacles/Map-Objects/Monuments"]
-position = Vector2(531, -912)
+position = Vector2(536.25, -798.125)
 shape = SubResource("RectangleShape2D_ak1im")
 
 [node name="CollisionShape2D6" type="CollisionShape2D" parent="Obstacles/Map-Objects/Monuments"]
-position = Vector2(1115, -915)
+position = Vector2(1115, -798)
 shape = SubResource("RectangleShape2D_ak1im")
 
 [node name="CollisionShape2D4" type="CollisionShape2D" parent="Obstacles/Map-Objects/Monuments"]
-position = Vector2(157, 491)
+position = Vector2(154, 607)
 shape = SubResource("RectangleShape2D_ak1im")
 
 [node name="CollisionShape2D3" type="CollisionShape2D" parent="Obstacles/Map-Objects/Monuments"]
-position = Vector2(1502, 490)
+position = Vector2(1499, 606)
 shape = SubResource("RectangleShape2D_ak1im")
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="Obstacles/Map-Objects/Monuments"]
-position = Vector2(1498, -592)
+position = Vector2(1494, -479)
 shape = SubResource("RectangleShape2D_ak1im")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Obstacles/Map-Objects/Monuments"]
-position = Vector2(153.5, -561.5)
+position = Vector2(155, -482)
 shape = SubResource("RectangleShape2D_ak1im")
 
 [node name="Grave" type="StaticBody2D" parent="Obstacles/Map-Objects"]
@@ -1087,9 +1110,189 @@ position = Vector2(1119, 2393)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Obstacles/Map-Objects/Grave"]
 z_index = -4
-position = Vector2(5.5, 26)
+position = Vector2(4.25, 47)
 scale = Vector2(10, 10)
 shape = SubResource("RectangleShape2D_xdi6d")
+
+[node name="Stone1" type="StaticBody2D" parent="Obstacles"]
+position = Vector2(441, -73)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Obstacles/Stone1"]
+position = Vector2(42, -32)
+shape = SubResource("RectangleShape2D_2qrsm")
+
+[node name="Stone2" type="StaticBody2D" parent="Obstacles"]
+position = Vector2(4537, 1271)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Obstacles/Stone2"]
+position = Vector2(42, -32)
+shape = SubResource("RectangleShape2D_2qrsm")
+
+[node name="Stone3" type="StaticBody2D" parent="Obstacles"]
+position = Vector2(1337, 2807)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Obstacles/Stone3"]
+position = Vector2(42, -32)
+shape = SubResource("RectangleShape2D_2qrsm")
+
+[node name="Stone5" type="StaticBody2D" parent="Obstacles"]
+position = Vector2(-2119, 884)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Obstacles/Stone5"]
+position = Vector2(42, -32)
+shape = SubResource("RectangleShape2D_2qrsm")
+
+[node name="Stone6" type="StaticBody2D" parent="Obstacles"]
+position = Vector2(-2525, -1388)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Obstacles/Stone6"]
+shape = SubResource("RectangleShape2D_2qrsm")
+
+[node name="Stone7" type="StaticBody2D" parent="Obstacles"]
+position = Vector2(-1053, -1196)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Obstacles/Stone7"]
+shape = SubResource("RectangleShape2D_2qrsm")
+
+[node name="Stone8" type="StaticBody2D" parent="Obstacles"]
+position = Vector2(4323, -4076)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Obstacles/Stone8"]
+shape = SubResource("RectangleShape2D_2qrsm")
+
+[node name="Stone9" type="StaticBody2D" parent="Obstacles"]
+position = Vector2(5859, -3884)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Obstacles/Stone9"]
+shape = SubResource("RectangleShape2D_2qrsm")
+
+[node name="Stone10" type="StaticBody2D" parent="Obstacles"]
+position = Vector2(7715, -3692)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Obstacles/Stone10"]
+shape = SubResource("RectangleShape2D_2qrsm")
+
+[node name="Wooden box" type="StaticBody2D" parent="Obstacles"]
+position = Vector2(6307, 1240)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Obstacles/Wooden box"]
+shape = SubResource("RectangleShape2D_2qrsm")
+
+[node name="Wooden box2" type="StaticBody2D" parent="Obstacles"]
+position = Vector2(6691, 984)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Obstacles/Wooden box2"]
+shape = SubResource("RectangleShape2D_2qrsm")
+
+[node name="Stone4" type="StaticBody2D" parent="Obstacles"]
+position = Vector2(7929, -585)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Obstacles/Stone4"]
+position = Vector2(42, -35)
+shape = SubResource("RectangleShape2D_2qrsm")
+
+[node name="Statue" type="StaticBody2D" parent="Obstacles"]
+position = Vector2(2721, 2447)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Obstacles/Statue"]
+shape = SubResource("RectangleShape2D_45hk5")
+
+[node name="Statue2" type="StaticBody2D" parent="Obstacles"]
+position = Vector2(6637, 783)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Obstacles/Statue2"]
+position = Vector2(-10, 0)
+shape = SubResource("RectangleShape2D_s1x0w")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Obstacles"]
+position = Vector2(-797, 2216)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Obstacles/StaticBody2D"]
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_8vmdc")
+
+[node name="StaticBody2D2" type="StaticBody2D" parent="Obstacles"]
+position = Vector2(-4060, 996)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Obstacles/StaticBody2D2"]
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_8vmdc")
+
+[node name="StaticBody2D3" type="StaticBody2D" parent="Obstacles"]
+position = Vector2(357, -4126)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Obstacles/StaticBody2D3"]
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_8vmdc")
+
+[node name="StaticBody2D4" type="StaticBody2D" parent="Obstacles"]
+position = Vector2(3044, -2136)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Obstacles/StaticBody2D4"]
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_8vmdc")
+
+[node name="StaticBody2D5" type="StaticBody2D" parent="Obstacles"]
+position = Vector2(2086, -6746)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Obstacles/StaticBody2D5"]
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_8vmdc")
+
+[node name="StaticBody2D6" type="StaticBody2D" parent="Obstacles"]
+position = Vector2(5283, -6876)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Obstacles/StaticBody2D6"]
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_8vmdc")
+
+[node name="StaticBody2D7" type="StaticBody2D" parent="Obstacles"]
+position = Vector2(6501, -2973)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Obstacles/StaticBody2D7"]
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_8vmdc")
+
+[node name="StaticBody2D8" type="StaticBody2D" parent="Obstacles"]
+position = Vector2(9762, -1883)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Obstacles/StaticBody2D8"]
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_8vmdc")
+
+[node name="StaticBody2D9" type="StaticBody2D" parent="Obstacles"]
+position = Vector2(10403, 292)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Obstacles/StaticBody2D9"]
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_8vmdc")
+
+[node name="StaticBody2D10" type="StaticBody2D" parent="Obstacles"]
+position = Vector2(7137, 226)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Obstacles/StaticBody2D10"]
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_8vmdc")
+
+[node name="StaticBody2D11" type="StaticBody2D" parent="Obstacles"]
+position = Vector2(5475, 228)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Obstacles/StaticBody2D11"]
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_8vmdc")
+
+[node name="Spaceship" type="StaticBody2D" parent="Obstacles"]
+position = Vector2(-3050, 1873)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Obstacles/Spaceship"]
+shape = SubResource("CapsuleShape2D_4hvsk")
+
+[node name="StaticBody2D12" type="StaticBody2D" parent="Obstacles"]
+position = Vector2(3453, 1179)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Obstacles/StaticBody2D12"]
+position = Vector2(102, -22)
+shape = SubResource("RectangleShape2D_hemdh")
 
 [node name="Notebook" type="Sprite2D" parent="."]
 z_index = 150
@@ -1228,6 +1431,48 @@ script = ExtResource("6_7bcmx")
 NameForAi = "Sign"
 DescribtionForAi = "Spaceport at (-3050, 2000)"
 
+[node name="StaticBody2D" type="StaticBody2D" parent="Spaceport/Signs/Space Port Sign"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Spaceport/Signs/Space Port Sign/StaticBody2D"]
+position = Vector2(-5, -2)
+shape = SubResource("RectangleShape2D_wnlc1")
+
+[node name="Sign at status" type="Node2D" parent="Spaceport/Signs"]
+position = Vector2(3031, 2500)
+script = ExtResource("6_7bcmx")
+NameForAi = "Sign"
+DescribtionForAi = "Spaceport at (-3050, 2000)"
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Spaceport/Signs/Sign at status"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Spaceport/Signs/Sign at status/StaticBody2D"]
+position = Vector2(2, 0)
+shape = SubResource("RectangleShape2D_wnlc1")
+
+[node name="Left sign at bank" type="Node2D" parent="Spaceport/Signs"]
+position = Vector2(3538, 1025)
+script = ExtResource("6_7bcmx")
+NameForAi = "Sign"
+DescribtionForAi = "Spaceport at (-3050, 2000)"
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Spaceport/Signs/Left sign at bank"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Spaceport/Signs/Left sign at bank/StaticBody2D"]
+position = Vector2(9, 3)
+shape = SubResource("RectangleShape2D_wnlc1")
+
+[node name="Right sign at bank2" type="Node2D" parent="Spaceport/Signs"]
+position = Vector2(3676, 1024)
+script = ExtResource("6_7bcmx")
+NameForAi = "Sign"
+DescribtionForAi = "Spaceport at (-3050, 2000)"
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Spaceport/Signs/Right sign at bank2"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Spaceport/Signs/Right sign at bank2/StaticBody2D"]
+position = Vector2(9, 3)
+shape = SubResource("RectangleShape2D_wnlc1")
+
 [node name="Flashlight" type="Node2D" parent="."]
 position = Vector2(5630, -5543)
 script = ExtResource("6_7bcmx")
@@ -1268,6 +1513,7 @@ stream = ExtResource("29_jcr58")
 stream = ExtResource("30_4ukal")
 
 [node name="IntroScene" parent="." node_paths=PackedStringArray("_ally") instance=ExtResource("30_r4rhe")]
+visible = false
 offset_left = 389.0
 offset_top = -100.0
 offset_right = 2479.0

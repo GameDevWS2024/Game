@@ -1,7 +1,36 @@
-[gd_scene load_steps=3 format=4 uid="uid://cg2nij0k76my6"]
+[gd_scene load_steps=12 format=4 uid="uid://cg2nij0k76my6"]
 
 [ext_resource type="TileSet" uid="uid://c2meivnk57unc" path="res://assets/hauntedForestVillage/HauntedForestVillage.tres" id="1_verp4"]
 [ext_resource type="TileSet" uid="uid://65xh8o8gxcxu" path="res://assets/hauntedForestVillage/Houses.tres" id="2_4wqtb"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4fxsh"]
+size = Vector2(101, 109)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7tojc"]
+size = Vector2(126, 104)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_isbgo"]
+size = Vector2(22, 76)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5tg6b"]
+size = Vector2(138, 168)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3d3fy"]
+size = Vector2(138, 88)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_va0c0"]
+size = Vector2(185, 73)
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_bt4ft"]
+radius = 9.0
+height = 24.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_uysrd"]
+radius = 6.0
+height = 18.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_smqab"]
+radius = 8.0
 
 [node name="HauntedForestVillage" type="Node2D"]
 
@@ -26,6 +55,27 @@ tile_set = ExtResource("1_verp4")
 tile_map_data = PackedByteArray("AAD+//3/AAAHAAgAAAD+//z/AAAHAAgAAAD+//v/AAAHAAgAAAD9//r/AAAIAAgAAAD+//r/AAAJAAgAAAD8//r/AAAIAAgAAAD7//r/AAAIAAgAAAD6//r/AAAIAAgAAADy//L/AAAHAAgAAADy//H/AAAHAAgAAADv//L/AAAHAAgAAADv//H/AAAHAAgAAADv//D/AAAHAAgAAADy//D/AAAHAAgAAAA=")
 tile_set = ExtResource("1_verp4")
 
+[node name="StaticBody2D" type="StaticBody2D" parent="Fences Vertical"]
+position = Vector2(-520, -517)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Fences Vertical/StaticBody2D"]
+position = Vector2(40.5, 44.5)
+shape = SubResource("RectangleShape2D_4fxsh")
+
+[node name="StaticBody2D2" type="StaticBody2D" parent="Fences Vertical"]
+position = Vector2(-160, -74)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Fences Vertical/StaticBody2D2"]
+position = Vector2(53, -43)
+shape = SubResource("RectangleShape2D_7tojc")
+
+[node name="StaticBody2D3" type="StaticBody2D" parent="Fences Vertical"]
+position = Vector2(246, -356)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Fences Vertical/StaticBody2D3"]
+position = Vector2(4, 28)
+shape = SubResource("RectangleShape2D_isbgo")
+
 [node name="Fences Horizontal" type="TileMapLayer" parent="."]
 tile_map_data = PackedByteArray("AAD6//3/AAAIAAgAAAD7//3/AAAIAAgAAAD8//3/AAAIAAgAAAD9//3/AAAIAAgAAAD+//3/AAAJAAgAAAAIAPb/AAAIAAgAAAAHAPb/AAAHAAgAAAAHAPX/AAAHAAgAAAAHAPT/AAAIAAoAAAAIAPT/AAAIAAgAAADw/+//AAAIAAgAAADx/+//AAAIAAgAAADw//L/AAAIAAgAAADx//L/AAAIAAgAAADy//L/AAAJAAgAAADy/+//AAAJAAgAAADv/+//AAAIAAoAAADv//L/AAAIAAoAAAA=")
 tile_set = ExtResource("1_verp4")
@@ -34,6 +84,109 @@ tile_set = ExtResource("1_verp4")
 tile_map_data = PackedByteArray("AAD///D/AAApAAEAAAALAPT/AAAiAAYAAADu/wAAAAAiAAYAAAAGAAQAAAAcAAIAAAD1/+3/AAAcAAIAAADx//b/AAAWAAQAAAAPAP3/AAARAAIAAAD4//n/AAARAAIAAAA=")
 tile_set = ExtResource("2_4wqtb")
 
+[node name="StaticBody2D" type="StaticBody2D" parent="Houses"]
+position = Vector2(202, 233)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Houses/StaticBody2D"]
+position = Vector2(1, -29)
+shape = SubResource("RectangleShape2D_5tg6b")
+
+[node name="StaticBody2D2" type="StaticBody2D" parent="Houses"]
+position = Vector2(495, 9)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Houses/StaticBody2D2"]
+position = Vector2(1, -29)
+shape = SubResource("RectangleShape2D_5tg6b")
+
+[node name="StaticBody2D3" type="StaticBody2D" parent="Houses"]
+position = Vector2(-241, -119)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Houses/StaticBody2D3"]
+position = Vector2(1, -29)
+shape = SubResource("RectangleShape2D_5tg6b")
+
+[node name="StaticBody2D4" type="StaticBody2D" parent="Houses"]
+position = Vector2(-342, -503)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Houses/StaticBody2D4"]
+position = Vector2(1, -29)
+shape = SubResource("RectangleShape2D_5tg6b")
+
+[node name="StaticBody2D5" type="StaticBody2D" parent="Houses"]
+position = Vector2(-527, -202)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Houses/StaticBody2D5"]
+position = Vector2(59, -34)
+shape = SubResource("RectangleShape2D_3d3fy")
+
+[node name="StaticBody2D6" type="StaticBody2D" parent="Houses"]
+position = Vector2(-657, 86)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Houses/StaticBody2D6"]
+position = Vector2(82.5, -26.5)
+shape = SubResource("RectangleShape2D_va0c0")
+
+[node name="StaticBody2D7" type="StaticBody2D" parent="Houses"]
+position = Vector2(-657, 86)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Houses/StaticBody2D7"]
+position = Vector2(1011, -411)
+shape = SubResource("RectangleShape2D_va0c0")
+
 [node name="Trees" type="TileMapLayer" parent="."]
 tile_map_data = PackedByteArray("AAADAPT/AAAOAAgAAAD8//r/AAAOAAgAAAD0//j/AAAMAAgAAAD4//H/AAAMAAgAAAAGAO7/AAAMAAoAAAALAP7/AAAMAAoAAAAGAPz/AAAOAAgAAAD6/wMAAAAOAAgAAADu//z/AAAMAAYAAAA=")
 tile_set = ExtResource("1_verp4")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Trees"]
+position = Vector2(-177, 152)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Trees/StaticBody2D"]
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_bt4ft")
+
+[node name="StaticBody2D2" type="StaticBody2D" parent="Trees"]
+position = Vector2(208, -73)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Trees/StaticBody2D2"]
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_bt4ft")
+
+[node name="StaticBody2D3" type="StaticBody2D" parent="Trees"]
+position = Vector2(112, -329)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Trees/StaticBody2D3"]
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_bt4ft")
+
+[node name="StaticBody2D4" type="StaticBody2D" parent="Trees"]
+position = Vector2(-369, -216)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Trees/StaticBody2D4"]
+rotation = 1.56875
+shape = SubResource("CapsuleShape2D_uysrd")
+
+[node name="StaticBody2D5" type="StaticBody2D" parent="Trees"]
+position = Vector2(-369, -216)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Trees/StaticBody2D5"]
+position = Vector2(128, -224)
+rotation = 1.56875
+shape = SubResource("CapsuleShape2D_uysrd")
+
+[node name="StaticBody2D6" type="StaticBody2D" parent="Trees"]
+position = Vector2(-559, -88)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Trees/StaticBody2D6"]
+shape = SubResource("CircleShape2D_smqab")
+
+[node name="StaticBody2D7" type="StaticBody2D" parent="Trees"]
+position = Vector2(368, -23)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Trees/StaticBody2D7"]
+shape = SubResource("CircleShape2D_smqab")
+
+[node name="StaticBody2D8" type="StaticBody2D" parent="Trees"]
+position = Vector2(208, -534)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Trees/StaticBody2D8"]
+shape = SubResource("CircleShape2D_smqab")

@@ -11,8 +11,7 @@
 [ext_resource type="Script" path="res://scripts/Motivation.cs" id="10_sc05j"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_rn1pq"]
-radius = 35.0
-height = 120.0
+height = 48.0
 
 [node name="Ally" type="CharacterBody2D" node_paths=PackedStringArray("PathFindingMovement") groups=["Entities"]]
 z_index = 50
@@ -29,6 +28,8 @@ scale = Vector2(1.675, 1.675)
 texture = ExtResource("3_xbwev")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(4, 41)
+rotation = 1.5708
 shape = SubResource("CapsuleShape2D_rn1pq")
 
 [node name="PathFindingMovement" type="Node" parent="." node_paths=PackedStringArray("_character", "_agent", "_sprite")]

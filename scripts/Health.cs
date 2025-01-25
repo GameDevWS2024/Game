@@ -31,8 +31,8 @@ public partial class Health : Node
 
     public void Damage(double amount)
     {
-        Amount -= amount;
-        GD.Print(Amount);
+        //Amount -= amount; (Just for Testing)
+        //GD.Print(Amount);
         if (Amount < 0)
         {
             Dead = true;

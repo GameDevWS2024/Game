@@ -67,6 +67,38 @@ public partial class Ally : CharacterBody2D
         Chat.ResponseReceived += HandleResponse;
     }
 
+
+    private async void InteractWithNearestObject()
+    {
+        GD.Print("Interacting with nearest object");
+        Interactable? interactable = GetCurrentlyInteractables().FirstOrDefault();
+        interactable?.Trigger(this);
+        _interactOnArrival = false;
+
+        GD.Print("Interacted");
+        List<VisibleForAI> visibleItems = GetCurrentlyVisible().Concat(AlwaysVisible).ToList();
+        string visibleItemsFormatted = string.Join<VisibleForAI>("\n", visibleItems);
+        string completeInput = $"Currently Visible:\n\n{visibleItemsFormatted}\n\n";
+
+        string originalSystemPrompt = Chat.SystemPrompt;
+        Chat.SystemPrompt =
+            "In the following you'll get a list of things you see with coordinates. Respond by telling the commander just what might be important or ask clarifying questions on what to do next. \n";
+        string? arrivalResponse = await _geminiService!.MakeQuery(completeInput);
+        List<(string, string)>? responseGroups = ExtractRelevantLines(arrivalResponse!);
+        foreach ((string, string) response in responseGroups)
+        {
+            if (response.Item1 == "RESPONSE")
+            {
+                GD.Print(response.Item2);
+            }
+        }
+
+        RichTextLabel label = GetNode<RichTextLabel>("ResponseField");
+        label.Text += "\n" + arrivalResponse;
+
+        Chat.SystemPrompt = originalSystemPrompt;
+    }
+
     private async void HandleTargetReached()
     {
         if (_interactOnArrival)
@@ -177,12 +209,15 @@ public partial class Ally : CharacterBody2D
             }
         }
     }
-
     private List<(string, string)>? _matches;
     private string _richtext = "", _part = "";
     private void HandleResponse(string response)
     {
         _matches = ExtractRelevantLines(response);
+        foreach ((string op, string content) in _matches)
+        {
+            GD.Print("AAAAAAAAAAAAAAAAAAA DEBUG: " + op + " : " + content);
+        }
         _richtext = "";
         foreach ((string op, string content) in _matches)
         {
@@ -196,8 +231,10 @@ public partial class Ally : CharacterBody2D
                     _motivation.SetMotivation(content.ToInt());
                     break;
                 case "INTERACT":
+                    GD.Print("DEBUG: INTERACT Match");
                     SetInteractOnArrival(true);
                     GD.Print("DEBUG: INTERACT Match");
+                    InteractWithNearestObject();
                     break;
                 case "GOTO AND INTERACT":
                     SetInteractOnArrival(true);
@@ -225,9 +262,11 @@ public partial class Ally : CharacterBody2D
 
         _responseField.ParseBbcode(_richtext); // formatted text into response field
     }
-
+    
+    
     private void SetInteractOnArrival(bool interactOnArrival)
     {
+        GD.Print("Interact on arrival:" + interactOnArrival);
         _interactOnArrival = interactOnArrival;
     }
 

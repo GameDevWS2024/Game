@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://6gwtt7kwq2p"]
+[gd_scene load_steps=11 format=3 uid="uid://6gwtt7kwq2p"]
 
 [ext_resource type="Script" path="res://scripts/Ally.cs" id="1_anjrv"]
 [ext_resource type="Texture2D" uid="uid://ds35c4ylle7qd" path="res://assets/sprites/workerAlly.png" id="3_xbwev"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" path="res://scripts/HealthBar.cs" id="6_1idkv"]
 [ext_resource type="Script" path="res://scripts/Interaction/Removeable.cs" id="7_2n21g"]
 [ext_resource type="Script" path="res://scripts/MotivationBar.cs" id="9_e11nf"]
+[ext_resource type="PackedScene" uid="uid://biyndqm5tbcwo" path="res://scenes/prefabs/inventory_ui.tscn" id="9_hl1go"]
 [ext_resource type="Script" path="res://scripts/Motivation.cs" id="10_sc05j"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_rn1pq"]
@@ -71,5 +72,12 @@ _motivation = NodePath("../Motivation")
 
 [node name="Motivation" type="Node" parent="."]
 script = ExtResource("10_sc05j")
+
+[node name="InventoryUI" parent="." instance=ExtResource("9_hl1go")]
+offset_left = -278.0
+offset_top = -117.0
+offset_right = -184.0
+offset_bottom = -47.0
+scale = Vector2(2.5, 2.5)
 
 [connection signal="Death" from="Health" to="Removable" method="Remove"]

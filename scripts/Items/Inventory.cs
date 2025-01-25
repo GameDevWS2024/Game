@@ -10,8 +10,6 @@ public partial class Inventory
     public int Size { get; }
     private Itemstack?[] Items { get; set; }
 
-    private readonly Inventory? _inventory;
-
     public Inventory(int size)
     {
         Size = size;
@@ -26,21 +24,12 @@ public partial class Inventory
     {
         string inv = "Inventory: [";
 
-        bool isEmpty = true;
         for (int i = 0; i < Size; i++)
         {
-            if (Items[i].Material != Material.None)
-            {
-                isEmpty = false;
-                inv += Items[i].Material + " : " + Items[i].Amount + ", ";
-            }
+            inv += Items[i].Material + " : " + Items[i].Amount + ", ";
         }
 
-        if (isEmpty)
-        {
-            inv += "Empty";
-        }
-        else if (inv.EndsWith(", "))
+        if (inv.EndsWith(", "))
         {
             inv = inv.Remove(inv.Length - 2); // Remove trailing comma and space
         }
@@ -52,6 +41,15 @@ public partial class Inventory
     public void Print()
     {
         GD.Print(ToString());
+    }
+
+    public Itemstack GetItem(int i)
+    {
+        if (i < 0 || i > Size)
+        {
+            return new Itemstack(Material.None);
+        }
+        return Items[i];
     }
 
     public bool FitItem(Itemstack stack)
@@ -85,15 +83,16 @@ public partial class Inventory
 
     public void AddItem(Itemstack itemstack)
     {
-        GD.Print(itemstack.Material.ToString() + " added to Inventory");
+        //GD.Print(itemstack.Material.ToString() + " added to Inventory");
         if (itemstack.Amount == 0) { return; }
 
         int none = -1;
         for (int i = 0; i < Size; i++)
         {
 
-            if (Items[i]!.Material == itemstack.Material && Items[i].Stackable && Items[i].Amount < 64)
+            if (Items[i]!.Material == itemstack.Material && Items[i]!.Stackable && Items[i]!.Amount < 64 && itemstack.Stackable)
             {
+                if (itemstack.Material == Material.Notebook) { GD.Print("Notebook!"); }
                 int space = 64 - Items[i]!.Amount;
                 if (itemstack.Amount <= space)
                 {

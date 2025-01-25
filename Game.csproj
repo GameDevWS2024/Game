@@ -13,5 +13,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="scenes\levels\" />
+    <Folder Include="scenes\prefabs\" />
   </ItemGroup>
 </Project>

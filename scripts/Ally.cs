@@ -20,7 +20,7 @@ public partial class Ally : CharacterBody2D
     private Motivation _motivation = null!;
     private Health _health = null!;
     protected Game.Scripts.Core _core = null!;
-    private static readonly Inventory SsInventory = new Inventory(36);
+    public Inventory Inventory { get; } = new Inventory(12);
 
     [Export] private int _visionRadius = 300;
     [Export] private int _interactionRadius = 150;
@@ -45,6 +45,17 @@ public partial class Ally : CharacterBody2D
 
     public override void _Ready()
     {
+        Inventory.AddItem(new Itemstack(Items.Material.Wood, 25));
+        Inventory.AddItem(new Itemstack(Items.Material.Diamond, 2));
+        Inventory.AddItem(new Itemstack(Items.Material.Notebook, false));
+        Inventory.AddItem(new Itemstack(Items.Material.Notebook, false));
+        Inventory.AddItem(new Itemstack(Items.Material.Flashlight, false));
+        Inventory.AddItem(new Itemstack(Items.Material.Stone));
+        Inventory.AddItem(new Itemstack(Items.Material.Copper));
+        Inventory.AddItem(new Itemstack(Items.Material.Iron));
+        Inventory.AddItem(new Itemstack(Items.Material.Gold));
+        Inventory.AddItem(new Itemstack(Items.Material.Stone, 0));
+        Inventory.Print();
         _core = GetTree().GetNodesInGroup("Core").OfType<Core>().FirstOrDefault()!;
         Map = GetTree().Root.GetNode<Map>("Node2D");
 
@@ -54,7 +65,6 @@ public partial class Ally : CharacterBody2D
         _motivation = GetNode<Motivation>("Motivation");
         _health = GetNode<Health>("Health");
         Chat.ResponseReceived += HandleResponse;
-
 
         GD.Print(GetTree().GetFirstNodeInGroup("Core").GetType());
 
@@ -85,7 +95,7 @@ public partial class Ally : CharacterBody2D
                 "In the following you'll get a list of things you see with coordinates. Respond by telling the commander just what might be important or ask clarifying questions on what to do next. \n";
             string? arrivalResponse = await _geminiService!.MakeQuery(completeInput);
             List<(string, string)>? responseGroups = ExtractRelevantLines(arrivalResponse!);
-            foreach ((string, string) response in responseGroups)
+            foreach ((string, string) response in responseGroups!)
             {
                 if (response.Item1 == "RESPONSE")
                 {
@@ -304,13 +314,13 @@ public partial class Ally : CharacterBody2D
         if (!_returning)
         {
             // extract the nearest item and add to inventory (pickup)
-            if (SsInventory.HasSpace()) // if inventory has space
+            if (Inventory.HasSpace()) // if inventory has space
             {
                 GD.Print("harvesting...");
                 Itemstack item = Map.ExtractNearestItemAtLocation(new Location(GlobalPosition));
                 GD.Print(item.Material + " amount: " + item.Amount);
-                SsInventory.AddItem(item); // add item to inventory
-                SsInventory.Print();
+                Inventory.AddItem(item); // add item to inventory
+                Inventory.Print();
             } // if inventory has no space don't harvest it
             else
             {
@@ -323,7 +333,7 @@ public partial class Ally : CharacterBody2D
         {
             // Empty inventory into the core
 
-            foreach (Itemstack item in SsInventory.GetItems())
+            foreach (Itemstack item in Inventory.GetItems())
             {
                 if (item.Material == Game.Scripts.Items.Material.None)
                 {
@@ -334,7 +344,7 @@ public partial class Ally : CharacterBody2D
                 GD.Print("Increased scale");
             }
 
-            SsInventory.Clear();
+            Inventory.Clear();
             _busy = false; // Change busy state  
             _harvest = false; // Change harvest state
             _returning = false; // Change returning state

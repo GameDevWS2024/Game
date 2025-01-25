@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://om10kkdr0iom"
-path="res://.godot/imported/diamond.png-4f02220c0ca05ba0e8fe115609162949.ctex"
+uid="uid://dk7b5frird808"
+path="res://.godot/imported/notebook.png-3207e276ba6774e0b2a49c7e9b510459.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/items/diamond.png"
-dest_files=["res://.godot/imported/diamond.png-4f02220c0ca05ba0e8fe115609162949.ctex"]
+source_file="res://assets/items/notebook.png"
+dest_files=["res://.godot/imported/notebook.png-3207e276ba6774e0b2a49c7e9b510459.ctex"]
 
 [params]
 

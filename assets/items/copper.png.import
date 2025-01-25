@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://om10kkdr0iom"
-path="res://.godot/imported/diamond.png-4f02220c0ca05ba0e8fe115609162949.ctex"
+uid="uid://duwmt3xlq5vqs"
+path="res://.godot/imported/copper.png-dda051460f62a32600dd742f384aeff2.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/items/diamond.png"
-dest_files=["res://.godot/imported/diamond.png-4f02220c0ca05ba0e8fe115609162949.ctex"]
+source_file="res://assets/items/copper.png"
+dest_files=["res://.godot/imported/copper.png-dda051460f62a32600dd742f384aeff2.ctex"]
 
 [params]
 

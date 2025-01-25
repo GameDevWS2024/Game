@@ -83,15 +83,16 @@ public partial class Inventory
 
     public void AddItem(Itemstack itemstack)
     {
-        GD.Print(itemstack.Material.ToString() + " added to Inventory");
+        //GD.Print(itemstack.Material.ToString() + " added to Inventory");
         if (itemstack.Amount == 0) { return; }
 
         int none = -1;
         for (int i = 0; i < Size; i++)
         {
 
-            if (Items[i]!.Material == itemstack.Material && Items[i].Stackable && Items[i].Amount < 64)
+            if (Items[i]!.Material == itemstack.Material && Items[i]!.Stackable && Items[i]!.Amount < 64 && itemstack.Stackable)
             {
+                if (itemstack.Material == Material.Notebook) { GD.Print("Notebook!"); }
                 int space = 64 - Items[i]!.Amount;
                 if (itemstack.Amount <= space)
                 {

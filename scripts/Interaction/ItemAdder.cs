@@ -47,6 +47,6 @@ public partial class ItemAdder : Node
         {
             core!.Inventory!.AddItem(new Itemstack(ItemToAdd));
             core.Inventory.Print();
-        } 
+        }
     }
 }

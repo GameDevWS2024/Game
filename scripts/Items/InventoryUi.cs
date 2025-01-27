@@ -64,7 +64,7 @@ public partial class InventoryUi : Control
 
     private void UpdateSlots()
     {
-        Inventory inv = _parent.Inventory;
+        Inventory inv = _parent.SsInventory;
         for (int i = 0; i < Math.Min(_slots.Count, inv.Size); i++)
         {
             _slots[i].Update(inv.GetItem(i));

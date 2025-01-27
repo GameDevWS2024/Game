@@ -20,7 +20,7 @@ public partial class Ally : CharacterBody2D
     private Motivation _motivation = null!;
     private Health _health = null!;
     protected Game.Scripts.Core _core = null!;
-    public Inventory Inventory { get; } = new Inventory(12);
+    public Inventory SsInventory = new Inventory(36);
 
     [Export] private int _visionRadius = 300;
     [Export] private int _interactionRadius = 150;
@@ -45,17 +45,17 @@ public partial class Ally : CharacterBody2D
 
     public override void _Ready()
     {
-        Inventory.AddItem(new Itemstack(Items.Material.Wood, 25));
-        Inventory.AddItem(new Itemstack(Items.Material.Diamond, 2));
-        Inventory.AddItem(new Itemstack(Items.Material.Notebook, false));
-        Inventory.AddItem(new Itemstack(Items.Material.Notebook, false));
-        Inventory.AddItem(new Itemstack(Items.Material.Flashlight, false));
-        Inventory.AddItem(new Itemstack(Items.Material.Stone));
-        Inventory.AddItem(new Itemstack(Items.Material.Copper));
-        Inventory.AddItem(new Itemstack(Items.Material.Iron));
-        Inventory.AddItem(new Itemstack(Items.Material.Gold));
-        Inventory.AddItem(new Itemstack(Items.Material.Stone, 0));
-        Inventory.Print();
+        SsInventory.AddItem(new Itemstack(Items.Material.Wood, 25));
+        SsInventory.AddItem(new Itemstack(Items.Material.Diamond, 2));
+        SsInventory.AddItem(new Itemstack(Items.Material.Notebook, false));
+        SsInventory.AddItem(new Itemstack(Items.Material.Notebook, false));
+        SsInventory.AddItem(new Itemstack(Items.Material.Flashlight, false));
+        SsInventory.AddItem(new Itemstack(Items.Material.Stone));
+        SsInventory.AddItem(new Itemstack(Items.Material.Copper));
+        SsInventory.AddItem(new Itemstack(Items.Material.Iron));
+        SsInventory.AddItem(new Itemstack(Items.Material.Gold));
+        SsInventory.AddItem(new Itemstack(Items.Material.Stone, 0));
+        SsInventory.Print();
         _core = GetTree().GetNodesInGroup("Core").OfType<Core>().FirstOrDefault()!;
         Map = GetTree().Root.GetNode<Map>("Node2D");
 
@@ -314,13 +314,13 @@ public partial class Ally : CharacterBody2D
         if (!_returning)
         {
             // extract the nearest item and add to inventory (pickup)
-            if (Inventory.HasSpace()) // if inventory has space
+            if (SsInventory.HasSpace()) // if inventory has space
             {
                 GD.Print("harvesting...");
                 Itemstack item = Map.ExtractNearestItemAtLocation(new Location(GlobalPosition));
                 GD.Print(item.Material + " amount: " + item.Amount);
-                Inventory.AddItem(item); // add item to inventory
-                Inventory.Print();
+                SsInventory.AddItem(item); // add item to inventory
+                SsInventory.Print();
             } // if inventory has no space don't harvest it
             else
             {
@@ -333,7 +333,7 @@ public partial class Ally : CharacterBody2D
         {
             // Empty inventory into the core
 
-            foreach (Itemstack item in Inventory.GetItems())
+            foreach (Itemstack item in SsInventory.GetItems())
             {
                 if (item.Material == Game.Scripts.Items.Material.None)
                 {
@@ -344,7 +344,7 @@ public partial class Ally : CharacterBody2D
                 GD.Print("Increased scale");
             }
 
-            Inventory.Clear();
+            SsInventory.Clear();
             _busy = false; // Change busy state  
             _harvest = false; // Change harvest state
             _returning = false; // Change returning state

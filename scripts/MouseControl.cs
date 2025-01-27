@@ -40,6 +40,8 @@ public partial class MouseControl : Control
         // Check if the event is a mouse button event and if it's the left button and select entity for goto
         if (@event is InputEventMouseButton mouseEvent && mouseEvent.Pressed && mouseEvent.ButtonIndex == MouseButton.Left)
         {
+            Camera1.GetNode<Chat>("Ally1Chat").ReleaseFocus();
+            Camera2.GetNode<Chat>("Ally2Chat").ReleaseFocus();
             EntityGoto(GetGlobalMousePosition());
             Chat1.ReleaseFocus();
             Chat2.ReleaseFocus();
@@ -52,7 +54,7 @@ public partial class MouseControl : Control
 		}*/
         else if (@event is InputEventMouseButton mouseEvent1 && mouseEvent1.Pressed && mouseEvent1.ButtonIndex == MouseButton.Right)
         {
-            SwitchCamera();
+            //SwitchCamera();
         }
     }
 
@@ -64,8 +66,9 @@ public partial class MouseControl : Control
             GD.Print("DEBUG: WAS CAMERA 1");
             Camera2.Enabled = true;
             Camera1.Enabled = false;
-            Chat1.Visible = false;
-            Chat2.Visible = true;
+            Camera1.GetNode<Chat>("Ally1Chat").Visible = false;
+            Camera2.GetNode<Chat>("Ally2Chat").GrabFocus();
+            Camera2.GetNode<Chat>("Ally2Chat").Visible = true;
             GD.Print("DEBUG: setting camera to 2");
             CurrentCamera = 2;
         }
@@ -74,8 +77,9 @@ public partial class MouseControl : Control
             GD.Print("DEBUG: WAS CAMERA 2");
             Camera1.Enabled = true;
             Camera2.Enabled = false;
-            Chat1.Visible = true;
-            Chat2.Visible = false;
+            Camera1.GetNode<Chat>("Ally1Chat").Visible = true;
+            Camera1.GetNode<Chat>("Ally1Chat").GrabFocus();
+            Camera2.GetNode<Chat>("Ally2Chat").Visible = false;
             CurrentCamera = 1;
         }
     }

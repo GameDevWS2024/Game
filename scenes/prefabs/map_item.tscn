@@ -1,0 +1,26 @@
+[gd_scene load_steps=7 format=3 uid="uid://bq2riuxrb7g6d"]
+
+[ext_resource type="Script" path="res://AiNode.cs" id="1_d8s3w"]
+[ext_resource type="Script" path="res://scripts/AI/VisibleForAI.cs" id="2_w4d5n"]
+[ext_resource type="Script" path="res://scripts/Interaction/ItemAdder.cs" id="3_bj7a6"]
+[ext_resource type="Script" path="res://scripts/Interaction/ShowWhileInRadius.cs" id="4_7av77"]
+[ext_resource type="Script" path="res://scripts/Interaction/Removeable.cs" id="5_chah6"]
+[ext_resource type="Script" path="res://scripts/Interaction/Interactable.cs" id="6_7q1pu"]
+
+[node name="MapItem" type="Node2D"]
+script = ExtResource("1_d8s3w")
+
+[node name="VisibleForAI" type="Node2D" parent="."]
+script = ExtResource("2_w4d5n")
+
+[node name="ItemAdder" type="Node" parent="."]
+script = ExtResource("3_bj7a6")
+
+[node name="ShowWhileInRadius" type="Node2D" parent="."]
+script = ExtResource("4_7av77")
+
+[node name="Removeable" type="Node" parent="."]
+script = ExtResource("5_chah6")
+
+[node name="Interactable" type="Node2D" parent="."]
+script = ExtResource("6_7q1pu")

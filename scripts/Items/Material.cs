@@ -9,6 +9,7 @@ namespace Game.Scripts.Items
         Copper,
         Gold,
         Diamond,
-        Flashlight
+        Flashlight,
+        Notebook
     }
 }

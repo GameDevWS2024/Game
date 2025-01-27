@@ -20,28 +20,28 @@ public class Itemstack
     public Itemstack(Material material)
     {
         Material = material;
-        Amount = 1;
-        Stackable = material != Material.None && Stackable;
+        Amount = material == Material.None ? 0 : 1;
+        Stackable = material != Material.None;
     }
 
     public Itemstack(Material material, int amount)
     {
         Material = material;
-        Amount = amount;
-        Stackable = material == Material.None ? false : Stackable;
+        Amount = material == Material.None ? 0 : amount;
+        Stackable = material != Material.None;
     }
 
     public Itemstack(Material material, bool stackable)
     {
         Material = material;
-        Amount = 1;
-        Stackable = material == Material.None ? false : stackable;
+        Amount = material == Material.None ? 0 : 1;
+        Stackable = material != Material.None && stackable;
     }
 
     public Itemstack(Material material, int amount, bool stackable)
     {
         Material = material;
-        Amount = amount;
-        Stackable = material == Material.None ? false : stackable;
+        Amount = material == Material.None ? 0 : amount;
+        Stackable = material != Material.None && stackable;
     }
 }

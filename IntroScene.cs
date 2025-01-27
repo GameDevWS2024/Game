@@ -220,6 +220,15 @@ public partial class IntroScene : Control
             _mainCamera.MakeCurrent(); // Reactivate camera follow
         }
 
+        // Reactivate the MouseFilter for buttons
+        foreach (Node? button in GetTree().GetNodesInGroup("UIButtons"))
+        {
+            if (button is Button uiButton)
+            {
+                uiButton.MouseFilter = Control.MouseFilterEnum.Stop;
+            }
+        }
+
         // Resume the game
         GetTree().Paused = false;
     }

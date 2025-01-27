@@ -1,4 +1,4 @@
-[gd_scene load_steps=54 format=4 uid="uid://dfkwq6qwtxw25"]
+[gd_scene load_steps=55 format=4 uid="uid://dfkwq6qwtxw25"]
 
 [ext_resource type="Script" path="res://scripts/EnemyManager.cs" id="1_bmkfv"]
 [ext_resource type="Script" path="res://scripts/Map.cs" id="1_pa1ge"]
@@ -31,6 +31,7 @@
 [ext_resource type="AudioStream" uid="uid://dpq5uuhy4kxlo" path="res://assets/audio/victoryScreen.mp3" id="30_4ukal"]
 [ext_resource type="Script" path="res://scenes/levels/ButtonControl.cs" id="30_pwpih"]
 [ext_resource type="ButtonGroup" uid="uid://canjpaliv4kso" path="res://assets/resources/chat_button_group.tres" id="31_rop2t"]
+[ext_resource type="PackedScene" uid="uid://cp62xh0okgxnf" path="res://scenes/levels/intro_scene.tscn" id="32_bdur0"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qwcva"]
 bg_color = Color(0.6, 0.6, 0.6, 0.654902)
@@ -1476,7 +1477,7 @@ offset_right = 270.0
 offset_bottom = 73.0
 
 [node name="ButtonAlly2" type="Button" parent="UI/ButtonsContainer"]
-z_index = 200
+z_index = 50
 layout_mode = 2
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 50
@@ -1489,7 +1490,7 @@ text = "Ally 2
 "
 
 [node name="ButtonAlly1" type="Button" parent="UI/ButtonsContainer"]
-z_index = 200
+z_index = 50
 layout_mode = 2
 mouse_default_cursor_shape = 2
 theme_override_fonts/font = SubResource("FontVariation_ryhel")
@@ -1500,3 +1501,6 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_lp16x")
 toggle_mode = true
 button_group = ExtResource("31_rop2t")
 text = "Ally 1"
+
+[node name="IntroScene" parent="." node_paths=PackedStringArray("_ally") instance=ExtResource("32_bdur0")]
+_ally = NodePath("../Ally")

@@ -1268,6 +1268,7 @@ stream = ExtResource("29_jcr58")
 stream = ExtResource("30_4ukal")
 
 [node name="IntroScene" parent="." node_paths=PackedStringArray("_ally") instance=ExtResource("30_r4rhe")]
+visible = false
 offset_left = 389.0
 offset_top = -100.0
 offset_right = 2479.0

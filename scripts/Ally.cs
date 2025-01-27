@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 
+using Game.Scenes.Levels;
 using Game.Scripts.AI;
 using Game.Scripts.Items;
-using Game.Scenes.Levels;
 
 using Godot;
 
@@ -22,7 +22,7 @@ public partial class Ally : CharacterBody2D
     private Health _health = null!;
     protected Game.Scripts.Core _core = null!;
     public Inventory SsInventory = new Inventory(36);
-    
+
     private RichTextLabel _ally1ResponseField = null!;
     private RichTextLabel _ally2ResponseField = null!;
 
@@ -196,23 +196,23 @@ public partial class Ally : CharacterBody2D
                     _motivation.SetMotivation(content.ToInt());
                     break;
                 case "INTERACT":
-                        Interactable? interactable = GetCurrentlyInteractables().FirstOrDefault();
-                        interactable?.Trigger(this);
-                        _interactOnArrival = false;
+                    Interactable? interactable = GetCurrentlyInteractables().FirstOrDefault();
+                    interactable?.Trigger(this);
+                    _interactOnArrival = false;
 
-                        /*GD.Print("Interacted");
-                        List<VisibleForAI> visibleItems = GetCurrentlyVisible().Concat(AlwaysVisible).ToList();
-                        string visibleItemsFormatted = string.Join<VisibleForAI>("\n", visibleItems);
-                        string completeInput = $"Currently Visible:\n\n{visibleItemsFormatted}\n\n";
+                    /*GD.Print("Interacted");
+                    List<VisibleForAI> visibleItems = GetCurrentlyVisible().Concat(AlwaysVisible).ToList();
+                    string visibleItemsFormatted = string.Join<VisibleForAI>("\n", visibleItems);
+                    string completeInput = $"Currently Visible:\n\n{visibleItemsFormatted}\n\n";
 
-                        string originalSystemPrompt = Chat.SystemPrompt;
-                        Chat.SystemPrompt =
-                            "[System Message] In the following you'll get a list of things you see with coordinates. Respond by telling the commander just what might be important or ask clarifying questions on what to do next. \n";
-                        string? arrivalResponse = await _geminiService!.MakeQuery(completeInput + "[System Message End] \n");
-                        RichTextLabel label = GetNode<RichTextLabel>("ResponseField");
-                        label.Text += "\n" + arrivalResponse;
+                    string originalSystemPrompt = Chat.SystemPrompt;
+                    Chat.SystemPrompt =
+                        "[System Message] In the following you'll get a list of things you see with coordinates. Respond by telling the commander just what might be important or ask clarifying questions on what to do next. \n";
+                    string? arrivalResponse = await _geminiService!.MakeQuery(completeInput + "[System Message End] \n");
+                    RichTextLabel label = GetNode<RichTextLabel>("ResponseField");
+                    label.Text += "\n" + arrivalResponse;
 
-                        Chat.SystemPrompt = originalSystemPrompt;*/
+                    Chat.SystemPrompt = originalSystemPrompt;*/
                     SetInteractOnArrival(true);
                     GD.Print("DEBUG: INTERACT Match");
                     break;
@@ -242,7 +242,8 @@ public partial class Ally : CharacterBody2D
 
         _responseField.ParseBbcode(_richtext); // formatted text into response field
         ButtonControl buttoncontrol = GetTree().Root.GetNode<ButtonControl>("UI");
-        if (buttoncontrol == null) {
+        if (buttoncontrol == null)
+        {
             GD.Print("Button control not found");
         }
         else

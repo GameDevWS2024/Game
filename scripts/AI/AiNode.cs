@@ -1,7 +1,8 @@
 using System;
 
-using Godot;
 using Game.Scripts.AI;
+
+using Godot;
 
 using Material = Game.Scripts.Items.Material;
 public partial class AiNode : Node2D

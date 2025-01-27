@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
 
-using Game.Scripts;
 using Game.Scenes.Levels;
+using Game.Scripts;
 
 using Godot;
 namespace Game.Scenes.Levels;

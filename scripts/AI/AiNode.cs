@@ -1,5 +1,7 @@
 using System;
 
+using Game.Scripts.AI;
+
 using Godot;
 
 using Material = Game.Scripts.Items.Material;

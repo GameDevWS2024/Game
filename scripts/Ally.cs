@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 
-using Game.Scripts;
+using Game.Scenes.Levels;
+using Game.Scripts.AI;
 using Game.Scripts.Items;
 
 using Godot;
@@ -22,6 +23,9 @@ public partial class Ally : CharacterBody2D
     protected Game.Scripts.Core _core = null!;
     public Inventory SsInventory = new Inventory(36);
 
+    private RichTextLabel _ally1ResponseField = null!;
+    private RichTextLabel _ally2ResponseField = null!;
+
     [Export] private int _visionRadius = 300;
     [Export] private int _interactionRadius = 150;
     private bool _interactOnArrival, _busy, _reached, _harvest, _returning;
@@ -32,6 +36,7 @@ public partial class Ally : CharacterBody2D
     private GenerativeAI.Methods.ChatSession? _chat;
     private GeminiService? _geminiService;
     private readonly List<string> _interactionHistory = [];
+
     [Export] private int _maxHistory = 5; // Number of interactions to keep
 
     //Enum with states for ally in darkness, in bigger or smaller circle for map damage system
@@ -45,6 +50,9 @@ public partial class Ally : CharacterBody2D
 
     public override void _Ready()
     {
+        _ally1ResponseField = GetNode<RichTextLabel>("ResponseField");
+        _ally2ResponseField = GetNode<RichTextLabel>("ResponseField");
+
         SsInventory.AddItem(new Itemstack(Items.Material.Wood, 25));
         SsInventory.AddItem(new Itemstack(Items.Material.Diamond, 2));
         SsInventory.AddItem(new Itemstack(Items.Material.Notebook, false));
@@ -61,10 +69,19 @@ public partial class Ally : CharacterBody2D
 
         _geminiService = Chat.GeminiService;
         _chat = _geminiService!.Chat;
+        if (_chat == null)
+        {
+            GD.PrintErr("Chat node is not assigned in the editor!");
+            return;
+        }
+        if (_geminiService == null)
+        {
+            GD.PrintErr("Gemini node is not assigned in the editor!");
+            return;
+        }
         base._Ready();
         _motivation = GetNode<Motivation>("Motivation");
         _health = GetNode<Health>("Health");
-        Chat.ResponseReceived += HandleResponse;
 
         GD.Print(GetTree().GetFirstNodeInGroup("Core").GetType());
 
@@ -72,6 +89,7 @@ public partial class Ally : CharacterBody2D
         {
             GD.Print("Core null");
         }
+
         Chat.Visible = false;
         PathFindingMovement.ReachedTarget += HandleTargetReached;
         Chat.ResponseReceived += HandleResponse;
@@ -79,42 +97,14 @@ public partial class Ally : CharacterBody2D
 
     private async void HandleTargetReached()
     {
-        if (_interactOnArrival)
-        {
-            Interactable? interactable = GetCurrentlyInteractables().FirstOrDefault();
-            interactable?.Trigger(this);
-            _interactOnArrival = false;
 
-            GD.Print("Interacted");
-            List<VisibleForAI> visibleItems = GetCurrentlyVisible().Concat(AlwaysVisible).ToList();
-            string visibleItemsFormatted = string.Join<VisibleForAI>("\n", visibleItems);
-            string completeInput = $"Currently Visible:\n\n{visibleItemsFormatted}\n\n";
-
-            string originalSystemPrompt = Chat.SystemPrompt;
-            Chat.SystemPrompt =
-                "In the following you'll get a list of things you see with coordinates. Respond by telling the commander just what might be important or ask clarifying questions on what to do next. \n";
-            string? arrivalResponse = await _geminiService!.MakeQuery(completeInput);
-            List<(string, string)>? responseGroups = ExtractRelevantLines(arrivalResponse!);
-            foreach ((string, string) response in responseGroups!)
-            {
-                if (response.Item1 == "RESPONSE")
-                {
-                    GD.Print(response.Item2);
-                }
-            }
-
-            RichTextLabel label = GetNode<RichTextLabel>("ResponseField");
-            label.Text += "\n" + arrivalResponse;
-
-            Chat.SystemPrompt = originalSystemPrompt;
-        }
     }
 
     public List<VisibleForAI> GetCurrentlyVisible()
     {
         IEnumerable<VisibleForAI> visibleForAiNodes =
             GetTree().GetNodesInGroup(VisibleForAI.GroupName).OfType<VisibleForAI>();
-        return visibleForAiNodes.Where(node => GlobalPosition.DistanceTo(node.GlobalPosition) <= _visionRadius)
+        return visibleForAiNodes.Where(node => GlobalPosition.DistanceTo(node.GlobalPosition) <= _visionRadius).Where(node => node.GetParent() != this)
             .ToList();
     }
 
@@ -190,11 +180,11 @@ public partial class Ally : CharacterBody2D
 
     private List<(string, string)>? _matches;
     private string _richtext = "", _part = "";
-    private void HandleResponse(string response)
+    private async void HandleResponse(string response)
     {
         _matches = ExtractRelevantLines(response);
         _richtext = "";
-        foreach ((string op, string content) in _matches)
+        foreach ((string op, string content) in _matches!)
         {
             _part = "";
             _richtext += FormatPart(_part, op, content);
@@ -206,6 +196,23 @@ public partial class Ally : CharacterBody2D
                     _motivation.SetMotivation(content.ToInt());
                     break;
                 case "INTERACT":
+                    Interactable? interactable = GetCurrentlyInteractables().FirstOrDefault();
+                    interactable?.Trigger(this);
+                    _interactOnArrival = false;
+
+                    /*GD.Print("Interacted");
+                    List<VisibleForAI> visibleItems = GetCurrentlyVisible().Concat(AlwaysVisible).ToList();
+                    string visibleItemsFormatted = string.Join<VisibleForAI>("\n", visibleItems);
+                    string completeInput = $"Currently Visible:\n\n{visibleItemsFormatted}\n\n";
+
+                    string originalSystemPrompt = Chat.SystemPrompt;
+                    Chat.SystemPrompt =
+                        "[System Message] In the following you'll get a list of things you see with coordinates. Respond by telling the commander just what might be important or ask clarifying questions on what to do next. \n";
+                    string? arrivalResponse = await _geminiService!.MakeQuery(completeInput + "[System Message End] \n");
+                    RichTextLabel label = GetNode<RichTextLabel>("ResponseField");
+                    label.Text += "\n" + arrivalResponse;
+
+                    Chat.SystemPrompt = originalSystemPrompt;*/
                     SetInteractOnArrival(true);
                     GD.Print("DEBUG: INTERACT Match");
                     break;
@@ -234,6 +241,16 @@ public partial class Ally : CharacterBody2D
         }
 
         _responseField.ParseBbcode(_richtext); // formatted text into response field
+        ButtonControl buttoncontrol = GetTree().Root.GetNode<ButtonControl>("UI");
+        if (buttoncontrol == null)
+        {
+            GD.Print("Button control not found");
+        }
+        else
+        {
+            RichTextLabel label = this.Name.ToString().Contains('2') ? _ally2ResponseField : _ally1ResponseField;
+            await buttoncontrol.TypeWriterEffect(_richtext, label);
+        }
     }
 
     private void SetInteractOnArrival(bool interactOnArrival)
@@ -262,13 +279,14 @@ public partial class Ally : CharacterBody2D
     {
         return part += op switch // format response based on different ops or response types
         {
+            "MOTIVATION" => "",
             "THOUGHT" => "[i]" + content + "[/i]\n",
             "RESPONSE" or "COMMAND" or "STOP" => "[b]" + content + "[/b]\n",
             _ => content + "\n"
         };
     }
 
-    private static List<(string, string)>? ExtractRelevantLines(string response)
+    public static List<(string, string)>? ExtractRelevantLines(string response)
     {
         string[] lines = response.Split('\n').Where(line => line.Length > 0).ToArray();
         List<(string, string)>? matches = [];

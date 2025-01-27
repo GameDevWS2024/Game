@@ -17,6 +17,7 @@ public partial class Removeable : Node
     }
     public void Remove()
     {
+        GD.Print("Removed something");
         GetParent().CallDeferred(Node.MethodName.QueueFree);
     }
 }

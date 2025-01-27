@@ -1,4 +1,4 @@
-[gd_scene load_steps=55 format=4 uid="uid://dfkwq6qwtxw25"]
+[gd_scene load_steps=54 format=4 uid="uid://dfkwq6qwtxw25"]
 
 [ext_resource type="Script" path="res://scripts/EnemyManager.cs" id="1_bmkfv"]
 [ext_resource type="Script" path="res://scripts/Map.cs" id="1_pa1ge"]
@@ -21,7 +21,6 @@
 [ext_resource type="Script" path="res://scripts/Interaction/ShowWhileInRadius.cs" id="25_0y114"]
 [ext_resource type="Script" path="res://scenes/levels/AudioManager.cs" id="25_fif0r"]
 [ext_resource type="PackedScene" uid="uid://cg2nij0k76my6" path="res://scenes/levels/HauntedForest/HauntedForestVillage.tscn" id="25_lc565"]
-[ext_resource type="Script" path="res://scripts/MouseControl.cs" id="26_regqh"]
 [ext_resource type="AudioStream" uid="uid://dakeblpcjdlfw" path="res://assets/audio/creepy_music.mp3" id="26_rqvqj"]
 [ext_resource type="PackedScene" uid="uid://dlswxsom74twu" path="res://scenes/levels/HauntedForest/insideBigHouse.tscn" id="26_vmw0c"]
 [ext_resource type="Texture2D" uid="uid://ctl8fttcbljlm" path="res://assets/tilemaps/spaceship.png" id="27_lqhmv"]
@@ -56,6 +55,7 @@ corner_radius_bottom_left = 10
 corner_detail = 10
 
 [sub_resource type="Theme" id="Theme_d0vdd"]
+default_font_size = 50
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ksed5"]
 bg_color = Color(0.6, 0.6, 0.6, 0.654902)
@@ -991,6 +991,7 @@ _allyHealthChangeIntervall = 5.0
 position = Vector2(870, 83)
 _responseField = NodePath("ResponseField")
 _nameLabel = NodePath("Label")
+_visionRadius = 100
 Chat = NodePath("Ally1Cam/Ally1Chat")
 
 [node name="Ally1Cam" type="Camera2D" parent="Ally"]
@@ -1024,7 +1025,10 @@ _introductionSystemPromptFile = "res://assets/prompts/introduction_ally_system_p
 metadata/_edit_use_anchors_ = true
 
 [node name="VisibleForAI" type="Node2D" parent="Ally"]
+visible = false
 script = ExtResource("6_7bcmx")
+NameForAi = "James"
+DescribtionForAi = "The ally James"
 
 [node name="Label" type="Label" parent="Ally"]
 offset_left = -21.0
@@ -1061,6 +1065,7 @@ metadata/_edit_use_anchors_ = true
 [node name="Ally2" parent="." node_paths=PackedStringArray("_responseField", "_nameLabel", "Chat") groups=["navigation"] instance=ExtResource("6_l8h37")]
 _responseField = NodePath("ResponseField")
 _nameLabel = NodePath("Label")
+_visionRadius = 100
 Chat = NodePath("Ally2Cam/Ally2Chat")
 
 [node name="Ally2Cam" type="Camera2D" parent="Ally2"]
@@ -1091,11 +1096,14 @@ theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 40
 theme_override_styles/normal = SubResource("StyleBoxFlat_ksed5")
 script = ExtResource("3_m6i6e")
-_systemPromptFile = "res://assets/prompts/ally_system_prompt.txt"
-_introductionSystemPromptFile = "res://assets/prompts/introduction_ally_system_prompt.txt"
+_systemPromptFile = "res://assets/prompts/ally2_prompt.txt"
+_introductionSystemPromptFile = "res://assets/prompts/introduction_ally2.txt"
 
 [node name="VisibleForAI" type="Node2D" parent="Ally2"]
+visible = false
 script = ExtResource("6_7bcmx")
+NameForAi = "Jones"
+DescribtionForAi = "The ally Jones"
 
 [node name="Label" type="Label" parent="Ally2"]
 offset_left = -21.0
@@ -1342,7 +1350,6 @@ layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
-script = ExtResource("26_regqh")
 metadata/_edit_use_anchors_ = true
 
 [node name="MouseLabel" type="RichTextLabel" parent="Mouse"]

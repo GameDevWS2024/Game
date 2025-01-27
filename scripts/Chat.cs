@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 using Godot;
+using Godot.Collections;
 namespace Game.Scripts
 {
     public partial class Chat : LineEdit
@@ -27,6 +28,7 @@ namespace Game.Scripts
         private const string EnterApiPlaceholder = "Enter API key";
         private int _responseCount;
         private List<VisibleForAI> _alreadySeen = [];
+        private Godot.Collections.Array<Node> _entityList = null!;
         private VisibleForAI _ally1VisibleForAi = null!;
         private VisibleForAI _ally2VisibleForAi = null!;
 
@@ -40,8 +42,18 @@ namespace Game.Scripts
             string systemPromptAbsolutePath = ProjectSettings.GlobalizePath(_systemPromptFile);
             string introductionSystemPromptAbsolutePath = ProjectSettings.GlobalizePath(_introductionSystemPromptFile);
 
-            _ally1VisibleForAi = GetParent().GetParent().GetNode<VisibleForAI>("Ally/VisibleForAi");
-            _ally2VisibleForAi = GetParent().GetParent().GetNode<VisibleForAI>("Ally2/VisibleForAi");
+            _entityList = GetTree().GetNodesInGroup("Entities");
+            foreach (Ally ally in _entityList.OfType<Ally>())
+            {
+                if (ally.GetName().ToString().Contains('2'))
+                {
+                    _ally2VisibleForAi = ally.GetNode<VisibleForAI>("VisibleForAI");
+                }
+                else
+                {
+                    _ally1VisibleForAi = ally.GetNode<VisibleForAI>("VisibleForAI");
+                }
+            }
 
             _alreadySeen.Add(_ally1VisibleForAi);
             _alreadySeen.Add(_ally2VisibleForAi);

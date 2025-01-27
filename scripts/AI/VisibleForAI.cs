@@ -16,6 +16,6 @@ public partial class VisibleForAI : Node2D
 
     public override string ToString()
     {
-        return $"{NameForAi}:{DescribtionForAi} at ({GlobalPosition.X.ToString("F0")}, {GlobalPosition.Y.ToString("F0")})";
+        return $"{NameForAi} at ({GlobalPosition.X.ToString("F0")}, {GlobalPosition.Y.ToString("F0")}): [Further information] {DescribtionForAi}";
     }
 }

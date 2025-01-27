@@ -1,7 +1,7 @@
 using Godot;
 
 using Material = Game.Scripts.Items.Material;
-namespace Game.scripts.Interaction;
+namespace Game.Scripts.Interaction;
 
 public partial class AiNode : Node2D
 {

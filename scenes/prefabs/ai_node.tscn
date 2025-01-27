@@ -13,7 +13,7 @@ script = ExtResource("1_hwoq0")
 [node name="VisibleForAI" type="Node2D" parent="."]
 script = ExtResource("2_32jrn")
 
-[node name="ItemAdder" type="Node" parent="."]
+[node name="ItemAdder" type="Node2D" parent="."]
 script = ExtResource("3_hv6ah")
 
 [node name="ShowWhileInRadius" type="Node2D" parent="."]

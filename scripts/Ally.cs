@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text.RegularExpressions;
 
@@ -21,7 +22,7 @@ public partial class Ally : CharacterBody2D
     private Motivation _motivation = null!;
     private Health _health = null!;
     protected Game.Scripts.Core _core = null!;
-    public Inventory SsInventory = new Inventory(36);
+    public Inventory SsInventory = new Inventory(12);
 
     private RichTextLabel _ally1ResponseField = null!;
     private RichTextLabel _ally2ResponseField = null!;
@@ -50,20 +51,10 @@ public partial class Ally : CharacterBody2D
 
     public override void _Ready()
     {
+        SsInventory.AddItem(new Itemstack(Items.Material.Torch, 1));
         _ally1ResponseField = GetNode<RichTextLabel>("ResponseField");
         _ally2ResponseField = GetNode<RichTextLabel>("ResponseField");
 
-        SsInventory.AddItem(new Itemstack(Items.Material.Wood, 25));
-        SsInventory.AddItem(new Itemstack(Items.Material.Diamond, 2));
-        SsInventory.AddItem(new Itemstack(Items.Material.Notebook, false));
-        SsInventory.AddItem(new Itemstack(Items.Material.Notebook, false));
-        SsInventory.AddItem(new Itemstack(Items.Material.Flashlight, false));
-        SsInventory.AddItem(new Itemstack(Items.Material.Stone));
-        SsInventory.AddItem(new Itemstack(Items.Material.Copper));
-        SsInventory.AddItem(new Itemstack(Items.Material.Iron));
-        SsInventory.AddItem(new Itemstack(Items.Material.Gold));
-        SsInventory.AddItem(new Itemstack(Items.Material.Stone, 0));
-        SsInventory.Print();
         _core = GetTree().GetNodesInGroup("Core").OfType<Core>().FirstOrDefault()!;
         Map = GetTree().Root.GetNode<Map>("Node2D");
 
@@ -154,6 +145,18 @@ public partial class Ally : CharacterBody2D
         {
             Harvest();
         }
+
+
+        //Torch logic:
+        if(SsInventory.ContainsMaterial(Game.Scripts.Items.Material.Torch) && GlobalPosition.DistanceTo(new Vector2(3095, 4475))  < 300) {
+				//GD.Print("homie hat die Fackel und ist am core");
+                GD.Print("Distance to core" + GlobalPosition.DistanceTo(GetNode<Core>("%Core").GlobalPosition));
+                GD.Print("Core position" + GetNode<Core>("%Core").GlobalPosition);
+                GD.Print("Core position" + GetNode<PointLight2D>("%CoreLight").GlobalPosition);
+			    GetParent().GetNode<ShowWhileInRadius>("%ChestInsideHouse").ItemActivationStatus = GlobalPosition.DistanceTo(GetNode<Node2D>("%Big House").GlobalPosition) < 500;
+        }
+
+        
     }
 
     private void UpdateTarget()
@@ -182,6 +185,9 @@ public partial class Ally : CharacterBody2D
     private string _richtext = "", _part = "";
     private async void HandleResponse(string response)
     {
+        if (response.Contains("INTERACT")){
+            Interact();
+        }
         _matches = ExtractRelevantLines(response);
         _richtext = "";
         foreach ((string op, string content) in _matches!)
@@ -196,25 +202,7 @@ public partial class Ally : CharacterBody2D
                     _motivation.SetMotivation(content.ToInt());
                     break;
                 case "INTERACT":
-                    Interactable? interactable = GetCurrentlyInteractables().FirstOrDefault();
-                    interactable?.Trigger(this);
-                    _interactOnArrival = false;
-
-                    /*GD.Print("Interacted");
-                    List<VisibleForAI> visibleItems = GetCurrentlyVisible().Concat(AlwaysVisible).ToList();
-                    string visibleItemsFormatted = string.Join<VisibleForAI>("\n", visibleItems);
-                    string completeInput = $"Currently Visible:\n\n{visibleItemsFormatted}\n\n";
-
-                    string originalSystemPrompt = Chat.SystemPrompt;
-                    Chat.SystemPrompt =
-                        "[System Message] In the following you'll get a list of things you see with coordinates. Respond by telling the commander just what might be important or ask clarifying questions on what to do next. \n";
-                    string? arrivalResponse = await _geminiService!.MakeQuery(completeInput + "[System Message End] \n");
-                    RichTextLabel label = GetNode<RichTextLabel>("ResponseField");
-                    label.Text += "\n" + arrivalResponse;
-
-                    Chat.SystemPrompt = originalSystemPrompt;*/
-                    SetInteractOnArrival(true);
-                    GD.Print("DEBUG: INTERACT Match");
+                    Interact();
                     break;
                 case "GOTO AND INTERACT":
                     SetInteractOnArrival(true);
@@ -241,7 +229,7 @@ public partial class Ally : CharacterBody2D
         }
 
         _responseField.ParseBbcode(_richtext); // formatted text into response field
-        ButtonControl buttoncontrol = GetTree().Root.GetNode<ButtonControl>("UI");
+        ButtonControl buttoncontrol = GetTree().Root.GetNode<ButtonControl>("Node2D/UI");
         if (buttoncontrol == null)
         {
             GD.Print("Button control not found");
@@ -285,6 +273,30 @@ public partial class Ally : CharacterBody2D
             _ => content + "\n"
         };
     }
+
+    private void Interact() {
+        Interactable? interactable = GetCurrentlyInteractables().FirstOrDefault();
+        interactable?.Trigger(this);
+        _interactOnArrival = false;
+        if(interactable == null) {
+            GD.Print("Interactable null");
+        }
+        /*GD.Print("Interacted");
+        List<VisibleForAI> visibleItems = GetCurrentlyVisible().Concat(AlwaysVisible).ToList();
+        string visibleItemsFormatted = string.Join<VisibleForAI>("\n", visibleItems);
+        string completeInput = $"Currently Visible:\n\n{visibleItemsFormatted}\n\n";
+
+        string originalSystemPrompt = Chat.SystemPrompt;
+        Chat.SystemPrompt =
+            "[System Message] In the following you'll get a list of things you see with coordinates. Respond by telling the commander just what might be important or ask clarifying questions on what to do next. \n";
+        string? arrivalResponse = await _geminiService!.MakeQuery(completeInput + "[System Message End] \n");
+        RichTextLabel label = GetNode<RichTextLabel>("ResponseField");
+        label.Text += "\n" + arrivalResponse;
+
+        Chat.SystemPrompt = originalSystemPrompt;*/
+        SetInteractOnArrival(true);
+        GD.Print("DEBUG: INTERACT Match");
+    } 
 
     public static List<(string, string)>? ExtractRelevantLines(string response)
     {

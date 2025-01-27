@@ -27,7 +27,7 @@ namespace Game.Scripts
         private const string ChatPlaceholder = "Type here to chat";
         private const string EnterApiPlaceholder = "Enter API key";
         private int _responseCount;
-        private List<VisibleForAI> _alreadySeen = [];
+        public List<VisibleForAI> AlreadySeen = [];
         private Godot.Collections.Array<Node> _entityList = null!;
         private VisibleForAI _ally1VisibleForAi = null!;
         private VisibleForAI _ally2VisibleForAi = null!;
@@ -37,7 +37,7 @@ namespace Game.Scripts
             _ally = GetParent().GetParent<Ally>();
             _responseCount = 0;
             TextSubmitted += OnTextSubmitted;
-            _alreadySeen = _ally.AlwaysVisible.ToList();
+            AlreadySeen = _ally.AlwaysVisible.ToList();
 
             string systemPromptAbsolutePath = ProjectSettings.GlobalizePath(_systemPromptFile);
             //   string introductionSystemPromptAbsolutePath = ProjectSettings.GlobalizePath(_introductionSystemPromptFile);
@@ -51,12 +51,12 @@ namespace Game.Scripts
                 if (ally.GetName().ToString().Contains('2'))
                 {
                     _ally2VisibleForAi = ally.GetNode<VisibleForAI>("VisibleForAI");
-                    _alreadySeen.Add(_ally2VisibleForAi);
+                    AlreadySeen.Add(_ally2VisibleForAi);
                 }
                 else
                 {
                     _ally1VisibleForAi = ally.GetNode<VisibleForAI>("VisibleForAI");
-                    _alreadySeen.Add(_ally1VisibleForAi);
+                    AlreadySeen.Add(_ally1VisibleForAi);
                 }
             }
         }
@@ -70,9 +70,17 @@ namespace Game.Scripts
             {
                 foreach (VisibleForAI item in visibleItems)
                 {
-                    if (!_alreadySeen.Contains(item) && item.NameForAi.Trim() != "")
+                    bool isContains = false;
+                    foreach (VisibleForAI vfai in AlreadySeen)
                     {
-                        _alreadySeen.Add(item);
+                        if (vfai != null) 
+                        {
+                            if (vfai == item) {isContains=true; break;}
+                        }
+                    }
+                    if (!isContains && item.NameForAi.Trim() != "")
+                    {
+                        AlreadySeen.Add(item);
                         newItems.Add(item);
                     }
                 }
@@ -80,7 +88,7 @@ namespace Game.Scripts
             if (newItems.Count > 0)
             {
                 GD.Print("prompt");
-                string alreadySeenFormatted = string.Join<VisibleForAI>("\n", _alreadySeen);
+                string alreadySeenFormatted = string.Join<VisibleForAI>("\n", AlreadySeen);
                 string newItemsFormatted = string.Join<VisibleForAI>("\n", newItems);
                 string completeInput = $"New Objects:\n\n{newItemsFormatted}\n\n" + $"Already Seen:\n\n{alreadySeenFormatted}\n\n" + "Player: ";
 
@@ -127,7 +135,7 @@ namespace Game.Scripts
 
             List<VisibleForAI> visibleItems = _ally.GetCurrentlyVisible().Concat(_ally.AlwaysVisible).ToList();
             string visibleItemsFormatted = string.Join<VisibleForAI>("\n", visibleItems);
-            string alreadySeenFormatted = string.Join<VisibleForAI>("\n", _alreadySeen);
+            string alreadySeenFormatted = string.Join<VisibleForAI>("\n", AlreadySeen);
             string completeInput = $"New Objects:\n\n\n\n" + $"Already Seen:\n\n{alreadySeenFormatted}\n\n" + $"Player: {input}";
             GD.Print($"-------------------------\nInput:\n{completeInput}");
 

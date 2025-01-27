@@ -45,6 +45,7 @@ public partial class InventoryUi : Control
             }
             else
             {
+                _parent.SsInventory.Print();
                 Open();
             }
         }

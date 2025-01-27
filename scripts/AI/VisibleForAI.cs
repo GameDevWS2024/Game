@@ -16,6 +16,11 @@ public partial class VisibleForAI : Node2D
 
     public override string ToString()
     {
-        return $"{NameForAi} at ({GlobalPosition.X:F0}, {GlobalPosition.Y:F0}): [Description] {DescribtionForAi}";
+        if (Godot.GodotObject.IsInstanceIdValid(this.GetInstanceId())){
+            return $"{NameForAi} at ({GlobalPosition.X:F0}, {GlobalPosition.Y:F0}): [Description] {DescribtionForAi}";
+        }
+        else{
+            return "";
+        }
     }
 }

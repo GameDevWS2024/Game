@@ -34,14 +34,16 @@ DescribtionForAi = "There might be something in there"
 [node name="Sprite2D" type="Sprite2D" parent="InsideBigHouse"]
 position = Vector2(0, -122)
 
-[node name="ShowWhileInRadius" type="Node2D" parent="InsideBigHouse/Sprite2D"]
+[node name="ChestInsideHouse" type="Node2D" parent="InsideBigHouse/Sprite2D"]
+unique_name_in_owner = true
 scale = Vector2(1.5, 0.75)
 script = ExtResource("3_hysjd")
 SceneToShow = ExtResource("4_5v46h")
 Radius = 99999
 NeedsToBeInInventoryName = 7
+ItemActivationStatus = false
 
-[node name="Chest" parent="InsideBigHouse/Sprite2D/ShowWhileInRadius" instance=ExtResource("4_5v46h")]
+[node name="Chest" parent="InsideBigHouse/Sprite2D/ChestInsideHouse" instance=ExtResource("4_5v46h")]
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
 scale = Vector2(1, 0.5)

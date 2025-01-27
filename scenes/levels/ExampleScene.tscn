@@ -12,8 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://ki7e88gvvcs" path="res://scenes/prefabs/ice_tree.tscn" id="9_tf77n"]
 [ext_resource type="PackedScene" uid="uid://bgxxp0o5kdpkq" path="res://scenes/prefabs/Enemy.tscn" id="10_tv6x7"]
 [ext_resource type="Script" path="res://scripts/Core.cs" id="11_wagl7"]
-[ext_resource type="PackedScene" path="res://scenes/prefabs/ai_node.tscn" id="13_05imv"]
-[ext_resource type="PackedScene" uid="uid://digrdistp5e8m" path="res://scenes/prefabs/bush.tscn" id="14_d503e"]
+[ext_resource type="PackedScene" uid="uid://b6q08dqlmn5vo" path="res://scenes/prefabs/ai_node.tscn" id="13_05imv"]
 [ext_resource type="Texture2D" uid="uid://desfy4vbdj1ld" path="res://assets/tilemaps/TX Props.png" id="18_mna0q"]
 [ext_resource type="Texture2D" uid="uid://dtw1kjrq4qor4" path="res://assets/tilemaps/TX Tileset Grass.png" id="19_jd32h"]
 [ext_resource type="Texture2D" uid="uid://cmooytb3c0mki" path="res://assets/sprites/Pasted image.png" id="20_lgqcj"]
@@ -31,8 +30,9 @@
 [ext_resource type="AudioStream" uid="uid://ckepkjqosl80g" path="res://assets/audio/gameOver.mp3" id="29_jcr58"]
 [ext_resource type="AudioStream" uid="uid://dpq5uuhy4kxlo" path="res://assets/audio/victoryScreen.mp3" id="30_4ukal"]
 [ext_resource type="Script" path="res://scenes/levels/ButtonControl.cs" id="30_pwpih"]
-[ext_resource type="ButtonGroup" path="res://assets/resources/chat_button_group.tres" id="31_rop2t"]
+[ext_resource type="ButtonGroup" uid="uid://canjpaliv4kso" path="res://assets/resources/chat_button_group.tres" id="31_rop2t"]
 [ext_resource type="PackedScene" uid="uid://cp62xh0okgxnf" path="res://scenes/levels/intro_scene.tscn" id="32_bdur0"]
+[ext_resource type="Script" path="res://scripts/Items/Torch.cs" id="33_88hsq"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qwcva"]
 bg_color = Color(0.6, 0.6, 0.6, 0.654902)
@@ -990,7 +990,7 @@ _darknessCircleDamage = 1
 _allyHealthChangeIntervall = 5.0
 
 [node name="Ally" parent="." node_paths=PackedStringArray("_responseField", "_nameLabel", "Chat") instance=ExtResource("6_l8h37")]
-position = Vector2(870, 83)
+position = Vector2(6070, -4268)
 _responseField = NodePath("ResponseField")
 _nameLabel = NodePath("Label")
 _visionRadius = 100
@@ -1289,7 +1289,7 @@ script = ExtResource("7_ji1nn")
 [node name="Removeable" type="Node" parent="Notebook"]
 script = ExtResource("8_vh33k")
 
-[node name="ItemAdder" type="Node" parent="Notebook"]
+[node name="ItemAdder" type="Node2D" parent="Notebook"]
 script = ExtResource("21_2au4o")
 ItemToAddName = "Flashlight"
 Amount = 1
@@ -1306,9 +1306,6 @@ NameForAi = "Sign"
 position = Vector2(3680, 1002)
 _nameForAi = "Sign to haunted forest village"
 _descriptionForAi = "There is a haunted forrest village at (8500, -1000) (the way towards the right)"
-
-[node name="Tree" parent="Signs/AiNode" instance=ExtResource("14_d503e")]
-position = Vector2(-14, -162)
 
 [node name="Marker2D" type="Marker2D" parent="."]
 position = Vector2(697, -635)
@@ -1373,6 +1370,7 @@ position = Vector2(8649, -1315)
 scale = Vector2(3, 3)
 
 [node name="Big House" type="Node2D" parent="Abandoned Village/HauntedForestVillage"]
+unique_name_in_owner = true
 position = Vector2(-16.3333, -339.333)
 scale = Vector2(0.333333, 0.333333)
 script = ExtResource("6_7bcmx")
@@ -1388,7 +1386,7 @@ SceneToShow = ExtResource("26_vmw0c")
 Radius = 500
 
 [node name="InsideBigHouse2" parent="Abandoned Village/HauntedForestVillage/Big House/Sprite2D" instance=ExtResource("26_vmw0c")]
-position = Vector2(-8.99999, -122.001)
+position = Vector2(-11, -122.001)
 scale = Vector2(2.75, 5)
 
 [node name="Spaceport" type="Node" parent="."]
@@ -1402,29 +1400,13 @@ tile_set = SubResource("TileSet_wfm3d")
 
 [node name="Signs" type="Node2D" parent="Spaceport"]
 
-[node name="Space Port Sign" type="Node2D" parent="Spaceport/Signs"]
-position = Vector2(-1952, 1987)
-script = ExtResource("6_7bcmx")
-NameForAi = "Sign"
-
-[node name="Flashlight" type="Node2D" parent="."]
-position = Vector2(5630, -5543)
-script = ExtResource("6_7bcmx")
-NameForAi = "Flashlight"
-
-[node name="ItemAdder" type="Node" parent="Flashlight"]
-script = ExtResource("21_2au4o")
-ItemToAddName = "Flashlight"
-Amount = 1
-
-[node name="Interactable" type="Node2D" parent="Flashlight"]
-position = Vector2(-1, 0)
-script = ExtResource("7_ji1nn")
-
-[node name="VisibleForAI" type="Node2D" parent="Flashlight"]
-position = Vector2(0, 7)
-script = ExtResource("6_7bcmx")
-NameForAi = "Flashlight"
+[node name="Spaceport Sign 1" parent="Spaceport/Signs" instance=ExtResource("13_05imv")]
+position = Vector2(-1953, 1988)
+_nameForAi = "Sign"
+_descriptionForAi = "Spaceport at (-3050, 2000)"
+_isAddItemOnInteract = false
+_isRemovable = false
+_isInteractable = false
 
 [node name="AudioManager" type="Node" parent="."]
 script = ExtResource("25_fif0r")
@@ -1500,4 +1482,14 @@ button_group = ExtResource("31_rop2t")
 text = "Ally 1"
 
 [node name="IntroScene" parent="." node_paths=PackedStringArray("_ally") instance=ExtResource("32_bdur0")]
+visible = false
 _ally = NodePath("../Ally")
+
+[node name="Torch" parent="." instance=ExtResource("13_05imv")]
+position = Vector2(5633, -5566)
+_nameForAi = "Torch"
+_descriptionForAi = "Can be lit. But where?"
+_fromChosenMaterial = 7
+
+[node name="TorchLogic" type="Node2D" parent="Torch"]
+script = ExtResource("33_88hsq")

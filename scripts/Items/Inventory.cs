@@ -40,7 +40,10 @@ public partial class Inventory
 
     public void Print()
     {
+        GD.Print();
+        GD.Print("--------------Inventory--------------");
         GD.Print(ToString());
+        GD.Print();
     }
 
     public Itemstack GetItem(int i)
@@ -76,9 +79,14 @@ public partial class Inventory
         return false;
     }
 
-    public bool ContainsMaterial(Material name)
+    public bool ContainsMaterial(Material mat)
     {
-        return Items.Any(itemstack => itemstack!.Material.Equals(name));
+        foreach(Itemstack item in Items) {
+            if(item!.Material == mat) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public void AddItem(Itemstack itemstack)

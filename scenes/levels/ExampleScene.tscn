@@ -1444,7 +1444,7 @@ stream = ExtResource("29_jcr58")
 [node name="victory" type="AudioStreamPlayer" parent="AudioManager"]
 stream = ExtResource("30_4ukal")
 
-[node name="UI" type="Control" parent="." node_paths=PackedStringArray("Camera1", "Camera2", "Ally1Chat", "Ally2Chat", "Ally1", "Ally2", "ButtonAlly1", "ButtonAlly2", "Ally1Pathfinder", "Ally2Pathfinder", "Ally1ResponseField", "Ally2ResponseField")]
+[node name="UI" type="Control" parent="." node_paths=PackedStringArray("_camera1", "_camera2", "_ally1Chat", "_ally2Chat", "_ally1", "_ally2", "_buttonAlly1", "_buttonAlly2", "_ally1Pathfinder", "_ally2Pathfinder", "_ally1ResponseField", "_ally2ResponseField")]
 layout_mode = 3
 anchors_preset = 12
 anchor_top = 1.0
@@ -1457,18 +1457,18 @@ offset_bottom = 301.0
 grow_horizontal = 2
 grow_vertical = 0
 script = ExtResource("30_pwpih")
-Camera1 = NodePath("../Ally/Ally1Cam")
-Camera2 = NodePath("../Ally2/Ally2Cam")
-Ally1Chat = NodePath("../Ally/Ally1Cam/Ally1Chat")
-Ally2Chat = NodePath("../Ally2/Ally2Cam/Ally2Chat")
-Ally1 = NodePath("../Ally")
-Ally2 = NodePath("../Ally2")
-ButtonAlly1 = NodePath("ButtonsContainer/ButtonAlly1")
-ButtonAlly2 = NodePath("ButtonsContainer/ButtonAlly2")
-Ally1Pathfinder = NodePath("../Ally")
-Ally2Pathfinder = NodePath("../Ally2")
-Ally1ResponseField = NodePath("../Ally/ResponseField")
-Ally2ResponseField = NodePath("../Ally2/ResponseField")
+_camera1 = NodePath("../Ally/Ally1Cam")
+_camera2 = NodePath("../Ally2/Ally2Cam")
+_ally1Chat = NodePath("../Ally/Ally1Cam/Ally1Chat")
+_ally2Chat = NodePath("../Ally2/Ally2Cam/Ally2Chat")
+_ally1 = NodePath("../Ally")
+_ally2 = NodePath("../Ally2")
+_buttonAlly1 = NodePath("ButtonsContainer/ButtonAlly1")
+_buttonAlly2 = NodePath("ButtonsContainer/ButtonAlly2")
+_ally1Pathfinder = NodePath("../Ally")
+_ally2Pathfinder = NodePath("../Ally2")
+_ally1ResponseField = NodePath("../Ally/ResponseField")
+_ally2ResponseField = NodePath("../Ally2/ResponseField")
 
 [node name="ButtonsContainer" type="HBoxContainer" parent="UI"]
 layout_mode = 2

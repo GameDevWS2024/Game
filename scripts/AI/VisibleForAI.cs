@@ -1,6 +1,6 @@
-using System;
-
 using Godot;
+
+namespace Game.Scripts.AI;
 
 [GlobalClass]
 public partial class VisibleForAI : Node2D
@@ -16,6 +16,6 @@ public partial class VisibleForAI : Node2D
 
     public override string ToString()
     {
-        return $"{NameForAi} at ({GlobalPosition.X.ToString("F0")}, {GlobalPosition.Y.ToString("F0")}): [Further information] {DescribtionForAi}";
+        return $"{NameForAi} at ({GlobalPosition.X:F0}, {GlobalPosition.Y:F0}): [Description] {DescribtionForAi}";
     }
 }

@@ -1,8 +1,10 @@
 using System.Threading.Tasks;
 
 using Game.Scripts;
+using Game.Scenes.Levels;
 
 using Godot;
+namespace Game.Scenes.Levels;
 
 public partial class ButtonControl : Control
 {
@@ -227,7 +229,7 @@ public partial class ButtonControl : Control
         }
     }
 
-    private async void DisplayResponse(string response, int allyNumber)
+    public async void DisplayResponse(string response, int allyNumber)
     {
         // Display the response in the correct response field
         RichTextLabel label = (allyNumber == 1) ? _ally1ResponseField : _ally2ResponseField;
@@ -238,6 +240,6 @@ public partial class ButtonControl : Control
     {
         // Handle the response received from the chat
         int activeAlly = _currentCamera;
-        DisplayResponse(response, activeAlly);
+        //DisplayResponse(response, activeAlly);
     }
 }

@@ -1,4 +1,4 @@
-[gd_scene load_steps=54 format=4 uid="uid://dfkwq6qwtxw25"]
+[gd_scene load_steps=56 format=4 uid="uid://dfkwq6qwtxw25"]
 
 [ext_resource type="Script" path="res://scripts/EnemyManager.cs" id="1_bmkfv"]
 [ext_resource type="Script" path="res://scripts/Map.cs" id="1_pa1ge"]
@@ -12,6 +12,8 @@
 [ext_resource type="PackedScene" uid="uid://ki7e88gvvcs" path="res://scenes/prefabs/ice_tree.tscn" id="9_tf77n"]
 [ext_resource type="PackedScene" uid="uid://bgxxp0o5kdpkq" path="res://scenes/prefabs/Enemy.tscn" id="10_tv6x7"]
 [ext_resource type="Script" path="res://scripts/Core.cs" id="11_wagl7"]
+[ext_resource type="PackedScene" uid="uid://b6q08dqlmn5vo" path="res://scenes/prefabs/ai_node.tscn" id="13_05imv"]
+[ext_resource type="PackedScene" uid="uid://digrdistp5e8m" path="res://scenes/prefabs/bush.tscn" id="14_d503e"]
 [ext_resource type="Texture2D" uid="uid://desfy4vbdj1ld" path="res://assets/tilemaps/TX Props.png" id="18_mna0q"]
 [ext_resource type="Texture2D" uid="uid://dtw1kjrq4qor4" path="res://assets/tilemaps/TX Tileset Grass.png" id="19_jd32h"]
 [ext_resource type="Texture2D" uid="uid://cmooytb3c0mki" path="res://assets/sprites/Pasted image.png" id="20_lgqcj"]
@@ -1021,14 +1023,12 @@ theme_override_font_sizes/font_size = 40
 theme_override_styles/normal = SubResource("StyleBoxFlat_qwcva")
 script = ExtResource("3_m6i6e")
 _systemPromptFile = "res://assets/prompts/ally_system_prompt.txt"
-_introductionSystemPromptFile = "res://assets/prompts/introduction_ally_system_prompt.txt"
 metadata/_edit_use_anchors_ = true
 
 [node name="VisibleForAI" type="Node2D" parent="Ally"]
 visible = false
 script = ExtResource("6_7bcmx")
 NameForAi = "James"
-DescribtionForAi = "The ally James"
 
 [node name="Label" type="Label" parent="Ally"]
 offset_left = -21.0
@@ -1097,13 +1097,11 @@ theme_override_font_sizes/font_size = 40
 theme_override_styles/normal = SubResource("StyleBoxFlat_ksed5")
 script = ExtResource("3_m6i6e")
 _systemPromptFile = "res://assets/prompts/ally2_prompt.txt"
-_introductionSystemPromptFile = "res://assets/prompts/introduction_ally2.txt"
 
 [node name="VisibleForAI" type="Node2D" parent="Ally2"]
 visible = false
 script = ExtResource("6_7bcmx")
 NameForAi = "Jones"
-DescribtionForAi = "The ally Jones"
 
 [node name="Label" type="Label" parent="Ally2"]
 offset_left = -21.0
@@ -1284,7 +1282,6 @@ scale = Vector2(0.2, 0.2)
 texture = ExtResource("20_lgqcj")
 script = ExtResource("6_7bcmx")
 NameForAi = "Notebook"
-DescribtionForAi = "there is a Spaceport at (-1950, 2000)"
 
 [node name="Interactable" type="Node2D" parent="Notebook"]
 script = ExtResource("7_ji1nn")
@@ -1304,20 +1301,19 @@ position = Vector2(3037, 2438)
 gizmo_extents = 25.4
 script = ExtResource("6_7bcmx")
 NameForAi = "Sign"
-DescribtionForAi = "On it there is a description: there is a grave at (1166, 2288) and a rune at (3300,1850)"
 
-[node name="Grave Runeholder2" type="Marker2D" parent="Signs"]
-position = Vector2(3668, 967)
-gizmo_extents = 25.4
-script = ExtResource("6_7bcmx")
-NameForAi = "Sign"
-DescribtionForAi = "On it there is a description: there is a haunted forrest village at (8500, -1000) (the way towards the right)"
+[node name="AiNode" parent="Signs" instance=ExtResource("13_05imv")]
+position = Vector2(3680, 1002)
+_nameForAi = "Sign to haunted forest village"
+_descriptionForAi = "There is a haunted forrest village at (8500, -1000) (the way towards the right)"
+
+[node name="Tree" parent="Signs/AiNode" instance=ExtResource("14_d503e")]
+position = Vector2(-14, -162)
 
 [node name="Marker2D" type="Marker2D" parent="."]
 position = Vector2(697, -635)
 script = ExtResource("6_7bcmx")
 NameForAi = "Rune Holder"
-DescribtionForAi = "There is a Code needed"
 
 [node name="EnemyManager" type="Node2D" parent="."]
 script = ExtResource("1_bmkfv")
@@ -1381,7 +1377,6 @@ position = Vector2(-16.3333, -339.333)
 scale = Vector2(0.333333, 0.333333)
 script = ExtResource("6_7bcmx")
 NameForAi = "Big house"
-DescribtionForAi = "could be important"
 
 [node name="Sprite2D" type="Sprite2D" parent="Abandoned Village/HauntedForestVillage/Big House"]
 z_index = 4
@@ -1411,13 +1406,11 @@ tile_set = SubResource("TileSet_wfm3d")
 position = Vector2(-1952, 1987)
 script = ExtResource("6_7bcmx")
 NameForAi = "Sign"
-DescribtionForAi = "Spaceport at (-3050, 2000)"
 
 [node name="Flashlight" type="Node2D" parent="."]
 position = Vector2(5630, -5543)
 script = ExtResource("6_7bcmx")
 NameForAi = "Flashlight"
-DescribtionForAi = "It might be useful in the Haunted Forest Village"
 
 [node name="ItemAdder" type="Node" parent="Flashlight"]
 script = ExtResource("21_2au4o")
@@ -1432,7 +1425,6 @@ script = ExtResource("7_ji1nn")
 position = Vector2(0, 7)
 script = ExtResource("6_7bcmx")
 NameForAi = "Flashlight"
-DescribtionForAi = "pick it up with INTERACT"
 
 [node name="AudioManager" type="Node" parent="."]
 script = ExtResource("25_fif0r")

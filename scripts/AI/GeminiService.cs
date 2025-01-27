@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Dynamic;
 using System.IO;
 using System.Threading.Tasks;
 
@@ -10,12 +9,14 @@ using GenerativeAI.Types;
 
 using Godot;
 
+namespace Game.Scripts.AI;
+
 public class GeminiService
 {
     private readonly GenerativeModel _model;
     public ChatSession Chat;
 
-    public GeminiService(string apiKeyFilePath)
+    public GeminiService(string apiKeyFilePath, string systemPrompt) // Add systemPrompt parameter
     {
         if (string.IsNullOrEmpty(apiKeyFilePath))
         {
@@ -35,7 +36,6 @@ public class GeminiService
             }
             _model = new GenerativeModel(apiKey);
 
-
             _model.SafetySettings =
             [
                 new SafetySetting { Category = HarmCategory.HARM_CATEGORY_HARASSMENT, Threshold = HarmBlockThreshold.BLOCK_NONE },
@@ -45,6 +45,12 @@ public class GeminiService
             ];
 
             Chat = _model.StartChat(new StartChatParams());
+
+            // Send system prompt as the first message in the chat history
+            if (!string.IsNullOrEmpty(systemPrompt))
+            {
+                Task.Run(async () => await Chat.SendMessageAsync(systemPrompt)).Wait(); // Run synchronously for initialization. Be cautious in real async scenarios.
+            }
         }
         catch (Exception ex) when (ex is not FileNotFoundException && ex is not ArgumentNullException)
         {
@@ -52,18 +58,8 @@ public class GeminiService
         }
     }
 
-    public async void SetSystemPrompt(string prompt)
-    {
-        try
-        {
-            // GD.Print(prompt);
-            await Chat.SendMessageAsync(prompt);
-        }
-        catch (Exception e)
-        {
-            throw new Exception("Error setting system prompt", e);
-        }
-    }
+    // Remove SetSystemPrompt method entirely as it's likely no longer needed
+
     public async Task<string?> MakeQuery(string input)
     {
         GD.Print(input);

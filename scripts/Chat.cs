@@ -60,53 +60,58 @@ namespace Game.Scripts
             InitializeGeminiService();
         }
 
-        public async void SeenItems(){
+        public async void SeenItems()
+        {
             List<VisibleForAI> newItems = [];
             List<VisibleForAI> visibleItems = _ally.GetCurrentlyVisible();
             string visibleItemsFormatted = string.Join<VisibleForAI>("\n", visibleItems);
 
-            if(visibleItems.Count > 0){
-                foreach(VisibleForAI item in visibleItems){
-                    if(!_alreadySeen.Contains(item) && item != null){
+            if (visibleItems.Count > 0)
+            {
+                foreach (VisibleForAI item in visibleItems)
+                {
+                    if (!_alreadySeen.Contains(item) && item != null)
+                    {
                         _alreadySeen.Add(item);
                         newItems.Add(item);
                     }
                 }
             }
-            if(newItems.Count > 0){
-            GD.Print("prompt");
-            string alreadySeenFormatted = string.Join<VisibleForAI>("\n", _alreadySeen);
-            string newItemsFormatted = string.Join<VisibleForAI>("\n", newItems);
-            string completeInput = $"New Objects:\n\n{newItemsFormatted}\n\n"+ $"Already Seen:\n\n{alreadySeenFormatted}\n\n" + $"Player: {""}";
-            
-            GD.Print($"-------------------------\nInput:\n{completeInput}");
-
-            string originalSystemPrompt = SystemPrompt;
-            SystemPrompt = "In the following you'll get a list of things you see with coordinates. Respond by telling the commander just what might be important or ask clarifying questions on what to do next. \n";
-            string? arrivalResponse = await GeminiService!.MakeQuery(completeInput);
-            List<(string, string)>? responseGroups = Ally.ExtractRelevantLines(arrivalResponse!);
-            foreach ((string, string) response in responseGroups)
+            if (newItems.Count > 0)
             {
-                if (response.Item1 == "RESPONSE")
-                {
-                    GD.Print(response.Item2);
-                }
-            }
-            if (GeminiService != null)
-            {
-                string? response = await GeminiService.MakeQuery(completeInput);
-                if (response != null)
-                {
-                    EmitSignal(SignalName.ResponseReceived, response);
-                    GD.Print($"----------------\nResponse:\n{response}");
-                }
+                GD.Print("prompt");
+                string alreadySeenFormatted = string.Join<VisibleForAI>("\n", _alreadySeen);
+                string newItemsFormatted = string.Join<VisibleForAI>("\n", newItems);
+                string completeInput = $"New Objects:\n\n{newItemsFormatted}\n\n" + $"Already Seen:\n\n{alreadySeenFormatted}\n\n" + $"Player: {""}";
 
-                else
+                GD.Print($"-------------------------\nInput:\n{completeInput}");
+
+                string originalSystemPrompt = SystemPrompt;
+                SystemPrompt = "In the following you'll get a list of things you see with coordinates. Respond by telling the commander just what might be important or ask clarifying questions on what to do next. \n";
+                string? arrivalResponse = await GeminiService!.MakeQuery(completeInput);
+                List<(string, string)>? responseGroups = Ally.ExtractRelevantLines(arrivalResponse!);
+                foreach ((string, string) response in responseGroups)
                 {
-                    GD.Print("No response");
+                    if (response.Item1 == "RESPONSE")
+                    {
+                        GD.Print(response.Item2);
+                    }
                 }
-            }
-            newItems.Clear();
+                if (GeminiService != null)
+                {
+                    string? response = await GeminiService.MakeQuery(completeInput);
+                    if (response != null)
+                    {
+                        EmitSignal(SignalName.ResponseReceived, response);
+                        GD.Print($"----------------\nResponse:\n{response}");
+                    }
+
+                    else
+                    {
+                        GD.Print("No response");
+                    }
+                }
+                newItems.Clear();
             }
         }
 
@@ -161,7 +166,7 @@ namespace Game.Scripts
             List<VisibleForAI> visibleItems = _ally.GetCurrentlyVisible().Concat(_ally.AlwaysVisible).ToList();
             string visibleItemsFormatted = string.Join<VisibleForAI>("\n", visibleItems);
             string alreadySeenFormatted = string.Join<VisibleForAI>("\n", _alreadySeen);
-            string completeInput = $"New Objects:\n\n\n\n"+ $"Already Seen:\n\n{alreadySeenFormatted}\n\n" + $"Player: {input}";
+            string completeInput = $"New Objects:\n\n\n\n" + $"Already Seen:\n\n{alreadySeenFormatted}\n\n" + $"Player: {input}";
             GD.Print($"-------------------------\nInput:\n{completeInput}");
 
             if (GeminiService != null)

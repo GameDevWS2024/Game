@@ -7,7 +7,7 @@
 [ext_resource type="Script" path="res://scripts/HealthBar.cs" id="6_1idkv"]
 [ext_resource type="Script" path="res://scripts/Interaction/Removeable.cs" id="7_2n21g"]
 [ext_resource type="Script" path="res://scripts/MotivationBar.cs" id="9_e11nf"]
-[ext_resource type="PackedScene" uid="uid://biyndqm5tbcwo" path="res://scenes/prefabs/inventory_ui.tscn" id="9_hl1go"]
+[ext_resource type="PackedScene" path="res://scenes/prefabs/inventory_ui.tscn" id="9_hl1go"]
 [ext_resource type="Script" path="res://scripts/Motivation.cs" id="10_sc05j"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_rn1pq"]

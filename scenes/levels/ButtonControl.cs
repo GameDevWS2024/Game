@@ -26,7 +26,7 @@ public partial class ButtonControl : Control
     private PathFindingMovement? _activePathfinder = null; // The active character's pathfinding logic
     private Vector2 _targetPosition; // Target position for movement
     private float _moveSpeed = 150f; // Movement speed
-    private bool _isMouseOverUI = false; // Tracks if the mouse is hovering over the UI
+    private bool _isMouseOverUi = false; // Tracks if the mouse is hovering over the UI
     private bool _isManualMovement = false; // Flag for manual movement
     private bool _stopPathfinding = false; // Flag to stop pathfinding
 
@@ -58,12 +58,12 @@ public partial class ButtonControl : Control
 
     private void OnMouseEnteredUI()
     {
-        _isMouseOverUI = true;
+        _isMouseOverUi = true;
     }
 
     private void OnMouseExitedUI()
     {
-        _isMouseOverUI = false;
+        _isMouseOverUi = false;
     }
 
     public override void _Process(double delta)
@@ -94,7 +94,7 @@ public partial class ButtonControl : Control
     public override void _Input(InputEvent @event)
     {
         // Ignore input if the mouse is over the UI
-        if (_isMouseOverUI)
+        if (_isMouseOverUi)
         {
             return;
         }
@@ -217,7 +217,7 @@ public partial class ButtonControl : Control
         _buttonAlly2.GlobalPosition = chatGlobalPosition + new Vector2(150, -80);
     }
 
-    private async Task TypeWriterEffect(string fullText, RichTextLabel label, float delay = 0.008f)
+    public async Task TypeWriterEffect(string fullText, RichTextLabel label, float delay = 0.008f)
     {
         // Display text in a typewriter effect
         label.Text = "";
@@ -229,7 +229,7 @@ public partial class ButtonControl : Control
         }
     }
 
-    public async void DisplayResponse(string response, int allyNumber)
+    private async void DisplayResponse(string response, int allyNumber)
     {
         // Display the response in the correct response field
         RichTextLabel label = (allyNumber == 1) ? _ally1ResponseField : _ally2ResponseField;

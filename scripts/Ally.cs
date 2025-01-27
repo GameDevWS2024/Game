@@ -22,6 +22,9 @@ public partial class Ally : CharacterBody2D
     private Health _health = null!;
     protected Game.Scripts.Core _core = null!;
     public Inventory SsInventory = new Inventory(36);
+    
+    private RichTextLabel _ally1ResponseField = null!;
+    private RichTextLabel _ally2ResponseField = null!;
 
     [Export] private int _visionRadius = 300;
     [Export] private int _interactionRadius = 150;
@@ -47,6 +50,9 @@ public partial class Ally : CharacterBody2D
 
     public override void _Ready()
     {
+        _ally1ResponseField = GetNode<RichTextLabel>("ResponseField");
+        _ally2ResponseField = GetNode<RichTextLabel>("ResponseField");
+
         SsInventory.AddItem(new Itemstack(Items.Material.Wood, 25));
         SsInventory.AddItem(new Itemstack(Items.Material.Diamond, 2));
         SsInventory.AddItem(new Itemstack(Items.Material.Notebook, false));
@@ -178,7 +184,7 @@ public partial class Ally : CharacterBody2D
     {
         _matches = ExtractRelevantLines(response);
         _richtext = "";
-        foreach ((string op, string content) in _matches)
+        foreach ((string op, string content) in _matches!)
         {
             _part = "";
             _richtext += FormatPart(_part, op, content);
@@ -237,10 +243,12 @@ public partial class Ally : CharacterBody2D
         _responseField.ParseBbcode(_richtext); // formatted text into response field
         ButtonControl buttoncontrol = GetTree().Root.GetNode<ButtonControl>("UI");
         if (buttoncontrol == null) {
-            GD.Print("Buttoncontroll not found");
+            GD.Print("Button control not found");
         }
-        else {
-            buttoncontrol.DisplayResponse(_richtext, this.Name.ToString().Contains('2')?2:1);
+        else
+        {
+            RichTextLabel label = this.Name.ToString().Contains('2') ? _ally2ResponseField : _ally1ResponseField;
+            await buttoncontrol.TypeWriterEffect(_richtext, label);
         }
     }
 

@@ -12,7 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://ki7e88gvvcs" path="res://scenes/prefabs/ice_tree.tscn" id="9_tf77n"]
 [ext_resource type="PackedScene" uid="uid://bgxxp0o5kdpkq" path="res://scenes/prefabs/Enemy.tscn" id="10_tv6x7"]
 [ext_resource type="Script" path="res://scripts/Core.cs" id="11_wagl7"]
-[ext_resource type="PackedScene" uid="uid://b6q08dqlmn5vo" path="res://scenes/prefabs/ai_node.tscn" id="13_05imv"]
+[ext_resource type="PackedScene" path="res://scenes/prefabs/ai_node.tscn" id="13_05imv"]
 [ext_resource type="PackedScene" uid="uid://digrdistp5e8m" path="res://scenes/prefabs/bush.tscn" id="14_d503e"]
 [ext_resource type="Texture2D" uid="uid://desfy4vbdj1ld" path="res://assets/tilemaps/TX Props.png" id="18_mna0q"]
 [ext_resource type="Texture2D" uid="uid://dtw1kjrq4qor4" path="res://assets/tilemaps/TX Tileset Grass.png" id="19_jd32h"]
@@ -31,7 +31,7 @@
 [ext_resource type="AudioStream" uid="uid://ckepkjqosl80g" path="res://assets/audio/gameOver.mp3" id="29_jcr58"]
 [ext_resource type="AudioStream" uid="uid://dpq5uuhy4kxlo" path="res://assets/audio/victoryScreen.mp3" id="30_4ukal"]
 [ext_resource type="Script" path="res://scenes/levels/ButtonControl.cs" id="30_pwpih"]
-[ext_resource type="ButtonGroup" uid="uid://canjpaliv4kso" path="res://assets/resources/chat_button_group.tres" id="31_rop2t"]
+[ext_resource type="ButtonGroup" path="res://assets/resources/chat_button_group.tres" id="31_rop2t"]
 [ext_resource type="PackedScene" uid="uid://cp62xh0okgxnf" path="res://scenes/levels/intro_scene.tscn" id="32_bdur0"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qwcva"]
@@ -1444,7 +1444,7 @@ stream = ExtResource("29_jcr58")
 [node name="victory" type="AudioStreamPlayer" parent="AudioManager"]
 stream = ExtResource("30_4ukal")
 
-[node name="UI" type="Control" parent="." node_paths=PackedStringArray("_camera1", "_camera2", "_ally1Chat", "_ally2Chat", "_ally1", "_ally2", "_buttonAlly1", "_buttonAlly2", "_ally1Pathfinder", "_ally2Pathfinder", "_ally1ResponseField", "_ally2ResponseField")]
+[node name="UI" type="Control" parent="." node_paths=PackedStringArray("_camera1", "_camera2", "_ally1Chat", "_ally2Chat", "_ally1", "_ally2", "_buttonAlly1", "_buttonAlly2", "_ally1ResponseField", "_ally2ResponseField")]
 layout_mode = 3
 anchors_preset = 12
 anchor_top = 1.0
@@ -1465,8 +1465,6 @@ _ally1 = NodePath("../Ally")
 _ally2 = NodePath("../Ally2")
 _buttonAlly1 = NodePath("ButtonsContainer/ButtonAlly1")
 _buttonAlly2 = NodePath("ButtonsContainer/ButtonAlly2")
-_ally1Pathfinder = NodePath("../Ally")
-_ally2Pathfinder = NodePath("../Ally2")
 _ally1ResponseField = NodePath("../Ally/ResponseField")
 _ally2ResponseField = NodePath("../Ally2/ResponseField")
 

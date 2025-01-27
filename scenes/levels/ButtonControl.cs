@@ -20,7 +20,7 @@ public partial class ButtonControl : Control
 	[Export] private RichTextLabel _ally2ResponseField = null!;
 
 	private int _currentCamera = 1; // Tracks which camera is active (1 = _ally1, 2 = _ally2)
-	private CharacterBody2D? _activeCharacter = null; // The currently active character
+	private CharacterBody2D? _activeCharacter = null; // currently active character
 	private PathFindingMovement? _activePathfinder = null; // The active character's pathfinding logic
 	private Vector2 _targetPosition; // Target position for movement
 	private float _moveSpeed = 150f; // Movement speed

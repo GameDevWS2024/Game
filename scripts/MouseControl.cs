@@ -20,11 +20,13 @@ public partial class MouseControl : Control
     public Camera2D Camera2 = null!;
     public Chat Chat1 = null!;
     public Chat Chat2 = null!;
-    public Ally Ally1 = null!;
-    public Ally Ally2 = null!;
+    public Chat Chat = null!;
+    [Export] public Ally Ally1 = null!;
+    [Export] public Ally Ally2 = null!;
 
     public override void _Ready()
     {
+        _selectedEntityGoto = Ally1;
         // Get the RichTextLabel node
         Camera1 = GetParent().GetNode<Camera2D>("Ally/Ally1Cam");
         Camera2 = GetParent().GetNode<Camera2D>("Ally2/Ally2Cam");
@@ -63,6 +65,7 @@ public partial class MouseControl : Control
         GD.Print("DEBUG: Switching camera");
         if (CurrentCamera == 1)
         {
+            _selectedEntityGoto = Ally2;
             GD.Print("DEBUG: WAS CAMERA 1");
             Camera2.Enabled = true;
             Camera1.Enabled = false;
@@ -74,6 +77,7 @@ public partial class MouseControl : Control
         }
         else if (CurrentCamera == 2)
         {
+            _selectedEntityGoto = Ally1;
             GD.Print("DEBUG: WAS CAMERA 2");
             Camera1.Enabled = true;
             Camera2.Enabled = false;
@@ -86,7 +90,7 @@ public partial class MouseControl : Control
 
     private Tuple<CharacterBody2D, float> SearchNearestEntity(Vector2 clickPosition)
     {
-        CharacterBody2D nearestEntity = null;
+        CharacterBody2D nearestEntity = null!;
         float nearestDistance = float.MaxValue;
 
         List<CharacterBody2D> entityGroup = GetTree().GetNodesInGroup("Entities").OfType<CharacterBody2D>().ToList();
@@ -137,13 +141,14 @@ public partial class MouseControl : Control
             {
                 combatAlly.Chat.Visible = false;
             }
-            _selectedEntityChat = null;
+            _selectedEntityChat = null!;
         }
     }
 
     //Select nearest Entity to mouseclick
     private void EntityGoto(Vector2 clickPosition)
     {
+        /*
         Tuple<CharacterBody2D, float> resultTuple = SearchNearestEntity(clickPosition);
         CharacterBody2D nearestEntity = resultTuple.Item1;
         float nearestDistance = resultTuple.Item2;
@@ -154,20 +159,19 @@ public partial class MouseControl : Control
             _richTextLabel.Visible = true;
             _selectedEntityGoto = nearestEntity;
         }
+        */
         //if mouseclick was outside of defined radius
-        else if (_selectedEntityGoto != null)
+        if (_selectedEntityGoto != null)
         {
-            //check type to send ally or combat ally to selected coordinates 
-            if (_selectedEntityGoto is Ally ally)
+            //check type to send ally or ally2 to selected coordinates 
+            if (_selectedEntityGoto == Ally1)
             {
-                ally.PathFindingMovement.TargetPosition = clickPosition;
+                Ally1.PathFindingMovement.TargetPosition = clickPosition;
             }
-            else if (_selectedEntityGoto is CombatAlly combatAlly)
+            else if (_selectedEntityGoto == Ally2)
             {
-                combatAlly.PathFindingMovement.TargetPosition = clickPosition;
+                Ally2.PathFindingMovement.TargetPosition = clickPosition;
             }
-            _selectedEntityGoto = null;
-            _richTextLabel.Visible = false;
         }
     }
 

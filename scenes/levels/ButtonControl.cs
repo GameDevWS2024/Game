@@ -14,8 +14,8 @@ public partial class ButtonControl : Control
     [Export] private CharacterBody2D _ally2 = null!;
     [Export] private Button _buttonAlly1 = null!;
     [Export] private Button _buttonAlly2 = null!;
-    [Export] private PathFindingMovement _ally1Pathfinder = null!;
-    [Export] private PathFindingMovement _ally2Pathfinder = null!;
+    private PathFindingMovement _ally1Pathfinder = null!;
+    private PathFindingMovement _ally2Pathfinder = null!;
     [Export] private RichTextLabel _ally1ResponseField = null!;
     [Export] private RichTextLabel _ally2ResponseField = null!;
 

@@ -40,11 +40,11 @@ public partial class MouseControl : Control
         // Check if the event is a mouse button event and if it's the left button and select entity for goto
         if (@event is InputEventMouseButton mouseEvent && mouseEvent.Pressed && mouseEvent.ButtonIndex == MouseButton.Left)
         {
-                EntityGoto(GetGlobalMousePosition());
-                Chat1.ReleaseFocus();
-                Chat2.ReleaseFocus();
+            EntityGoto(GetGlobalMousePosition());
+            Chat1.ReleaseFocus();
+            Chat2.ReleaseFocus();
         }
-        
+
         // Check if the event is a mouse button event and if it's the right button and open chat up
         /*else if (@event is InputEventMouseButton mouseEvent1 && mouseEvent1.Pressed && mouseEvent1.ButtonIndex == MouseButton.Right)
 		{

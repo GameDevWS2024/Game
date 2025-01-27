@@ -38,7 +38,7 @@ public partial class InventoryUi : Control
 
         if (Input.IsActionJustPressed("e") && !_chat1.HasFocus() && !_chat2.HasFocus())
         {
-            
+
             if (_isOpen)
             {
                 Close();

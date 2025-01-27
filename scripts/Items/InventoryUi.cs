@@ -13,6 +13,8 @@ public partial class InventoryUi : Control
     private bool _isOpen = false;
     private Array<InventoryUiSlot> _slots = null!;
     private Ally _parent = null!;
+    private Chat _chat1 = null!;
+    private Chat _chat2 = null!;
 
     public override void _Ready()
     {
@@ -24,6 +26,8 @@ public partial class InventoryUi : Control
         {
             _slots.Add(child as InventoryUiSlot);
         }
+        _chat1 = GetTree().Root.GetNode<Chat>("Node2D/Ally/Ally1Cam/Ally1Chat");
+        _chat2 = GetTree().Root.GetNode<Chat>("Node2D/Ally2/Ally2Cam/Ally2Chat");
     }
     public override void _Process(double delta)
     {
@@ -32,8 +36,9 @@ public partial class InventoryUi : Control
             UpdateSlots();
         }
 
-        if (Input.IsActionJustPressed("e"))
+        if (Input.IsActionJustPressed("e") && !_chat1.HasFocus() && !_chat2.HasFocus())
         {
+
             if (_isOpen)
             {
                 Close();
@@ -59,7 +64,7 @@ public partial class InventoryUi : Control
 
     private void UpdateSlots()
     {
-        Inventory inv = _parent.Inventory;
+        Inventory inv = _parent.SsInventory;
         for (int i = 0; i < Math.Min(_slots.Count, inv.Size); i++)
         {
             _slots[i].Update(inv.GetItem(i));

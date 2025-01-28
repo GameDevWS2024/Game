@@ -9,7 +9,7 @@ using Godot;
 
 using Material = Game.Scripts.Items.Material;
 
-namespace Game.scripts.Interaction;
+namespace Game.Scripts.Interaction;
 
 [GlobalClass]
 public partial class ItemAdder : Node2D

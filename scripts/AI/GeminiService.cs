@@ -19,7 +19,7 @@ public class GeminiService
     public bool Busy = false;
     private readonly GenerativeModel _model;
     public ChatSession Chat;
-    readonly Queue<string> promptQueue = new Queue<string>();
+    readonly Queue<string> _promptQueue = new Queue<string>();
 
 
 
@@ -76,7 +76,7 @@ public class GeminiService
         // dequeue zum rausmachen
         // trypeek zum reinschauen ohne entfernen
         // clear() zum löschen
-        promptQueue.Enqueue(input);
+        _promptQueue.Enqueue(input);
         while (Busy) { }
         Busy = true;
         GD.Print(input);

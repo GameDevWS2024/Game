@@ -38,7 +38,7 @@ public partial class Ally : CharacterBody2D
     private GeminiService? _geminiService;
     private readonly List<string> _interactionHistory = [];
 
-    public Boolean lit = false;
+    public Boolean Lit = false;
 
     [Export] private int _maxHistory = 5; // Number of interactions to keep
 
@@ -152,7 +152,7 @@ public partial class Ally : CharacterBody2D
         //Torch logic:
         if (SsInventory.ContainsMaterial(Game.Scripts.Items.Material.Torch) && GlobalPosition.DistanceTo(new Vector2(3095, 4475)) < 300)
         {
-            lit = true;
+            Lit = true;
             // remove unlit torch from inv and add lighted torch
             SsInventory.HardSwapItems(Items.Material.Torch, Items.Material.LightedTorch);
 
@@ -167,7 +167,7 @@ public partial class Ally : CharacterBody2D
              GD.Print("Core position" + GetNode<PointLight2D>("%CoreLight").GlobalPosition);
              */
         }
-        if (lit)
+        if (Lit)
         {
             //    GetParent().GetNode<ShowWhileInRadius>("Abandoned Village/HauntedForestVillage/Big House/Sprite2D/InsideBigHouse2/InsideBigHouse/Sprite2D/ChestInsideHouse").ItemActivationStatus = GlobalPosition.DistanceTo(GetParent().GetNode<Node2D>("Abandoned Village/HauntedForestVillage/%Big House").GlobalPosition) < 1000;
             GetTree().Root.GetNode<ShowWhileInRadius>(

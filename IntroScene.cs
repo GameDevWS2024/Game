@@ -12,10 +12,12 @@ public partial class IntroScene : Control
     private Camera2D? _mainCamera; // Reference to the main camera
     private ColorRect? _blackoutRect; // For the "waking up" effect (screen blackout)
     [Export] private Ally _ally = null!;
+    // Variable for activating/deactivating the intro scene
+    [Export] private bool _enableIntroScene = true;
 
     // Dialog text lines
-    private readonly List<string> _dialogLines = new List<string>
-    {
+    private readonly List<string> _dialogLines =
+    [
         "Wake up!",
         "Please! Wake up!",
         "We need you... Wake up!",
@@ -27,7 +29,7 @@ public partial class IntroScene : Control
         "I know you can’t move outside the core...",
         "But your allies can be your hands, eyes, and ears in this world. You are connected.",
         "You may have forgotten everything, but they are your faithful companions and will listen to your command."
-    };
+    ];
 
     // Camera positions for specific lines
     private readonly Dictionary<int, Vector2> _cameraPositions = new Dictionary<int, Vector2>
@@ -53,11 +55,17 @@ public partial class IntroScene : Control
 
     public override void _Ready()
     {
-        // Find the main camera
-        _mainCamera = GetNodeOrNull<Camera2D>("../Ally/Ally1Cam");
-        if (_mainCamera == null)
+        _mainCamera = _ally.GetNode<Camera2D>("Ally1Cam");
+
+        // Szene überspringen, wenn sie deaktiviert ist
+        if (!_enableIntroScene)
         {
-            GD.PrintErr("Main camera not found!");
+            _panelContainer = GetNodeOrNull<PanelContainer>("PanelContainer");
+            _label = _panelContainer?.GetNodeOrNull<Label>("Label");
+            _blackoutRect = GetNodeOrNull<ColorRect>("ColorRect");
+            DisableIntroElements();
+            _currentLineIndex = _dialogLines.Count - 1;
+
         }
 
         // Find the PanelContainer and Label for the text box
@@ -106,6 +114,27 @@ public partial class IntroScene : Control
         ShowCurrentLine();
 
     }
+    private void DisableIntroElements()
+    {
+        // Verstecke den PanelContainer und seine Kinder
+        if (_panelContainer != null)
+        {
+            _panelContainer.Visible = false;
+        }
+
+        // Verstecke das Label (falls benötigt, redundant, da es im Container ist)
+        if (_label != null)
+        {
+            _label.Visible = false;
+        }
+
+        // Verstecke den Blackout ColorRect
+        if (_blackoutRect != null)
+        {
+            _blackoutRect.Visible = false;
+        }
+    }
+
 
     public override void _Process(double delta)
     {
@@ -114,6 +143,10 @@ public partial class IntroScene : Control
         {
             Vector2 cameraScreenPosition = _mainCamera.GlobalPosition;
             _panelContainer.GlobalPosition = cameraScreenPosition + new Vector2(-900, 200); // Offset to position the text box
+        }
+        if (_mainCamera == null)
+        {
+            GD.PrintErr("Main camera not found");
         }
     }
 

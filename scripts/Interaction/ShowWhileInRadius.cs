@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 
-using Game.Scripts.Interaction;
 using Game.Scripts;
 using Game.Scripts.AI;
+using Game.Scripts.Interaction;
 
 using Godot;
 using Godot.Collections;

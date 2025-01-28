@@ -42,8 +42,6 @@ public partial class MouseControl : Control
         // Check if the event is a mouse button event and if it's the left button and select entity for goto
         if (@event is InputEventMouseButton mouseEvent && mouseEvent.Pressed && mouseEvent.ButtonIndex == MouseButton.Left)
         {
-            Camera1.GetNode<Chat>("Ally1Chat").ReleaseFocus();
-            Camera2.GetNode<Chat>("Ally2Chat").ReleaseFocus();
             EntityGoto(GetGlobalMousePosition());
             Chat1.ReleaseFocus();
             Chat2.ReleaseFocus();

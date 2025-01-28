@@ -179,6 +179,18 @@ public partial class Inventory
 
         (Items[i], Items[j]) = (Items[j], Items[i]);
     }
+
+    public void HardSwapItems(Material originalMat, Material newMat)
+    {
+        for (int i = 0; i < Items.Length; i++)
+        {
+            if (Items[i]!.Material == originalMat)
+            {
+                Items[i] = new Itemstack(newMat, 1);
+            }
+        }
+    }
+    
     public int GetTotalItemCount()
     {
         int totalCount = 0;

@@ -38,7 +38,7 @@ public partial class Ally : CharacterBody2D
     private GeminiService? _geminiService;
     private readonly List<string> _interactionHistory = [];
 
-    private Boolean lit = false;
+    public Boolean lit = false;
 
     [Export] private int _maxHistory = 5; // Number of interactions to keep
 
@@ -53,6 +53,12 @@ public partial class Ally : CharacterBody2D
 
     public override void _Ready()
     {
+        /*
+        SsInventory.AddItem(new Itemstack(Game.Scripts.Items.Material.Torch));
+        lit = true; */
+        SsInventory.AddItem(new Itemstack(Items.Material.Torch, 1));
+        
+        
         _ally1ResponseField = GetNode<RichTextLabel>("ResponseField");
         _ally2ResponseField = GetNode<RichTextLabel>("ResponseField");
 
@@ -76,11 +82,6 @@ public partial class Ally : CharacterBody2D
         _health = GetNode<Health>("Health");
 
         GD.Print(GetTree().GetFirstNodeInGroup("Core").GetType());
-
-        if (_core == null)
-        {
-            GD.Print("Core null");
-        }
 
         Chat.Visible = false;
         PathFindingMovement.ReachedTarget += HandleTargetReached;
@@ -149,18 +150,42 @@ public partial class Ally : CharacterBody2D
 
 
         //Torch logic:
-        if(SsInventory.ContainsMaterial(Game.Scripts.Items.Material.Torch) && GlobalPosition.DistanceTo(new Vector2(3095, 4475))  < 300) {
+        if (SsInventory.ContainsMaterial(Game.Scripts.Items.Material.Torch) && GlobalPosition.DistanceTo(new Vector2(3095, 4475))  < 300) {
                 lit = true;
-				//GD.Print("homie hat die Fackel und ist am core");
-                GD.Print("Distance to core" + GlobalPosition.DistanceTo(GetNode<Core>("%Core").GlobalPosition));
-                GD.Print("Core position" + GetNode<Core>("%Core").GlobalPosition);
-                GD.Print("Core position" + GetNode<PointLight2D>("%CoreLight").GlobalPosition);
+                // remove unlit torch from inv and add lighted torch
+                SsInventory.HardSwapItems(Items.Material.Torch, Items.Material.LightedTorch);
+        
+                // async func call to print response to torch lighting
+                Torchlightingresponse();
+                
+                GD.Print("tryna respond to torch lighting event");
+
+                //GD.Print("homie hat die Fackel und ist am core");
+                /* GD.Print("Distance to core" + GlobalPosition.DistanceTo(GetNode<Core>("%Core").GlobalPosition));
+                 GD.Print("Core position" + GetNode<Core>("%Core").GlobalPosition);
+                 GD.Print("Core position" + GetNode<PointLight2D>("%CoreLight").GlobalPosition);
+                 */
         }
         if (lit) {
-            GetParent().GetNode<ShowWhileInRadius>("Abandoned Village/HauntedForestVillage/Big House/Sprite2D/InsideBigHouse2/InsideBigHouse/Sprite2D/ChestInsideHouse").ItemActivationStatus = GlobalPosition.DistanceTo(GetParent().GetNode<Node2D>("Abandoned Village/HauntedForestVillage/%Big House").GlobalPosition) < 1000;
+            //    GetParent().GetNode<ShowWhileInRadius>("Abandoned Village/HauntedForestVillage/Big House/Sprite2D/InsideBigHouse2/InsideBigHouse/Sprite2D/ChestInsideHouse").ItemActivationStatus = GlobalPosition.DistanceTo(GetParent().GetNode<Node2D>("Abandoned Village/HauntedForestVillage/%Big House").GlobalPosition) < 1000;
+            GetTree().Root.GetNode<ShowWhileInRadius>(
+                    "Node2D/Abandoned Village/HauntedForestVillage/Big House/Sprite2D/InsideBigHouse2/InsideBigHouse/Sprite2D/ChestInsideHouse")
+            .ItemActivationStatus = GlobalPosition.DistanceTo(new Vector2(8650, -1315)) < 1000;
+        }
+    }//Node2D/Abandoned Village/HauntedForestVillage/Big House/Sprite2D/InsideBigHouse2/InsideBigHouse/Sprite2D/ChestInsideHouse
+
+    private async void Torchlightingresponse()
+    {
+        string? txt = "";
+        int ctr = 0;
+        while (txt is null or "" && ctr <= 3)
+        { 
+            txt = await _geminiService!.MakeQuery("[SYSTEM MESSAGE] The torch has now been lit by the commander using the CORE. Tell the Commander what a genius idea it was to use the Core for that purpose and hint the commander back at the haunted forest village. [SYSTEM MESSAGE END] \n"); GD.Print(txt); // put it into text box
+            HandleResponse(txt!);
+            ctr++;
+            GD.Print();
         }
     }
-
     private void UpdateTarget()
     {
         if (_harvest)
@@ -185,7 +210,7 @@ public partial class Ally : CharacterBody2D
 
     private List<(string, string)>? _matches;
     private string _richtext = "", _part = "";
-    private async void HandleResponse(string response)
+    public async void HandleResponse(string response)
     {
         if (response.Contains("INTERACT")){
             Interact();

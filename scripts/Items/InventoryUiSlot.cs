@@ -64,7 +64,12 @@ public partial class InventoryUiSlot : Panel
 
             case Game.Scripts.Items.Material.Torch:
                 _icon.Visible = true;
-                _icon.Texture = GD.Load<Texture2D>("res://assets/items/flashlight.png");
+                _icon.Texture = GD.Load<Texture2D>("res://assets/items/torch.png");
+                break;
+            
+            case Game.Scripts.Items.Material.LightedTorch:
+                _icon.Visible = true;
+                _icon.Texture = GD.Load<Texture2D>("res://assets/items/lighted_torch.png");
                 break;
 
             case Game.Scripts.Items.Material.Notebook:

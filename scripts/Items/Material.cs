@@ -10,6 +10,10 @@ namespace Game.Scripts.Items
         Gold,
         Diamond,
         Torch,
-        Notebook
+        LightedTorch,
+        Notebook,
+        Flashlight,
+        Key,
+        FestiveStaff
     }
 }

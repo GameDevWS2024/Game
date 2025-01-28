@@ -9,6 +9,8 @@ using Godot;
 
 using Material = Game.Scripts.Items.Material;
 
+namespace Game.scripts.Interaction;
+
 [GlobalClass]
 public partial class ItemAdder : Node2D
 {
@@ -42,15 +44,15 @@ public partial class ItemAdder : Node2D
     public void AddItem()
     {
         /*
-        GD.Print("item: " + ItemToAddName);
-        Core? core = GetTree().GetNodesInGroup("Core").OfType<Core>().FirstOrDefault();
+    GD.Print("item: " + ItemToAddName);
+    Core? core = GetTree().GetNodesInGroup("Core").OfType<Core>().FirstOrDefault();
 
-        if (core != null)
-        {
-            core!.Inventory!.AddItem(new Itemstack(ItemToAdd));
-            core.Inventory.Print();
-        }
-        */
+    if (core != null)
+    {
+        core!.Inventory!.AddItem(new Itemstack(ItemToAdd));
+        core.Inventory.Print();
+    }
+    */
         List<CharacterBody2D> entityGroup = GetTree().GetNodesInGroup("Entities").OfType<CharacterBody2D>().ToList();
         float nearestDistance = float.MaxValue;
         Ally nearestEntity = null!;

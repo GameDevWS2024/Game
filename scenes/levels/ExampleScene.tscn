@@ -1,4 +1,4 @@
-[gd_scene load_steps=56 format=4 uid="uid://dfkwq6qwtxw25"]
+[gd_scene load_steps=55 format=4 uid="uid://dfkwq6qwtxw25"]
 
 [ext_resource type="Script" path="res://scripts/EnemyManager.cs" id="1_bmkfv"]
 [ext_resource type="Script" path="res://scripts/Map.cs" id="1_pa1ge"]
@@ -12,7 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://ki7e88gvvcs" path="res://scenes/prefabs/ice_tree.tscn" id="9_tf77n"]
 [ext_resource type="PackedScene" uid="uid://bgxxp0o5kdpkq" path="res://scenes/prefabs/Enemy.tscn" id="10_tv6x7"]
 [ext_resource type="Script" path="res://scripts/Core.cs" id="11_wagl7"]
-[ext_resource type="PackedScene" uid="uid://b6q08dqlmn5vo" path="res://scenes/prefabs/ai_node.tscn" id="13_05imv"]
+[ext_resource type="PackedScene" uid="uid://d0natjkfu7hhd" path="res://scenes/prefabs/ai_node.tscn" id="13_05imv"]
 [ext_resource type="Texture2D" uid="uid://desfy4vbdj1ld" path="res://assets/tilemaps/TX Props.png" id="18_mna0q"]
 [ext_resource type="Texture2D" uid="uid://dtw1kjrq4qor4" path="res://assets/tilemaps/TX Tileset Grass.png" id="19_jd32h"]
 [ext_resource type="Texture2D" uid="uid://cmooytb3c0mki" path="res://assets/sprites/Pasted image.png" id="20_lgqcj"]
@@ -30,9 +30,8 @@
 [ext_resource type="AudioStream" uid="uid://ckepkjqosl80g" path="res://assets/audio/gameOver.mp3" id="29_jcr58"]
 [ext_resource type="AudioStream" uid="uid://dpq5uuhy4kxlo" path="res://assets/audio/victoryScreen.mp3" id="30_4ukal"]
 [ext_resource type="Script" path="res://scenes/levels/ButtonControl.cs" id="30_pwpih"]
-[ext_resource type="ButtonGroup" uid="uid://canjpaliv4kso" path="res://assets/resources/chat_button_group.tres" id="31_rop2t"]
+[ext_resource type="ButtonGroup" path="res://assets/resources/chat_button_group.tres" id="31_rop2t"]
 [ext_resource type="PackedScene" uid="uid://cp62xh0okgxnf" path="res://scenes/levels/intro_scene.tscn" id="32_bdur0"]
-[ext_resource type="Script" path="res://scripts/Items/Torch.cs" id="33_88hsq"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qwcva"]
 bg_color = Color(0.6, 0.6, 0.6, 0.654902)
@@ -990,10 +989,10 @@ _darknessCircleDamage = 1
 _allyHealthChangeIntervall = 5.0
 
 [node name="Ally" parent="." node_paths=PackedStringArray("_responseField", "_nameLabel", "Chat") instance=ExtResource("6_l8h37")]
-position = Vector2(6070, -4268)
+position = Vector2(870, 83)
 _responseField = NodePath("ResponseField")
 _nameLabel = NodePath("Label")
-_visionRadius = 100
+_visionRadius = 200
 Chat = NodePath("Ally1Cam/Ally1Chat")
 
 [node name="Ally1Cam" type="Camera2D" parent="Ally"]
@@ -1026,9 +1025,7 @@ _systemPromptFile = "res://assets/prompts/ally_system_prompt.txt"
 metadata/_edit_use_anchors_ = true
 
 [node name="VisibleForAI" type="Node2D" parent="Ally"]
-visible = false
 script = ExtResource("6_7bcmx")
-NameForAi = "James"
 
 [node name="Label" type="Label" parent="Ally"]
 offset_left = -21.0
@@ -1065,7 +1062,7 @@ metadata/_edit_use_anchors_ = true
 [node name="Ally2" parent="." node_paths=PackedStringArray("_responseField", "_nameLabel", "Chat") groups=["navigation"] instance=ExtResource("6_l8h37")]
 _responseField = NodePath("ResponseField")
 _nameLabel = NodePath("Label")
-_visionRadius = 100
+_visionRadius = 200
 Chat = NodePath("Ally2Cam/Ally2Chat")
 
 [node name="Ally2Cam" type="Camera2D" parent="Ally2"]
@@ -1099,9 +1096,9 @@ script = ExtResource("3_m6i6e")
 _systemPromptFile = "res://assets/prompts/ally2_prompt.txt"
 
 [node name="VisibleForAI" type="Node2D" parent="Ally2"]
-visible = false
 script = ExtResource("6_7bcmx")
 NameForAi = "Jones"
+DescribtionForAi = "The ally Jones"
 
 [node name="Label" type="Label" parent="Ally2"]
 offset_left = -21.0
@@ -1161,9 +1158,11 @@ metadata/_edit_use_anchors_ = true
 [node name="ColorRect" type="ColorRect" parent="."]
 offset_right = 40.0
 offset_bottom = 40.0
+color = Color(0.20871, 0.20871, 0.20871, 1)
 metadata/_edit_use_anchors_ = true
 
 [node name="CanvasModulate" type="CanvasModulate" parent="ColorRect"]
+color = Color(0.227451, 0.227451, 0.227451, 1)
 
 [node name="Obstacles" type="Node" parent="."]
 
@@ -1282,6 +1281,7 @@ scale = Vector2(0.2, 0.2)
 texture = ExtResource("20_lgqcj")
 script = ExtResource("6_7bcmx")
 NameForAi = "Notebook"
+DescribtionForAi = "there is a Spaceport at (-1950, 2000). This Notebook contains details on how to loot metals from there."
 
 [node name="Interactable" type="Node2D" parent="Notebook"]
 script = ExtResource("7_ji1nn")
@@ -1291,7 +1291,7 @@ script = ExtResource("8_vh33k")
 
 [node name="ItemAdder" type="Node2D" parent="Notebook"]
 script = ExtResource("21_2au4o")
-ItemToAddName = "Flashlight"
+ItemToAddName = "Notebook"
 Amount = 1
 
 [node name="Signs" type="Node" parent="."]
@@ -1301,16 +1301,20 @@ position = Vector2(3037, 2438)
 gizmo_extents = 25.4
 script = ExtResource("6_7bcmx")
 NameForAi = "Sign"
+DescribtionForAi = "On it there is a description: there is a grave at (1166, 2288) and a rune at (3300,1850)"
 
-[node name="AiNode" parent="Signs" instance=ExtResource("13_05imv")]
-position = Vector2(3680, 1002)
-_nameForAi = "Sign to haunted forest village"
-_descriptionForAi = "There is a haunted forrest village at (8500, -1000) (the way towards the right)"
+[node name="Runeholder Haunted Forest Village" type="Marker2D" parent="Signs"]
+position = Vector2(3668, 967)
+gizmo_extents = 25.4
+script = ExtResource("6_7bcmx")
+NameForAi = "Sign"
+DescribtionForAi = "On it there is a description: there is a haunted forrest village at (8500, -1000) (the way towards the right)"
 
-[node name="Marker2D" type="Marker2D" parent="."]
+[node name="Rune Holder" type="Marker2D" parent="."]
 position = Vector2(697, -635)
 script = ExtResource("6_7bcmx")
 NameForAi = "Rune Holder"
+DescribtionForAi = "There is a Code needed"
 
 [node name="EnemyManager" type="Node2D" parent="."]
 script = ExtResource("1_bmkfv")
@@ -1370,11 +1374,11 @@ position = Vector2(8649, -1315)
 scale = Vector2(3, 3)
 
 [node name="Big House" type="Node2D" parent="Abandoned Village/HauntedForestVillage"]
-unique_name_in_owner = true
 position = Vector2(-16.3333, -339.333)
 scale = Vector2(0.333333, 0.333333)
 script = ExtResource("6_7bcmx")
 NameForAi = "Big house"
+DescribtionForAi = "could be important"
 
 [node name="Sprite2D" type="Sprite2D" parent="Abandoned Village/HauntedForestVillage/Big House"]
 z_index = 4
@@ -1386,7 +1390,7 @@ SceneToShow = ExtResource("26_vmw0c")
 Radius = 500
 
 [node name="InsideBigHouse2" parent="Abandoned Village/HauntedForestVillage/Big House/Sprite2D" instance=ExtResource("26_vmw0c")]
-position = Vector2(-11, -122.001)
+position = Vector2(-8.99999, -122.001)
 scale = Vector2(2.75, 5)
 
 [node name="Spaceport" type="Node" parent="."]
@@ -1400,13 +1404,36 @@ tile_set = SubResource("TileSet_wfm3d")
 
 [node name="Signs" type="Node2D" parent="Spaceport"]
 
-[node name="Spaceport Sign 1" parent="Spaceport/Signs" instance=ExtResource("13_05imv")]
-position = Vector2(-1953, 1988)
-_nameForAi = "Sign"
-_descriptionForAi = "Spaceport at (-3050, 2000)"
-_isAddItemOnInteract = false
-_isRemovable = false
-_isInteractable = false
+[node name="Space Port Sign" type="Node2D" parent="Spaceport/Signs"]
+position = Vector2(-1952, 1987)
+script = ExtResource("6_7bcmx")
+NameForAi = "Sign"
+DescribtionForAi = "Spaceport at (-3050, 2000)"
+
+[node name="AiNode" parent="Spaceport" instance=ExtResource("13_05imv")]
+position = Vector2(-3046, 1587)
+scale = Vector2(0.2, 0.2)
+
+[node name="Flashlight" type="Node2D" parent="."]
+position = Vector2(5630, -5543)
+script = ExtResource("6_7bcmx")
+NameForAi = "Flashlight"
+DescribtionForAi = "It might be useful in the Haunted Forest Village"
+
+[node name="ItemAdder" type="Node2D" parent="Flashlight"]
+script = ExtResource("21_2au4o")
+ItemToAddName = "Torch"
+Amount = 1
+
+[node name="Interactable" type="Node2D" parent="Flashlight"]
+position = Vector2(-1, 0)
+script = ExtResource("7_ji1nn")
+
+[node name="VisibleForAI" type="Node2D" parent="Flashlight"]
+position = Vector2(0, 7)
+script = ExtResource("6_7bcmx")
+NameForAi = "Torch"
+DescribtionForAi = "It's not lighted yet. Ask the commander if he wants to pick it up. (COMMAND: INTERACT). Ask the commander how he intends to light this torch."
 
 [node name="AudioManager" type="Node" parent="."]
 script = ExtResource("25_fif0r")
@@ -1484,12 +1511,3 @@ text = "Ally 1"
 [node name="IntroScene" parent="." node_paths=PackedStringArray("_ally") instance=ExtResource("32_bdur0")]
 visible = false
 _ally = NodePath("../Ally")
-
-[node name="Torch" parent="." instance=ExtResource("13_05imv")]
-position = Vector2(5633, -5566)
-_nameForAi = "Torch"
-_descriptionForAi = "Can be lit. But where?"
-_fromChosenMaterial = 7
-
-[node name="TorchLogic" type="Node2D" parent="Torch"]
-script = ExtResource("33_88hsq")

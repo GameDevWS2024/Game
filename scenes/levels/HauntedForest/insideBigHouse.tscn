@@ -35,7 +35,6 @@ DescribtionForAi = "There might be something in there"
 position = Vector2(0, -122)
 
 [node name="ChestInsideHouse" type="Node2D" parent="InsideBigHouse/Sprite2D"]
-unique_name_in_owner = true
 scale = Vector2(1.5, 0.75)
 script = ExtResource("3_hysjd")
 SceneToShow = ExtResource("4_5v46h")

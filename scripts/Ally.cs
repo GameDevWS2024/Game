@@ -38,6 +38,8 @@ public partial class Ally : CharacterBody2D
     private GeminiService? _geminiService;
     private readonly List<string> _interactionHistory = [];
 
+    private Boolean lit = false;
+
     [Export] private int _maxHistory = 5; // Number of interactions to keep
 
     //Enum with states for ally in darkness, in bigger or smaller circle for map damage system
@@ -51,7 +53,6 @@ public partial class Ally : CharacterBody2D
 
     public override void _Ready()
     {
-        SsInventory.AddItem(new Itemstack(Items.Material.Torch, 1));
         _ally1ResponseField = GetNode<RichTextLabel>("ResponseField");
         _ally2ResponseField = GetNode<RichTextLabel>("ResponseField");
 
@@ -149,14 +150,15 @@ public partial class Ally : CharacterBody2D
 
         //Torch logic:
         if(SsInventory.ContainsMaterial(Game.Scripts.Items.Material.Torch) && GlobalPosition.DistanceTo(new Vector2(3095, 4475))  < 300) {
+                lit = true;
 				//GD.Print("homie hat die Fackel und ist am core");
                 GD.Print("Distance to core" + GlobalPosition.DistanceTo(GetNode<Core>("%Core").GlobalPosition));
                 GD.Print("Core position" + GetNode<Core>("%Core").GlobalPosition);
                 GD.Print("Core position" + GetNode<PointLight2D>("%CoreLight").GlobalPosition);
-			    GetParent().GetNode<ShowWhileInRadius>("%ChestInsideHouse").ItemActivationStatus = GlobalPosition.DistanceTo(GetNode<Node2D>("%Big House").GlobalPosition) < 500;
         }
-
-        
+        if (lit) {
+            GetParent().GetNode<ShowWhileInRadius>("Abandoned Village/HauntedForestVillage/Big House/Sprite2D/InsideBigHouse2/InsideBigHouse/Sprite2D/ChestInsideHouse").ItemActivationStatus = GlobalPosition.DistanceTo(GetParent().GetNode<Node2D>("Abandoned Village/HauntedForestVillage/%Big House").GlobalPosition) < 1000;
+        }
     }
 
     private void UpdateTarget()

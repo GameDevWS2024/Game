@@ -28,7 +28,7 @@ public partial class AiNode : Node2D
     public override void _Ready()
     {
         VisibleForAI visibleForAi = GetNode<VisibleForAI>("VisibleForAI");
-        Game.scripts.Interaction.ItemAdder adder = GetNode<Game.scripts.Interaction.ItemAdder>("ItemAdder");
+        Game.Scripts.Interaction.ItemAdder adder = GetNode<Game.Scripts.Interaction.ItemAdder>("ItemAdder");
         ShowWhileInRadius showWhileInRadius = GetNode<ShowWhileInRadius>("ShowWhileInRadius");
         Removeable removable = GetNode<Removeable>("Removeable");
         Interactable interactable = GetNode<Interactable>("Interactable");

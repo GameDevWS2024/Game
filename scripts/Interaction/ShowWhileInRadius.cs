@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-using Game.scripts.Interaction;
+using Game.Scripts.Interaction;
 using Game.Scripts;
 using Game.Scripts.AI;
 

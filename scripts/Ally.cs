@@ -56,9 +56,9 @@ public partial class Ally : CharacterBody2D
         /*
         SsInventory.AddItem(new Itemstack(Game.Scripts.Items.Material.Torch));
         lit = true; */
-        SsInventory.AddItem(new Itemstack(Items.Material.Torch, 1));
-        
-        
+        // SsInventory.AddItem(new Itemstack(Items.Material.Torch, 1));
+
+
         _ally1ResponseField = GetNode<RichTextLabel>("ResponseField");
         _ally2ResponseField = GetNode<RichTextLabel>("ResponseField");
 
@@ -150,23 +150,25 @@ public partial class Ally : CharacterBody2D
 
 
         //Torch logic:
-        if (SsInventory.ContainsMaterial(Game.Scripts.Items.Material.Torch) && GlobalPosition.DistanceTo(new Vector2(3095, 4475))  < 300) {
-                lit = true;
-                // remove unlit torch from inv and add lighted torch
-                SsInventory.HardSwapItems(Items.Material.Torch, Items.Material.LightedTorch);
-        
-                // async func call to print response to torch lighting
-                Torchlightingresponse();
-                
-                GD.Print("tryna respond to torch lighting event");
+        if (SsInventory.ContainsMaterial(Game.Scripts.Items.Material.Torch) && GlobalPosition.DistanceTo(new Vector2(3095, 4475)) < 300)
+        {
+            lit = true;
+            // remove unlit torch from inv and add lighted torch
+            SsInventory.HardSwapItems(Items.Material.Torch, Items.Material.LightedTorch);
 
-                //GD.Print("homie hat die Fackel und ist am core");
-                /* GD.Print("Distance to core" + GlobalPosition.DistanceTo(GetNode<Core>("%Core").GlobalPosition));
-                 GD.Print("Core position" + GetNode<Core>("%Core").GlobalPosition);
-                 GD.Print("Core position" + GetNode<PointLight2D>("%CoreLight").GlobalPosition);
-                 */
+            // async func call to print response to torch lighting
+            Torchlightingresponse();
+
+            GD.Print("tryna respond to torch lighting event");
+
+            //GD.Print("homie hat die Fackel und ist am core");
+            /* GD.Print("Distance to core" + GlobalPosition.DistanceTo(GetNode<Core>("%Core").GlobalPosition));
+             GD.Print("Core position" + GetNode<Core>("%Core").GlobalPosition);
+             GD.Print("Core position" + GetNode<PointLight2D>("%CoreLight").GlobalPosition);
+             */
         }
-        if (lit) {
+        if (lit)
+        {
             //    GetParent().GetNode<ShowWhileInRadius>("Abandoned Village/HauntedForestVillage/Big House/Sprite2D/InsideBigHouse2/InsideBigHouse/Sprite2D/ChestInsideHouse").ItemActivationStatus = GlobalPosition.DistanceTo(GetParent().GetNode<Node2D>("Abandoned Village/HauntedForestVillage/%Big House").GlobalPosition) < 1000;
             GetTree().Root.GetNode<ShowWhileInRadius>(
                     "Node2D/Abandoned Village/HauntedForestVillage/Big House/Sprite2D/InsideBigHouse2/InsideBigHouse/Sprite2D/ChestInsideHouse")
@@ -179,7 +181,7 @@ public partial class Ally : CharacterBody2D
         string? txt = "";
         int ctr = 0;
         while (txt is null or "" && ctr <= 3)
-        { 
+        {
             txt = await _geminiService!.MakeQuery("[SYSTEM MESSAGE] The torch has now been lit by the commander using the CORE. Tell the Commander what a genius idea it was to use the Core for that purpose and hint the commander back at the haunted forest village. [SYSTEM MESSAGE END] \n"); GD.Print(txt); // put it into text box
             HandleResponse(txt!);
             ctr++;
@@ -210,9 +212,10 @@ public partial class Ally : CharacterBody2D
 
     private List<(string, string)>? _matches;
     private string _richtext = "", _part = "";
-    public async void HandleResponse(string response)
+    private async void HandleResponse(string response)
     {
-        if (response.Contains("INTERACT")){
+        if (response.Contains("INTERACT"))
+        {
             Interact();
         }
         _matches = ExtractRelevantLines(response);
@@ -301,11 +304,13 @@ public partial class Ally : CharacterBody2D
         };
     }
 
-    private void Interact() {
+    private void Interact()
+    {
         Interactable? interactable = GetCurrentlyInteractables().FirstOrDefault();
         interactable?.Trigger(this);
         _interactOnArrival = false;
-        if(interactable == null) {
+        if (interactable == null)
+        {
             GD.Print("Interactable null");
         }
         /*GD.Print("Interacted");
@@ -323,7 +328,7 @@ public partial class Ally : CharacterBody2D
         Chat.SystemPrompt = originalSystemPrompt;*/
         SetInteractOnArrival(true);
         GD.Print("DEBUG: INTERACT Match");
-    } 
+    }
 
     public static List<(string, string)>? ExtractRelevantLines(string response)
     {

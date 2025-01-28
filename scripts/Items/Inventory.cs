@@ -81,8 +81,10 @@ public partial class Inventory
 
     public bool ContainsMaterial(Material mat)
     {
-        foreach(Itemstack item in Items) {
-            if(item!.Material == mat) {
+        foreach (Itemstack item in Items)
+        {
+            if (item!.Material == mat)
+            {
                 return true;
             }
         }
@@ -190,7 +192,7 @@ public partial class Inventory
             }
         }
     }
-    
+
     public int GetTotalItemCount()
     {
         int totalCount = 0;

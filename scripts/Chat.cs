@@ -73,9 +73,9 @@ namespace Game.Scripts
                     bool isContains = false;
                     foreach (VisibleForAI vfai in AlreadySeen)
                     {
-                        if (vfai != null) 
+                        if (vfai != null)
                         {
-                            if (vfai == item) {isContains=true; break;}
+                            if (vfai == item) { isContains = true; break; }
                         }
                     }
                     if (!isContains && item.NameForAi.Trim() != "")

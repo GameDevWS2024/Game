@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using Game.scripts.Interaction;
 using Game.Scripts;
 using Game.Scripts.AI;
-using Game.scripts.Interaction;
 
 using Godot;
 using Godot.Collections;
@@ -27,7 +27,7 @@ public partial class ShowWhileInRadius : Node2D
     Godot.Collections.Array<Node> _entities = null!;
     Ally _nearestAlly = null!;
     Array<Node> entities = null!;
-    
+
     // Load the scene you want to instance.   ONLY FOR CHEST INSIDE BIG HOUSE
     private PackedScene _sceneToInstance = null!;
 
@@ -44,7 +44,7 @@ public partial class ShowWhileInRadius : Node2D
                 _nearestAlly = ally;
             }
         }
-        _sceneToInstance = GD.Load<PackedScene>("res://scenes/prefabs/ai_node.tscn"); 
+        _sceneToInstance = GD.Load<PackedScene>("res://scenes/prefabs/ai_node.tscn");
     }
 
     public override void _PhysicsProcess(double delta)
@@ -71,8 +71,8 @@ public partial class ShowWhileInRadius : Node2D
                 }
             }
             //  GD.Print("nearestAlly = " + _nearestAlly.GetName());
-           // GD.Print("needsToBeInInventoryName: " + NeedsToBeInInventoryName + ", has it: " +
-           //          _nearestAlly.SsInventory.ContainsMaterial(NeedsToBeInInventoryName));
+            // GD.Print("needsToBeInInventoryName: " + NeedsToBeInInventoryName + ", has it: " +
+            //          _nearestAlly.SsInventory.ContainsMaterial(NeedsToBeInInventoryName));
         }
         foreach (Node entity in entities)
         {
@@ -88,19 +88,20 @@ public partial class ShowWhileInRadius : Node2D
                          && (NeedsToBeInInventoryName == Game.Scripts.Items.Material.None || (_nearestAlly.SsInventory.ContainsMaterial(NeedsToBeInInventoryName) && _nearestAlly.lit)))
                 {
                     show = true;
-                    
+
                     if (this.GetName() != "Sprite2D")
                     {
                         Sprite2D? sprite = GetParent() as Sprite2D;
                         if (sprite != null)
                         {
                             sprite!.Visible = true;
-                        }                    }
+                        }
+                    }
                     else
                     {
                         GD.Print("this is Sprite2D error");
                     }
-                    
+
                     if (this.GetName() == "ChestInsideHouse")
                     {
                         SpawnChild();
@@ -114,20 +115,20 @@ public partial class ShowWhileInRadius : Node2D
                         aiNode.Amount = 1;
                         aiNode.FromChosenMaterial = Game.Scripts.Items.Material.FestiveStaff;
                     }
-                    
+
                 }
             }
         }
 
-        
+
     }
-    
+
     private void SpawnChild()
     {
-        if (_sceneToInstance!= null)
+        if (_sceneToInstance != null)
         {
             // Instance the scene.
-            Node2D instance = _sceneToInstance.Instantiate<Node2D>(); 
+            Node2D instance = _sceneToInstance.Instantiate<Node2D>();
 
             // Add the instance as a child of the current node.
             AddChild(instance);

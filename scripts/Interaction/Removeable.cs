@@ -28,10 +28,12 @@ public partial class Removeable : Node
         Chat? chat = null!;
         foreach (Ally entity in entityGroup)
         {
-            if (entity.Name.ToString().Contains('2')){
+            if (entity.Name.ToString().Contains('2'))
+            {
                 chat = entity.GetNode<Chat>("Ally2Cam/Ally2Chat");
             }
-            else {
+            else
+            {
                 chat = entity.GetNode<Chat>("Ally1Cam/Ally1Chat");
             }
             chat.AlreadySeen.Remove(visibleForAI);

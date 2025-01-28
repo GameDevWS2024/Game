@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://b6q08dqlmn5vo"]
+[gd_scene load_steps=7 format=3 uid="uid://d0natjkfu7hhd"]
 
 [ext_resource type="Script" path="res://scripts/AI/AiNode.cs" id="1_hwoq0"]
 [ext_resource type="Script" path="res://scripts/AI/VisibleForAI.cs" id="2_32jrn"]
@@ -13,7 +13,7 @@ script = ExtResource("1_hwoq0")
 [node name="VisibleForAI" type="Node2D" parent="."]
 script = ExtResource("2_32jrn")
 
-[node name="ItemAdder" type="Node" parent="."]
+[node name="ItemAdder" type="Node2D" parent="."]
 script = ExtResource("3_hv6ah")
 
 [node name="ShowWhileInRadius" type="Node2D" parent="."]

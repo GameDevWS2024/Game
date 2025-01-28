@@ -7,67 +7,67 @@ using Godot;
 using Material = Game.Scripts.Items.Material;
 public partial class AiNode : Node2D
 {
-    [Export] private bool _isVisibleForAi = true;
-    [Export] private string _nameForAi = "";
-    [Export] private string _descriptionForAi = "";
+    [Export] public bool IsVisibleForAi = true;
+    [Export] public string NameForAi = "";
+    [Export] public string DescriptionForAi = "";
 
-    [Export] private bool _isAddItemOnInteract = true;
-    [Export] private Material _fromChosenMaterial;
-    [Export] private int _amount = 1;
+    [Export] public bool IsAddItemOnInteract = true;
+    [Export] public Material FromChosenMaterial;
+    [Export] public int Amount = 1;
 
-    [Export] private bool _isShowWhileInRadius;
-    [Export] private PackedScene _showWhileInRadiusScene = null!;
-    [Export] private int _radius = 100;
-    [Export] private Material _needsToBeInInventory;
+    [Export] public bool IsShowWhileInRadius;
+    [Export] public PackedScene ShowWhileInRadiusScene = null!;
+    [Export] public int Radius = 100;
+    [Export] public Material NeedsToBeInInventory;
 
-    [Export] private bool _isRemovable = true;
+    [Export] public bool IsRemovable = true;
 
-    [Export] private bool _isInteractable = true;
+    [Export] public bool IsInteractable = true;
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
         VisibleForAI visibleForAi = GetNode<VisibleForAI>("VisibleForAI");
-        ItemAdder adder = GetNode<ItemAdder>("ItemAdder");
+        Game.Scripts.Interaction.ItemAdder adder = GetNode<Game.Scripts.Interaction.ItemAdder>("ItemAdder");
         ShowWhileInRadius showWhileInRadius = GetNode<ShowWhileInRadius>("ShowWhileInRadius");
         Removeable removable = GetNode<Removeable>("Removeable");
         Interactable interactable = GetNode<Interactable>("Interactable");
 
-        if (_isVisibleForAi)
+        if (IsVisibleForAi)
         {
-            visibleForAi.NameForAi = _nameForAi;
-            visibleForAi.DescribtionForAi = _descriptionForAi;
+            visibleForAi.NameForAi = NameForAi;
+            visibleForAi.DescribtionForAi = DescriptionForAi;
         }
         else
         {
             visibleForAi.QueueFree();
         }
 
-        if (!_isInteractable)
+        if (!IsInteractable)
         {
             interactable.QueueFree();
         }
 
-        if (!_isRemovable)
+        if (!IsRemovable)
         {
             removable.QueueFree();
         }
 
-        if (_isShowWhileInRadius)
+        if (IsShowWhileInRadius)
         {
-            showWhileInRadius.Radius = _radius;
-            showWhileInRadius.NeedsToBeInInventoryName = _needsToBeInInventory;
-            showWhileInRadius.SceneToShow = _showWhileInRadiusScene;
+            showWhileInRadius.Radius = Radius;
+            showWhileInRadius.NeedsToBeInInventoryName = NeedsToBeInInventory;
+            showWhileInRadius.SceneToShow = ShowWhileInRadiusScene;
         }
         else
         {
             showWhileInRadius.QueueFree();
         }
 
-        if (_isAddItemOnInteract)
+        if (IsAddItemOnInteract)
         {
-            adder.Amount = _amount;
-            adder.ItemToAdd = _fromChosenMaterial;
+            adder.Amount = Amount;
+            adder.ItemToAdd = FromChosenMaterial;
         }
         else
         {

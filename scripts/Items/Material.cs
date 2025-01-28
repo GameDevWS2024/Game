@@ -9,7 +9,11 @@ namespace Game.Scripts.Items
         Copper,
         Gold,
         Diamond,
+        Torch,
+        LightedTorch,
+        Notebook,
         Flashlight,
-        Notebook
+        Key,
+        FestiveStaff
     }
 }

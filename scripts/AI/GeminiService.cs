@@ -1,8 +1,11 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.Generic;
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 
+using GenerativeAI.Exceptions;
 using GenerativeAI.Methods;
 using GenerativeAI.Models;
 using GenerativeAI.Types;
@@ -13,8 +16,13 @@ namespace Game.Scripts.AI;
 
 public class GeminiService
 {
+    public bool Busy = false;
     private readonly GenerativeModel _model;
     public ChatSession Chat;
+    readonly Queue<string> _promptQueue = new Queue<string>();
+
+
+
 
     public GeminiService(string apiKeyFilePath, string systemPrompt) // Add systemPrompt parameter
     {
@@ -62,15 +70,41 @@ public class GeminiService
 
     public async Task<string?> MakeQuery(string input)
     {
+        string? result = null;
+        int ctr = 0;
+        // Enqueue zum reinmachen
+        // dequeue zum rausmachen
+        // trypeek zum reinschauen ohne entfernen
+        // clear() zum löschen
+        _promptQueue.Enqueue(input);
+        while (Busy) { }
+        Busy = true;
         GD.Print(input);
+        // while (ctr <= 3 && result == null) // try for 3 times in case an error occurs
+        //  {
+        //       ctr++;
+        //     if (ctr > 1)
+        //     {
+        //          GD.Print("tried "+ctr+" times.");
+        //     }
+
         try
         {
-            return await Chat.SendMessageAsync(input);
+            result = await Chat.SendMessageAsync(input);
         }
         catch (Exception ex)
         {
+            //Task.Delay(2000).Wait();  // wait for 2 seconds function here
             throw new Exception($"Error getting Gemini response: {ex.Message}", ex);
         }
+        //    }
+        Busy = false;
+
+        if (result == null)
+        {
+            throw new GenerativeAIException("doesn't respond", "on: " + input);
+        }
+        return result;
     }
 
     public IReadOnlyList<Content> GetChatHistory()
@@ -83,3 +117,4 @@ public class GeminiService
         Chat = _model.StartChat(new StartChatParams());
     }
 }
+

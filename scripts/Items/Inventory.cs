@@ -40,7 +40,10 @@ public partial class Inventory
 
     public void Print()
     {
+        GD.Print();
+        GD.Print("--------------Inventory--------------");
         GD.Print(ToString());
+        GD.Print();
     }
 
     public Itemstack GetItem(int i)
@@ -76,9 +79,16 @@ public partial class Inventory
         return false;
     }
 
-    public bool ContainsMaterial(Material name)
+    public bool ContainsMaterial(Material mat)
     {
-        return Items.Any(itemstack => itemstack!.Material.Equals(name));
+        foreach (Itemstack item in Items)
+        {
+            if (item!.Material == mat)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     public void AddItem(Itemstack itemstack)
@@ -171,6 +181,18 @@ public partial class Inventory
 
         (Items[i], Items[j]) = (Items[j], Items[i]);
     }
+
+    public void HardSwapItems(Material originalMat, Material newMat)
+    {
+        for (int i = 0; i < Items.Length; i++)
+        {
+            if (Items[i]!.Material == originalMat)
+            {
+                Items[i] = new Itemstack(newMat, 1);
+            }
+        }
+    }
+
     public int GetTotalItemCount()
     {
         int totalCount = 0;

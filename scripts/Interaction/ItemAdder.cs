@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 using Game.Scripts;
@@ -8,8 +9,10 @@ using Godot;
 
 using Material = Game.Scripts.Items.Material;
 
+namespace Game.Scripts.Interaction;
+
 [GlobalClass]
-public partial class ItemAdder : Node
+public partial class ItemAdder : Node2D
 {
     [Export] public String? ItemToAddName { get; set; }
     public Material ItemToAdd { get; set; }
@@ -40,13 +43,28 @@ public partial class ItemAdder : Node
     // Make this public so it can be called from anywhere
     public void AddItem()
     {
-        GD.Print("item: " + ItemToAddName);
-        Core? core = GetTree().GetNodesInGroup("Core").OfType<Core>().FirstOrDefault();
+        /*
+    GD.Print("item: " + ItemToAddName);
+    Core? core = GetTree().GetNodesInGroup("Core").OfType<Core>().FirstOrDefault();
 
-        if (core != null)
+    if (core != null)
+    {
+        core!.Inventory!.AddItem(new Itemstack(ItemToAdd));
+        core.Inventory.Print();
+    }
+    */
+        List<CharacterBody2D> entityGroup = GetTree().GetNodesInGroup("Entities").OfType<CharacterBody2D>().ToList();
+        float nearestDistance = float.MaxValue;
+        Ally nearestEntity = null!;
+        foreach (Ally entity in entityGroup)
         {
-            core!.Inventory!.AddItem(new Itemstack(ItemToAdd));
-            core.Inventory.Print();
+            float distance = entity.GlobalPosition.DistanceTo(GlobalPosition);
+            if (distance < nearestDistance)
+            {
+                nearestDistance = distance;
+                nearestEntity = entity;
+            }
         }
+        nearestEntity.SsInventory.AddItem(new Itemstack(ItemToAdd, Amount));
     }
 }

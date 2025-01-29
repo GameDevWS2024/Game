@@ -207,7 +207,7 @@ public partial class Ally : CharacterBody2D
     {
         _responseQueue.Enqueue(response);
         ProcessResponseQueue();
-        GD.Print("got response of length: " + response.Length + ". Waiting for: " + (int)(1000 * 0.009f * response.Length) + " ms.");
+        // GD.Print("got response of length: " + response.Length + ". Waiting for: " + (int)(1000 * 0.009f * response.Length) + " ms.");
         // await Task.Delay((int)(1000*0.01f * response.Length));
     }
 
@@ -216,12 +216,8 @@ public partial class Ally : CharacterBody2D
         while (_responseQueue.Count > 0)
         {
             string response = _responseQueue.Dequeue();
+
             // Processing response here
-            /* if (response.Contains("INTERACT")) 
-             {
-               Interact();
-             }
-             */
             _matches = ExtractRelevantLines(response);
             string? richtext = "";
             foreach ((string op, string content) in _matches!)
@@ -242,7 +238,7 @@ public partial class Ally : CharacterBody2D
                         SetInteractOnArrival(true);
                         Goto(content);
                         break;
-                    case "GOTO":
+                    case "GOTO": // goto (x, y) location
                         GD.Print("DEBUG: GOTO Match");
                         Goto(content);
                         break;
@@ -257,7 +253,7 @@ public partial class Ally : CharacterBody2D
                         _busy = false;
                         break;
                     default:
-                        GD.Print("DEBUG: NO MATCH FOR : " + op);
+                        //GD.Print("DEBUG: NO MATCH FOR : " + op);
                         break;
                 }
             }

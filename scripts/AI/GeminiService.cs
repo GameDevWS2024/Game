@@ -83,26 +83,49 @@ public class GeminiService
             string input = _queryQueue.Dequeue();
 
             string? result = null;
-            try
+            int tryCount = 0;
+            while (result is null && tryCount <= 3) // try to get a response 3 times
             {
-                result = await Chat.SendMessageAsync(input);
-            }
-            catch (Exception ex)
-            {
-                GD.Print("failed");
-                await Task.Delay(2000);
-                throw new Exception($"Network error getting Gemini response: {ex.Message}", ex);
+                tryCount++;
+                result = await InternalSendMessage(input);
+                if (result == null)
+                {
+                    GD.Print("waiting for 1s because query failed.");
+                    await Task.Delay(1000);
+                }
             }
 
-            GD.Print("got response of length: " + result.Length + ". Waiting for: " + (int)(1000 * 0.015f * result.Length) + " ms.");
-            await Task.Delay((int)(1000 * 0.015f * result.Length));
-
+            if (tryCount == 3)
+            {
+                GD.Print("tried 3 times but didn't get a response. Giving up now.");
+            }
+            else
+            {
+                int waitingTimeInMs = (int)(1000 * 0.01f * result!.Length);
+                GD.Print("got response of length: " + result!.Length + ". Waiting for: " +
+                         waitingTimeInMs + " ms.");
+                await Task.Delay(waitingTimeInMs);
+            }
             return result;
         }
         finally
         {
             _semaphore.Release();
         }
+    }
+
+    private async Task<string?> InternalSendMessage(string input)
+    {
+        string? result = null;
+        try
+        {
+            result = await Chat.SendMessageAsync(input);
+        }
+        catch (Exception ex)
+        {
+            GD.Print(ex.Message);
+        }
+        return result;
     }
 
     public IReadOnlyList<Content> GetChatHistory()

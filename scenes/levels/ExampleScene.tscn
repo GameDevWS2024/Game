@@ -1281,9 +1281,6 @@ z_index = 150
 position = Vector2(-1429, -221)
 scale = Vector2(0.2, 0.2)
 texture = ExtResource("20_lgqcj")
-script = ExtResource("6_7bcmx")
-NameForAi = "Notebook"
-DescribtionForAi = "there is a Spaceport at (-1950, 2000). This Notebook contains details on how to loot metals from there."
 
 [node name="Interactable" type="Node2D" parent="Notebook"]
 script = ExtResource("7_ji1nn")
@@ -1295,6 +1292,11 @@ script = ExtResource("8_vh33k")
 script = ExtResource("21_2au4o")
 ItemToAddName = "Notebook"
 Amount = 1
+
+[node name="VisibleForAI" type="Node2D" parent="Notebook"]
+script = ExtResource("6_7bcmx")
+NameForAi = "Notebook"
+DescribtionForAi = "there is a Spaceport at (-1950, 2000). This Notebook contains details on how to loot metals from there."
 
 [node name="Signs" type="Node" parent="."]
 

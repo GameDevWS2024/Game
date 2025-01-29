@@ -23,6 +23,8 @@ public partial class AiNode : Node2D
     [Export] public bool IsRemovable = true;
 
     [Export] public bool IsInteractable = true;
+    [Export] public bool IsSendSystemMessage = false;
+    [Export] public string? SystemMessageInstructionForAlly = "";
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()

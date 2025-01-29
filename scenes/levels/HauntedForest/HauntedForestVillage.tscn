@@ -37,3 +37,68 @@ tile_set = ExtResource("2_4wqtb")
 [node name="Trees" type="TileMapLayer" parent="."]
 tile_map_data = PackedByteArray("AAADAPT/AAAOAAgAAAD8//r/AAAOAAgAAAD0//j/AAAMAAgAAAD4//H/AAAMAAgAAAAGAO7/AAAMAAoAAAALAP7/AAAMAAoAAAAGAPz/AAAOAAgAAAD6/wMAAAAOAAgAAADu//z/AAAMAAYAAAA=")
 tile_set = ExtResource("1_verp4")
+
+[node name="Landscape" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_left = -1618.0
+offset_top = 1182.0
+offset_right = -1578.0
+offset_bottom = 1222.0
+scale = Vector2(0.350461, 0.350461)
+
+[node name="VillageObjectsandBuildings" type="Control" parent="Landscape"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = -10725.0
+offset_top = 4294.0
+offset_right = -10685.0
+offset_bottom = 4334.0
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Landscape/VillageObjectsandBuildings"]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Landscape/VillageObjectsandBuildings/StaticBody2D"]
+position = Vector2(27.6687, -25.3401)
+scale = Vector2(3, 3)
+polygon = PackedVector2Array(5220.67, -2270.33, 5360.33, -2269.67, 5359, -2337, 5368, -2347, 5368, -2483.33, 5297, -2529.33, 5216.67, -2482.33, 5218, -2345.67, 5217.67, -2335, 5220.67, -2300.33)
+
+[node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="Landscape/VillageObjectsandBuildings/StaticBody2D"]
+position = Vector2(156.071, 17.4609)
+scale = Vector2(3, 3)
+polygon = PackedVector2Array(4422, -2455.33, 4422.67, -2533.67, 4417, -2543.67, 4417.67, -2610.33, 4609.33, -2609.33, 4609.33, -2534, 4608, -2456.33)
+
+[node name="CollisionPolygon2D3" type="CollisionPolygon2D" parent="Landscape/VillageObjectsandBuildings/StaticBody2D"]
+polygon = PackedVector2Array(16544, -7483, 16961, -7480, 16961, -7690, 16980, -7702, 16986, -8117, 16763, -8280, 16525, -8128, 16528, -7548)
+
+[node name="CollisionPolygon2D4" type="CollisionPolygon2D" parent="Landscape/VillageObjectsandBuildings/StaticBody2D"]
+position = Vector2(1403, -635.964)
+scale = Vector2(0.911038, 0.918984)
+polygon = PackedVector2Array(14337, -7863, 15151, -7856, 15155, -8213, 15116, -8230, 14768, -8226, 14773, -8516, 14556, -8664, 14316, -8512, 14316, -8080, 14334, -8040)
+
+[node name="CollisionPolygon2D5" type="CollisionPolygon2D" parent="Landscape/VillageObjectsandBuildings/StaticBody2D"]
+position = Vector2(153.217, 43.1414)
+polygon = PackedVector2Array(13656, -8245, 14066, -8243, 14069, -8454, 14103, -8434, 14124, -8473, 14122, -8671, 13873, -8838, 13609, -8673, 13609, -8462, 13639, -8456, 13641, -8247)
+
+[node name="CollisionPolygon2D6" type="CollisionPolygon2D" parent="Landscape/VillageObjectsandBuildings/StaticBody2D"]
+position = Vector2(41.9355, 54.5549)
+polygon = PackedVector2Array(15963, -8545, 15957, -8796, 16033, -8794, 16035, -8977, 16608, -8977, 16610, -8758, 16610, -8528, 16557, -8517, 16582, -8452, 16556, -8420, 16529, -8392, 16461, -8401, 16435, -8452, 16433, -8500, 16423, -8535, 16055, -8532)
+
+[node name="CollisionPolygon2D7" type="CollisionPolygon2D" parent="Landscape/VillageObjectsandBuildings/StaticBody2D"]
+position = Vector2(515.597, -176.569)
+scale = Vector2(0.972892, 0.972892)
+polygon = PackedVector2Array(13656, -9279, 13652, -8919, 14003, -8917, 14000, -9285)
+
+[node name="CollisionPolygon2D8" type="CollisionPolygon2D" parent="Landscape/VillageObjectsandBuildings/StaticBody2D"]
+position = Vector2(589.785, -216.516)
+scale = Vector2(0.966788, 0.966788)
+polygon = PackedVector2Array(14034, -9015, 14456, -9015, 14456, -9226, 14471, -9251, 14471, -9672, 14264, -9812, 14228, -9812, 14020, -9668, 14013, -9221, 14032, -9185)
+
+[node name="BigHouseLeft" type="CollisionPolygon2D" parent="Landscape/VillageObjectsandBuildings/StaticBody2D"]
+position = Vector2(618.319, -242.197)
+scale = Vector2(0.965415, 0.965415)
+polygon = PackedVector2Array(15142, -8652, 15009, -8649, 15017, -8790, 14797, -8788, 14791, -9013, 14781, -9104, 14783, -9452, 15225, -9730, 15228, -9454, 14788, -9450, 14794, -8789, 15018, -8789)
+
+[node name="BigHouseRight" type="CollisionPolygon2D" parent="Landscape/VillageObjectsandBuildings/StaticBody2D"]
+position = Vector2(418.582, -136.622)
+scale = Vector2(0.97635, 0.977565)
+polygon = PackedVector2Array(15272, -8652, 15422, -8652, 15423, -8789, 15620, -8791, 15620, -9004, 15636, -9023, 15638, -9444, 15230, -9734, 15113, -9457, 15592, -9456, 15639, -9443, 15618, -9086, 15600, -8958, 15598, -8811, 15423, -8811, 15387, -8757, 15342, -8714)

@@ -17088,10 +17088,11 @@ _darknessCircleDamage = 1
 _allyHealthChangeIntervall = 5.0
 
 [node name="Ally" parent="." node_paths=PackedStringArray("_responseField", "_nameLabel", "Chat") instance=ExtResource("6_l8h37")]
-position = Vector2(870, 83)
+position = Vector2(483, 1011)
 _responseField = NodePath("ResponseField")
 _nameLabel = NodePath("Label")
-_visionRadius = 200
+_visionRadius = 150
+_interactionRadius = 100
 Chat = NodePath("Ally1Cam/Ally1Chat")
 
 [node name="Ally1Cam" type="Camera2D" parent="Ally"]
@@ -17159,6 +17160,7 @@ fit_content = true
 metadata/_edit_use_anchors_ = true
 
 [node name="Ally2" parent="." node_paths=PackedStringArray("_responseField", "_nameLabel", "Chat") groups=["navigation"] instance=ExtResource("6_l8h37")]
+position = Vector2(5956, -4450)
 _responseField = NodePath("ResponseField")
 _nameLabel = NodePath("Label")
 _visionRadius = 200
@@ -17209,10 +17211,10 @@ metadata/_edit_use_anchors_ = true
 
 [node name="ResponseField" type="RichTextLabel" parent="Ally2"]
 modulate = Color(0.6, 0.6, 0.6, 0.654902)
-offset_left = 1384.0
-offset_top = 454.0
-offset_right = 1984.0
-offset_bottom = 754.0
+offset_left = 997.0
+offset_top = 1382.0
+offset_right = 1597.0
+offset_bottom = 1682.0
 theme_override_colors/table_border = Color(0, 0, 0, 1)
 theme_override_colors/table_even_row_bg = Color(0, 0, 0, 1)
 theme_override_colors/table_odd_row_bg = Color(0, 0, 0, 1)
@@ -17261,7 +17263,7 @@ color = Color(0.20871, 0.20871, 0.20871, 1)
 metadata/_edit_use_anchors_ = true
 
 [node name="CanvasModulate" type="CanvasModulate" parent="ColorRect"]
-color = Color(0.227451, 0.227451, 0.227451, 1)
+color = Color(0.332881, 0.332881, 0.332881, 1)
 
 [node name="Obstacles" type="Node" parent="."]
 
@@ -17306,9 +17308,6 @@ z_index = 150
 position = Vector2(-1429, -221)
 scale = Vector2(0.2, 0.2)
 texture = ExtResource("20_lgqcj")
-script = ExtResource("6_7bcmx")
-NameForAi = "Notebook"
-DescribtionForAi = "there is a Spaceport at (-1950, 2000). This Notebook contains details on how to loot metals from there."
 
 [node name="Interactable" type="Node2D" parent="Notebook"]
 script = ExtResource("7_ji1nn")
@@ -17320,6 +17319,11 @@ script = ExtResource("8_vh33k")
 script = ExtResource("21_2au4o")
 ItemToAddName = "Notebook"
 Amount = 1
+
+[node name="VisibleForAI" type="Node2D" parent="Notebook"]
+script = ExtResource("6_7bcmx")
+NameForAi = "Notebook"
+DescribtionForAi = "there is a Spaceport at (-1950, 2000). This Notebook contains details on how to loot metals from there."
 
 [node name="Signs" type="Node" parent="."]
 
@@ -17344,6 +17348,7 @@ NameForAi = "Rune Holder"
 DescribtionForAi = "There is a Code needed"
 
 [node name="EnemyManager" type="Node2D" parent="."]
+position = Vector2(5956, -4450)
 script = ExtResource("1_bmkfv")
 EnemyScene = ExtResource("10_tv6x7")
 _minSpawnInterval = 5.0
@@ -17359,8 +17364,10 @@ metadata/_edit_lock_ = true
 [node name="Mouse" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+offset_left = 5956.0
+offset_top = -4450.0
+offset_right = 5996.0
+offset_bottom = -4410.0
 metadata/_edit_use_anchors_ = true
 
 [node name="MouseLabel" type="RichTextLabel" parent="Mouse"]
@@ -17379,7 +17386,7 @@ scale = Vector2(10, 10)
 tile_set = ExtResource("23_6wlm7")
 
 [node name="Abandoned Village" type="TileMapLayer" parent="Abandoned Village/Tileset Layers"]
-position = Vector2(2595, 2509)
+position = Vector2(8551, -1941)
 scale = Vector2(4, 4)
 tile_set = ExtResource("24_igx6k")
 
@@ -17407,6 +17414,13 @@ Radius = 500
 position = Vector2(-8.99999, -122.001)
 scale = Vector2(2.75, 5)
 
+[node name="AiNode" parent="Abandoned Village/HauntedForestVillage" instance=ExtResource("13_05imv")]
+NameForAi = "Haunted Forest Village"
+DescriptionForAi = "Looks Spooky. Make comments about the architecture of the houses."
+IsAddItemOnInteract = false
+IsRemovable = false
+IsInteractable = false
+
 [node name="Spaceport" type="Node" parent="."]
 
 [node name="Tilemap Layers" type="Node" parent="Spaceport"]
@@ -17427,30 +17441,39 @@ DescribtionForAi = "Spaceport at (-3050, 2000)"
 [node name="AiNode" parent="Spaceport" instance=ExtResource("13_05imv")]
 position = Vector2(-3046, 1587)
 scale = Vector2(0.2, 0.2)
+NameForAi = "Engine exhaust"
+DescriptionForAi = "with a manual you could loot some copper."
 
-[node name="Flashlight" type="Node2D" parent="."]
-position = Vector2(5630, -5543)
-script = ExtResource("6_7bcmx")
-NameForAi = "Flashlight"
-DescribtionForAi = "It might be useful in the Haunted Forest Village"
+[node name="TorchOld" type="Node2D" parent="."]
+position = Vector2(5538, -6212)
 
-[node name="ItemAdder" type="Node2D" parent="Flashlight"]
+[node name="ItemAdder" type="Node2D" parent="TorchOld"]
 script = ExtResource("21_2au4o")
 ItemToAddName = "Torch"
 Amount = 1
 
-[node name="Interactable" type="Node2D" parent="Flashlight"]
+[node name="Interactable" type="Node2D" parent="TorchOld"]
 position = Vector2(-1, 0)
 script = ExtResource("7_ji1nn")
 
-[node name="VisibleForAI" type="Node2D" parent="Flashlight"]
-position = Vector2(0, 7)
+[node name="VisibleForAI" type="Node2D" parent="TorchOld"]
+position = Vector2(13284, -7783)
 script = ExtResource("6_7bcmx")
 NameForAi = "Torch"
 DescribtionForAi = "It's not lighted yet. Ask the commander if he wants to pick it up. (COMMAND: INTERACT). Ask the commander how he intends to light this torch."
 
-[node name="AudioManager" type="Node" parent="."]
+[node name="Torch" parent="." instance=ExtResource("13_05imv")]
+position = Vector2(5631, -5569)
+NameForAi = "Torch"
+DescriptionForAi = "It's not lighted yet. Ask the commander if he wants to pick it up. (COMMAND: INTERACT) and inquire how the commander how he intends to light this torch."
+FromChosenMaterial = 7
+IsRemovable = false
+
+[node name="AudioManager" type="Node" parent="." node_paths=PackedStringArray("_menuMusic", "_gameMusic", "_gameOverMusic")]
 script = ExtResource("25_fif0r")
+_menuMusic = NodePath("intro_music")
+_gameMusic = NodePath("game_music")
+_gameOverMusic = NodePath("game_over")
 
 [node name="creepy_music" type="AudioStreamPlayer" parent="AudioManager"]
 stream = ExtResource("26_rqvqj")
@@ -17473,10 +17496,10 @@ anchors_preset = 12
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 1529.0
-offset_top = 270.0
-offset_right = 1633.0
-offset_bottom = 301.0
+offset_left = 1142.0
+offset_top = 1198.0
+offset_right = 1246.0
+offset_bottom = 1229.0
 grow_horizontal = 2
 grow_vertical = 0
 script = ExtResource("30_pwpih")

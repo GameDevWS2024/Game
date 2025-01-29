@@ -19,11 +19,6 @@ public class GeminiService
     public bool Busy = false;
     private readonly GenerativeModel _model;
     public ChatSession Chat;
-    readonly Queue<string> _promptQueue = new Queue<string>();
-
-
-
-
     public GeminiService(string apiKeyFilePath, string systemPrompt) // Add systemPrompt parameter
     {
         if (string.IsNullOrEmpty(apiKeyFilePath))
@@ -66,43 +61,69 @@ public class GeminiService
         }
     }
 
-    // Remove SetSystemPrompt method entirely as it's likely no longer needed
+    private readonly Queue<string> _queryQueue = new Queue<string>();
+    private readonly SemaphoreSlim _semaphore = new SemaphoreSlim(1, 1);
 
     public async Task<string?> MakeQuery(string input)
     {
-        string? result = null;
-        int ctr = 0;
-        // Enqueue zum reinmachen
-        // dequeue zum rausmachen
-        // trypeek zum reinschauen ohne entfernen
-        // clear() zum löschen
-        _promptQueue.Enqueue(input);
-        while (Busy) { }
-        Busy = true;
-        GD.Print(input);
-        // while (ctr <= 3 && result == null) // try for 3 times in case an error occurs
-        //  {
-        //       ctr++;
-        //     if (ctr > 1)
-        //     {
-        //          GD.Print("tried "+ctr+" times.");
-        //     }
+        _queryQueue.Enqueue(input);
+        return await ProcessQueryQueue();
+    }
 
+    private async Task<string?> ProcessQueryQueue()
+    {
+        await _semaphore.WaitAsync();
+        try
+        {
+            if (_queryQueue.Count == 0)
+            {
+                return null;
+            }
+
+            string input = _queryQueue.Dequeue();
+
+            string? result = null;
+            int tryCount = 0;
+            while (result is null && tryCount <= 3) // try to get a response 3 times
+            {
+                tryCount++;
+                result = await InternalSendMessage(input);
+                if (result == null)
+                {
+                    GD.Print("waiting for 1s because query failed.");
+                    await Task.Delay(1000);
+                }
+            }
+
+            if (tryCount == 3)
+            {
+                GD.Print("tried 3 times but didn't get a response. Giving up now.");
+            }
+            else
+            {
+                int waitingTimeInMs = (int)(1000 * 0.01f * result!.Length);
+                GD.Print("got response of length: " + result!.Length + ". Waiting for: " +
+                         waitingTimeInMs + " ms.");
+                await Task.Delay(waitingTimeInMs);
+            }
+            return result;
+        }
+        finally
+        {
+            _semaphore.Release();
+        }
+    }
+
+    private async Task<string?> InternalSendMessage(string input)
+    {
+        string? result = null;
         try
         {
             result = await Chat.SendMessageAsync(input);
         }
         catch (Exception ex)
         {
-            //Task.Delay(2000).Wait();  // wait for 2 seconds function here
-            throw new Exception($"Error getting Gemini response: {ex.Message}", ex);
-        }
-        //    }
-        Busy = false;
-
-        if (result == null)
-        {
-            throw new GenerativeAIException("doesn't respond", "on: " + input);
+            GD.Print(ex.Message);
         }
         return result;
     }

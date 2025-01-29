@@ -21,9 +21,6 @@ tile_set = ExtResource("1_wk18s")
 
 [node name="ChairLeft" type="Node2D" parent="InsideBigHouse"]
 position = Vector2(-135, -49)
-script = ExtResource("2_nypkc")
-NameForAi = "Chair"
-DescribtionForAi = "Looks comfy"
 
 [node name="DrawerLeft" type="Node2D" parent="InsideBigHouse"]
 position = Vector2(-133, -67)
@@ -40,7 +37,6 @@ script = ExtResource("3_hysjd")
 SceneToShow = ExtResource("4_5v46h")
 Radius = 99999
 NeedsToBeInInventoryName = 7
-ItemActivationStatus = false
 
 [node name="Chest" parent="InsideBigHouse/Sprite2D/ChestInsideHouse" instance=ExtResource("4_5v46h")]
 

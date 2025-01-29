@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 using Game.Scenes.Levels;
 using Game.Scripts.AI;
 using Game.Scripts.Items;
+
+using GenerativeAI.Exceptions;
 
 using Godot;
 
@@ -88,7 +91,7 @@ public partial class Ally : CharacterBody2D
         Chat.ResponseReceived += HandleResponse;
     }
 
-    private async void HandleTargetReached()
+    private void HandleTargetReached()
     {
 
     }
@@ -157,9 +160,7 @@ public partial class Ally : CharacterBody2D
             SsInventory.HardSwapItems(Items.Material.Torch, Items.Material.LightedTorch);
 
             // async func call to print response to torch lighting
-            Torchlightingresponse();
-
-            GD.Print("tryna respond to torch lighting event");
+            Chat.SendSystemMessage("The torch has now been lit by the commander using the CORE. Tell the Commander what a genius idea it was to use the Core for that purpose and hint the commander back at the haunted forest village.");
 
             //GD.Print("homie hat die Fackel und ist am core");
             /* GD.Print("Distance to core" + GlobalPosition.DistanceTo(GetNode<Core>("%Core").GlobalPosition));
@@ -176,18 +177,6 @@ public partial class Ally : CharacterBody2D
         }
     }//Node2D/Abandoned Village/HauntedForestVillage/Big House/Sprite2D/InsideBigHouse2/InsideBigHouse/Sprite2D/ChestInsideHouse
 
-    private async void Torchlightingresponse()
-    {
-        string? txt = "";
-        int ctr = 0;
-        while (txt is null or "" && ctr <= 3)
-        {
-            txt = await _geminiService!.MakeQuery("[SYSTEM MESSAGE] The torch has now been lit by the commander using the CORE. Tell the Commander what a genius idea it was to use the Core for that purpose and hint the commander back at the haunted forest village. [SYSTEM MESSAGE END] \n"); GD.Print(txt); // put it into text box
-            HandleResponse(txt!);
-            ctr++;
-            GD.Print();
-        }
-    }
     private void UpdateTarget()
     {
         if (_harvest)
@@ -210,64 +199,81 @@ public partial class Ally : CharacterBody2D
         }
     }
 
+
     private List<(string, string)>? _matches;
-    private string _richtext = "", _part = "";
-    private async void HandleResponse(string response)
+
+    private readonly Queue<string> _responseQueue = new Queue<string>();
+    public async void HandleResponse(string response)
     {
-        if (response.Contains("INTERACT"))
-        {
-            Interact();
-        }
-        _matches = ExtractRelevantLines(response);
-        _richtext = "";
-        foreach ((string op, string content) in _matches!)
-        {
-            _part = "";
-            _richtext += FormatPart(_part, op, content);
+        _responseQueue.Enqueue(response);
+        ProcessResponseQueue();
+        GD.Print("got response of length: " + response.Length + ". Waiting for: " + (int)(1000 * 0.009f * response.Length) + " ms.");
+        // await Task.Delay((int)(1000*0.01f * response.Length));
+    }
 
-            // differentiate what to do based on command op
-            switch (op)
+    private async void ProcessResponseQueue()
+    {
+        while (_responseQueue.Count > 0)
+        {
+            string response = _responseQueue.Dequeue();
+            // Processing response here
+            /* if (response.Contains("INTERACT")) 
+             {
+               Interact();
+             }
+             */
+            _matches = ExtractRelevantLines(response);
+            string? richtext = "";
+            foreach ((string op, string content) in _matches!)
             {
-                case "MOTIVATION": // set motivation from output
-                    _motivation.SetMotivation(content.ToInt());
-                    break;
-                case "INTERACT":
-                    Interact();
-                    break;
-                case "GOTO AND INTERACT":
-                    SetInteractOnArrival(true);
-                    Goto(content);
-                    break;
-                case "GOTO":
-                    GD.Print("DEBUG: GOTO Match");
-                    Goto(content);
-                    break;
-                case "HARVEST"
-                    when !_busy && Map.Items.Count > 0
-                    : // if harvest command and not walking somewhere and items on map
-                    GD.Print("harvesting");
-                    Harvest();
-                    break;
-                case "STOP": // stop command stops ally from doing anything
-                    _harvest = false;
-                    _busy = false;
-                    break;
-                default:
-                    GD.Print("DEBUG: NO MATCH FOR : " + op);
-                    break;
-            }
-        }
+                string? part = "";
+                richtext += FormatPart(part, op, content);
 
-        _responseField.ParseBbcode(_richtext); // formatted text into response field
-        ButtonControl buttoncontrol = GetTree().Root.GetNode<ButtonControl>("Node2D/UI");
-        if (buttoncontrol == null)
-        {
-            GD.Print("Button control not found");
-        }
-        else
-        {
-            RichTextLabel label = this.Name.ToString().Contains('2') ? _ally2ResponseField : _ally1ResponseField;
-            await buttoncontrol.TypeWriterEffect(_richtext, label);
+                // differentiate what to do based on command op
+                switch (op)
+                {
+                    case "MOTIVATION": // set motivation from output
+                        _motivation.SetMotivation(content.ToInt());
+                        break;
+                    case "INTERACT":
+                        Interact();
+                        break;
+                    case "GOTO AND INTERACT":
+                        SetInteractOnArrival(true);
+                        Goto(content);
+                        break;
+                    case "GOTO":
+                        GD.Print("DEBUG: GOTO Match");
+                        Goto(content);
+                        break;
+                    case "HARVEST"
+                        when !_busy && Map.Items.Count > 0
+                        : // if harvest command and not walking somewhere and items on map
+                        GD.Print("harvesting");
+                        Harvest();
+                        break;
+                    case "STOP": // stop command stops ally from doing anything
+                        _harvest = false;
+                        _busy = false;
+                        break;
+                    default:
+                        GD.Print("DEBUG: NO MATCH FOR : " + op);
+                        break;
+                }
+            }
+            _responseField.ParseBbcode(richtext); // formatted text into response field
+            ButtonControl buttonControl = GetTree().Root.GetNode<ButtonControl>("Node2D/UI");
+            if (buttonControl == null)
+            {
+                GD.Print("Button control not found");
+            }
+            else
+            {
+                RichTextLabel label = this.Name.ToString().Contains('2') ? _ally2ResponseField : _ally1ResponseField;
+                await buttonControl.TypeWriterEffect(richtext, label);
+            }
+            // Process response done here
+            //await Task.Delay((int)(1000*0.01f * richtext.Length));
         }
     }
 

@@ -5,6 +5,8 @@ using System.Linq;
 
 using Game.Scripts.AI;
 
+using GenerativeAI.Exceptions;
+
 using Godot;
 namespace Game.Scripts
 {
@@ -126,6 +128,23 @@ namespace Game.Scripts
             {
                 GD.Print(ex.Message);
                 PlaceholderText = EnterApiPlaceholder;
+            }
+        }
+
+        public async void SendSystemMessage(string systemMessage)
+        {
+            try
+            {
+                string? txt = await GeminiService!.MakeQuery("[SYSTEM MESSAGE] " + systemMessage + " [SYSTEM MESSAGE END] \n"); GD.Print(txt); // put it into text box
+                if (txt == null)
+                {
+                    GD.Print("AI response is null.");
+                }
+                GetParent<Camera2D>().GetParent<Ally>().HandleResponse(txt!);
+            }
+            catch (Exception e)
+            {
+                throw new GenerativeAIException("AI query got an error.", "at system_message: " + systemMessage);
             }
         }
 

@@ -19,11 +19,6 @@ public class GeminiService
     public bool Busy = false;
     private readonly GenerativeModel _model;
     public ChatSession Chat;
-    readonly Queue<string> _promptQueue = new Queue<string>();
-
-
-
-
     public GeminiService(string apiKeyFilePath, string systemPrompt) // Add systemPrompt parameter
     {
         if (string.IsNullOrEmpty(apiKeyFilePath))
@@ -66,45 +61,48 @@ public class GeminiService
         }
     }
 
-    // Remove SetSystemPrompt method entirely as it's likely no longer needed
+    private readonly Queue<string> _queryQueue = new Queue<string>();
+    private readonly SemaphoreSlim _semaphore = new SemaphoreSlim(1, 1);
 
     public async Task<string?> MakeQuery(string input)
     {
-        string? result = null;
-        int ctr = 0;
-        // Enqueue zum reinmachen
-        // dequeue zum rausmachen
-        // trypeek zum reinschauen ohne entfernen
-        // clear() zum löschen
-        _promptQueue.Enqueue(input);
-        while (Busy) { }
-        Busy = true;
-        GD.Print(input);
-        // while (ctr <= 3 && result == null) // try for 3 times in case an error occurs
-        //  {
-        //       ctr++;
-        //     if (ctr > 1)
-        //     {
-        //          GD.Print("tried "+ctr+" times.");
-        //     }
+        _queryQueue.Enqueue(input);
+        return await ProcessQueryQueue();
+    }
 
+    private async Task<string?> ProcessQueryQueue()
+    {
+        await _semaphore.WaitAsync();
         try
         {
-            result = await Chat.SendMessageAsync(input);
-        }
-        catch (Exception ex)
-        {
-            //Task.Delay(2000).Wait();  // wait for 2 seconds function here
-            throw new Exception($"Error getting Gemini response: {ex.Message}", ex);
-        }
-        //    }
-        Busy = false;
+            if (_queryQueue.Count == 0)
+            {
+                return null;
+            }
 
-        if (result == null)
-        {
-            throw new GenerativeAIException("doesn't respond", "on: " + input);
+            string input = _queryQueue.Dequeue();
+
+            string? result = null;
+            try
+            {
+                result = await Chat.SendMessageAsync(input);
+            }
+            catch (Exception ex)
+            {
+                GD.Print("failed");
+                await Task.Delay(2000);
+                throw new Exception($"Network error getting Gemini response: {ex.Message}", ex);
+            }
+
+            GD.Print("got response of length: " + result.Length + ". Waiting for: " + (int)(1000 * 0.015f * result.Length) + " ms.");
+            await Task.Delay((int)(1000 * 0.015f * result.Length));
+
+            return result;
         }
-        return result;
+        finally
+        {
+            _semaphore.Release();
+        }
     }
 
     public IReadOnlyList<Content> GetChatHistory()

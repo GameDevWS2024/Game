@@ -86,14 +86,29 @@ public partial class Ally : CharacterBody2D
 
         GD.Print(GetTree().GetFirstNodeInGroup("Core").GetType());
 
+        PathFindingMovement = GetNode<PathFindingMovement>("PathFindingMovement");
+        if (PathFindingMovement == null)
+        {
+            GD.Print("PathFindingMovement node is not assigned in the editor!");
+        }
         Chat.Visible = false;
-        PathFindingMovement.ReachedTarget += HandleTargetReached;
+        PathFindingMovement!.ReachedTarget += HandleTargetReached;
         Chat.ResponseReceived += HandleResponse;
     }
 
     private void HandleTargetReached()
     {
-
+        GD.Print("HandleTargetReached");
+        if (_interactOnArrival)
+        {
+            GD.Print("interacting on arrival\n\n");
+            Interact();
+            _interactOnArrival = false;
+        }
+        else
+        {
+            GD.Print("interacting off but reached target. \n\n");
+        }
     }
 
     public List<VisibleForAI> GetCurrentlyVisible()
@@ -207,6 +222,8 @@ public partial class Ally : CharacterBody2D
     {
         _responseQueue.Enqueue(response);
         ProcessResponseQueue();
+
+        // probably not necesary here
         // GD.Print("got response of length: " + response.Length + ". Waiting for: " + (int)(1000 * 0.009f * response.Length) + " ms.");
         // await Task.Delay((int)(1000*0.01f * response.Length));
     }
@@ -215,61 +232,53 @@ public partial class Ally : CharacterBody2D
     {
         while (_responseQueue.Count > 0)
         {
-            string response = _responseQueue.Dequeue();
+            string response = _responseQueue.Dequeue(); // dequeue response
 
-            // Processing response here
-            _matches = ExtractRelevantLines(response);
+            _matches = ExtractRelevantLines(response); // Split lines into tuples. Put command in first spot, args in second spot, keep only tuples with an allowed command
             string? richtext = "";
-            foreach ((string op, string content) in _matches!)
+            foreach ((string op, string content) in _matches!) // foreach command-content-tuple
             {
-                string? part = "";
-                richtext += FormatPart(part, op, content);
+                richtext += FormatPart(op, content);
 
-                // differentiate what to do based on command op
-                switch (op)
-                {
-                    case "MOTIVATION": // set motivation from output
-                        _motivation.SetMotivation(content.ToInt());
-                        break;
-                    case "INTERACT":
-                        Interact();
-                        break;
-                    case "GOTO AND INTERACT":
-                        SetInteractOnArrival(true);
-                        Goto(content);
-                        break;
-                    case "GOTO": // goto (x, y) location
-                        GD.Print("DEBUG: GOTO Match");
-                        Goto(content);
-                        break;
-                    case "HARVEST"
-                        when !_busy && Map.Items.Count > 0
-                        : // if harvest command and not walking somewhere and items on map
-                        GD.Print("harvesting");
-                        Harvest();
-                        break;
-                    case "STOP": // stop command stops ally from doing anything
-                        _harvest = false;
-                        _busy = false;
-                        break;
-                    default:
-                        //GD.Print("DEBUG: NO MATCH FOR : " + op);
-                        break;
-                }
+                DecideWhatCommandToDo(op, content);
             }
-            _responseField.ParseBbcode(richtext); // formatted text into response field
+
+            // formatted text with TypeWriter effect into response field
             ButtonControl buttonControl = GetTree().Root.GetNode<ButtonControl>("Node2D/UI");
-            if (buttonControl == null)
-            {
-                GD.Print("Button control not found");
-            }
-            else
-            {
-                RichTextLabel label = this.Name.ToString().Contains('2') ? _ally2ResponseField : _ally1ResponseField;
-                await buttonControl.TypeWriterEffect(richtext, label);
-            }
-            // Process response done here
-            //await Task.Delay((int)(1000*0.01f * richtext.Length));
+            await buttonControl.TypeWriterEffect(richtext, _responseField);
+        }
+    }
+
+    private void DecideWhatCommandToDo(string command, string content)
+    {
+        // differentiate what to do based on command op
+        switch (command)
+        {
+            case "MOTIVATION": // set motivation from output
+                _motivation.SetMotivation(content.ToInt());
+                break;
+            case "INTERACT":
+                Interact();
+                break;
+
+            case "GOTO AND INTERACT":
+                SetInteractOnArrival(true);
+                Goto(content);
+                break;
+            case "GOTO": // goto (x, y) location
+                GD.Print("DEBUG: GOTO Match");
+                Goto(content);
+                break;
+            case "HARVEST"
+                when !_busy && Map.Items.Count > 0
+                : // if harvest command and not walking somewhere and items on map
+                GD.Print("harvesting");
+                Harvest();
+                break;
+            case "STOP": // stop command stops ally from doing anything
+                _harvest = false;
+                _busy = false;
+                break;
         }
     }
 
@@ -280,24 +289,36 @@ public partial class Ally : CharacterBody2D
 
     private void Goto(String content)
     {
+        Vector2 gotoLoc = GlobalPosition;
+
+        // try matching if in form GOTO (300, 300)
         const string goToPattern = @"^\s*\(\s*(-?\d+)\s*,\s*(-?\d+)\s*\)\s*$";
         Match goToMatch = Regex.Match(content.Trim(), goToPattern);
-
         if (goToMatch.Success)
         {
-            int x = int.Parse(goToMatch.Groups[1].Value), y = int.Parse(goToMatch.Groups[2].Value);
-            // GD.Print(new Vector2(x, y).ToString());
-            GetNode<PathFindingMovement>("PathFindingMovement").GoTo(new Vector2(x, y));
+            gotoLoc = new Vector2(int.Parse(goToMatch.Groups[1].Value), int.Parse(goToMatch.Groups[2].Value));
         }
         else
         {
-            GD.Print($"goto couldn't match the position, content was: '{content}'");
+            // try matching if in form GOTO 300 300
+            const string goToPattern2 = @"^\s*(-?\d+)\s+(-?\d+)\s*$";
+            Match goToMatch2 = Regex.Match(content.Trim(), goToPattern2);
+            if (goToMatch2.Success)
+            {
+                gotoLoc = new Vector2(int.Parse(goToMatch2.Groups[1].Value), int.Parse(goToMatch2.Groups[2].Value));
+            }
+            else
+            {
+                // Handle the case where neither pattern matches
+                GD.PrintErr("Invalid GOTO format.");
+            }
         }
+        PathFindingMovement.GoTo(gotoLoc);
     }
 
-    private static string FormatPart(string part, string op, string content)
+    private static string FormatPart(string op, string content)
     {
-        return part += op switch // format response based on different ops or response types
+        return op switch // format response based on different ops or response types
         {
             "MOTIVATION" => "",
             "THOUGHT" => "[i]" + content + "[/i]\n",
@@ -328,11 +349,10 @@ public partial class Ally : CharacterBody2D
         label.Text += "\n" + arrivalResponse;
 
         Chat.SystemPrompt = originalSystemPrompt;*/
-        SetInteractOnArrival(true);
         GD.Print("DEBUG: INTERACT Match");
     }
 
-    public static List<(string, string)>? ExtractRelevantLines(string response)
+    private static List<(string, string)>? ExtractRelevantLines(string response)
     {
         string[] lines = response.Split('\n').Where(line => line.Length > 0).ToArray();
         List<(string, string)>? matches = [];
@@ -347,7 +367,7 @@ public partial class Ally : CharacterBody2D
             "GOTO AND INTERACT",
             "GOTO",
             "INTERACT",
-            "HARVEST",
+            // "HARVEST",
             "FOLLOW",
             "STOP"
         ];

@@ -993,7 +993,6 @@ position = Vector2(483, 1011)
 _responseField = NodePath("ResponseField")
 _nameLabel = NodePath("Label")
 _visionRadius = 150
-_interactionRadius = 100
 Chat = NodePath("Ally1Cam/Ally1Chat")
 
 [node name="Ally1Cam" type="Camera2D" parent="Ally"]
@@ -1401,11 +1400,6 @@ position = Vector2(-8.99999, -122.001)
 scale = Vector2(2.75, 5)
 
 [node name="AiNode" parent="Abandoned Village/HauntedForestVillage" instance=ExtResource("13_05imv")]
-NameForAi = "Haunted Forest Village"
-DescriptionForAi = "Looks Spooky. Make comments about the architecture of the houses."
-IsAddItemOnInteract = false
-IsRemovable = false
-IsInteractable = false
 
 [node name="Spaceport" type="Node" parent="."]
 
@@ -1427,8 +1421,6 @@ DescribtionForAi = "Spaceport at (-3050, 2000)"
 [node name="AiNode" parent="Spaceport" instance=ExtResource("13_05imv")]
 position = Vector2(-3046, 1587)
 scale = Vector2(0.2, 0.2)
-NameForAi = "Engine exhaust"
-DescriptionForAi = "with a manual you could loot some copper."
 
 [node name="TorchOld" type="Node2D" parent="."]
 position = Vector2(5538, -6212)
@@ -1450,10 +1442,6 @@ DescribtionForAi = "It's not lighted yet. Ask the commander if he wants to pick 
 
 [node name="Torch" parent="." instance=ExtResource("13_05imv")]
 position = Vector2(5631, -5569)
-NameForAi = "Torch"
-DescriptionForAi = "It's not lighted yet. Ask the commander if he wants to pick it up. (COMMAND: INTERACT) and inquire how the commander how he intends to light this torch."
-FromChosenMaterial = 7
-IsRemovable = false
 
 [node name="AudioManager" type="Node" parent="." node_paths=PackedStringArray("_menuMusic", "_gameMusic", "_gameOverMusic")]
 script = ExtResource("25_fif0r")
@@ -1534,3 +1522,10 @@ text = "Ally 1"
 [node name="IntroScene" parent="." node_paths=PackedStringArray("_ally") instance=ExtResource("32_bdur0")]
 _ally = NodePath("../Ally")
 _enableIntroScene = false
+
+[node name="AiNode" parent="." instance=ExtResource("13_05imv")]
+position = Vector2(3715, -1345)
+ObjectName = "Box"
+ObjectDescription = "What might possibly be in there?"
+ItemAdderMessage = PackedStringArray("You picked up: ", "It could possibly be useful for increasing the core light radius.")
+AddedMaterial = 1

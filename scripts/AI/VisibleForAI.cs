@@ -14,15 +14,12 @@ public partial class VisibleForAI : Node2D
         AddToGroup(GroupName);
     }
 
-    public override string ToString()
+    public override string? ToString()
     {
         if (IsInstanceValid(this))
         {
             return $"{NameForAi} at ({GlobalPosition.X:F0}, {GlobalPosition.Y:F0}): [Description] {DescribtionForAi}";
         }
-        else
-        {
-            return "";
-        }
+        return null;
     }
 }

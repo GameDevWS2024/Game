@@ -41,18 +41,7 @@ public partial class PathFindingMovement : Node
     }
     public override void _PhysicsProcess(double delta)
     {
-        if (_agent.TargetPosition.DistanceTo(GetParent<Node2D>().GlobalPosition) < 200)
-        {
-            _reachedTarget = true;
-        }
-        else
-        {
-            _reachedTarget = false;
-        }
         _agent.SetTargetPosition(TargetPosition);
-        //GD.Print(_character.Name);
-        //GD.Print($"Current Agent: {_agent.Name}");
-        //GD.Print($"Target Position: {_agent.TargetPosition}");
 
         if (_debug)
         {
@@ -75,11 +64,21 @@ public partial class PathFindingMovement : Node
             _character.Velocity = newVel;
             _character.MoveAndSlide();
         }
-        else if (!_reachedTarget)
+        else if (!_reachedTarget) // Check if target is reached BEFORE setting _reachedTarget to true
         {
-            _currentTargetDistance = 200;
+            _currentTargetDistance = _minTargetDistance;
             EmitSignal(SignalName.ReachedTarget);
             _reachedTarget = true;
+        }
+
+        // This block should come AFTER the signal emitting logic
+        if (_agent.TargetPosition.DistanceTo(GetParent<Node2D>().GlobalPosition) < _minTargetDistance)
+        {
+            _reachedTarget = true;
+        }
+        else
+        {
+            _reachedTarget = false;
         }
     }
 }

@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 using Game.Scenes.Levels;
 using Game.Scripts.AI;
 using Game.Scripts.Items;
+
+using GenerativeAI.Exceptions;
 
 using Godot;
 
@@ -51,8 +54,16 @@ public partial class Ally : CharacterBody2D
     }
     public AllyState CurrentState { get; private set; } = AllyState.SmallCircle;
 
+    private Ally _otherAlly = null!;
     public override void _Ready()
     {
+        foreach (Ally ally in GetTree().GetNodesInGroup("Entities").OfType<Ally>().ToList())
+        {
+            if (ally != this)
+            {
+                _otherAlly = ally;
+            }
+        }
         /*
         SsInventory.AddItem(new Itemstack(Game.Scripts.Items.Material.Torch));
         lit = true; */
@@ -83,14 +94,33 @@ public partial class Ally : CharacterBody2D
 
         GD.Print(GetTree().GetFirstNodeInGroup("Core").GetType());
 
+        PathFindingMovement = GetNode<PathFindingMovement>("PathFindingMovement");
+        if (PathFindingMovement == null)
+        {
+            GD.Print("PathFindingMovement node is not assigned in the editor!");
+        }
         Chat.Visible = false;
-        PathFindingMovement.ReachedTarget += HandleTargetReached;
+        PathFindingMovement!.ReachedTarget += HandleTargetReached;
+        if (PathFindingMovement == null)
+        {
+            GD.PrintErr("PathFindingMovement node is not assigned in the editor!");
+        }
         Chat.ResponseReceived += HandleResponse;
     }
 
-    private async void HandleTargetReached()
+    private void HandleTargetReached()
     {
-
+        GD.Print("HandleTargetReached");
+        if (_interactOnArrival)
+        {
+            GD.Print("interacting on arrival\n\n");
+            Interact();
+            _interactOnArrival = false;
+        }
+        else
+        {
+            GD.Print("interacting off but reached target. \n\n");
+        }
     }
 
     public List<VisibleForAI> GetCurrentlyVisible()
@@ -133,8 +163,29 @@ public partial class Ally : CharacterBody2D
 
     }
 
+    private bool _hasSeenOtherAlly = false;
     public override void _PhysicsProcess(double delta)
     {
+
+        if (this.GlobalPosition.DistanceTo(_otherAlly.GlobalPosition) > 500)
+        {
+            _hasSeenOtherAlly = false;
+        }
+
+
+        if (!_hasSeenOtherAlly)
+        {
+            foreach (VisibleForAI vfai in GetCurrentlyVisible())
+            {
+                if (vfai.GetParent() != this && vfai.GetParent() is Ally)
+                {
+                    _hasSeenOtherAlly = true;
+                }
+            }
+        }
+
+
+
         //Check where ally is (darkness, bigger, smaller)
         SetAllyInDarkness();
 
@@ -157,9 +208,7 @@ public partial class Ally : CharacterBody2D
             SsInventory.HardSwapItems(Items.Material.Torch, Items.Material.LightedTorch);
 
             // async func call to print response to torch lighting
-            Torchlightingresponse();
-
-            GD.Print("tryna respond to torch lighting event");
+            Chat.SendSystemMessage("The torch has now been lit by the commander using the CORE. Tell the Commander what a genius idea it was to use the Core for that purpose and hint the commander back at the haunted forest village.");
 
             //GD.Print("homie hat die Fackel und ist am core");
             /* GD.Print("Distance to core" + GlobalPosition.DistanceTo(GetNode<Core>("%Core").GlobalPosition));
@@ -176,18 +225,6 @@ public partial class Ally : CharacterBody2D
         }
     }//Node2D/Abandoned Village/HauntedForestVillage/Big House/Sprite2D/InsideBigHouse2/InsideBigHouse/Sprite2D/ChestInsideHouse
 
-    private async void Torchlightingresponse()
-    {
-        string? txt = "";
-        int ctr = 0;
-        while (txt is null or "" && ctr <= 3)
-        {
-            txt = await _geminiService!.MakeQuery("[SYSTEM MESSAGE] The torch has now been lit by the commander using the CORE. Tell the Commander what a genius idea it was to use the Core for that purpose and hint the commander back at the haunted forest village. [SYSTEM MESSAGE END] \n"); GD.Print(txt); // put it into text box
-            HandleResponse(txt!);
-            ctr++;
-            GD.Print();
-        }
-    }
     private void UpdateTarget()
     {
         if (_harvest)
@@ -210,64 +247,79 @@ public partial class Ally : CharacterBody2D
         }
     }
 
+
     private List<(string, string)>? _matches;
-    private string _richtext = "", _part = "";
-    private async void HandleResponse(string response)
+
+    private readonly Queue<string> _responseQueue = new Queue<string>();
+    public async void HandleResponse(string response)
     {
-        if (response.Contains("INTERACT"))
-        {
-            Interact();
-        }
-        _matches = ExtractRelevantLines(response);
-        _richtext = "";
-        foreach ((string op, string content) in _matches!)
-        {
-            _part = "";
-            _richtext += FormatPart(_part, op, content);
+        _responseQueue.Enqueue(response);
+        ProcessResponseQueue();
 
-            // differentiate what to do based on command op
-            switch (op)
+        // probably not necesary here
+        // GD.Print("got response of length: " + response.Length + ". Waiting for: " + (int)(1000 * 0.009f * response.Length) + " ms.");
+        // await Task.Delay((int)(1000*0.01f * response.Length));
+    }
+
+    private async void ProcessResponseQueue()
+    {
+        while (_responseQueue.Count > 0)
+        {
+            string response = _responseQueue.Dequeue(); // dequeue response
+
+            /*
+            if (_hasSeenOtherAlly)
             {
-                case "MOTIVATION": // set motivation from output
-                    _motivation.SetMotivation(content.ToInt());
-                    break;
-                case "INTERACT":
-                    Interact();
-                    break;
-                case "GOTO AND INTERACT":
-                    SetInteractOnArrival(true);
-                    Goto(content);
-                    break;
-                case "GOTO":
-                    GD.Print("DEBUG: GOTO Match");
-                    Goto(content);
-                    break;
-                case "HARVEST"
-                    when !_busy && Map.Items.Count > 0
-                    : // if harvest command and not walking somewhere and items on map
-                    GD.Print("harvesting");
-                    Harvest();
-                    break;
-                case "STOP": // stop command stops ally from doing anything
-                    _harvest = false;
-                    _busy = false;
-                    break;
-                default:
-                    GD.Print("DEBUG: NO MATCH FOR : " + op);
-                    break;
+                _otherAlly.Chat.SendSystemMessage("Hello, this is "+this.Name+", the other ally speaking to you. Before, I've said "+response+ ". What do you think about that?]");
+                // Hier Sprechblase einblenden für ms Anzahl: 1000*0.008f*response.Length
             }
-        }
+            */
 
-        _responseField.ParseBbcode(_richtext); // formatted text into response field
-        ButtonControl buttoncontrol = GetTree().Root.GetNode<ButtonControl>("Node2D/UI");
-        if (buttoncontrol == null)
-        {
-            GD.Print("Button control not found");
+            _matches = ExtractRelevantLines(response); // Split lines into tuples. Put command in first spot, args in second spot, keep only tuples with an allowed command
+            string? richtext = "";
+            foreach ((string op, string content) in _matches!) // foreach command-content-tuple
+            {
+                richtext += FormatPart(op, content);
+
+                DecideWhatCommandToDo(op, content);
+            }
+
+            // formatted text with TypeWriter effect into response field
+            ButtonControl buttonControl = GetTree().Root.GetNode<ButtonControl>("Node2D/UI");
+            await buttonControl.TypeWriterEffect(richtext, _responseField);
         }
-        else
+    }
+
+    private void DecideWhatCommandToDo(string command, string content)
+    {
+        // differentiate what to do based on command op
+        switch (command)
         {
-            RichTextLabel label = this.Name.ToString().Contains('2') ? _ally2ResponseField : _ally1ResponseField;
-            await buttoncontrol.TypeWriterEffect(_richtext, label);
+            case "MOTIVATION": // set motivation from output
+                _motivation.SetMotivation(content.ToInt());
+                break;
+            case "INTERACT":
+                Interact();
+                break;
+
+            case "GOTO AND INTERACT":
+                SetInteractOnArrival(true);
+                Goto(content);
+                break;
+            case "GOTO": // goto (x, y) location
+                GD.Print("DEBUG: GOTO Match");
+                Goto(content);
+                break;
+            case "HARVEST"
+                when !_busy && Map.Items.Count > 0
+                : // if harvest command and not walking somewhere and items on map
+                GD.Print("harvesting");
+                Harvest();
+                break;
+            case "STOP": // stop command stops ally from doing anything
+                _harvest = false;
+                _busy = false;
+                break;
         }
     }
 
@@ -278,24 +330,36 @@ public partial class Ally : CharacterBody2D
 
     private void Goto(String content)
     {
+        Vector2 gotoLoc = GlobalPosition;
+
+        // try matching if in form GOTO (300, 300)
         const string goToPattern = @"^\s*\(\s*(-?\d+)\s*,\s*(-?\d+)\s*\)\s*$";
         Match goToMatch = Regex.Match(content.Trim(), goToPattern);
-
         if (goToMatch.Success)
         {
-            int x = int.Parse(goToMatch.Groups[1].Value), y = int.Parse(goToMatch.Groups[2].Value);
-            // GD.Print(new Vector2(x, y).ToString());
-            GetNode<PathFindingMovement>("PathFindingMovement").GoTo(new Vector2(x, y));
+            gotoLoc = new Vector2(int.Parse(goToMatch.Groups[1].Value), int.Parse(goToMatch.Groups[2].Value));
         }
         else
         {
-            GD.Print($"goto couldn't match the position, content was: '{content}'");
+            // try matching if in form GOTO 300 300
+            const string goToPattern2 = @"^\s*(-?\d+)\s+(-?\d+)\s*$";
+            Match goToMatch2 = Regex.Match(content.Trim(), goToPattern2);
+            if (goToMatch2.Success)
+            {
+                gotoLoc = new Vector2(int.Parse(goToMatch2.Groups[1].Value), int.Parse(goToMatch2.Groups[2].Value));
+            }
+            else
+            {
+                // Handle the case where neither pattern matches
+                GD.PrintErr("Invalid GOTO format.");
+            }
         }
+        PathFindingMovement.GoTo(gotoLoc);
     }
 
-    private static string FormatPart(string part, string op, string content)
+    private static string FormatPart(string op, string content)
     {
-        return part += op switch // format response based on different ops or response types
+        return op switch // format response based on different ops or response types
         {
             "MOTIVATION" => "",
             "THOUGHT" => "[i]" + content + "[/i]\n",
@@ -326,11 +390,10 @@ public partial class Ally : CharacterBody2D
         label.Text += "\n" + arrivalResponse;
 
         Chat.SystemPrompt = originalSystemPrompt;*/
-        SetInteractOnArrival(true);
         GD.Print("DEBUG: INTERACT Match");
     }
 
-    public static List<(string, string)>? ExtractRelevantLines(string response)
+    private static List<(string, string)>? ExtractRelevantLines(string response)
     {
         string[] lines = response.Split('\n').Where(line => line.Length > 0).ToArray();
         List<(string, string)>? matches = [];
@@ -345,7 +408,7 @@ public partial class Ally : CharacterBody2D
             "GOTO AND INTERACT",
             "GOTO",
             "INTERACT",
-            "HARVEST",
+            // "HARVEST",
             "FOLLOW",
             "STOP"
         ];

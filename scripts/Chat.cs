@@ -5,6 +5,8 @@ using System.Linq;
 
 using Game.Scripts.AI;
 
+using GenerativeAI.Exceptions;
+
 using Godot;
 namespace Game.Scripts
 {
@@ -37,7 +39,7 @@ namespace Game.Scripts
             _ally = GetParent().GetParent<Ally>();
             _responseCount = 0;
             TextSubmitted += OnTextSubmitted;
-            AlreadySeen = _ally.AlwaysVisible.ToList();
+            //  AlreadySeen = _ally.AlwaysVisible.ToList();
 
             string systemPromptAbsolutePath = ProjectSettings.GlobalizePath(_systemPromptFile);
             //   string introductionSystemPromptAbsolutePath = ProjectSettings.GlobalizePath(_introductionSystemPromptFile);
@@ -46,19 +48,20 @@ namespace Game.Scripts
                                                                        // _introductionSystemPrompt = File.ReadAllText(introductionSystemPromptAbsolutePath); // Load intro prompt
 
             InitializeGeminiService(SystemPrompt); // Pass system prompt to InitializeGeminiService
-            foreach (Ally ally in GetTree().GetNodesInGroup("Entities").OfType<Ally>())
-            {
-                if (ally.GetName().ToString().Contains('2'))
-                {
-                    _ally2VisibleForAi = ally.GetNode<VisibleForAI>("VisibleForAI");
-                    AlreadySeen.Add(_ally2VisibleForAi);
-                }
-                else
-                {
-                    _ally1VisibleForAi = ally.GetNode<VisibleForAI>("VisibleForAI");
-                    AlreadySeen.Add(_ally1VisibleForAi);
-                }
-            }
+            /* foreach (Ally ally in GetTree().GetNodesInGroup("Entities").OfType<Ally>())
+             {
+                 if (ally.GetName().ToString().Contains('2'))
+                 {
+                     _ally2VisibleForAi = ally.GetNode<VisibleForAI>("VisibleForAI");
+                     AlreadySeen.Add(_ally2VisibleForAi);
+                 }
+                 else
+                 {
+                     _ally1VisibleForAi = ally.GetNode<VisibleForAI>("VisibleForAI");
+                     AlreadySeen.Add(_ally1VisibleForAi);
+                 }
+             }
+             */
         }
 
         public async void SeenItems()
@@ -126,6 +129,23 @@ namespace Game.Scripts
             {
                 GD.Print(ex.Message);
                 PlaceholderText = EnterApiPlaceholder;
+            }
+        }
+
+        public async void SendSystemMessage(string systemMessage)
+        {
+            try
+            {
+                string? txt = await GeminiService!.MakeQuery("[SYSTEM MESSAGE] " + systemMessage + " [SYSTEM MESSAGE END] \n"); GD.Print(txt); // put it into text box
+                if (txt == null)
+                {
+                    GD.Print("AI response is null.");
+                }
+                GetParent<Camera2D>().GetParent<Ally>().HandleResponse(txt!);
+            }
+            catch (Exception e)
+            {
+                throw new GenerativeAIException("AI query got an error.", "at system_message: " + systemMessage);
             }
         }
 

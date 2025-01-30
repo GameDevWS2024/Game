@@ -88,36 +88,46 @@ public partial class ShowWhileInRadius : Node2D
                          && (NeedsToBeInInventoryName == Game.Scripts.Items.Material.None || (_nearestAlly.SsInventory.ContainsMaterial(NeedsToBeInInventoryName) && _nearestAlly.Lit)))
                 {
                     show = true;
+                    /*
+                   if (this.GetName() != "Sprite2D")
+                   {
+                       Sprite2D? sprite = GetParent() as Sprite2D;
+                       if (sprite != null)
+                       {
+                           sprite!.Visible = true;
+                       }
+                   }
+                   else
+                   {
+                       GD.Print("this is Sprite2D error");
+                   }
 
-                    if (this.GetName() != "Sprite2D")
-                    {
-                        Sprite2D? sprite = GetParent() as Sprite2D;
-                        if (sprite != null)
-                        {
-                            sprite!.Visible = true;
-                        }
-                    }
-                    else
-                    {
-                        GD.Print("this is Sprite2D error");
-                    }
-
-                    if (this.GetName() == "ChestInsideHouse")
-                    {
-                        SpawnChild();
-                        // has AiNode (Node2D) now
-                        AiNode aiNode = GetNode<AiNode>("AiNode");
-                        aiNode.IsVisibleForAi = true;
-                        aiNode.NameForAi = "Wooden Chest";
-                        aiNode.DescriptionForAi = "Seems to be locked. Maybe there's a key in the city?";
-                        aiNode.IsInteractable = true;
-                        aiNode.IsAddItemOnInteract = true;
-                        aiNode.Amount = 1;
-                        aiNode.FromChosenMaterial = Game.Scripts.Items.Material.FestiveStaff;
-                    }
+                   if (this.GetName() == "ChestInsideHouse")
+                   {
+                       SpawnChild();
+                       // has AiNode (Node2D) now
+                       AiNode aiNode = GetNode<AiNode>("AiNode");
+                       aiNode.IsVisibleForAi = true;
+                       aiNode.NameForAi = "Wooden Chest";
+                       aiNode.DescriptionForAi = "Seems to be locked. Maybe there's a key in the city?";
+                       aiNode.IsInteractable = true;
+                       aiNode.IsAddItemOnInteract = true;
+                       aiNode.Amount = 1;
+                       aiNode.FromChosenMaterial = Game.Scripts.Items.Material.FestiveStaff;
+                   }
+                   */
 
                 }
             }
+        }
+        Sprite2D? sprite = GetParent<Sprite2D>();
+        if (sprite != null)
+        {
+            SetShowSceneState(sprite, show);
+        }
+        else
+        {
+            GD.Print("Sprite2D is null. Can't show chest right now!");
         }
 
 

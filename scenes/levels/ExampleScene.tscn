@@ -1,4 +1,4 @@
-[gd_scene load_steps=55 format=4 uid="uid://dfkwq6qwtxw25"]
+[gd_scene load_steps=54 format=4 uid="uid://dfkwq6qwtxw25"]
 
 [ext_resource type="Script" path="res://scripts/EnemyManager.cs" id="1_bmkfv"]
 [ext_resource type="Script" path="res://scripts/Map.cs" id="1_pa1ge"]
@@ -8,7 +8,6 @@
 [ext_resource type="PackedScene" uid="uid://6gwtt7kwq2p" path="res://scenes/prefabs/Ally.tscn" id="6_l8h37"]
 [ext_resource type="Script" path="res://scripts/Interaction/Interactable.cs" id="7_ji1nn"]
 [ext_resource type="PackedScene" uid="uid://csb6x207vu85x" path="res://scenes/prefabs/copper_tree.tscn" id="7_njspg"]
-[ext_resource type="Script" path="res://scripts/Interaction/Removeable.cs" id="8_vh33k"]
 [ext_resource type="PackedScene" uid="uid://ki7e88gvvcs" path="res://scenes/prefabs/ice_tree.tscn" id="9_tf77n"]
 [ext_resource type="PackedScene" uid="uid://bgxxp0o5kdpkq" path="res://scenes/prefabs/Enemy.tscn" id="10_tv6x7"]
 [ext_resource type="Script" path="res://scripts/Core.cs" id="11_wagl7"]
@@ -989,10 +988,10 @@ _darknessCircleDamage = 1
 _allyHealthChangeIntervall = 5.0
 
 [node name="Ally" parent="." node_paths=PackedStringArray("_responseField", "_nameLabel", "Chat") instance=ExtResource("6_l8h37")]
-position = Vector2(870, 83)
+position = Vector2(483, 1011)
 _responseField = NodePath("ResponseField")
 _nameLabel = NodePath("Label")
-_visionRadius = 200
+_visionRadius = 150
 Chat = NodePath("Ally1Cam/Ally1Chat")
 
 [node name="Ally1Cam" type="Camera2D" parent="Ally"]
@@ -1026,6 +1025,8 @@ metadata/_edit_use_anchors_ = true
 
 [node name="VisibleForAI" type="Node2D" parent="Ally"]
 script = ExtResource("6_7bcmx")
+NameForAi = "James"
+DescribtionForAi = "The ally james"
 
 [node name="Label" type="Label" parent="Ally"]
 offset_left = -21.0
@@ -1060,6 +1061,7 @@ fit_content = true
 metadata/_edit_use_anchors_ = true
 
 [node name="Ally2" parent="." node_paths=PackedStringArray("_responseField", "_nameLabel", "Chat") groups=["navigation"] instance=ExtResource("6_l8h37")]
+position = Vector2(5956, -4450)
 _responseField = NodePath("ResponseField")
 _nameLabel = NodePath("Label")
 _visionRadius = 200
@@ -1110,10 +1112,10 @@ metadata/_edit_use_anchors_ = true
 
 [node name="ResponseField" type="RichTextLabel" parent="Ally2"]
 modulate = Color(0.6, 0.6, 0.6, 0.654902)
-offset_left = 1384.0
-offset_top = 454.0
-offset_right = 1984.0
-offset_bottom = 754.0
+offset_left = 997.0
+offset_top = 1382.0
+offset_right = 1597.0
+offset_bottom = 1682.0
 theme_override_colors/table_border = Color(0, 0, 0, 1)
 theme_override_colors/table_even_row_bg = Color(0, 0, 0, 1)
 theme_override_colors/table_odd_row_bg = Color(0, 0, 0, 1)
@@ -1162,7 +1164,7 @@ color = Color(0.20871, 0.20871, 0.20871, 1)
 metadata/_edit_use_anchors_ = true
 
 [node name="CanvasModulate" type="CanvasModulate" parent="ColorRect"]
-color = Color(0.227451, 0.227451, 0.227451, 1)
+color = Color(0.332881, 0.332881, 0.332881, 1)
 
 [node name="Obstacles" type="Node" parent="."]
 
@@ -1274,26 +1276,6 @@ position = Vector2(5.5, 26)
 scale = Vector2(10, 10)
 shape = SubResource("RectangleShape2D_xdi6d")
 
-[node name="Notebook" type="Sprite2D" parent="."]
-z_index = 150
-position = Vector2(-1429, -221)
-scale = Vector2(0.2, 0.2)
-texture = ExtResource("20_lgqcj")
-script = ExtResource("6_7bcmx")
-NameForAi = "Notebook"
-DescribtionForAi = "there is a Spaceport at (-1950, 2000). This Notebook contains details on how to loot metals from there."
-
-[node name="Interactable" type="Node2D" parent="Notebook"]
-script = ExtResource("7_ji1nn")
-
-[node name="Removeable" type="Node" parent="Notebook"]
-script = ExtResource("8_vh33k")
-
-[node name="ItemAdder" type="Node2D" parent="Notebook"]
-script = ExtResource("21_2au4o")
-ItemToAddName = "Notebook"
-Amount = 1
-
 [node name="Signs" type="Node" parent="."]
 
 [node name="Grave Runeholder" type="Marker2D" parent="Signs"]
@@ -1317,6 +1299,7 @@ NameForAi = "Rune Holder"
 DescribtionForAi = "There is a Code needed"
 
 [node name="EnemyManager" type="Node2D" parent="."]
+position = Vector2(5956, -4450)
 script = ExtResource("1_bmkfv")
 EnemyScene = ExtResource("10_tv6x7")
 _minSpawnInterval = 5.0
@@ -1345,8 +1328,10 @@ metadata/_edit_lock_ = true
 [node name="Mouse" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+offset_left = 5956.0
+offset_top = -4450.0
+offset_right = 5996.0
+offset_bottom = -4410.0
 metadata/_edit_use_anchors_ = true
 
 [node name="MouseLabel" type="RichTextLabel" parent="Mouse"]
@@ -1365,7 +1350,7 @@ scale = Vector2(10, 10)
 tile_set = ExtResource("23_6wlm7")
 
 [node name="Abandoned Village" type="TileMapLayer" parent="Abandoned Village/Tileset Layers"]
-position = Vector2(2595, 2509)
+position = Vector2(8551, -1941)
 scale = Vector2(4, 4)
 tile_set = ExtResource("24_igx6k")
 
@@ -1393,6 +1378,8 @@ Radius = 500
 position = Vector2(-8.99999, -122.001)
 scale = Vector2(2.75, 5)
 
+[node name="AiNode" parent="Abandoned Village/HauntedForestVillage" instance=ExtResource("13_05imv")]
+
 [node name="Spaceport" type="Node" parent="."]
 
 [node name="Tilemap Layers" type="Node" parent="Spaceport"]
@@ -1414,29 +1401,35 @@ DescribtionForAi = "Spaceport at (-3050, 2000)"
 position = Vector2(-3046, 1587)
 scale = Vector2(0.2, 0.2)
 
-[node name="Flashlight" type="Node2D" parent="."]
-position = Vector2(5630, -5543)
-script = ExtResource("6_7bcmx")
-NameForAi = "Flashlight"
-DescribtionForAi = "It might be useful in the Haunted Forest Village"
+[node name="TorchOld" type="Node2D" parent="."]
+position = Vector2(5538, -6212)
 
-[node name="ItemAdder" type="Node2D" parent="Flashlight"]
+[node name="ItemAdder" type="Node2D" parent="TorchOld"]
 script = ExtResource("21_2au4o")
 ItemToAddName = "Torch"
 Amount = 1
 
-[node name="Interactable" type="Node2D" parent="Flashlight"]
+[node name="Interactable" type="Node2D" parent="TorchOld"]
 position = Vector2(-1, 0)
 script = ExtResource("7_ji1nn")
 
-[node name="VisibleForAI" type="Node2D" parent="Flashlight"]
-position = Vector2(0, 7)
+[node name="VisibleForAI" type="Node2D" parent="TorchOld"]
+position = Vector2(13284, -7783)
 script = ExtResource("6_7bcmx")
 NameForAi = "Torch"
 DescribtionForAi = "It's not lighted yet. Ask the commander if he wants to pick it up. (COMMAND: INTERACT). Ask the commander how he intends to light this torch."
 
-[node name="AudioManager" type="Node" parent="."]
+[node name="Torch" parent="." instance=ExtResource("13_05imv")]
+position = Vector2(1978, -1250)
+ObjectName = "old drawer"
+ObjectDescription = "there might be something in there"
+AddedMaterial = 7
+
+[node name="AudioManager" type="Node" parent="." node_paths=PackedStringArray("_menuMusic", "_gameMusic", "_gameOverMusic")]
 script = ExtResource("25_fif0r")
+_menuMusic = NodePath("intro_music")
+_gameMusic = NodePath("game_music")
+_gameOverMusic = NodePath("game_over")
 
 [node name="creepy_music" type="AudioStreamPlayer" parent="AudioManager"]
 stream = ExtResource("26_rqvqj")
@@ -1459,10 +1452,10 @@ anchors_preset = 12
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 1529.0
-offset_top = 270.0
-offset_right = 1633.0
-offset_bottom = 301.0
+offset_left = 1142.0
+offset_top = 1198.0
+offset_right = 1246.0
+offset_bottom = 1229.0
 grow_horizontal = 2
 grow_vertical = 0
 script = ExtResource("30_pwpih")
@@ -1511,3 +1504,25 @@ text = "Ally 1"
 [node name="IntroScene" parent="." node_paths=PackedStringArray("_ally") instance=ExtResource("32_bdur0")]
 visible = false
 _ally = NodePath("../Ally")
+_enableIntroScene = false
+
+[node name="AiNode" parent="." instance=ExtResource("13_05imv")]
+position = Vector2(3715, -1345)
+ObjectName = "Box"
+ObjectDescription = "What might possibly be in there?"
+ItemAdderMessage = PackedStringArray("You picked up: ", "It could possibly be useful for increasing the core light radius.")
+AddedMaterial = 1
+
+[node name="NotebookNode" parent="." instance=ExtResource("13_05imv")]
+position = Vector2(-1441, -220)
+ObjectName = "Notebook"
+ObjectDescription = "there is a Spaceport at (-1950, 2000)."
+ObjectHint = "Tell the commander about the object you just spotted. You may use the command [GOTO AND INTERACT] on this object if the commander explicitly told you to engage with it. If he didn't, propose but don't instantly do it yourself that you may interact with it, but don't use the word interact. Use the appropriate term or verb for: "
+ItemAdderMessage = PackedStringArray("You picked up: ", "It could possibly be useful for the space port. This Notebook contains details on how to loot metals from there.")
+AddedMaterial = 9
+
+[node name="Notebook" type="Sprite2D" parent="NotebookNode"]
+z_index = 150
+position = Vector2(7, -5.99998)
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("20_lgqcj")

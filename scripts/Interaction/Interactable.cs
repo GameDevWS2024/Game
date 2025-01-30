@@ -1,3 +1,5 @@
+using Game.Scripts;
+
 using Godot;
 
 [GlobalClass]
@@ -7,8 +9,7 @@ public partial class Interactable : Node2D
     [Signal] public delegate void InteractFromNodeEventHandler(Node caller);
     [Signal] public delegate void InteractEventHandler();
 
-    public bool IsSendSystemMessage = false;
-    public string SystemMessageInstructionForAlly = "";
+    public string? SystemMessageForAlly;
 
     public override void _Ready()
     {
@@ -17,9 +18,10 @@ public partial class Interactable : Node2D
 
     public void Trigger(Node caller)
     {
-        if (IsSendSystemMessage && SystemMessageInstructionForAlly != "")
+        if (!string.IsNullOrEmpty(SystemMessageForAlly) && caller.Name.ToString().Contains("Ally"))
         {
-            GD.Print("caller is: " + caller.Name);
+            Ally ally = (caller as Ally)!;
+            ally.Chat.SendSystemMessage(SystemMessageForAlly);
         }
         EmitSignal(SignalName.Interact);
         EmitSignal(SignalName.InteractFromNode, caller);

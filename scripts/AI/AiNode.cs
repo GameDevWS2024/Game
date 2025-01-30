@@ -42,11 +42,13 @@ public partial class AiNode : Node2D
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
+        GD.Print("trying to get nodes");
         VisibleForAI visibleForAi = GetNode<VisibleForAI>("VisibleForAI");
         Game.Scripts.Interaction.ItemAdder adder = GetNode<Game.Scripts.Interaction.ItemAdder>("ItemAdder");
         ShowWhileInRadius showWhileInRadius = GetNode<ShowWhileInRadius>("ShowWhileInRadius");
         Removeable removable = GetNode<Removeable>("Removeable");
         Interactable interactable = GetNode<Interactable>("Interactable");
+        GD.Print("got all nodes");
 
         if (IsActive)
         {
@@ -56,15 +58,16 @@ public partial class AiNode : Node2D
             if (Interactable)
             {
                 visibleForAi.DescribtionForAi += " [HINT] " + ObjectHint + "[" + visibleForAi.NameForAi + "] [HINT END].";
-
                 if (!string.IsNullOrEmpty(CustomOverrideMessage)) // voreingestellte System message
                 {
+                    GD.Print("custom override message");
                     interactable.SystemMessageForAlly = CustomOverrideMessage
                         + EndMessage
                         + "\n";
                 }
                 else if (AddedMaterial != Game.Scripts.Items.Material.None) // sonst wenn item geadded wird, zusammengesetzte SystemMessage
                 {
+                    GD.Print("added material system message");
                     adder.Amount = Amount;
                     adder.ItemToAdd = AddedMaterial;
 
@@ -78,6 +81,7 @@ public partial class AiNode : Node2D
                 }
                 else
                 {
+                    GD.Print("default system message");
                     interactable.SystemMessageForAlly = DefaultMessage
                                                                    + "\n";
                     adder.QueueFree();

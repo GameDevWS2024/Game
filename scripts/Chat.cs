@@ -39,7 +39,7 @@ namespace Game.Scripts
             _ally = GetParent().GetParent<Ally>();
             _responseCount = 0;
             TextSubmitted += OnTextSubmitted;
-            AlreadySeen = _ally.AlwaysVisible.ToList();
+            //  AlreadySeen = _ally.AlwaysVisible.ToList();
 
             string systemPromptAbsolutePath = ProjectSettings.GlobalizePath(_systemPromptFile);
             //   string introductionSystemPromptAbsolutePath = ProjectSettings.GlobalizePath(_introductionSystemPromptFile);
@@ -48,19 +48,20 @@ namespace Game.Scripts
                                                                        // _introductionSystemPrompt = File.ReadAllText(introductionSystemPromptAbsolutePath); // Load intro prompt
 
             InitializeGeminiService(SystemPrompt); // Pass system prompt to InitializeGeminiService
-            foreach (Ally ally in GetTree().GetNodesInGroup("Entities").OfType<Ally>())
-            {
-                if (ally.GetName().ToString().Contains('2'))
-                {
-                    _ally2VisibleForAi = ally.GetNode<VisibleForAI>("VisibleForAI");
-                    AlreadySeen.Add(_ally2VisibleForAi);
-                }
-                else
-                {
-                    _ally1VisibleForAi = ally.GetNode<VisibleForAI>("VisibleForAI");
-                    AlreadySeen.Add(_ally1VisibleForAi);
-                }
-            }
+            /* foreach (Ally ally in GetTree().GetNodesInGroup("Entities").OfType<Ally>())
+             {
+                 if (ally.GetName().ToString().Contains('2'))
+                 {
+                     _ally2VisibleForAi = ally.GetNode<VisibleForAI>("VisibleForAI");
+                     AlreadySeen.Add(_ally2VisibleForAi);
+                 }
+                 else
+                 {
+                     _ally1VisibleForAi = ally.GetNode<VisibleForAI>("VisibleForAI");
+                     AlreadySeen.Add(_ally1VisibleForAi);
+                 }
+             }
+             */
         }
 
         public async void SeenItems()

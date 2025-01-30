@@ -1,10 +1,11 @@
 using Godot;
+
 public partial class PathFindingMovement : Node
 {
     [Signal] public delegate void ReachedTargetEventHandler();
 
     [Export] private int _minTargetDistance = 300;
-    [Export] private int _targetDistanceVariation = 50;
+    [Export] private int _targetDistanceVariation = 50; // Not currently used, consider removing or implementing variation
     [Export] private int _speed = 250;
     [Export] bool _debug = false;
 
@@ -17,16 +18,10 @@ public partial class PathFindingMovement : Node
     private bool _reachedTarget;
     private int _currentTargetDistance;
 
-    //Tried to wait for first synchronization, to prevent from error "query failed because it was made befor map synchronisation (unfinished)"
     public override void _Ready()
     {
         _currentTargetDistance = _minTargetDistance;
-        this.CallDeferred("ActorSetup");
-    }
-
-    public bool HasreachedTarget()
-    {
-        return _reachedTarget;
+        this.CallDeferred("ActorSetup"); // Still good to defer setup
     }
 
     public async void ActorSetup()
@@ -39,9 +34,10 @@ public partial class PathFindingMovement : Node
         _agent.SetTargetPosition(loc);
         TargetPosition = loc;
     }
+
     public override void _PhysicsProcess(double delta)
     {
-        _agent.SetTargetPosition(TargetPosition);
+        _agent.SetTargetPosition(TargetPosition); // Keep this for consistent target setting
 
         if (_debug)
         {
@@ -49,7 +45,9 @@ public partial class PathFindingMovement : Node
             //GD.Print($"Distance: {distance}, Target Position: {_agent.TargetPosition}");
         }
 
-        if (_character.GlobalPosition.DistanceTo(_agent.TargetPosition) > _currentTargetDistance)
+        float distanceToTarget = _character.GlobalPosition.DistanceTo(_agent.TargetPosition);
+
+        if (distanceToTarget > _currentTargetDistance)
         {
             _reachedTarget = false;
             Vector2 currentLocation = _character.GlobalPosition;
@@ -64,21 +62,11 @@ public partial class PathFindingMovement : Node
             _character.Velocity = newVel;
             _character.MoveAndSlide();
         }
-        else if (!_reachedTarget) // Check if target is reached BEFORE setting _reachedTarget to true
+        else if (!_reachedTarget) // Only emit and set _reachedTarget once, when the condition is first met
         {
-            _currentTargetDistance = _minTargetDistance;
+            _currentTargetDistance = _minTargetDistance; // Reset for the next target
             EmitSignal(SignalName.ReachedTarget);
             _reachedTarget = true;
-        }
-
-        // This block should come AFTER the signal emitting logic
-        if (_agent.TargetPosition.DistanceTo(GetParent<Node2D>().GlobalPosition) < _minTargetDistance)
-        {
-            _reachedTarget = true;
-        }
-        else
-        {
-            _reachedTarget = false;
         }
     }
 }

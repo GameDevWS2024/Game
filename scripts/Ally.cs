@@ -54,8 +54,16 @@ public partial class Ally : CharacterBody2D
     }
     public AllyState CurrentState { get; private set; } = AllyState.SmallCircle;
 
+    private Ally _otherAlly = null!;
     public override void _Ready()
     {
+        foreach (Ally ally in GetTree().GetNodesInGroup("Entities").OfType<Ally>().ToList())
+        {
+            if (ally != this)
+            {
+                _otherAlly = ally;
+            }
+        }
         /*
         SsInventory.AddItem(new Itemstack(Game.Scripts.Items.Material.Torch));
         lit = true; */
@@ -93,6 +101,10 @@ public partial class Ally : CharacterBody2D
         }
         Chat.Visible = false;
         PathFindingMovement!.ReachedTarget += HandleTargetReached;
+        if (PathFindingMovement == null)
+        {
+            GD.PrintErr("PathFindingMovement node is not assigned in the editor!");
+        }
         Chat.ResponseReceived += HandleResponse;
     }
 
@@ -151,8 +163,29 @@ public partial class Ally : CharacterBody2D
 
     }
 
+    private bool _hasSeenOtherAlly = false;
     public override void _PhysicsProcess(double delta)
     {
+
+        if (this.GlobalPosition.DistanceTo(_otherAlly.GlobalPosition) > 500)
+        {
+            _hasSeenOtherAlly = false;
+        }
+
+
+        if (!_hasSeenOtherAlly)
+        {
+            foreach (VisibleForAI vfai in GetCurrentlyVisible())
+            {
+                if (vfai.GetParent() != this && vfai.GetParent() is Ally)
+                {
+                    _hasSeenOtherAlly = true;
+                }
+            }
+        }
+
+
+
         //Check where ally is (darkness, bigger, smaller)
         SetAllyInDarkness();
 
@@ -233,6 +266,14 @@ public partial class Ally : CharacterBody2D
         while (_responseQueue.Count > 0)
         {
             string response = _responseQueue.Dequeue(); // dequeue response
+
+            /*
+            if (_hasSeenOtherAlly)
+            {
+                _otherAlly.Chat.SendSystemMessage("Hello, this is "+this.Name+", the other ally speaking to you. Before, I've said "+response+ ". What do you think about that?]");
+                // Hier Sprechblase einblenden für ms Anzahl: 1000*0.008f*response.Length
+            }
+            */
 
             _matches = ExtractRelevantLines(response); // Split lines into tuples. Put command in first spot, args in second spot, keep only tuples with an allowed command
             string? richtext = "";

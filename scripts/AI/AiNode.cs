@@ -53,11 +53,11 @@ public partial class AiNode : Node2D
         if (IsActive)
         {
             visibleForAi.NameForAi = ObjectName;
-            visibleForAi.DescribtionForAi = ObjectDescription;
+            visibleForAi.DescriptionForAi = ObjectDescription;
 
             if (Interactable)
             {
-                visibleForAi.DescribtionForAi += " [HINT] " + ObjectHint + "[" + visibleForAi.NameForAi + "] [HINT END].";
+                visibleForAi.DescriptionForAi += " [HINT] " + ObjectHint + "[" + visibleForAi.NameForAi + "] [HINT END].";
                 if (!string.IsNullOrEmpty(CustomOverrideMessage)) // voreingestellte System message
                 {
                     GD.Print("custom override message");

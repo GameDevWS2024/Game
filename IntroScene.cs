@@ -34,9 +34,9 @@ public partial class IntroScene : Control
     // Camera positions for specific lines
     private readonly Dictionary<int, Vector2> _cameraPositions = new Dictionary<int, Vector2>
     {
-        { 7, new Vector2(5207, -4350) }, // Camera moves to position 1 on the 7th line
-		{ 9, new Vector2(0, 0) }         // Camera moves back to default on the 9th line
-	};
+        { 7, new Vector2(5800, -6300) }, // Camera moves to position 1 on the 7th line
+        { 9, new Vector2(0, 0) }         // Camera moves back to default on the 9th line
+    };
 
     // Typing effect variables
     private int _currentLineIndex = 0; // Index of the current dialog line

@@ -7,7 +7,7 @@
 [ext_resource type="Script" path="res://scripts/HealthBar.cs" id="6_1idkv"]
 [ext_resource type="Script" path="res://scripts/Interaction/Removeable.cs" id="7_2n21g"]
 [ext_resource type="Script" path="res://scripts/MotivationBar.cs" id="9_e11nf"]
-[ext_resource type="PackedScene" path="res://scenes/prefabs/inventory_ui.tscn" id="9_hl1go"]
+[ext_resource type="PackedScene" uid="uid://biyndqm5tbcwo" path="res://scenes/prefabs/inventory_ui.tscn" id="9_hl1go"]
 [ext_resource type="Script" path="res://scripts/Motivation.cs" id="10_sc05j"]
 
 [sub_resource type="Animation" id="Animation_nns60"]
@@ -99,6 +99,7 @@ simplify_path = true
 debug_enabled = true
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+visible = false
 scale = Vector2(1.675, 1.675)
 texture = ExtResource("2_ajp3g")
 hframes = 2

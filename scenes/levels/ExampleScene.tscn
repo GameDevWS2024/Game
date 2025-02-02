@@ -1,4 +1,4 @@
-[gd_scene load_steps=79 format=4 uid="uid://dfkwq6qwtxw25"]
+[gd_scene load_steps=83 format=4 uid="uid://dfkwq6qwtxw25"]
 
 [ext_resource type="Script" path="res://scripts/EnemyManager.cs" id="1_bmkfv"]
 [ext_resource type="Script" path="res://scripts/Map.cs" id="1_pa1ge"]

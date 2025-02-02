@@ -232,8 +232,7 @@ public partial class Ally : CharacterBody2D
             if (_returning)
             {
                 PointLight2D cl = _core.GetNode<PointLight2D>("CoreLight");
-                Vector2 targ = new Vector2(0, 500); // cl.GlobalPosition;
-                                                    // Target = core
+                Vector2 targ = new Vector2(0, 500);// cl.GlobalPosition; Target = core
                 PathFindingMovement.TargetPosition = _core.GlobalPosition;
                 GD.Print("Target position (should be CORE): " + PathFindingMovement.TargetPosition.ToString());
             }
@@ -408,8 +407,8 @@ public partial class Ally : CharacterBody2D
             "GOTO AND INTERACT",
             "GOTO",
             "INTERACT",
-			// "HARVEST",
-			"FOLLOW",
+            // "HARVEST",
+            "FOLLOW",
             "STOP"
         ];
 

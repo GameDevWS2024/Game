@@ -57,7 +57,6 @@ public partial class Map : Node2D
         if (_timeElapsed >= _allyHealthChangeIntervall)
         {
             List<Game.Scripts.Ally> allyGroup = GetTree().GetNodesInGroup("Entities").OfType<Ally>().ToList();
-            List<CombatAlly> combatAllyGroup = GetTree().GetNodesInGroup("Entities").OfType<CombatAlly>().ToList();
 
             foreach (Ally entity in allyGroup)
             {

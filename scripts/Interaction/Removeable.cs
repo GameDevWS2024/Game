@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 using Game.Scripts;
 using Game.Scripts.AI;
@@ -20,24 +22,9 @@ public partial class Removeable : Node
             }
         }
     }
-    public void Remove()
+    public async void Remove()
     {
         GD.Print("Removed something");
-        VisibleForAI visibleForAI = GetParent().GetNode<VisibleForAI>("VisibleForAI");
-        Godot.Collections.Array<Node> entityGroup = GetTree().GetNodesInGroup("Entities");
-        Chat? chat = null!;
-        foreach (Ally entity in entityGroup)
-        {
-            if (entity.Name.ToString().Contains('2'))
-            {
-                chat = entity.GetNode<Chat>("Ally2Cam/Ally2Chat");
-            }
-            else
-            {
-                chat = entity.GetNode<Chat>("Ally1Cam/Ally1Chat");
-            }
-            chat.AlreadySeen.Remove(visibleForAI);
-        }
         GetParent().CallDeferred(Node.MethodName.QueueFree);
     }
 }

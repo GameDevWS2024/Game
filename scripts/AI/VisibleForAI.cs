@@ -7,7 +7,7 @@ public partial class VisibleForAI : Node2D
 {
     public const string GroupName = "AiVisible";
     [Export] public string NameForAi = "";
-    [Export] public string DescribtionForAi = "";
+    [Export] public string DescriptionForAi = "";
 
     public override void _Ready()
     {
@@ -16,13 +16,10 @@ public partial class VisibleForAI : Node2D
 
     public override string ToString()
     {
-        if (Godot.GodotObject.IsInstanceIdValid(this.GetInstanceId()))
+        if (IsInstanceValid(this))
         {
-            return $"{NameForAi} at ({GlobalPosition.X:F0}, {GlobalPosition.Y:F0}): [Description] {DescribtionForAi}";
+            return $"{NameForAi} at ({GlobalPosition.X:F0}, {GlobalPosition.Y:F0}): [Description] {DescriptionForAi}";
         }
-        else
-        {
-            return "";
-        }
+        return "";
     }
 }

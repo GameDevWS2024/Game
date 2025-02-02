@@ -52,7 +52,7 @@ public partial class Inventory
         {
             return new Itemstack(Material.None);
         }
-        return Items[i];
+        return Items[i]!;
     }
 
     public bool FitItem(Itemstack stack)
@@ -218,6 +218,6 @@ public partial class Inventory
 
     public Itemstack[] GetItems()
     {
-        return Items;
+        return Items!;
     }
 }

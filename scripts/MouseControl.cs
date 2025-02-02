@@ -147,17 +147,17 @@ public partial class MouseControl : Control
     private void EntityGoto(Vector2 clickPosition)
     {
         /*
-        Tuple<CharacterBody2D, float> resultTuple = SearchNearestEntity(clickPosition);
-        CharacterBody2D nearestEntity = resultTuple.Item1;
-        float nearestDistance = resultTuple.Item2;
+		Tuple<CharacterBody2D, float> resultTuple = SearchNearestEntity(clickPosition);
+		CharacterBody2D nearestEntity = resultTuple.Item1;
+		float nearestDistance = resultTuple.Item2;
 
-        // select nearest entity and set coordinates visible
-        if (nearestDistance <= _clickRadius)
-        {
-            _richTextLabel.Visible = true;
-            _selectedEntityGoto = nearestEntity;
-        }
-        */
+		// select nearest entity and set coordinates visible
+		if (nearestDistance <= _clickRadius)
+		{
+			_richTextLabel.Visible = true;
+			_selectedEntityGoto = nearestEntity;
+		}
+		*/
         //if mouseclick was outside of defined radius
         if (_selectedEntityGoto != null)
         {

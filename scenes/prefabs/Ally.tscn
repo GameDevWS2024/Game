@@ -101,6 +101,7 @@ simplify_path = true
 debug_enabled = true
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+visible = false
 scale = Vector2(1.675, 1.675)
 texture = ExtResource("2_ajp3g")
 hframes = 2

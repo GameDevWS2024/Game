@@ -1,10 +1,10 @@
-[gd_scene load_steps=89 format=4 uid="uid://dfkwq6qwtxw25"]
+[gd_scene load_steps=95 format=4 uid="uid://dfkwq6qwtxw25"]
 
 [ext_resource type="Script" path="res://scripts/EnemyManager.cs" id="1_bmkfv"]
 [ext_resource type="Script" path="res://scripts/Map.cs" id="1_pa1ge"]
 [ext_resource type="PackedScene" uid="uid://dkcg0yrtwyo0k" path="res://scenes/prefabs/PointLight.tscn" id="3_0raeo"]
 [ext_resource type="Script" path="res://scripts/Chat.cs" id="3_m6i6e"]
-[ext_resource type="Texture2D" uid="uid://bawe2cri201la" path="res://assets/sprites/ScientistAlly.png" id="4_c4a3r"]
+[ext_resource type="Texture2D" uid="uid://b74yyhgy3rt5w" path="res://assets/sprites/ScientistAnimationSideways.png" id="4_aap2j"]
 [ext_resource type="Texture2D" uid="uid://cjvg134432gbl" path="res://assets/sprites/CoreWithGhost.png" id="6_3xn4a"]
 [ext_resource type="Script" path="res://scripts/AI/VisibleForAI.cs" id="6_7bcmx"]
 [ext_resource type="Texture2D" uid="uid://cdwyw32swyohh" path="res://assets/sprites/SoldierAnimationSideways.png" id="6_kjsil"]
@@ -64,6 +64,101 @@ corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
 corner_detail = 10
 
+[sub_resource type="Animation" id="Animation_6irgq"]
+resource_name = "Idle-Left"
+length = 0.8
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SpriteAlly1:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [0, 1]
+}
+
+[sub_resource type="Animation" id="Animation_4b4jo"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SpriteAlly1:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_bwtcn"]
+resource_name = "Walk-Left"
+length = 0.8
+loop_mode = 1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SpriteAlly1:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 2, 3, 4, 5, 6, 7, 8]
+}
+
+[sub_resource type="Animation" id="Animation_pvy2e"]
+resource_name = "Idle-Right"
+length = 0.8
+loop_mode = 1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SpriteAlly1:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [17, 16]
+}
+
+[sub_resource type="Animation" id="Animation_k0wix"]
+resource_name = "Walk-Right"
+length = 0.8
+loop_mode = 1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SpriteAlly1:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [17, 15, 14, 13, 12, 11, 10, 9]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_1rv3y"]
+_data = {
+"Idle-Left": SubResource("Animation_6irgq"),
+"Idle-Right": SubResource("Animation_pvy2e"),
+"RESET": SubResource("Animation_4b4jo"),
+"Walk-Left": SubResource("Animation_bwtcn"),
+"Walk-Right": SubResource("Animation_k0wix")
+}
+
 [sub_resource type="Theme" id="Theme_d0vdd"]
 default_font_size = 50
 
@@ -108,6 +203,24 @@ tracks/0/keys = {
 "values": [0, 1]
 }
 
+[sub_resource type="Animation" id="Animation_r15jj"]
+resource_name = "Idle-Right"
+length = 0.8
+loop_mode = 1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SpriteAlly2:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [17, 16]
+}
+
 [sub_resource type="Animation" id="Animation_eidq7"]
 length = 0.001
 tracks/0/type = "value"
@@ -139,24 +252,6 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
 "update": 1,
 "values": [0, 2, 3, 4, 5, 6, 7, 8]
-}
-
-[sub_resource type="Animation" id="Animation_r15jj"]
-resource_name = "Idle-Right"
-length = 0.8
-loop_mode = 1
-step = 0.1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("SpriteAlly2:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.4),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [17, 16]
 }
 
 [sub_resource type="Animation" id="Animation_f4su6"]
@@ -17228,7 +17323,8 @@ metadata/_edit_use_anchors_ = true
 
 [node name="SpriteAlly1" type="Sprite2D" parent="Ally"]
 scale = Vector2(3, 3)
-texture = ExtResource("4_c4a3r")
+texture = ExtResource("4_aap2j")
+hframes = 18
 
 [node name="VisibleForAI" type="Node2D" parent="Ally"]
 script = ExtResource("6_7bcmx")
@@ -17264,6 +17360,11 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_awhbh")
 bbcode_enabled = true
 fit_content = true
 metadata/_edit_use_anchors_ = true
+
+[node name="AnimationPlayer2" type="AnimationPlayer" parent="Ally"]
+libraries = {
+"": SubResource("AnimationLibrary_1rv3y")
+}
 
 [node name="Ally2" parent="." node_paths=PackedStringArray("_responseField", "_nameLabel", "Chat") groups=["navigation"] instance=ExtResource("6_l8h37")]
 position = Vector2(289, 2015)

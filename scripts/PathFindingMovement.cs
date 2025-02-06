@@ -14,14 +14,17 @@ public partial class PathFindingMovement : Node
     [Export] Sprite2D _sprite = null!;
 
     public Vector2 TargetPosition { get; set; }
-
+    private object _lastCollider = null; // Speichert den letzten Kollisionspartner
+    private bool _recentlyBumped = false; // Verhindert Dauersound
     private bool _reachedTarget;
     private int _currentTargetDistance;
+    private AudioStreamPlayer? _bumpSound = null!;
 
     public override void _Ready()
     {
         _currentTargetDistance = _minTargetDistance;
         this.CallDeferred("ActorSetup"); // Still good to defer setup
+        _bumpSound = GetTree().Root.GetNode<AudioStreamPlayer>("Node2D/AudioManager/bump_sound");
     }
 
     public async void ActorSetup()
@@ -60,7 +63,25 @@ public partial class PathFindingMovement : Node
             }
 
             _character.Velocity = newVel;
-            _character.MoveAndSlide();
+            KinematicCollision2D collision = _character.MoveAndCollide(newVel * (float)delta);
+        if (collision != null)
+        {
+            // Prüfen, ob der Kollisionspartner neu ist
+            if (collision.GetCollider() != _lastCollider)
+            {
+                _lastCollider = collision.GetCollider(); // Aktualisieren
+                _bumpSound.Play();
+                _recentlyBumped = true;
+            }
+        }
+        else
+        {
+            // Keine Kollision mehr, Zustand zurücksetzen
+            _lastCollider = null;
+            _recentlyBumped = false;
+        }
+
+        _character.Velocity = newVel;
         }
         else if (!_reachedTarget) // Only emit and set _reachedTarget once, when the condition is first met
         {

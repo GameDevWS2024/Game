@@ -27,6 +27,7 @@ public partial class AudioSwitch : Node2D
 
     public override void _PhysicsProcess(double delta)
     {
+        GD.Print("Allies in city " + AreAlliesInsideCity() + " " + _musicAlreadyPlaying);
         _areAlliesInsideCity = AreAlliesInsideCity();
 
         //GD.Print("ally inside city: " + _areAlliesInsideCity + "  creepy music playing: " + _musicAlreadyPlaying);
@@ -35,7 +36,7 @@ public partial class AudioSwitch : Node2D
             FadeMusic(MusicPlayer1, MusicPlayer2);
             _musicAlreadyPlaying = true;
         }
-        else if (_areAlliesInsideCity && _musicAlreadyPlaying)
+        else if (!_areAlliesInsideCity && _musicAlreadyPlaying)
         {
             _musicAlreadyPlaying = false;
             FadeMusic(MusicPlayer2, MusicPlayer1);

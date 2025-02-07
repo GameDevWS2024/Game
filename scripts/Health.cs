@@ -48,7 +48,8 @@ public partial class Health : Node
         GD.Print(Amount);
 
         //Sound part
-        if(_ally.Name == "Ally" && _buttonControl.CurrentCamera == 1 || _ally.Name == "Ally2" && _buttonControl.CurrentCamera == 2) {
+        if (_ally.Name == "Ally" && _buttonControl.CurrentCamera == 1 || _ally.Name == "Ally2" && _buttonControl.CurrentCamera == 2)
+        {
             _damageSound.Play();
         }
 

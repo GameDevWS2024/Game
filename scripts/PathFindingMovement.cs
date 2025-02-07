@@ -1,5 +1,6 @@
-using Godot;
 using Game.Scenes.Levels;
+
+using Godot;
 
 public partial class PathFindingMovement : Node
 {
@@ -67,26 +68,27 @@ public partial class PathFindingMovement : Node
 
             _character.Velocity = newVel;
             KinematicCollision2D collision = _character.MoveAndCollide(newVel * (float)delta);
-        if (collision != null)
-        {
-            // Prüfen, ob der Kollisionspartner neu ist
-            if (collision.GetCollider() != _lastCollider)
+            if (collision != null)
             {
-            if(_character.Name == "Ally" && _buttonControl.CurrentCamera == 1 || _character.Name == "Ally2" && _buttonControl.CurrentCamera == 2) {
-                _lastCollider = collision.GetCollider(); // Aktualisieren
-                _bumpSound.Play();
-                _recentlyBumped = true;
+                // Prüfen, ob der Kollisionspartner neu ist
+                if (collision.GetCollider() != _lastCollider)
+                {
+                    if (_character.Name == "Ally" && _buttonControl.CurrentCamera == 1 || _character.Name == "Ally2" && _buttonControl.CurrentCamera == 2)
+                    {
+                        _lastCollider = collision.GetCollider(); // Aktualisieren
+                        _bumpSound.Play();
+                        _recentlyBumped = true;
+                    }
+                }
             }
+            else
+            {
+                // Keine Kollision mehr, Zustand zurücksetzen
+                _lastCollider = null;
+                _recentlyBumped = false;
             }
-        }
-        else
-        {
-            // Keine Kollision mehr, Zustand zurücksetzen
-            _lastCollider = null;
-            _recentlyBumped = false;
-        }
 
-        _character.Velocity = newVel;
+            _character.Velocity = newVel;
         }
         else if (!_reachedTarget) // Only emit and set _reachedTarget once, when the condition is first met
         {

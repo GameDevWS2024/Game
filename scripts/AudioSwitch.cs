@@ -1,7 +1,8 @@
+using System;
+
 using Game.Scripts;
 
 using Godot;
-using System;
 
 public partial class AudioSwitch : Node2D
 {
@@ -25,31 +26,39 @@ public partial class AudioSwitch : Node2D
 
     public override void _PhysicsProcess(double delta)
     {
-        if(areAlliesInsideCity() && !_musicAlreadyPlaying) {
+        if (areAlliesInsideCity() && !_musicAlreadyPlaying)
+        {
             FadeMusic(MusicPlayer1, MusicPlayer2);
             _musicAlreadyPlaying = true;
         }
-        else if(!areAlliesInsideCity() && _musicAlreadyPlaying) {
+        else if (!areAlliesInsideCity() && _musicAlreadyPlaying)
+        {
             _musicAlreadyPlaying = false;
             FadeMusic(MusicPlayer2, MusicPlayer1);
         }
     }
 
-    public bool areAlliesInsideCity(){
-         Vector2 distance1 = _ally1.GlobalPosition - this.GlobalPosition;
-         float distanceLength1 = distance1.Length();
-         Vector2 distance2 = _ally2.GlobalPosition - this.GlobalPosition;
-         float distanceLength2 = distance2.Length();
-         
-         if(distanceLength1 < CityRadius || distanceLength2 < CityRadius){
+    public bool areAlliesInsideCity()
+    {
+        Vector2 distance1 = _ally1.GlobalPosition - this.GlobalPosition;
+        float distanceLength1 = distance1.Length();
+        Vector2 distance2 = _ally2.GlobalPosition - this.GlobalPosition;
+        float distanceLength2 = distance2.Length();
+
+        if (distanceLength1 < CityRadius || distanceLength2 < CityRadius)
+        {
             return true;
-         }
-         return false;   
+        }
+        return false;
     }
- 
+
     private async void FadeMusic(AudioStreamPlayer fadeOutPlayer, AudioStreamPlayer fadeInPlayer)
     {
-        if (_isFading) return;
+        if (_isFading)
+        {
+            return;
+        }
+
         _isFading = true;
 
         float initialVolume = fadeOutPlayer.VolumeDb;

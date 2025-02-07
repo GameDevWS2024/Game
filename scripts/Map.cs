@@ -66,7 +66,7 @@ public partial class Map : Node2D
                     //if ally is in darkness, its health is reduced by 1 point per Intervals
                     case Ally.AllyState.Darkness:
                         hp.Damage(_darknessCircleDamage);
-                        
+
                         break;
                     //if ally is in small circle, it gets 3 health points per Interval
                     case Ally.AllyState.SmallCircle:

@@ -17331,12 +17331,21 @@ position = Vector2(2831, 2682)
 [node name="Grave Runeholder Sign" parent="Signs" instance=ExtResource("13_05imv")]
 position = Vector2(3036, 2466)
 ObjectName = "Sign"
+ObjectDescription = "On it there is a description: there is a grave at (1166, 2288) and a rune at (3300,1850)"
 Interactable = false
 RemovedAfter = false
 
 [node name="Runeholder Haunted Forest Village Sign" parent="Signs" instance=ExtResource("13_05imv")]
 position = Vector2(3678, 1016)
 ObjectName = "Sign"
+ObjectDescription = "A sign potinting toward a village at (8500, -1000), you get the feeling that the village will be important (the way towards the right)"
+Interactable = false
+RemovedAfter = false
+
+[node name="Space Port Sign" parent="Signs" instance=ExtResource("13_05imv")]
+position = Vector2(-1952, 1989)
+ObjectName = "Sign"
+ObjectDescription = "A sign pointing toward the spaceport at (-3050, 2000)"
 Interactable = false
 RemovedAfter = false
 
@@ -17388,8 +17397,9 @@ position = Vector2(8649, -1315)
 scale = Vector2(3, 3)
 
 [node name="Big House" parent="Abandoned Village/HauntedForestVillage" instance=ExtResource("13_05imv")]
-position = Vector2(-16.6665, -339.667)
+position = Vector2(-16.0002, -339.333)
 ObjectName = "Big House"
+ObjectDescription = "The biggest house in the village. It doesn't seem like anyone lived there, but more like the ghosts gathered there"
 Interactable = false
 RemovedAfter = false
 
@@ -17419,17 +17429,11 @@ scale = Vector2(2, 2)
 tile_map_data = PackedByteArray("AACY/zoAAAAHAA8AAACY/zsAAAAHABAAAACY/zwAAAAHABEAAACY/z0AAAAHABIAAACY/z4AAAAHABMAAACZ/zoAAAAIAA8AAACZ/zsAAAAIABAAAACZ/zwAAAAIABEAAACZ/z0AAAAIABIAAACZ/z4AAAAIABMAAACa/zkAAAAJAA4AAACa/zoAAAAJAA8AAACa/zsAAAAJABAAAACa/zwAAAAJABEAAACa/z0AAAAJABIAAACa/z4AAAAJABMAAACb/zcAAAAKAAwAAACb/zgAAAAKAA0AAACb/zkAAAAKAA4AAACb/zoAAAAKAA8AAACb/zsAAAAKABAAAACb/zwAAAAKABEAAACb/z0AAAAKABIAAACb/z4AAAAKABMAAACc/zcAAAALAAwAAACc/zgAAAALAA0AAACc/zkAAAALAA4AAACc/zoAAAALAA8AAACc/zsAAAALABAAAACc/zwAAAALABEAAACc/z0AAAALABIAAACc/z4AAAALABMAAACd/zYAAAAMAAsAAACd/zcAAAAMAAwAAACd/zgAAAAMAA0AAACd/zkAAAAMAA4AAACd/zoAAAAMAA8AAACd/zsAAAAMABAAAACd/zwAAAAMABEAAACd/z0AAAAMABIAAACd/z4AAAAMABMAAACd/z8AAAAMABQAAACe/zIAAAANAAcAAACe/zMAAAANAAgAAACe/zQAAAANAAkAAACe/zUAAAANAAoAAACe/zYAAAANAAsAAACe/zcAAAANAAwAAACe/zgAAAANAA0AAACe/zkAAAANAA4AAACe/zoAAAANAA8AAACe/zsAAAANABAAAACe/zwAAAANABEAAACe/z0AAAANABIAAACe/z4AAAANABMAAACe/z8AAAANABQAAACe/0AAAAANABUAAACe/0EAAAANABYAAACf/zEAAAAOAAYAAACf/zIAAAAOAAcAAACf/zMAAAAOAAgAAACf/zQAAAAOAAkAAACf/zUAAAAOAAoAAACf/zYAAAAOAAsAAACf/zcAAAAOAAwAAACf/zgAAAAOAA0AAACf/zkAAAAOAA4AAACf/zoAAAAOAA8AAACf/zsAAAAOABAAAACf/zwAAAAOABEAAACf/z0AAAAOABIAAACf/z4AAAAOABMAAACf/z8AAAAOABQAAACf/0AAAAAOABUAAACf/0EAAAAOABYAAACf/0IAAAAOABcAAACf/0MAAAAOABgAAACg/zEAAAAPAAYAAACg/zIAAAAPAAcAAACg/zMAAAAPAAgAAACg/zQAAAAPAAkAAACg/zUAAAAPAAoAAACg/zYAAAAPAAsAAACg/zcAAAAPAAwAAACg/zgAAAAPAA0AAACg/zkAAAAPAA4AAACg/zoAAAAPAA8AAACg/zsAAAAPABAAAACg/zwAAAAPABEAAACg/z0AAAAPABIAAACg/z4AAAAPABMAAACg/z8AAAAPABQAAACg/0AAAAAPABUAAACg/0EAAAAPABYAAACg/0IAAAAPABcAAACg/0MAAAAPABgAAACh/zEAAAAQAAYAAACh/zIAAAAQAAcAAACh/zMAAAAQAAgAAACh/zQAAAAQAAkAAACh/zUAAAAQAAoAAACh/zYAAAAQAAsAAACh/zcAAAAQAAwAAACh/zgAAAAQAA0AAACh/zkAAAAQAA4AAACh/zoAAAAQAA8AAACh/zsAAAAQABAAAACh/zwAAAAQABEAAACh/z0AAAAQABIAAACh/z4AAAAQABMAAACh/z8AAAAQABQAAACh/0AAAAAQABUAAACh/0EAAAAQABYAAACh/0IAAAAQABcAAACh/0MAAAAQABgAAACi/zIAAAARAAcAAACi/zMAAAARAAgAAACi/zQAAAARAAkAAACi/zUAAAARAAoAAACi/zYAAAARAAsAAACi/zcAAAARAAwAAACi/zgAAAARAA0AAACi/zkAAAARAA4AAACi/zoAAAARAA8AAACi/zsAAAARABAAAACi/zwAAAARABEAAACi/z0AAAARABIAAACi/z4AAAARABMAAACi/z8AAAARABQAAACi/0AAAAARABUAAACi/0EAAAARABYAAACi/0IAAAARABcAAACj/zYAAAASAAsAAACj/zcAAAASAAwAAACj/zgAAAASAA0AAACj/zkAAAASAA4AAACj/zoAAAASAA8AAACj/zsAAAASABAAAACj/zwAAAASABEAAACj/z0AAAASABIAAACj/z4AAAASABMAAACj/z8AAAASABQAAACk/zcAAAATAAwAAACk/zgAAAATAA0AAACk/zkAAAATAA4AAACk/zoAAAATAA8AAACk/zsAAAATABAAAACk/zwAAAATABEAAACk/z0AAAATABIAAACk/z4AAAATABMAAACl/zcAAAAUAAwAAACl/zgAAAAUAA0AAACl/zkAAAAUAA4AAACl/zoAAAAUAA8AAACl/zsAAAAUABAAAACl/zwAAAAUABEAAACl/z0AAAAUABIAAACl/z4AAAAUABMAAACm/zkAAAAVAA4AAACm/zoAAAAVAA8AAACm/zsAAAAVABAAAACm/z0AAAAVABIAAACn/zoAAAAWAA8AAACn/zsAAAAWABAAAACn/zwAAAAWABEAAACn/z0AAAAWABIAAACn/z4AAAAWABMAAACo/zoAAAAXAA8AAACo/zsAAAAXABAAAACo/zwAAAAXABEAAACo/z0AAAAXABIAAACo/z4AAAAXABMAAAA=")
 tile_set = SubResource("TileSet_wfm3d")
 
-[node name="Signs" type="Node2D" parent="Spaceport"]
-
-[node name="Space Port Sign" parent="Spaceport/Signs" instance=ExtResource("13_05imv")]
-position = Vector2(-1952, 1989)
-ObjectName = "Sign"
-Interactable = false
-RemovedAfter = false
-
 [node name="AiNode" parent="Spaceport" instance=ExtResource("13_05imv")]
-position = Vector2(-3046, 1587)
+position = Vector2(-3049, 1957)
 scale = Vector2(0.2, 0.2)
+ObjectName = "Spaceport"
+ObjectDescription = "A lone remaining Spaceship in an empty field. It seems that the shadow creatures destroyed the machinery before it could fly away. It doesn't seem important right now"
 
 [node name="TorchOld" type="Node2D" parent="."]
 position = Vector2(5538, -6212)
@@ -17450,6 +17454,9 @@ NameForAi = "Torch"
 
 [node name="Torch" parent="." instance=ExtResource("13_05imv")]
 position = Vector2(5631, -5569)
+ObjectName = "Torch"
+ObjectDescription = "An unlit Torch, engraved with ceremonial runes. It seems to important to just be burned, maybe it functions differently then a regular torch"
+AddedMaterial = 7
 
 [node name="AudioManager" type="Node" parent="." node_paths=PackedStringArray("_menuMusic", "_gameMusic", "_gameOverMusic")]
 script = ExtResource("25_fif0r")
@@ -17953,21 +17960,6 @@ shape = SubResource("RectangleShape2D_ak1im")
 position = Vector2(153.5, -561.5)
 shape = SubResource("RectangleShape2D_ak1im")
 
-[node name="Grave" parent="Landscape/Map-Objects" instance=ExtResource("13_05imv")]
-position = Vector2(1116, 2390)
-ObjectName = "Grave"
-Interactable = false
-RemovedAfter = false
-
-[node name="StaticBody Grave" type="StaticBody2D" parent="Landscape/Map-Objects/Grave"]
-position = Vector2(3, 3)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Landscape/Map-Objects/Grave/StaticBody Grave"]
-z_index = -4
-position = Vector2(5.5, 26)
-scale = Vector2(10, 10)
-shape = SubResource("RectangleShape2D_xdi6d")
-
 [node name="Worldobjects" type="StaticBody2D" parent="Landscape/Map-Objects"]
 z_index = 1
 
@@ -18028,6 +18020,15 @@ polygon = PackedVector2Array(3560, 3402, 3565, 2865, 3574, 2836, 3608, 2836, 360
 [node name="CollisionPolygon2D4" type="CollisionPolygon2D" parent="Landscape/Map-Objects/Worldobjects"]
 polygon = PackedVector2Array(7565, 1897, 7550, 1922, 7501, 2007, 7491, 2035, 7478, 2113, 7499, 2152, 7609, 2234, 7689, 2254, 7781, 2253, 7845, 2240, 7881, 2201, 7868, 2169, 7856, 2104, 7878, 2071, 7897, 2049, 7874, 2002, 7824, 1943, 7746, 1921, 7638, 1922, 7574, 1891, 7555, 1901)
 
+[node name="StaticBody Grave" type="StaticBody2D" parent="Landscape/Map-Objects"]
+position = Vector2(1119, 2393)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Landscape/Map-Objects/StaticBody Grave"]
+z_index = -4
+position = Vector2(5.5, 26)
+scale = Vector2(10, 10)
+shape = SubResource("RectangleShape2D_xdi6d")
+
 [node name="structure" type="TileMapLayer" parent="Landscape"]
 z_index = 1
 position = Vector2(-1515, 448)
@@ -18053,6 +18054,7 @@ tile_set = SubResource("TileSet_almot")
 [node name="Notebook" parent="." instance=ExtResource("13_05imv")]
 position = Vector2(-1431, -219)
 ObjectName = "Notebook"
+ObjectDescription = "There is a Grave. Onit there lies a Notebook which says there is a Spaceport at (-1950, 2000). This Notebook contains details on how to loot metals from there"
 
 [node name="Notebook_sprite" type="Sprite2D" parent="Notebook"]
 z_index = 150
@@ -18063,5 +18065,13 @@ texture = ExtResource("20_lgqcj")
 [node name="Rune Holder" parent="." instance=ExtResource("13_05imv")]
 position = Vector2(695, -636)
 ObjectName = "Rune Holder"
+ObjectDescription = "There is a Code needed"
+Interactable = false
+RemovedAfter = false
+
+[node name="AiNode" parent="." instance=ExtResource("13_05imv")]
+position = Vector2(128, -34)
+ObjectName = "Statue"
+ObjectDescription = "A stone statue errected by the light spirits. the figure seems peaceful and happy but now huge gashes run over the figure, left behind by shadow creatures"
 Interactable = false
 RemovedAfter = false

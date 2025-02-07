@@ -15,12 +15,14 @@ namespace Game.Scripts.Interaction;
 public partial class ItemAdder : Node2D
 {
     [Export] public String? ItemToAddName { get; set; }
+    private AudioStreamPlayer _pickUpSound = null!;
     public Material ItemToAdd { get; set; }
     [Export] public int Amount { get; set; }
     [Export] public bool ListenToInteract { get; set; } = true;
 
     public override void _Ready()
     {
+        _pickUpSound = GetTree().Root.GetNode<AudioStreamPlayer>("Node2D/AudioManager/new_item_sound");
         if (Enum.TryParse(ItemToAddName, out Material parsedMaterial))
         {
             ItemToAdd = parsedMaterial;
@@ -66,5 +68,6 @@ public partial class ItemAdder : Node2D
             }
         }
         nearestEntity.SsInventory.AddItem(new Itemstack(ItemToAdd, Amount));
+        _pickUpSound.Play();
     }
 }

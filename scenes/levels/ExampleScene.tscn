@@ -1,4 +1,4 @@
-[gd_scene load_steps=83 format=4 uid="uid://dfkwq6qwtxw25"]
+[gd_scene load_steps=89 format=4 uid="uid://dfkwq6qwtxw25"]
 
 [ext_resource type="Script" path="res://scripts/EnemyManager.cs" id="1_bmkfv"]
 [ext_resource type="Script" path="res://scripts/Map.cs" id="1_pa1ge"]
@@ -21,7 +21,9 @@
 [ext_resource type="Texture2D" uid="uid://cmooytb3c0mki" path="res://assets/sprites/Pasted image.png" id="20_lgqcj"]
 [ext_resource type="Script" path="res://scripts/Interaction/ItemAdder.cs" id="21_2au4o"]
 [ext_resource type="TileSet" uid="uid://b57mlmhoqye7c" path="res://assets/hauntedForestVillage/Interior.tres" id="23_6wlm7"]
+[ext_resource type="Script" path="res://scripts/WalkOverSound.cs" id="23_jg4u6"]
 [ext_resource type="TileSet" uid="uid://c2meivnk57unc" path="res://assets/hauntedForestVillage/HauntedForestVillage.tres" id="24_igx6k"]
+[ext_resource type="Script" path="res://scripts/AudioSwitch.cs" id="24_sabha"]
 [ext_resource type="Script" path="res://scripts/Interaction/ShowWhileInRadius.cs" id="25_0y114"]
 [ext_resource type="Script" path="res://scenes/levels/AudioManager.cs" id="25_fif0r"]
 [ext_resource type="PackedScene" uid="uid://cg2nij0k76my6" path="res://scenes/levels/HauntedForest/HauntedForestVillage.tscn" id="25_lc565"]
@@ -33,10 +35,14 @@
 [ext_resource type="AudioStream" uid="uid://ckepkjqosl80g" path="res://assets/audio/gameOver.mp3" id="29_jcr58"]
 [ext_resource type="AudioStream" uid="uid://dpq5uuhy4kxlo" path="res://assets/audio/victoryScreen.mp3" id="30_4ukal"]
 [ext_resource type="Script" path="res://scenes/levels/ButtonControl.cs" id="30_pwpih"]
+[ext_resource type="AudioStream" uid="uid://ccjwwjvfktune" path="res://assets/audio/Damage.mp3" id="31_0ksbt"]
 [ext_resource type="ButtonGroup" uid="uid://canjpaliv4kso" path="res://assets/resources/chat_button_group.tres" id="31_rop2t"]
+[ext_resource type="AudioStream" uid="uid://u1eq84kjmd3i" path="res://assets/audio/Bump.mp3" id="32_2bq74"]
 [ext_resource type="PackedScene" uid="uid://cp62xh0okgxnf" path="res://scenes/levels/intro_scene.tscn" id="32_bdur0"]
 [ext_resource type="Texture2D" uid="uid://bj4mic7w6ckhv" path="res://assets/tilemaps/Grassland Tileset.png" id="33_xri4x"]
+[ext_resource type="AudioStream" uid="uid://dkxtx430h7ncd" path="res://assets/audio/Door.mp3" id="33_yq2va"]
 [ext_resource type="Texture2D" uid="uid://xvkkbijsncdh" path="res://assets/obstacles/Tree Group.png" id="34_aq6iy"]
+[ext_resource type="AudioStream" uid="uid://nosimi3kpilu" path="res://assets/audio/New_item.mp3" id="36_ue3tg"]
 [ext_resource type="Texture2D" uid="uid://ic4l7t2su0vd" path="res://assets/hauntedForestVillage/TilesetAbandondedVillage.png" id="37_iew8o"]
 [ext_resource type="Texture2D" uid="uid://d1yvwy2drdwqd" path="res://assets/tilemaps/Reg tree wall.png" id="38_dsao3"]
 [ext_resource type="Texture2D" uid="uid://cn0pcaddy8lcv" path="res://assets/tilemaps/TX Struct.png" id="39_jhhw6"]
@@ -17095,7 +17101,7 @@ _darknessCircleDamage = 1
 _allyHealthChangeIntervall = 5.0
 
 [node name="Ally" parent="." node_paths=PackedStringArray("_responseField", "_nameLabel", "Chat") instance=ExtResource("6_l8h37")]
-position = Vector2(617, 2107)
+position = Vector2(415, 1636)
 _responseField = NodePath("ResponseField")
 _nameLabel = NodePath("Label")
 _visionRadius = 150
@@ -17213,7 +17219,6 @@ texture = ExtResource("6_0gver")
 [node name="VisibleForAI" type="Node2D" parent="Ally2"]
 script = ExtResource("6_7bcmx")
 NameForAi = "Jones"
-DescribtionForAi = "The ally Jones"
 
 [node name="Label" type="Label" parent="Ally2"]
 offset_left = -21.0
@@ -17348,7 +17353,6 @@ Amount = 1
 [node name="VisibleForAI" type="Node2D" parent="Notebook"]
 script = ExtResource("6_7bcmx")
 NameForAi = "Notebook"
-DescribtionForAi = "there is a Spaceport at (-1950, 2000). This Notebook contains details on how to loot metals from there."
 
 [node name="Signs" type="Node" parent="."]
 
@@ -17357,20 +17361,17 @@ position = Vector2(3037, 2438)
 gizmo_extents = 25.4
 script = ExtResource("6_7bcmx")
 NameForAi = "Sign"
-DescribtionForAi = "On it there is a description: there is a grave at (1166, 2288) and a rune at (3300,1850)"
 
 [node name="Runeholder Haunted Forest Village" type="Marker2D" parent="Signs"]
 position = Vector2(3668, 967)
 gizmo_extents = 25.4
 script = ExtResource("6_7bcmx")
 NameForAi = "Sign"
-DescribtionForAi = "On it there is a description: there is a haunted forrest village at (8500, -1000) (the way towards the right)"
 
 [node name="Rune Holder" type="Marker2D" parent="."]
 position = Vector2(697, -635)
 script = ExtResource("6_7bcmx")
 NameForAi = "Rune Holder"
-DescribtionForAi = "There is a Code needed"
 
 [node name="EnemyManager" type="Node2D" parent="."]
 position = Vector2(5956, -4450)
@@ -17424,7 +17425,6 @@ position = Vector2(-16.3333, -339.333)
 scale = Vector2(0.333333, 0.333333)
 script = ExtResource("6_7bcmx")
 NameForAi = "Big house"
-DescribtionForAi = "could be important"
 
 [node name="Sprite2D" type="Sprite2D" parent="Abandoned Village/HauntedForestVillage/Big House"]
 z_index = 4
@@ -17439,7 +17439,21 @@ Radius = 500
 position = Vector2(-8.99999, -122.001)
 scale = Vector2(2.75, 5)
 
+[node name="Door" type="Node2D" parent="Abandoned Village/HauntedForestVillage/Big House" node_paths=PackedStringArray("WalkingObject", "WalkingObject2", "Sound")]
+script = ExtResource("23_jg4u6")
+InsideRadius = 10.0
+WalkingObject = NodePath("../../../../Ally")
+WalkingObject2 = NodePath("../../../../Ally2")
+Sound = NodePath("../../../../AudioManager/door_sound")
+
 [node name="AiNode" parent="Abandoned Village/HauntedForestVillage" instance=ExtResource("13_05imv")]
+
+[node name="AudioSwitch" type="Node2D" parent="Abandoned Village/HauntedForestVillage" node_paths=PackedStringArray("MusicPlayer1", "MusicPlayer2")]
+z_index = 1
+position = Vector2(3.33331, -85)
+script = ExtResource("24_sabha")
+MusicPlayer1 = NodePath("../../../AudioManager/game_music")
+MusicPlayer2 = NodePath("../../../AudioManager/creepy_music")
 
 [node name="Spaceport" type="Node" parent="."]
 
@@ -17456,7 +17470,6 @@ tile_set = SubResource("TileSet_wfm3d")
 position = Vector2(-1952, 1987)
 script = ExtResource("6_7bcmx")
 NameForAi = "Sign"
-DescribtionForAi = "Spaceport at (-3050, 2000)"
 
 [node name="AiNode" parent="Spaceport" instance=ExtResource("13_05imv")]
 position = Vector2(-3046, 1587)
@@ -17478,10 +17491,12 @@ script = ExtResource("7_ji1nn")
 position = Vector2(13284, -7783)
 script = ExtResource("6_7bcmx")
 NameForAi = "Torch"
-DescribtionForAi = "It's not lighted yet. Ask the commander if he wants to pick it up. (COMMAND: INTERACT). Ask the commander how he intends to light this torch."
 
 [node name="Torch" parent="." instance=ExtResource("13_05imv")]
 position = Vector2(5631, -5569)
+ObjectName = "Torch"
+ObjectDescription = "You can light it. But where?"
+AddedMaterial = 7
 
 [node name="AudioManager" type="Node" parent="." node_paths=PackedStringArray("_menuMusic", "_gameMusic", "_gameOverMusic")]
 script = ExtResource("25_fif0r")
@@ -17494,15 +17509,29 @@ stream = ExtResource("26_rqvqj")
 
 [node name="game_music" type="AudioStreamPlayer" parent="AudioManager"]
 stream = ExtResource("27_n56s6")
+volume_db = -20.613
 
 [node name="intro_music" type="AudioStreamPlayer" parent="AudioManager"]
 stream = ExtResource("28_u8gsi")
+volume_db = -20.036
 
 [node name="game_over" type="AudioStreamPlayer" parent="AudioManager"]
 stream = ExtResource("29_jcr58")
 
 [node name="victory" type="AudioStreamPlayer" parent="AudioManager"]
 stream = ExtResource("30_4ukal")
+
+[node name="damage_sound" type="AudioStreamPlayer" parent="AudioManager"]
+stream = ExtResource("31_0ksbt")
+
+[node name="bump_sound" type="AudioStreamPlayer" parent="AudioManager"]
+stream = ExtResource("32_2bq74")
+
+[node name="door_sound" type="AudioStreamPlayer" parent="AudioManager"]
+stream = ExtResource("33_yq2va")
+
+[node name="new_item_sound" type="AudioStreamPlayer" parent="AudioManager"]
+stream = ExtResource("36_ue3tg")
 
 [node name="UI" type="Control" parent="." node_paths=PackedStringArray("_camera1", "_camera2", "_ally1Chat", "_ally2Chat", "_ally1", "_ally2", "_buttonAlly1", "_buttonAlly2", "_ally1ResponseField", "_ally2ResponseField")]
 layout_mode = 3

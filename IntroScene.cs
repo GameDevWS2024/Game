@@ -52,9 +52,11 @@ public partial class IntroScene : Control
     private Timer? _shakeTimer; // Timer for controlling camera shake
     private int _shakeDuration = 30; // Number of shake movements
     private float _shakeIntensity = 50.0f; // Intensity of the shake
+    private AudioStreamPlayer _introMusic = null!;
 
     public override void _Ready()
     {
+        _introMusic = GetParent().GetNode<AudioStreamPlayer>("AudioManager/intro_music");
         _mainCamera = _ally.GetNode<Camera2D>("Ally1Cam");
 
         // Szene überspringen, wenn sie deaktiviert ist
@@ -109,6 +111,8 @@ public partial class IntroScene : Control
 
         // Pause the game initially
         GetTree().Paused = true;
+
+        _introMusic.Play();
 
         // Display the first line of dialog
         ShowCurrentLine();
@@ -264,6 +268,7 @@ public partial class IntroScene : Control
 
         // Resume the game
         GetTree().Paused = false;
+        _introMusic.Stop();
     }
 
     private void SetBlackoutAlpha(float alpha)

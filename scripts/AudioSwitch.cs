@@ -11,6 +11,7 @@ public partial class AudioSwitch : Node2D
     [Export] public float FadeDuration = 2.0f;
     [Export] public float CityRadius = 3000f;
 
+    private bool _areAlliesInsideCity = false;
     private bool _isFading = false;
     private bool _isInside = false;
     private Ally _ally1 = null!;
@@ -26,19 +27,22 @@ public partial class AudioSwitch : Node2D
 
     public override void _PhysicsProcess(double delta)
     {
-        if (areAlliesInsideCity() && !_musicAlreadyPlaying)
+        _areAlliesInsideCity = AreAlliesInsideCity();
+
+        //GD.Print("ally inside city: " + _areAlliesInsideCity + "  creepy music playing: " + _musicAlreadyPlaying);
+        if (_areAlliesInsideCity && !_musicAlreadyPlaying)
         {
             FadeMusic(MusicPlayer1, MusicPlayer2);
             _musicAlreadyPlaying = true;
         }
-        else if (!areAlliesInsideCity() && _musicAlreadyPlaying)
+        else if (_areAlliesInsideCity && _musicAlreadyPlaying)
         {
             _musicAlreadyPlaying = false;
             FadeMusic(MusicPlayer2, MusicPlayer1);
         }
     }
 
-    public bool areAlliesInsideCity()
+    public bool AreAlliesInsideCity()
     {
         Vector2 distance1 = _ally1.GlobalPosition - this.GlobalPosition;
         float distanceLength1 = distance1.Length();

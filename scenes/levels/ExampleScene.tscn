@@ -1,4 +1,4 @@
-[gd_scene load_steps=88 format=4 uid="uid://dfkwq6qwtxw25"]
+[gd_scene load_steps=89 format=4 uid="uid://dfkwq6qwtxw25"]
 
 [ext_resource type="Script" path="res://scripts/EnemyManager.cs" id="1_bmkfv"]
 [ext_resource type="Script" path="res://scripts/Map.cs" id="1_pa1ge"]
@@ -42,6 +42,7 @@
 [ext_resource type="Texture2D" uid="uid://bj4mic7w6ckhv" path="res://assets/tilemaps/Grassland Tileset.png" id="33_xri4x"]
 [ext_resource type="AudioStream" uid="uid://dkxtx430h7ncd" path="res://assets/audio/Door.mp3" id="33_yq2va"]
 [ext_resource type="Texture2D" uid="uid://xvkkbijsncdh" path="res://assets/obstacles/Tree Group.png" id="34_aq6iy"]
+[ext_resource type="AudioStream" uid="uid://nosimi3kpilu" path="res://assets/audio/New_item.mp3" id="36_ue3tg"]
 [ext_resource type="Texture2D" uid="uid://ic4l7t2su0vd" path="res://assets/hauntedForestVillage/TilesetAbandondedVillage.png" id="37_iew8o"]
 [ext_resource type="Texture2D" uid="uid://d1yvwy2drdwqd" path="res://assets/tilemaps/Reg tree wall.png" id="38_dsao3"]
 [ext_resource type="Texture2D" uid="uid://cn0pcaddy8lcv" path="res://assets/tilemaps/TX Struct.png" id="39_jhhw6"]
@@ -17100,7 +17101,7 @@ _darknessCircleDamage = 1
 _allyHealthChangeIntervall = 5.0
 
 [node name="Ally" parent="." node_paths=PackedStringArray("_responseField", "_nameLabel", "Chat") instance=ExtResource("6_l8h37")]
-position = Vector2(4525, -2916)
+position = Vector2(415, 1636)
 _responseField = NodePath("ResponseField")
 _nameLabel = NodePath("Label")
 _visionRadius = 150
@@ -17529,6 +17530,9 @@ stream = ExtResource("32_2bq74")
 [node name="door_sound" type="AudioStreamPlayer" parent="AudioManager"]
 stream = ExtResource("33_yq2va")
 
+[node name="new_item_sound" type="AudioStreamPlayer" parent="AudioManager"]
+stream = ExtResource("36_ue3tg")
+
 [node name="UI" type="Control" parent="." node_paths=PackedStringArray("_camera1", "_camera2", "_ally1Chat", "_ally2Chat", "_ally1", "_ally2", "_buttonAlly1", "_buttonAlly2", "_ally1ResponseField", "_ally2ResponseField")]
 layout_mode = 3
 anchors_preset = 12
@@ -17587,7 +17591,6 @@ button_group = ExtResource("31_rop2t")
 text = "Ally 1"
 
 [node name="IntroScene" parent="." node_paths=PackedStringArray("_ally") instance=ExtResource("32_bdur0")]
-visible = false
 offset_left = -633.0
 offset_top = 1955.0
 offset_right = 1457.0

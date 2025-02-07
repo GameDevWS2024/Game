@@ -1,4 +1,5 @@
 using Godot;
+using Game.Scenes.Levels;
 
 public partial class PathFindingMovement : Node
 {
@@ -19,12 +20,14 @@ public partial class PathFindingMovement : Node
     private bool _reachedTarget;
     private int _currentTargetDistance;
     private AudioStreamPlayer? _bumpSound = null!;
+    private ButtonControl _buttonControl = null!;
 
     public override void _Ready()
     {
         _currentTargetDistance = _minTargetDistance;
         this.CallDeferred("ActorSetup"); // Still good to defer setup
         _bumpSound = GetTree().Root.GetNode<AudioStreamPlayer>("Node2D/AudioManager/bump_sound");
+        _buttonControl = GetTree().Root.GetNode<ButtonControl>("Node2D/UI");
     }
 
     public async void ActorSetup()
@@ -69,9 +72,11 @@ public partial class PathFindingMovement : Node
             // Prüfen, ob der Kollisionspartner neu ist
             if (collision.GetCollider() != _lastCollider)
             {
+            if(_character.Name == "Ally" && _buttonControl.CurrentCamera == 1 || _character.Name == "Ally2" && _buttonControl.CurrentCamera == 2) {
                 _lastCollider = collision.GetCollider(); // Aktualisieren
                 _bumpSound.Play();
                 _recentlyBumped = true;
+            }
             }
         }
         else

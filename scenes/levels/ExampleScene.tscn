@@ -1,4 +1,4 @@
-[gd_scene load_steps=86 format=4 uid="uid://dfkwq6qwtxw25"]
+[gd_scene load_steps=88 format=4 uid="uid://dfkwq6qwtxw25"]
 
 [ext_resource type="Script" path="res://scripts/EnemyManager.cs" id="1_bmkfv"]
 [ext_resource type="Script" path="res://scripts/Map.cs" id="1_pa1ge"]
@@ -21,7 +21,9 @@
 [ext_resource type="Texture2D" uid="uid://cmooytb3c0mki" path="res://assets/sprites/Pasted image.png" id="20_lgqcj"]
 [ext_resource type="Script" path="res://scripts/Interaction/ItemAdder.cs" id="21_2au4o"]
 [ext_resource type="TileSet" uid="uid://b57mlmhoqye7c" path="res://assets/hauntedForestVillage/Interior.tres" id="23_6wlm7"]
+[ext_resource type="Script" path="res://scripts/WalkOverSound.cs" id="23_jg4u6"]
 [ext_resource type="TileSet" uid="uid://c2meivnk57unc" path="res://assets/hauntedForestVillage/HauntedForestVillage.tres" id="24_igx6k"]
+[ext_resource type="Script" path="res://scripts/AudioSwitch.cs" id="24_sabha"]
 [ext_resource type="Script" path="res://scripts/Interaction/ShowWhileInRadius.cs" id="25_0y114"]
 [ext_resource type="Script" path="res://scenes/levels/AudioManager.cs" id="25_fif0r"]
 [ext_resource type="PackedScene" uid="uid://cg2nij0k76my6" path="res://scenes/levels/HauntedForest/HauntedForestVillage.tscn" id="25_lc565"]
@@ -17098,7 +17100,7 @@ _darknessCircleDamage = 1
 _allyHealthChangeIntervall = 5.0
 
 [node name="Ally" parent="." node_paths=PackedStringArray("_responseField", "_nameLabel", "Chat") instance=ExtResource("6_l8h37")]
-position = Vector2(617, 2107)
+position = Vector2(4525, -2916)
 _responseField = NodePath("ResponseField")
 _nameLabel = NodePath("Label")
 _visionRadius = 150
@@ -17436,7 +17438,21 @@ Radius = 500
 position = Vector2(-8.99999, -122.001)
 scale = Vector2(2.75, 5)
 
+[node name="Door" type="Node2D" parent="Abandoned Village/HauntedForestVillage/Big House" node_paths=PackedStringArray("WalkingObject", "WalkingObject2", "Sound")]
+script = ExtResource("23_jg4u6")
+InsideRadius = 10.0
+WalkingObject = NodePath("../../../../Ally")
+WalkingObject2 = NodePath("../../../../Ally2")
+Sound = NodePath("../../../../AudioManager/door_sound")
+
 [node name="AiNode" parent="Abandoned Village/HauntedForestVillage" instance=ExtResource("13_05imv")]
+
+[node name="AudioSwitch" type="Node2D" parent="Abandoned Village/HauntedForestVillage" node_paths=PackedStringArray("MusicPlayer1", "MusicPlayer2")]
+z_index = 1
+position = Vector2(3.33331, -85)
+script = ExtResource("24_sabha")
+MusicPlayer1 = NodePath("../../../AudioManager/game_music")
+MusicPlayer2 = NodePath("../../../AudioManager/creepy_music")
 
 [node name="Spaceport" type="Node" parent="."]
 
@@ -17477,6 +17493,9 @@ NameForAi = "Torch"
 
 [node name="Torch" parent="." instance=ExtResource("13_05imv")]
 position = Vector2(5631, -5569)
+ObjectName = "Torch"
+ObjectDescription = "You can light it. But where?"
+AddedMaterial = 7
 
 [node name="AudioManager" type="Node" parent="." node_paths=PackedStringArray("_menuMusic", "_gameMusic", "_gameOverMusic")]
 script = ExtResource("25_fif0r")
@@ -17489,6 +17508,7 @@ stream = ExtResource("26_rqvqj")
 
 [node name="game_music" type="AudioStreamPlayer" parent="AudioManager"]
 stream = ExtResource("27_n56s6")
+volume_db = -20.613
 
 [node name="intro_music" type="AudioStreamPlayer" parent="AudioManager"]
 stream = ExtResource("28_u8gsi")
@@ -17567,6 +17587,7 @@ button_group = ExtResource("31_rop2t")
 text = "Ally 1"
 
 [node name="IntroScene" parent="." node_paths=PackedStringArray("_ally") instance=ExtResource("32_bdur0")]
+visible = false
 offset_left = -633.0
 offset_top = 1955.0
 offset_right = 1457.0

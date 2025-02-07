@@ -15,7 +15,8 @@ public partial class AudioManager : Node
         _gameOverMusic = GetNode<AudioStreamPlayer>("game_over");
 
         // Start menu music initially
-        _menuMusic.Play();
+        _menuMusic.Stop();
+        _gameMusic.Play();
     }
 
     public void StartGameMusic()

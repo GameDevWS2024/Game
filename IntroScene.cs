@@ -18,16 +18,16 @@ public partial class IntroScene : Control
     // Dialog text lines
     private readonly List<string> _dialogLines =
     [
-        "Wake up!",
-        "Please! Wake up!",
+        "Hello?",
+        "Hello? Can you hear me?",
         "We need you... Wake up!",
-        "You are finally awake! I was losing hope...",
+        "Good, you seem concious! I was losing hope...",
         "Something terrible has happened! All the light has disappeared.",
-        "The darkness is dangerous and harmful. We can’t endure it for long...",
+        "The darkness is dangerous and harmful. We can’t endure it for long outside your light...",
         "You are our last hope!",
-        "I sense that there is something in the nearby village...",
-        "I know you can’t move outside the core...",
-        "But your allies can be your hands, eyes, and ears in this world. You are connected.",
+        "I suspect we can find out more in the nearby village...",
+        "I know you can’t move outside the core without getting corrupted...",
+        "But through this machine we can stay connected and be your hands, eyes and ears in this world.",
         "You may have forgotten everything, but they are your faithful companions and will listen to your command."
     ];
 

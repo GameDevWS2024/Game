@@ -54,7 +54,7 @@ public partial class PathFindingMovement : Node
             Vector2 nextLocation = _agent.GetNextPathPosition();
             Vector2 newVel = (nextLocation - currentLocation).Normalized() * _speed;
 
-            if (newVel.X != 0)
+            if (newVel.X != 0 && distanceToTarget > 50)
             {
                 _sprite.FlipH = newVel.X > 0;
             }

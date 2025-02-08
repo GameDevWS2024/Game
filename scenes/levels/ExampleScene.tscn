@@ -90,8 +90,8 @@ corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_fajsb"]
-radius = 17.6667
-height = 66.0001
+radius = 21.3333
+height = 86.6666
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_e7gay"]
 vertices = PackedVector2Array(-366.422, -340, 1935.71, -347.219, 1976, -336.422, 1242.29, 377.219, 1202, 366.422, -377.219, -299.711, 1161.71, 377.219, 333.578, 366, 322.781, 325.711, 1976, -497.578, 1935.71, -486.781, 285.578, -707, 274.781, -747.289, 293.289, 435.781, 431.711, 772.219, 402.219, 801.711, -122.422, 777, -133.219, 736.711, 253, 446.578, 1906.22, -376.711, 1029.71, 844.219, 1000.22, 873.711, 552.578, 842, 541.781, 801.711, 1132.22, 406.711, 1906.22, -457.289, 2056.58, -417, 14136.9, -13789, 14136.9, 6745.6, 2045.78, -376.711, 2045.78, -457.289, 1271.78, 487.289, 1282.58, 447, 2016.29, -347.219, 1271.78, 406.711, 245.289, -637.219, 1895.42, -417, -377.219, -380.289, 205, -626.422, 391.422, 842, -133.219, 817.289, 1121.42, 447, 322.781, 406.289, 1150.58, 914, 1139.78, 954.289, 1242.29, 516.781, 1139.78, 873.711, 1202, 527.578, 1110.29, 844.219, 989.422, 914, 541.781, 882.289, 274.781, -666.711, 2016.29, -486.781, -14253.9, -13860.8, 253, 285.422, -801.422, 181, -406.711, -270.219, -447, -259.422, -812.219, 140.711, -487.289, -270.219, -841.711, 111.219, 1161.71, 516.781, 1070, 833.422, -516.781, -299.711, -882, 100.422, -698.219, -979.711, -687.422, -1020, 402.219, 882.289, -162.711, 846.781, 1132.22, 487.289, 512.289, 772.219, 1000.22, 954.289, 512.289, 911.781, 1110.29, 983.781, -14264.9, 6527.23, 1070, 994.578, 1029.71, 983.781, 472, 922.578, -698.219, -1060.29, 472, 761.422, 212.711, 435.781, 183.219, 406.289, -162.711, 707.219, 172.422, 366, -203, 696.422, -527.578, -340, -922.289, 111.219, -727.711, -950.219, 205, -787.578, 431.711, 911.781, -203, 857.578, 164.711, -637.219, 135.219, -666.711, 124.422, -707, -406.711, -409.781, -243.289, 846.781, -272.781, 817.289, -283.578, 777, -272.781, 736.711, 135.219, -747.289, -447, -420.578, 293.289, 296.219, 245.289, -776.781, 183.219, 325.711, -243.289, 707.219, -727.711, -1089.78, -768, -1100.58, -808.289, -1089.78, -837.781, -1060.29, -848.578, -1020, -837.781, -979.711, -808.289, -950.219, -768, -939.422, -516.781, -380.289, -951.781, 140.711, -841.711, 250.781, 212.711, 296.219, -882, 261.578, 164.711, -776.781, -487.289, -409.781, -962.578, 181, -812.219, 221.289, -922.289, 250.781, -951.781, 221.289)
@@ -17094,7 +17094,7 @@ _darknessCircleDamage = 1
 _allyHealthChangeIntervall = 5.0
 
 [node name="Ally" parent="." node_paths=PackedStringArray("_responseField", "_nameLabel", "Chat") instance=ExtResource("6_l8h37")]
-position = Vector2(617, 2107)
+position = Vector2(923, 2052)
 _responseField = NodePath("ResponseField")
 _nameLabel = NodePath("Label")
 _visionRadius = 150
@@ -17268,6 +17268,7 @@ offset_bottom = 447.0
 metadata/_edit_use_anchors_ = true
 
 [node name="Core Visuals2" type="StaticBody2D" parent="."]
+z_index = 51
 position = Vector2(500, 2000)
 scale = Vector2(3, 3)
 
@@ -17332,6 +17333,7 @@ position = Vector2(2831, 2682)
 position = Vector2(3036, 2466)
 ObjectName = "Sign"
 ObjectDescription = "On it there is a description: there is a grave at (1166, 2288) and a rune at (3300,1850)"
+ObjectHint = "Tell the commander about the object you just spotted."
 Interactable = false
 RemovedAfter = false
 
@@ -17339,6 +17341,7 @@ RemovedAfter = false
 position = Vector2(3678, 1016)
 ObjectName = "Sign"
 ObjectDescription = "A sign potinting toward a village at (8500, -1000), you get the feeling that the village will be important (the way towards the right)"
+ObjectHint = "Tell the commander about the object you just spotted."
 Interactable = false
 RemovedAfter = false
 
@@ -17346,6 +17349,7 @@ RemovedAfter = false
 position = Vector2(-1952, 1989)
 ObjectName = "Sign"
 ObjectDescription = "A sign pointing toward the spaceport at (-3050, 2000)"
+ObjectHint = "Tell the commander about the object you just spotted."
 Interactable = false
 RemovedAfter = false
 
@@ -17400,6 +17404,7 @@ scale = Vector2(3, 3)
 position = Vector2(-16.0002, -339.333)
 ObjectName = "Big House"
 ObjectDescription = "The biggest house in the village. It doesn't seem like anyone lived there, but more like the ghosts gathered there"
+ObjectHint = "Tell the commander about the object you just spotted. You may use the command [GOTO] on this object if the commander explicitly told you to engage with it"
 Interactable = false
 RemovedAfter = false
 
@@ -17418,7 +17423,12 @@ Radius = 500
 position = Vector2(-8.99999, -122.001)
 scale = Vector2(2.75, 5)
 
-[node name="AiNode" parent="Abandoned Village/HauntedForestVillage" instance=ExtResource("13_05imv")]
+[node name="HauntedForestVillageAiNode" parent="Abandoned Village/HauntedForestVillage" instance=ExtResource("13_05imv")]
+ObjectName = "Haunted Forest Village"
+ObjectDescription = "You stand in the Haunted Forest Village, when you look around there are Abandoned houses everywhere. There is a creepy mood, you feel the presence of the dead watching you"
+ObjectHint = "Tell the commander that you've reached the object and what it looks like. You may use the command [GOTO] on this object if the commander explicitly told you to engage with it."
+Interactable = false
+RemovedAfter = false
 
 [node name="Spaceport" type="Node" parent="."]
 
@@ -17434,6 +17444,9 @@ position = Vector2(-3049, 1957)
 scale = Vector2(0.2, 0.2)
 ObjectName = "Spaceport"
 ObjectDescription = "A lone remaining Spaceship in an empty field. It seems that the shadow creatures destroyed the machinery before it could fly away. It doesn't seem important right now"
+ObjectHint = "Tell the commander about the object you just spotted. You may use the command [GOTO] on this object if the commander explicitly told you to engage with it."
+Interactable = false
+RemovedAfter = false
 
 [node name="TorchOld" type="Node2D" parent="."]
 position = Vector2(5538, -6212)
@@ -17537,7 +17550,6 @@ button_group = ExtResource("31_rop2t")
 text = "Ally 1"
 
 [node name="IntroScene" parent="." node_paths=PackedStringArray("_ally") instance=ExtResource("32_bdur0")]
-visible = false
 offset_left = -633.0
 offset_top = 1955.0
 offset_right = 1457.0
@@ -17969,10 +17981,38 @@ polygon = PackedVector2Array(2667, 2496, 2774, 2498, 2798, 2479, 2800, 2409, 278
 [node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="Landscape/Map-Objects/Worldobjects"]
 polygon = PackedVector2Array(3025, 2504, 3050, 2504, 3050, 2441, 3090, 2440, 3088, 2395, 3057, 2395, 3048, 2377, 3024, 2377, 3025, 2392, 2992, 2395, 2973, 2416, 2992, 2441, 3023, 2445)
 
+[node name="CollisionPolygon2D6" type="CollisionPolygon2D" parent="Landscape/Map-Objects/Worldobjects"]
+position = Vector2(-4990, -511)
+polygon = PackedVector2Array(3025, 2504, 3050, 2504, 3050, 2441, 3090, 2440, 3088, 2395, 3057, 2395, 3048, 2377, 3024, 2377, 3025, 2392, 2992, 2395, 2973, 2416, 2992, 2441, 3023, 2445)
+
 [node name="CollisionPolygon2D3" type="CollisionPolygon2D" parent="Landscape/Map-Objects/Worldobjects"]
 polygon = PackedVector2Array(1329, 2813, 1433, 2817, 1432, 2692, 1416, 2668, 1369, 2658, 1328, 2680)
 
 [node name="CollisionPolygon2D7" type="CollisionPolygon2D" parent="Landscape/Map-Objects/Worldobjects"]
+polygon = PackedVector2Array(5361, 252, 5392, 265, 5431, 269, 5480, 287, 5498, 308, 5539, 309, 5575, 283, 5578, 256, 5598, 226, 5567, 171, 5543, 169, 5518, 156, 5495, 119, 5437, 131, 5397, 141, 5381, 167, 5359, 201, 5351, 236)
+
+[node name="CollisionPolygon2D14" type="CollisionPolygon2D" parent="Landscape/Map-Objects/Worldobjects"]
+position = Vector2(-2433, -2366)
+polygon = PackedVector2Array(5361, 252, 5392, 265, 5431, 269, 5480, 287, 5498, 308, 5539, 309, 5575, 283, 5578, 256, 5598, 226, 5567, 171, 5543, 169, 5518, 156, 5495, 119, 5437, 131, 5397, 141, 5381, 167, 5359, 201, 5351, 236)
+
+[node name="CollisionPolygon2D15" type="CollisionPolygon2D" parent="Landscape/Map-Objects/Worldobjects"]
+position = Vector2(-6272, 1985)
+polygon = PackedVector2Array(5361, 252, 5392, 265, 5431, 269, 5480, 287, 5498, 308, 5539, 309, 5575, 283, 5578, 256, 5598, 226, 5567, 171, 5543, 169, 5518, 156, 5495, 119, 5437, 131, 5397, 141, 5381, 167, 5359, 201, 5351, 236)
+
+[node name="CollisionPolygon2D16" type="CollisionPolygon2D" parent="Landscape/Map-Objects/Worldobjects"]
+position = Vector2(-9534, 771)
+polygon = PackedVector2Array(5361, 252, 5392, 265, 5431, 269, 5480, 287, 5498, 308, 5539, 309, 5575, 283, 5578, 256, 5598, 226, 5567, 171, 5543, 169, 5518, 156, 5495, 119, 5437, 131, 5397, 141, 5381, 167, 5359, 201, 5351, 236)
+
+[node name="CollisionPolygon2D17" type="CollisionPolygon2D" parent="Landscape/Map-Objects/Worldobjects"]
+position = Vector2(-5118, -4350)
+polygon = PackedVector2Array(5361, 252, 5392, 265, 5431, 269, 5480, 287, 5498, 308, 5539, 309, 5575, 283, 5578, 256, 5598, 226, 5567, 171, 5543, 169, 5518, 156, 5495, 119, 5437, 131, 5397, 141, 5381, 167, 5359, 201, 5351, 236)
+
+[node name="CollisionPolygon2D18" type="CollisionPolygon2D" parent="Landscape/Map-Objects/Worldobjects"]
+position = Vector2(-3391, -6971)
+polygon = PackedVector2Array(5361, 252, 5392, 265, 5431, 269, 5480, 287, 5498, 308, 5539, 309, 5575, 283, 5578, 256, 5598, 226, 5567, 171, 5543, 169, 5518, 156, 5495, 119, 5437, 131, 5397, 141, 5381, 167, 5359, 201, 5351, 236)
+
+[node name="CollisionPolygon2D19" type="CollisionPolygon2D" parent="Landscape/Map-Objects/Worldobjects"]
+position = Vector2(-190, -7101)
 polygon = PackedVector2Array(5361, 252, 5392, 265, 5431, 269, 5480, 287, 5498, 308, 5539, 309, 5575, 283, 5578, 256, 5598, 226, 5567, 171, 5543, 169, 5518, 156, 5495, 119, 5437, 131, 5397, 141, 5381, 167, 5359, 201, 5351, 236)
 
 [node name="CollisionPolygon2D8" type="CollisionPolygon2D" parent="Landscape/Map-Objects/Worldobjects"]
@@ -18054,7 +18094,9 @@ tile_set = SubResource("TileSet_almot")
 [node name="Notebook" parent="." instance=ExtResource("13_05imv")]
 position = Vector2(-1431, -219)
 ObjectName = "Notebook"
-ObjectDescription = "There is a Grave. Onit there lies a Notebook which says there is a Spaceport at (-1950, 2000). This Notebook contains details on how to loot metals from there"
+ObjectDescription = "There is a Grave. Next to it there lies a Notebook."
+ObjectHint = "Tell the commander about the object you just spotted. You may use the command [INTERACT] on this object if the commander explicitly told you to engage with it."
+CustomOverrideMessage = "The Notebook says there is a Spaceport at (-1950, 2000). Tell the commander where the spaceport is"
 
 [node name="Notebook_sprite" type="Sprite2D" parent="Notebook"]
 z_index = 150
@@ -18066,12 +18108,30 @@ texture = ExtResource("20_lgqcj")
 position = Vector2(695, -636)
 ObjectName = "Rune Holder"
 ObjectDescription = "There is a Code needed"
+ObjectHint = "Tell the commander about the object you just spotted."
 Interactable = false
 RemovedAfter = false
 
-[node name="AiNode" parent="." instance=ExtResource("13_05imv")]
+[node name="Statue" parent="." instance=ExtResource("13_05imv")]
 position = Vector2(128, -34)
 ObjectName = "Statue"
 ObjectDescription = "A stone statue errected by the light spirits. the figure seems peaceful and happy but now huge gashes run over the figure, left behind by shadow creatures"
+ObjectHint = "Tell the commander about the object you just spotted."
+Interactable = false
+RemovedAfter = false
+
+[node name="Graveyard" parent="." instance=ExtResource("13_05imv")]
+position = Vector2(3796, -1870)
+ObjectName = "Graveyard"
+ObjectDescription = "Lots of graves, the writing on the stones cannot be read because it's to damaged. Your remember your Grandma and the cookies she baked when you were young."
+ObjectHint = "Tell the commander about the object you just spotted. You may use the command [GOTO] on this object if the commander explicitly told you to engage with it."
+Interactable = false
+RemovedAfter = false
+
+[node name="Ruin" parent="." instance=ExtResource("13_05imv")]
+position = Vector2(2916, -172)
+ObjectName = "Ruin"
+ObjectDescription = "This looks like it was a castle from long ago. But it's totally destroyed now"
+ObjectHint = "Tell the commander about the object you just spotted. You may use the command [GOTO] on this object if the commander explicitly told you to engage with it."
 Interactable = false
 RemovedAfter = false

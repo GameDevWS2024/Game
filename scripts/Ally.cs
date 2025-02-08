@@ -106,6 +106,9 @@ public partial class Ally : CharacterBody2D
             GD.PrintErr("PathFindingMovement node is not assigned in the editor!");
         }
         Chat.ResponseReceived += HandleResponse;
+
+        //sorgt dafür dass die zwei allies am Anfang nicht weg rennen
+        PathFindingMovement.TargetPosition = this.GlobalPosition;
     }
 
     private void HandleTargetReached()

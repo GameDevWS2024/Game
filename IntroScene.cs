@@ -56,9 +56,11 @@ public partial class IntroScene : Control
     private RichTextLabel _ally1ResponseField = null!;
     private Chat _ally1Chat = null!;
     private RichTextLabel _ally2ResponseField = null!;
+    private AudioStreamPlayer _introMusic = null!;
 
     public override void _Ready()
     {
+        _introMusic = GetParent().GetNode<AudioStreamPlayer>("AudioManager/intro_music");
         _ally1ResponseField = GetTree().Root.GetNode<RichTextLabel>("Node2D/Ally/ResponseField");
         _ally2ResponseField = GetTree().Root.GetNode<RichTextLabel>("Node2D/Ally2/ResponseField");
         _ally1Chat = GetTree().Root.GetNode<Chat>("Node2D/Ally/Ally1Cam/Ally1Chat");
@@ -121,6 +123,8 @@ public partial class IntroScene : Control
 
         // Pause the game initially
         GetTree().Paused = true;
+
+        _introMusic.Play();
 
         // Display the first line of dialog
         ShowCurrentLine();
@@ -279,6 +283,7 @@ public partial class IntroScene : Control
         _ally1Chat.Visible = true;
         // Resume the game
         GetTree().Paused = false;
+        _introMusic.Stop();
     }
 
     private void SetBlackoutAlpha(float alpha)

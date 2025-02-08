@@ -40,6 +40,7 @@ public partial class Ally : CharacterBody2D
     private GenerativeAI.Methods.ChatSession? _chat;
     private GeminiService? _geminiService;
     private readonly List<string> _interactionHistory = [];
+    private PointLight2D _coreLight = null!;
 
     public Boolean Lit = false;
 
@@ -57,6 +58,7 @@ public partial class Ally : CharacterBody2D
     private Ally _otherAlly = null!;
     public override void _Ready()
     {
+        _coreLight = GetParent().GetNode<PointLight2D>("%Core/%CoreLight");
         foreach (Ally ally in GetTree().GetNodesInGroup("Entities").OfType<Ally>().ToList())
         {
             if (ally != this)
@@ -145,7 +147,7 @@ public partial class Ally : CharacterBody2D
     public void SetAllyInDarkness()
     {
         // Berechne den Abstand zwischen Ally und Core
-        Vector2 distance = this.GlobalPosition - _core.GlobalPosition;
+        Vector2 distance = this.GlobalPosition - _coreLight.GlobalPosition;
         float distanceLength = distance.Length(); // Berechne die Länge des Vektors
 
         // If ally further away than big circle, he is in the darkness

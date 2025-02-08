@@ -1,4 +1,4 @@
-[gd_scene load_steps=82 format=4 uid="uid://dfkwq6qwtxw25"]
+[gd_scene load_steps=87 format=4 uid="uid://dfkwq6qwtxw25"]
 
 [ext_resource type="Script" path="res://scripts/EnemyManager.cs" id="1_bmkfv"]
 [ext_resource type="Script" path="res://scripts/Map.cs" id="1_pa1ge"]
@@ -21,6 +21,7 @@
 [ext_resource type="Script" path="res://scripts/Interaction/ItemAdder.cs" id="21_2au4o"]
 [ext_resource type="TileSet" uid="uid://b57mlmhoqye7c" path="res://assets/hauntedForestVillage/Interior.tres" id="23_6wlm7"]
 [ext_resource type="TileSet" uid="uid://c2meivnk57unc" path="res://assets/hauntedForestVillage/HauntedForestVillage.tres" id="24_igx6k"]
+[ext_resource type="Script" path="res://scripts/AudioSwitch.cs" id="24_sabha"]
 [ext_resource type="Script" path="res://scripts/Interaction/ShowWhileInRadius.cs" id="25_0y114"]
 [ext_resource type="Script" path="res://scenes/levels/AudioManager.cs" id="25_fif0r"]
 [ext_resource type="PackedScene" uid="uid://cg2nij0k76my6" path="res://scenes/levels/HauntedForest/HauntedForestVillage.tscn" id="25_lc565"]
@@ -32,10 +33,14 @@
 [ext_resource type="AudioStream" uid="uid://ckepkjqosl80g" path="res://assets/audio/gameOver.mp3" id="29_jcr58"]
 [ext_resource type="AudioStream" uid="uid://dpq5uuhy4kxlo" path="res://assets/audio/victoryScreen.mp3" id="30_4ukal"]
 [ext_resource type="Script" path="res://scenes/levels/ButtonControl.cs" id="30_pwpih"]
+[ext_resource type="AudioStream" uid="uid://ccjwwjvfktune" path="res://assets/audio/Damage.mp3" id="31_0ksbt"]
 [ext_resource type="ButtonGroup" uid="uid://canjpaliv4kso" path="res://assets/resources/chat_button_group.tres" id="31_rop2t"]
+[ext_resource type="AudioStream" uid="uid://u1eq84kjmd3i" path="res://assets/audio/Bump.mp3" id="32_2bq74"]
 [ext_resource type="PackedScene" uid="uid://cp62xh0okgxnf" path="res://scenes/levels/intro_scene.tscn" id="32_bdur0"]
 [ext_resource type="Texture2D" uid="uid://bj4mic7w6ckhv" path="res://assets/tilemaps/Grassland Tileset.png" id="33_xri4x"]
+[ext_resource type="AudioStream" uid="uid://dkxtx430h7ncd" path="res://assets/audio/Door.mp3" id="33_yq2va"]
 [ext_resource type="Texture2D" uid="uid://xvkkbijsncdh" path="res://assets/obstacles/Tree Group.png" id="34_aq6iy"]
+[ext_resource type="AudioStream" uid="uid://nosimi3kpilu" path="res://assets/audio/New_item.mp3" id="36_ue3tg"]
 [ext_resource type="Texture2D" uid="uid://ic4l7t2su0vd" path="res://assets/hauntedForestVillage/TilesetAbandondedVillage.png" id="37_iew8o"]
 [ext_resource type="Texture2D" uid="uid://d1yvwy2drdwqd" path="res://assets/tilemaps/Reg tree wall.png" id="38_dsao3"]
 [ext_resource type="Texture2D" uid="uid://cn0pcaddy8lcv" path="res://assets/tilemaps/TX Struct.png" id="39_jhhw6"]
@@ -17430,6 +17435,13 @@ ObjectHint = "Tell the commander that you've reached the object and what it look
 Interactable = false
 RemovedAfter = false
 
+[node name="AudioSwitch" type="Node2D" parent="Abandoned Village/HauntedForestVillage" node_paths=PackedStringArray("MusicPlayer1", "MusicPlayer2")]
+z_index = 1
+position = Vector2(3.33331, -85)
+script = ExtResource("24_sabha")
+MusicPlayer1 = NodePath("../../../AudioManager/game_music")
+MusicPlayer2 = NodePath("../../../AudioManager/creepy_music")
+
 [node name="Spaceport" type="Node" parent="."]
 
 [node name="Tilemap Layers" type="Node" parent="Spaceport"]
@@ -17482,15 +17494,29 @@ stream = ExtResource("26_rqvqj")
 
 [node name="game_music" type="AudioStreamPlayer" parent="AudioManager"]
 stream = ExtResource("27_n56s6")
+volume_db = -20.613
 
 [node name="intro_music" type="AudioStreamPlayer" parent="AudioManager"]
 stream = ExtResource("28_u8gsi")
+volume_db = -20.036
 
 [node name="game_over" type="AudioStreamPlayer" parent="AudioManager"]
 stream = ExtResource("29_jcr58")
 
 [node name="victory" type="AudioStreamPlayer" parent="AudioManager"]
 stream = ExtResource("30_4ukal")
+
+[node name="damage_sound" type="AudioStreamPlayer" parent="AudioManager"]
+stream = ExtResource("31_0ksbt")
+
+[node name="bump_sound" type="AudioStreamPlayer" parent="AudioManager"]
+stream = ExtResource("32_2bq74")
+
+[node name="door_sound" type="AudioStreamPlayer" parent="AudioManager"]
+stream = ExtResource("33_yq2va")
+
+[node name="new_item_sound" type="AudioStreamPlayer" parent="AudioManager"]
+stream = ExtResource("36_ue3tg")
 
 [node name="UI" type="Control" parent="." node_paths=PackedStringArray("_camera1", "_camera2", "_ally1Chat", "_ally2Chat", "_ally1", "_ally2", "_buttonAlly1", "_buttonAlly2", "_ally1ResponseField", "_ally2ResponseField")]
 layout_mode = 3

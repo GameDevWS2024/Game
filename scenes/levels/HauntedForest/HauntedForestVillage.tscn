@@ -96,7 +96,7 @@ polygon = PackedVector2Array(14034, -9015, 14456, -9015, 14456, -9226, 14471, -9
 [node name="BigHouseLeft" type="CollisionPolygon2D" parent="Landscape/VillageObjectsandBuildings/StaticBody2D"]
 position = Vector2(618.319, -242.197)
 scale = Vector2(0.965415, 0.965415)
-polygon = PackedVector2Array(15142, -8652, 15009, -8649, 15017, -8790, 14797, -8788, 14791, -9013, 14781, -9104, 14783, -9452, 15225, -9730, 15228, -9454, 14788, -9450, 14794, -8789, 15018, -8789)
+polygon = PackedVector2Array(15142, -8652, 15009, -8649, 15017, -8790, 14797, -8788, 14791, -9013, 14781, -9104, 14783, -9452, 15225, -9730, 15228, -9454, 14788, -9450, 14807.6, -8804.74, 15018, -8789)
 
 [node name="BigHouseRight" type="CollisionPolygon2D" parent="Landscape/VillageObjectsandBuildings/StaticBody2D"]
 position = Vector2(418.582, -136.622)

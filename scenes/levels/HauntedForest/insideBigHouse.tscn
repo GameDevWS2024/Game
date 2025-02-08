@@ -35,7 +35,7 @@ scale = Vector2(1.5, 0.75)
 script = ExtResource("3_hysjd")
 SceneToShow = ExtResource("4_5v46h")
 Radius = 99999
-NeedsToBeInInventoryName = 7
+NeedsToBeInInventoryName = 8
 
 [node name="Chest" parent="InsideBigHouse/Sprite2D/ChestInsideHouse" instance=ExtResource("4_5v46h")]
 

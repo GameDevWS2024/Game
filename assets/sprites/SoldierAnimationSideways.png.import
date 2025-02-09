@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c1qyu3yubm6wh"
-path="res://.godot/imported/WorkerAllyIdleAn.png-93689a721ff564b828551add1ab71d14.ctex"
+uid="uid://cdwyw32swyohh"
+path="res://.godot/imported/SoldierAnimationSideways.png-3ce262970cf0ff22795a341d4968a29a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/WorkerAllyIdleAn.png"
-dest_files=["res://.godot/imported/WorkerAllyIdleAn.png-93689a721ff564b828551add1ab71d14.ctex"]
+source_file="res://assets/sprites/SoldierAnimationSideways.png"
+dest_files=["res://.godot/imported/SoldierAnimationSideways.png-3ce262970cf0ff22795a341d4968a29a.ctex"]
 
 [params]
 

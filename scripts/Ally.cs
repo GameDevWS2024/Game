@@ -40,6 +40,7 @@ public partial class Ally : CharacterBody2D
     private GenerativeAI.Methods.ChatSession? _chat;
     private GeminiService? _geminiService;
     private readonly List<string> _interactionHistory = [];
+    AnimationPlayer _animPlayer = null!;
     private PointLight2D _coreLight = null!;
 
     public Boolean Lit = false;
@@ -114,6 +115,8 @@ public partial class Ally : CharacterBody2D
             GD.PrintErr("PathFindingMovement node is not assigned in the editor!");
         }
         Chat.ResponseReceived += HandleResponse;
+        _animPlayer = GetNode<AnimationPlayer>("AnimationPlayer2");
+        _animPlayer.Play("Walk-Right");
     }
 
     private void HandleTargetReached()
@@ -205,6 +208,20 @@ public partial class Ally : CharacterBody2D
         SetAllyInDarkness();
 
         UpdateTarget();
+
+        if (PathFindingMovement.CurrentDirection == PathFindingMovement.WalkingState.Left)
+        {
+            _animPlayer.Play("Walk-Left");
+        }
+        else if (PathFindingMovement.CurrentDirection == PathFindingMovement.WalkingState.Right)
+        {
+            _animPlayer.Play("Walk-Right");
+        }
+        else if (PathFindingMovement.CurrentDirection == PathFindingMovement.WalkingState.IdleLeft)
+        {
+            _animPlayer.Play("Idle-Left");
+        }
+        else { _animPlayer.Play("Idle-Right"); }
 
         _reached = GlobalPosition.DistanceTo(PathFindingMovement.TargetPosition) < 150;
 

@@ -1,13 +1,13 @@
-[gd_scene load_steps=93 format=4 uid="uid://dfkwq6qwtxw25"]
+[gd_scene load_steps=105 format=4 uid="uid://dfkwq6qwtxw25"]
 
 [ext_resource type="Script" path="res://scripts/EnemyManager.cs" id="1_bmkfv"]
 [ext_resource type="Script" path="res://scripts/Map.cs" id="1_pa1ge"]
 [ext_resource type="PackedScene" uid="uid://dkcg0yrtwyo0k" path="res://scenes/prefabs/PointLight.tscn" id="3_0raeo"]
 [ext_resource type="Script" path="res://scripts/Chat.cs" id="3_m6i6e"]
-[ext_resource type="Texture2D" uid="uid://bawe2cri201la" path="res://assets/sprites/ScientistAlly.png" id="4_c4a3r"]
-[ext_resource type="Texture2D" uid="uid://julrktnk8lxp" path="res://assets/sprites/SoldierAlly.png" id="6_0gver"]
+[ext_resource type="Texture2D" uid="uid://b74yyhgy3rt5w" path="res://assets/sprites/ScientistAnimationSideways.png" id="4_aap2j"]
 [ext_resource type="Texture2D" uid="uid://cjvg134432gbl" path="res://assets/sprites/CoreWithGhost.png" id="6_3xn4a"]
 [ext_resource type="Script" path="res://scripts/AI/VisibleForAI.cs" id="6_7bcmx"]
+[ext_resource type="Texture2D" uid="uid://cdwyw32swyohh" path="res://assets/sprites/SoldierAnimationSideways.png" id="6_kjsil"]
 [ext_resource type="PackedScene" uid="uid://6gwtt7kwq2p" path="res://scenes/prefabs/Ally.tscn" id="6_l8h37"]
 [ext_resource type="Script" path="res://scripts/Interaction/Interactable.cs" id="7_ji1nn"]
 [ext_resource type="PackedScene" uid="uid://bgxxp0o5kdpkq" path="res://scenes/prefabs/Enemy.tscn" id="10_tv6x7"]
@@ -70,6 +70,101 @@ corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
 corner_detail = 10
 
+[sub_resource type="Animation" id="Animation_6irgq"]
+resource_name = "Idle-Left"
+length = 0.8
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SpriteAlly1:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [0, 1]
+}
+
+[sub_resource type="Animation" id="Animation_pvy2e"]
+resource_name = "Idle-Right"
+length = 0.8
+loop_mode = 1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SpriteAlly1:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [17, 16]
+}
+
+[sub_resource type="Animation" id="Animation_4b4jo"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SpriteAlly1:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_bwtcn"]
+resource_name = "Walk-Left"
+length = 0.8
+loop_mode = 1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SpriteAlly1:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 2, 3, 4, 5, 6, 7, 8]
+}
+
+[sub_resource type="Animation" id="Animation_k0wix"]
+resource_name = "Walk-Right"
+length = 0.8
+loop_mode = 1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SpriteAlly1:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [17, 15, 14, 13, 12, 11, 10, 9]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_1rv3y"]
+_data = {
+"Idle-Left": SubResource("Animation_6irgq"),
+"Idle-Right": SubResource("Animation_pvy2e"),
+"RESET": SubResource("Animation_4b4jo"),
+"Walk-Left": SubResource("Animation_bwtcn"),
+"Walk-Right": SubResource("Animation_k0wix")
+}
+
 [sub_resource type="Theme" id="Theme_d0vdd"]
 default_font_size = 50
 
@@ -96,37 +191,105 @@ border_color = Color(0, 0, 0, 1)
 corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_fajsb"]
-radius = 21.3333
-height = 86.6666
-
-[sub_resource type="Animation" id="Animation_q5a48"]
-resource_name = "fade_to_white"
-length = 3.0
+[sub_resource type="Animation" id="Animation_0wsug"]
+resource_name = "Idle-Left"
+length = 0.8
+loop_mode = 1
+step = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath(".:color")
+tracks/0/path = NodePath("SpriteAlly2:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0.0333333, 2.96667),
+"times": PackedFloat32Array(0, 0.4),
 "transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Color(0.20871, 0.20871, 0.20871, 1), Color(1, 1, 1, 1)]
+"update": 1,
+"values": [0, 1]
 }
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("CanvasModulate:color")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 3),
+
+[sub_resource type="Animation" id="Animation_r15jj"]
+resource_name = "Idle-Right"
+length = 0.8
+loop_mode = 1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SpriteAlly2:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.4),
 "transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Color(0.332881, 0.332881, 0.332881, 1), Color(1, 1, 1, 1)]
+"update": 1,
+"values": [17, 16]
 }
+
+[sub_resource type="Animation" id="Animation_eidq7"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SpriteAlly2:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_xigan"]
+resource_name = "Walk-Left"
+length = 0.8
+loop_mode = 1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SpriteAlly2:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 2, 3, 4, 5, 6, 7, 8]
+}
+
+[sub_resource type="Animation" id="Animation_f4su6"]
+resource_name = "Walk-Right"
+length = 0.8
+loop_mode = 1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SpriteAlly2:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [17, 15, 14, 13, 12, 11, 10, 9]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_por3l"]
+_data = {
+"Idle-Left": SubResource("Animation_0wsug"),
+"Idle-Right": SubResource("Animation_r15jj"),
+"RESET": SubResource("Animation_eidq7"),
+"Walk-Left": SubResource("Animation_xigan"),
+"Walk-Right": SubResource("Animation_f4su6")
+}
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_fajsb"]
+radius = 21.3333
+height = 86.6666
 
 [sub_resource type="Animation" id="Animation_517fq"]
 length = 4.0
@@ -142,6 +305,34 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Color(0.20871, 0.20871, 0.20871, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CanvasModulate:color")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0.332881, 0.332881, 0.332881, 1), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_q5a48"]
+resource_name = "fade_to_white"
+length = 3.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.0333333, 2.96667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0.20871, 0.20871, 0.20871, 1), Color(1, 1, 1, 1)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -17202,7 +17393,8 @@ metadata/_edit_use_anchors_ = true
 
 [node name="SpriteAlly1" type="Sprite2D" parent="Ally"]
 scale = Vector2(3, 3)
-texture = ExtResource("4_c4a3r")
+texture = ExtResource("4_aap2j")
+hframes = 18
 
 [node name="VisibleForAI" type="Node2D" parent="Ally"]
 script = ExtResource("6_7bcmx")
@@ -17238,6 +17430,11 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_awhbh")
 bbcode_enabled = true
 fit_content = true
 metadata/_edit_use_anchors_ = true
+
+[node name="AnimationPlayer2" type="AnimationPlayer" parent="Ally"]
+libraries = {
+"": SubResource("AnimationLibrary_1rv3y")
+}
 
 [node name="AllyTorch" parent="Ally" instance=ExtResource("3_0raeo")]
 enabled = false
@@ -17287,7 +17484,8 @@ _systemPromptFile = "res://assets/prompts/ally2_prompt.txt"
 
 [node name="SpriteAlly2" type="Sprite2D" parent="Ally2"]
 scale = Vector2(3, 3)
-texture = ExtResource("6_0gver")
+texture = ExtResource("6_kjsil")
+hframes = 18
 
 [node name="VisibleForAI" type="Node2D" parent="Ally2"]
 script = ExtResource("6_7bcmx")
@@ -17324,6 +17522,11 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_undkp")
 bbcode_enabled = true
 fit_content = true
 metadata/_edit_use_anchors_ = true
+
+[node name="AnimationPlayer2" type="AnimationPlayer" parent="Ally2"]
+libraries = {
+"": SubResource("AnimationLibrary_por3l")
+}
 
 [node name="AllyTorch" parent="Ally2" instance=ExtResource("3_0raeo")]
 enabled = false
@@ -17469,18 +17672,20 @@ WalkingObject = NodePath("../../../../Ally")
 WalkingObject2 = NodePath("../../../../Ally2")
 Sound = NodePath("../../../../AudioManager/door_sound")
 
-[node name="Sprite2D" type="Sprite2D" parent="Abandoned Village/HauntedForestVillage"]
+[node name="VisibleForAi" type="Node2D" parent="Abandoned Village/HauntedForestVillage"]
 z_index = 4
 position = Vector2(-16.3333, -339.333)
 scale = Vector2(0.333333, 0.333333)
+script = ExtResource("6_7bcmx")
+NameForAi = "Big house"
 
-[node name="InsideBigHouse" type="Node2D" parent="Abandoned Village/HauntedForestVillage/Sprite2D"]
+[node name="InsideBigHouse" type="Node2D" parent="Abandoned Village/HauntedForestVillage/VisibleForAi"]
 position = Vector2(21, -486.001)
 script = ExtResource("25_0y114")
 SceneToShow = ExtResource("26_vmw0c")
 Radius = 500
 
-[node name="InsideBigHouse2" parent="Abandoned Village/HauntedForestVillage/Sprite2D" instance=ExtResource("26_vmw0c")]
+[node name="InsideBigHouse2" parent="Abandoned Village/HauntedForestVillage/VisibleForAi" instance=ExtResource("26_vmw0c")]
 position = Vector2(-8.99999, -122.001)
 scale = Vector2(2.75, 5)
 
@@ -17523,6 +17728,11 @@ ObjectHint = "Tell the commander about the object you just spotted. You may use 
 RemovedAfter = false
 AddedMaterial = 4
 Amount = 2
+
+[node name="Spaceport_Signs#Space Port Sign" type="Node2D" parent="."]
+position = Vector2(-1952, 1987)
+script = ExtResource("6_7bcmx")
+NameForAi = "Sign"
 
 [node name="TorchOld" type="Node2D" parent="."]
 position = Vector2(5538, -6212)

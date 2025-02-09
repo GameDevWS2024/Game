@@ -90,6 +90,7 @@ _data = {
 
 [node name="Ally" type="CharacterBody2D" node_paths=PackedStringArray("PathFindingMovement") groups=["Entities"]]
 z_index = 50
+safe_margin = 59.554
 script = ExtResource("1_anjrv")
 PathFindingMovement = NodePath("PathFindingMovement")
 _visionRadius = 600

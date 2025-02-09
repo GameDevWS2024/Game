@@ -183,7 +183,7 @@ public partial class ShowWhileInRadius : Node2D
                 }
             }
         }
-        if (GetParent().Name == "Sprite2D")
+        if (this.GetParent().Name == "Sprite2D")
         {
             Sprite2D? sprite = GetParent<Sprite2D>();
             if (sprite != null)

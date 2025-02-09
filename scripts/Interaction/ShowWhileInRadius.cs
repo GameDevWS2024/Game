@@ -28,8 +28,9 @@ public partial class ShowWhileInRadius : Node2D
     Godot.Collections.Array<Node> _entities = null!;
     Ally _nearestAlly = null!;
     private Array<Node> _entitiesList = null!;
-    private bool festiveStaffCollected;
-    private bool copperCollected;
+    private bool _festiveStaffCollected;
+    private bool _copperCollected;
+    Boolean _ghostspawned = false;
 
     // Load the scene you want to instance.   ONLY FOR CHEST INSIDE BIG HOUSE
     private PackedScene _sceneToInstance = null!;
@@ -93,25 +94,26 @@ public partial class ShowWhileInRadius : Node2D
                     show = true;
 
                     //creates the festive staff when the chest is spawned 
-                    if (this.Name == "ChestInsideHouse" && !festiveStaffCollected)
+                    if (this.Name == "ChestInsideHouse" && !_festiveStaffCollected)
                     {
                         PackedScene scene = (PackedScene)ResourceLoader.Load("res://scenes/prefabs/ai_node.tscn");
                         AiNode instance = scene.Instantiate<AiNode>();
                         instance.Position = new Vector2(0, 20);
                         instance.ObjectName = "Festive Staff";
+                        instance.Interactable = true;
+                        instance.RemovedAfter = true;
                         instance.ObjectDescription = "A ceremonial stick which seems to have some cultural background and might have been used for rituals at (8630, -2846)";
                         instance.AddedMaterial = Game.Scripts.Items.Material.FestiveStaff;
                         instance.ObjectHint = "Tell the commander about the object you just spotted. You may use the command [GOTO and INTERACT] on this object if the commander explicitly told you to engage with it.";
                         instance.Amount = 1;
                         instance.CustomOverrideMessage = "you have picked up the festive staff, it could be useful for something at the rune, you remember that there is a hole there that could be the perfect fit";
+                        ItemAdder itemAdder = instance.GetNode<ItemAdder>("ItemAdder");
+                        itemAdder.ItemToAdd = Game.Scripts.Items.Material.FestiveStaff;
+                        itemAdder.Amount = 1;
+                        itemAdder.ItemToAddName = "Festive Staff";
                         AddChild(instance);
-                        festiveStaffCollected = true;
+                        _festiveStaffCollected = true;
                     }
-
-                    /*if(!festiveStaffCollected && _nearestAlly.GlobalPosition.DistanceTo(new Vector2(8630, -2846)) < 100){
-                        festiveStaffCollected = true;
-                        _nearestAlly.SsInventory.AddItem(new Itemstack(Game.Scripts.Items.Material.FestiveStaff, 1));
-                    }*/
 
                     /*
                    if (this.GetName() != "Sprite2D")
@@ -142,6 +144,29 @@ public partial class ShowWhileInRadius : Node2D
                    }
                    */
 
+                }
+                
+                if (entity is Ally allyinv){
+                    Node2D parentNode = this.GetParent<Node2D>();
+                    //GD.Print("Parent Node Name: ", parentNode.Name);
+                    //GD.Print("Distance to RuneHolder: ", allyinv.GlobalPosition.DistanceTo(parentNode.GlobalPosition));
+                    //GD.Print("Ally has FestiveStaff: ", allyinv.SsInventory.ContainsMaterial(Game.Scripts.Items.Material.FestiveStaff));
+                    if (parentNode.Name == "Rune" && allyinv.GlobalPosition.DistanceTo(parentNode.GlobalPosition) < 250 && allyinv.SsInventory.ContainsMaterial(Game.Scripts.Items.Material.FestiveStaff) && !_ghostspawned) {
+                        GD.Print("Ghost spawned");
+                        PackedScene scene = (PackedScene)ResourceLoader.Load("res://scenes/prefabs/ai_node.tscn");
+                        AiNode instance = scene.Instantiate<AiNode>();
+                        instance.Position = new Vector2(250, 0);
+                        instance.ObjectName = "Ghost";
+                        instance.ObjectDescription = "A ghost appears in front of you and tells you to stay here and command another ally to get some copper";
+                        instance.Interactable = false;
+                        instance.RemovedAfter = false;
+                        AddChild(instance);
+                        _ghostspawned = true;
+                        GD.Print(instance.GlobalPosition);
+                    }
+                    if (this.Name == "SpaceportShow" && allyinv.GlobalPosition.DistanceTo(parentNode.GlobalPosition) < 250 && allyinv.SsInventory.ContainsMaterial(Game.Scripts.Items.Material.Copper) && _ghostspawned) {
+                        GD.Print("Notebook spawned");
+                    }
                 }
             }
         }

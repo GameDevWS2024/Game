@@ -17486,6 +17486,9 @@ RemovedAfter = false
 AddedMaterial = 4
 Amount = 2
 
+[node name="SpaceportShow" type="Node2D" parent="Spaceport/Spaceship"]
+script = ExtResource("25_0y114")
+
 [node name="StaticBody2D" type="StaticBody2D" parent="Spaceport"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Spaceport/StaticBody2D"]
@@ -18171,8 +18174,8 @@ position = Vector2(2, -2)
 scale = Vector2(0.2, 0.2)
 texture = ExtResource("20_lgqcj")
 
-[node name="Rune Holder" parent="." instance=ExtResource("13_05imv")]
-position = Vector2(695, -636)
+[node name="RuneHolder" parent="." instance=ExtResource("13_05imv")]
+position = Vector2(927, -639)
 ObjectName = "Rune Holder"
 ObjectDescription = "There is a Code needed"
 ObjectHint = "Tell the commander about the object you just spotted."

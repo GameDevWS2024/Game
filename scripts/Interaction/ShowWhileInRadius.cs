@@ -31,12 +31,15 @@ public partial class ShowWhileInRadius : Node2D
     private bool _festiveStaffCollected;
     private bool _copperCollected;
     Boolean _ghostspawned = false;
+    Boolean _notebookspawned = false;
+    AiNode _notebookCode = null!;
 
     // Load the scene you want to instance.   ONLY FOR CHEST INSIDE BIG HOUSE
     private PackedScene _sceneToInstance = null!;
 
     public override void _Ready()
     {
+        _notebookCode = GetTree().Root.GetNode<AiNode>("Node2D/NotebookWithCode");
         _core = GetTree().GetNodesInGroup("Core").Cast<Core>().SingleOrDefault();
         _entitiesList = GetTree().GetNodesInGroup("Entities");
         float dist = float.MaxValue;
@@ -103,9 +106,7 @@ public partial class ShowWhileInRadius : Node2D
                         instance.Interactable = true;
                         instance.RemovedAfter = true;
                         instance.ObjectDescription = "A ceremonial stick which seems to have some cultural background and might have been used for rituals at (8630, -2846)";
-                        instance.AddedMaterial = Game.Scripts.Items.Material.FestiveStaff;
                         instance.ObjectHint = "Tell the commander about the object you just spotted. You may use the command [GOTO and INTERACT] on this object if the commander explicitly told you to engage with it.";
-                        instance.Amount = 1;
                         instance.CustomOverrideMessage = "you have picked up the festive staff, it could be useful for something at the rune, you remember that there is a hole there that could be the perfect fit";
                         ItemAdder itemAdder = instance.GetNode<ItemAdder>("ItemAdder");
                         itemAdder.ItemToAdd = Game.Scripts.Items.Material.FestiveStaff;
@@ -162,10 +163,19 @@ public partial class ShowWhileInRadius : Node2D
                         instance.RemovedAfter = false;
                         AddChild(instance);
                         _ghostspawned = true;
-                        GD.Print(instance.GlobalPosition);
                     }
-                    if (this.Name == "SpaceportShow" && allyinv.GlobalPosition.DistanceTo(parentNode.GlobalPosition) < 250 && allyinv.SsInventory.ContainsMaterial(Game.Scripts.Items.Material.Copper) && _ghostspawned) {
+
+                    if (parentNode.Name == "Rune" && allyinv.GlobalPosition.DistanceTo(GetTree().Root.GetNode<Node2D>("Node2D/Spaceport/Spaceship").GlobalPosition) < 250 && allyinv.SsInventory.ContainsMaterial(Game.Scripts.Items.Material.Copper) && _ghostspawned && !_notebookspawned) {
                         GD.Print("Notebook spawned");
+                        _notebookspawned = true;
+                        _notebookCode.Visible = true;
+                        VisibleForAI instance = new VisibleForAI();
+                        instance.NameForAi = "Notebook";
+                        instance.DescriptionForAi = "A Notebook that contains the code for the runeholder which is 1234";
+                        _notebookCode.AddChild(instance);
+                        _notebookCode.ObjectName = "Notebook";
+                        _notebookCode.ObjectDescription = "A Notebook that contains the code for the runeholder";
+                        _notebookCode.CustomOverrideMessage = "Tell the commander that the code for the rune holder is 1234";
                     }
                 }
             }

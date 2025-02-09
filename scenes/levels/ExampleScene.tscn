@@ -1,4 +1,4 @@
-[gd_scene load_steps=88 format=4 uid="uid://dfkwq6qwtxw25"]
+[gd_scene load_steps=91 format=4 uid="uid://dfkwq6qwtxw25"]
 
 [ext_resource type="Script" path="res://scripts/EnemyManager.cs" id="1_bmkfv"]
 [ext_resource type="Script" path="res://scripts/Map.cs" id="1_pa1ge"]
@@ -19,7 +19,9 @@
 [ext_resource type="Texture2D" uid="uid://dtw1kjrq4qor4" path="res://assets/tilemaps/TX Tileset Grass.png" id="19_jd32h"]
 [ext_resource type="Texture2D" uid="uid://cmooytb3c0mki" path="res://assets/sprites/Pasted image.png" id="20_lgqcj"]
 [ext_resource type="Script" path="res://scripts/Interaction/ItemAdder.cs" id="21_2au4o"]
+[ext_resource type="Script" path="res://scripts/AI/AiNode.cs" id="22_8wkxe"]
 [ext_resource type="TileSet" uid="uid://b57mlmhoqye7c" path="res://assets/hauntedForestVillage/Interior.tres" id="23_6wlm7"]
+[ext_resource type="Script" path="res://scripts/Interaction/Removeable.cs" id="24_ex5ip"]
 [ext_resource type="TileSet" uid="uid://c2meivnk57unc" path="res://assets/hauntedForestVillage/HauntedForestVillage.tres" id="24_igx6k"]
 [ext_resource type="Script" path="res://scripts/AudioSwitch.cs" id="24_sabha"]
 [ext_resource type="Script" path="res://scripts/Interaction/ShowWhileInRadius.cs" id="25_0y114"]
@@ -45,6 +47,7 @@
 [ext_resource type="Texture2D" uid="uid://d1yvwy2drdwqd" path="res://assets/tilemaps/Reg tree wall.png" id="38_dsao3"]
 [ext_resource type="Texture2D" uid="uid://cn0pcaddy8lcv" path="res://assets/tilemaps/TX Struct.png" id="39_jhhw6"]
 [ext_resource type="Texture2D" uid="uid://bxo85wuubsbn2" path="res://assets/tilemaps/TX Tileset Wall.png" id="40_6y0o1"]
+[ext_resource type="Script" path="res://scripts/Interaction/CodeInput.cs" id="48_x4dce"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qwcva"]
 bg_color = Color(0.6, 0.6, 0.6, 0.654902)
@@ -17476,25 +17479,21 @@ scale = Vector2(2, 2)
 tile_map_data = PackedByteArray("AACY/zoAAAAHAA8AAACY/zsAAAAHABAAAACY/zwAAAAHABEAAACY/z0AAAAHABIAAACY/z4AAAAHABMAAACZ/zoAAAAIAA8AAACZ/zsAAAAIABAAAACZ/zwAAAAIABEAAACZ/z0AAAAIABIAAACZ/z4AAAAIABMAAACa/zkAAAAJAA4AAACa/zoAAAAJAA8AAACa/zsAAAAJABAAAACa/zwAAAAJABEAAACa/z0AAAAJABIAAACa/z4AAAAJABMAAACb/zcAAAAKAAwAAACb/zgAAAAKAA0AAACb/zkAAAAKAA4AAACb/zoAAAAKAA8AAACb/zsAAAAKABAAAACb/zwAAAAKABEAAACb/z0AAAAKABIAAACb/z4AAAAKABMAAACc/zcAAAALAAwAAACc/zgAAAALAA0AAACc/zkAAAALAA4AAACc/zoAAAALAA8AAACc/zsAAAALABAAAACc/zwAAAALABEAAACc/z0AAAALABIAAACc/z4AAAALABMAAACd/zYAAAAMAAsAAACd/zcAAAAMAAwAAACd/zgAAAAMAA0AAACd/zkAAAAMAA4AAACd/zoAAAAMAA8AAACd/zsAAAAMABAAAACd/zwAAAAMABEAAACd/z0AAAAMABIAAACd/z4AAAAMABMAAACd/z8AAAAMABQAAACe/zIAAAANAAcAAACe/zMAAAANAAgAAACe/zQAAAANAAkAAACe/zUAAAANAAoAAACe/zYAAAANAAsAAACe/zcAAAANAAwAAACe/zgAAAANAA0AAACe/zkAAAANAA4AAACe/zoAAAANAA8AAACe/zsAAAANABAAAACe/zwAAAANABEAAACe/z0AAAANABIAAACe/z4AAAANABMAAACe/z8AAAANABQAAACe/0AAAAANABUAAACe/0EAAAANABYAAACf/zEAAAAOAAYAAACf/zIAAAAOAAcAAACf/zMAAAAOAAgAAACf/zQAAAAOAAkAAACf/zUAAAAOAAoAAACf/zYAAAAOAAsAAACf/zcAAAAOAAwAAACf/zgAAAAOAA0AAACf/zkAAAAOAA4AAACf/zoAAAAOAA8AAACf/zsAAAAOABAAAACf/zwAAAAOABEAAACf/z0AAAAOABIAAACf/z4AAAAOABMAAACf/z8AAAAOABQAAACf/0AAAAAOABUAAACf/0EAAAAOABYAAACf/0IAAAAOABcAAACf/0MAAAAOABgAAACg/zEAAAAPAAYAAACg/zIAAAAPAAcAAACg/zMAAAAPAAgAAACg/zQAAAAPAAkAAACg/zUAAAAPAAoAAACg/zYAAAAPAAsAAACg/zcAAAAPAAwAAACg/zgAAAAPAA0AAACg/zkAAAAPAA4AAACg/zoAAAAPAA8AAACg/zsAAAAPABAAAACg/zwAAAAPABEAAACg/z0AAAAPABIAAACg/z4AAAAPABMAAACg/z8AAAAPABQAAACg/0AAAAAPABUAAACg/0EAAAAPABYAAACg/0IAAAAPABcAAACg/0MAAAAPABgAAACh/zEAAAAQAAYAAACh/zIAAAAQAAcAAACh/zMAAAAQAAgAAACh/zQAAAAQAAkAAACh/zUAAAAQAAoAAACh/zYAAAAQAAsAAACh/zcAAAAQAAwAAACh/zgAAAAQAA0AAACh/zkAAAAQAA4AAACh/zoAAAAQAA8AAACh/zsAAAAQABAAAACh/zwAAAAQABEAAACh/z0AAAAQABIAAACh/z4AAAAQABMAAACh/z8AAAAQABQAAACh/0AAAAAQABUAAACh/0EAAAAQABYAAACh/0IAAAAQABcAAACh/0MAAAAQABgAAACi/zIAAAARAAcAAACi/zMAAAARAAgAAACi/zQAAAARAAkAAACi/zUAAAARAAoAAACi/zYAAAARAAsAAACi/zcAAAARAAwAAACi/zgAAAARAA0AAACi/zkAAAARAA4AAACi/zoAAAARAA8AAACi/zsAAAARABAAAACi/zwAAAARABEAAACi/z0AAAARABIAAACi/z4AAAARABMAAACi/z8AAAARABQAAACi/0AAAAARABUAAACi/0EAAAARABYAAACi/0IAAAARABcAAACj/zYAAAASAAsAAACj/zcAAAASAAwAAACj/zgAAAASAA0AAACj/zkAAAASAA4AAACj/zoAAAASAA8AAACj/zsAAAASABAAAACj/zwAAAASABEAAACj/z0AAAASABIAAACj/z4AAAASABMAAACj/z8AAAASABQAAACk/zcAAAATAAwAAACk/zgAAAATAA0AAACk/zkAAAATAA4AAACk/zoAAAATAA8AAACk/zsAAAATABAAAACk/zwAAAATABEAAACk/z0AAAATABIAAACk/z4AAAATABMAAACl/zcAAAAUAAwAAACl/zgAAAAUAA0AAACl/zkAAAAUAA4AAACl/zoAAAAUAA8AAACl/zsAAAAUABAAAACl/zwAAAAUABEAAACl/z0AAAAUABIAAACl/z4AAAAUABMAAACm/zkAAAAVAA4AAACm/zoAAAAVAA8AAACm/zsAAAAVABAAAACm/z0AAAAVABIAAACn/zoAAAAWAA8AAACn/zsAAAAWABAAAACn/zwAAAAWABEAAACn/z0AAAAWABIAAACn/z4AAAAWABMAAACo/zoAAAAXAA8AAACo/zsAAAAXABAAAACo/zwAAAAXABEAAACo/z0AAAAXABIAAACo/z4AAAAXABMAAAA=")
 tile_set = SubResource("TileSet_wfm3d")
 
-[node name="Spaceship" parent="Spaceport" instance=ExtResource("13_05imv")]
-position = Vector2(-2936, 2018)
-scale = Vector2(0.2, 0.2)
-ObjectName = "Spaceport"
-ObjectDescription = "A lone remaining Spaceship in an empty field. It seems that the shadow creatures destroyed the machinery before it could fly away. It looks like we can farm some materials from it."
-ObjectHint = "Tell the commander about the object you just spotted. You may use the command [GOTO and INTERACT] on this object if the commander explicitly told you to engage with it."
-RemovedAfter = false
-AddedMaterial = 4
-Amount = 2
-
-[node name="SpaceportShow" type="Node2D" parent="Spaceport/Spaceship"]
-script = ExtResource("25_0y114")
-
 [node name="StaticBody2D" type="StaticBody2D" parent="Spaceport"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Spaceport/StaticBody2D"]
 position = Vector2(-3051, 1924)
 scale = Vector2(0.12, 0.2)
 shape = SubResource("CapsuleShape2D_eygxo")
+
+[node name="Spaceship" parent="Spaceport" instance=ExtResource("13_05imv")]
+position = Vector2(-2941, 2070)
+ObjectName = "Spaceship"
+ObjectDescription = "A lone remaining Spaceship in an empty field. It seems that the shadow creatures destroyed the machinery before it could fly away. It looks like we can farm some materials from it."
+ObjectHint = "Tell the commander about the object you just spotted. You may use the command [GOTO and INTERACT] on this object if the commander explicitly told you to engage with it."
+RemovedAfter = false
+AddedMaterial = 4
+Amount = 2
 
 [node name="TorchOld" type="Node2D" parent="."]
 position = Vector2(5538, -6212)
@@ -18174,13 +18173,42 @@ position = Vector2(2, -2)
 scale = Vector2(0.2, 0.2)
 texture = ExtResource("20_lgqcj")
 
-[node name="RuneHolder" parent="." instance=ExtResource("13_05imv")]
+[node name="RuneHolder" type="Node2D" parent="."]
 position = Vector2(927, -639)
+script = ExtResource("22_8wkxe")
 ObjectName = "Rune Holder"
 ObjectDescription = "There is a Code needed"
 ObjectHint = "Tell the commander about the object you just spotted."
-Interactable = false
 RemovedAfter = false
+CustomOverrideMessage = "Please enter the code"
+
+[node name="VisibleForAI" type="Node2D" parent="RuneHolder"]
+script = ExtResource("6_7bcmx")
+NameForAi = "Notebook"
+
+[node name="ItemAdder" type="Node2D" parent="RuneHolder"]
+script = ExtResource("21_2au4o")
+
+[node name="ShowWhileInRadius" type="Node2D" parent="RuneHolder"]
+script = ExtResource("25_0y114")
+
+[node name="Removeable" type="Node" parent="RuneHolder"]
+script = ExtResource("24_ex5ip")
+
+[node name="Interactable" type="Node2D" parent="RuneHolder"]
+script = ExtResource("7_ji1nn")
+
+[node name="CodeInput" type="Node2D" parent="RuneHolder"]
+script = ExtResource("48_x4dce")
+
+[node name="CodeInputField" type="LineEdit" parent="RuneHolder"]
+visible = false
+z_index = 4096
+offset_left = -412.0
+offset_top = -25.0
+offset_right = -29.0
+offset_bottom = 25.0
+placeholder_text = "Input Code here"
 
 [node name="Statue" parent="." instance=ExtResource("13_05imv")]
 position = Vector2(128, -34)
@@ -18205,3 +18233,15 @@ ObjectDescription = "This looks like it was a castle from long ago. But it's tot
 ObjectHint = "Tell the commander about the object you just spotted. You may use the command [GOTO] on this object if the commander explicitly told you to engage with it."
 Interactable = false
 RemovedAfter = false
+
+[node name="NotebookWithCode" parent="." instance=ExtResource("13_05imv")]
+visible = false
+position = Vector2(-5354, -746)
+RemovedAfter = false
+CustomOverrideMessage = "Tell the commander that the code is 1234"
+
+[node name="Notebook_sprite" type="Sprite2D" parent="NotebookWithCode"]
+z_index = 5
+position = Vector2(2, -2)
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("20_lgqcj")

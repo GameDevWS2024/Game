@@ -71,7 +71,7 @@ public partial class Ally : CharacterBody2D
         /*
 		SsInventory.AddItem(new Itemstack(Game.Scripts.Items.Material.Torch));
 		lit = true; */
-        SsInventory.AddItem(new Itemstack(Items.Material.FestiveStaff, 1));
+        //SsInventory.AddItem(new Itemstack(Items.Material.FestiveStaff, 1));
 
         torch = GetNode<PointLight2D>("AllyTorch");
 

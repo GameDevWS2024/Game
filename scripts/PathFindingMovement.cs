@@ -18,6 +18,17 @@ public partial class PathFindingMovement : Node
     private bool _reachedTarget;
     private int _currentTargetDistance;
 
+    public enum WalkingState
+    {
+        Left,
+        Right,
+        IdleLeft,
+        IdleRight
+    }
+
+    public WalkingState CurrentDirection { get; private set; } = WalkingState.IdleLeft;
+
+
     public override void _Ready()
     {
         _currentTargetDistance = _minTargetDistance;
@@ -53,6 +64,14 @@ public partial class PathFindingMovement : Node
             Vector2 currentLocation = _character.GlobalPosition;
             Vector2 nextLocation = _agent.GetNextPathPosition();
             Vector2 newVel = (nextLocation - currentLocation).Normalized() * _speed;
+            if (nextLocation.X < currentLocation.X)
+            {
+                CurrentDirection = WalkingState.Left;
+            }
+            else
+            {
+                CurrentDirection = WalkingState.Right;
+            }
 
             if (newVel.X != 0)
             {
@@ -64,6 +83,15 @@ public partial class PathFindingMovement : Node
         }
         else if (!_reachedTarget) // Only emit and set _reachedTarget once, when the condition is first met
         {
+            if (CurrentDirection == PathFindingMovement.WalkingState.Left)
+            {
+                CurrentDirection = WalkingState.IdleLeft;
+            }
+            else
+            {
+                CurrentDirection = WalkingState.IdleRight;
+            }
+
             _currentTargetDistance = _minTargetDistance; // Reset for the next target
             EmitSignal(SignalName.ReachedTarget);
             _reachedTarget = true;

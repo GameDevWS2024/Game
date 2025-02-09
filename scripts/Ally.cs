@@ -46,7 +46,7 @@ public partial class Ally : CharacterBody2D
 
     [Export] private int _maxHistory = 5; // Number of interactions to keep
 
-    private PointLight2D torch = null!;
+    private PointLight2D _torch = null!;
 
     //Enum with states for ally in darkness, in bigger or smaller circle for map damage system
     public enum AllyState
@@ -73,7 +73,7 @@ public partial class Ally : CharacterBody2D
 		lit = true; */
         //SsInventory.AddItem(new Itemstack(Items.Material.FestiveStaff, 1));
 
-        torch = GetNode<PointLight2D>("AllyTorch");
+        _torch = GetNode<PointLight2D>("AllyTorch");
 
         _ally1ResponseField = GetNode<RichTextLabel>("ResponseField");
         _ally2ResponseField = GetNode<RichTextLabel>("ResponseField");
@@ -180,11 +180,11 @@ public partial class Ally : CharacterBody2D
             _hasSeenOtherAlly = false;
         }
 
-        if (!torch.Enabled)
+        if (!_torch.Enabled)
         {
             if (Lit)
             {
-                torch.Enabled = true;
+                _torch.Enabled = true;
             }
         }
 

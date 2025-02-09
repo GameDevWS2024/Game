@@ -1,6 +1,6 @@
 using Godot;
 public partial class CodeInput : Node2D
-{    
+{
     private LineEdit _codeinputfield = null!;
     private AnimationPlayer _fadeToWhite = null!;
     private Node2D _victoryScreen = null!;
@@ -12,22 +12,25 @@ public partial class CodeInput : Node2D
     }
     public override void _PhysicsProcess(double delta)
     {
-            Interactable interactable = GetParent().GetNode<Interactable>("Interactable");
-            if (interactable != null)
-            {
-                interactable.Interact += OpenTextField;
-            }
+        Interactable interactable = GetParent().GetNode<Interactable>("Interactable");
+        if (interactable != null)
+        {
+            interactable.Interact += OpenTextField;
+        }
 
     }
 
-    private void OnInputSubmitted(string text) {
-        if(text.Contains("1234")) {
+    private void OnInputSubmitted(string text)
+    {
+        if (text.Contains("1234"))
+        {
             GD.Print("Game Won");
             _fadeToWhite.Play("fade_to_white");
         }
     }
 
-    private void OpenTextField(){
+    private void OpenTextField()
+    {
         _codeinputfield.Visible = true;
         _codeinputfield.GrabFocus();
     }

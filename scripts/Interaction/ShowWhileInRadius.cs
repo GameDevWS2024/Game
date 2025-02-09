@@ -146,13 +146,15 @@ public partial class ShowWhileInRadius : Node2D
                    */
 
                 }
-                
-                if (entity is Ally allyinv){
+
+                if (entity is Ally allyinv)
+                {
                     Node2D parentNode = this.GetParent<Node2D>();
                     //GD.Print("Parent Node Name: ", parentNode.Name);
                     //GD.Print("Distance to RuneHolder: ", allyinv.GlobalPosition.DistanceTo(parentNode.GlobalPosition));
                     //GD.Print("Ally has FestiveStaff: ", allyinv.SsInventory.ContainsMaterial(Game.Scripts.Items.Material.FestiveStaff));
-                    if (parentNode.Name == "Rune" && allyinv.GlobalPosition.DistanceTo(parentNode.GlobalPosition) < 250 && allyinv.SsInventory.ContainsMaterial(Game.Scripts.Items.Material.FestiveStaff) && !_ghostspawned) {
+                    if (parentNode.Name == "Rune" && allyinv.GlobalPosition.DistanceTo(parentNode.GlobalPosition) < 250 && allyinv.SsInventory.ContainsMaterial(Game.Scripts.Items.Material.FestiveStaff) && !_ghostspawned)
+                    {
                         GD.Print("Ghost spawned");
                         PackedScene scene = (PackedScene)ResourceLoader.Load("res://scenes/prefabs/ai_node.tscn");
                         AiNode instance = scene.Instantiate<AiNode>();
@@ -165,7 +167,8 @@ public partial class ShowWhileInRadius : Node2D
                         _ghostspawned = true;
                     }
 
-                    if (parentNode.Name == "Rune" && allyinv.GlobalPosition.DistanceTo(GetTree().Root.GetNode<Node2D>("Node2D/Spaceport/Spaceship").GlobalPosition) < 250 && allyinv.SsInventory.ContainsMaterial(Game.Scripts.Items.Material.Copper) && _ghostspawned && !_notebookspawned) {
+                    if (parentNode.Name == "Rune" && allyinv.GlobalPosition.DistanceTo(GetTree().Root.GetNode<Node2D>("Node2D/Spaceport/Spaceship").GlobalPosition) < 250 && allyinv.SsInventory.ContainsMaterial(Game.Scripts.Items.Material.Copper) && _ghostspawned && !_notebookspawned)
+                    {
                         GD.Print("Notebook spawned");
                         _notebookspawned = true;
                         _notebookCode.Visible = true;

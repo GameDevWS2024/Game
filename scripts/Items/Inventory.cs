@@ -96,8 +96,8 @@ public partial class Inventory
         //GD.Print(itemstack.Material.ToString() + " with amount:"+ itemstack.Amount +"added to Inventory");
         if (itemstack.Amount == 0)
         {
-            GD.Print("[Inventory.cs] Did not add item "+ itemstack.Material.ToString() + " to inventory because Amount was 0");
-            return; 
+            GD.Print("[Inventory.cs] Did not add item " + itemstack.Material.ToString() + " to inventory because Amount was 0");
+            return;
         }
 
         int none = -1;

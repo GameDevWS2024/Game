@@ -180,8 +180,10 @@ public partial class Ally : CharacterBody2D
             _hasSeenOtherAlly = false;
         }
 
-        if(!torch.Enabled){
-            if(Lit){
+        if (!torch.Enabled)
+        {
+            if (Lit)
+            {
                 torch.Enabled = true;
             }
         }

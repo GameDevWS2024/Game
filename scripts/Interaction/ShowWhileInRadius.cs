@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Game.Scripts;
-using Game.Scripts.Items;
 using Game.Scripts.AI;
 using Game.Scripts.Interaction;
+using Game.Scripts.Items;
 
 using Godot;
 using Godot.Collections;
@@ -91,9 +91,10 @@ public partial class ShowWhileInRadius : Node2D
                          && (NeedsToBeInInventoryName == Game.Scripts.Items.Material.None || (_nearestAlly.SsInventory.ContainsMaterial(NeedsToBeInInventoryName) && _nearestAlly.Lit)))
                 {
                     show = true;
-                    
+
                     //creates the festive staff when the chest is spawned 
-                    if(this.Name == "ChestInsideHouse" && !festiveStaffCollected){
+                    if (this.Name == "ChestInsideHouse" && !festiveStaffCollected)
+                    {
                         PackedScene scene = (PackedScene)ResourceLoader.Load("res://scenes/prefabs/ai_node.tscn");
                         AiNode instance = scene.Instantiate<AiNode>();
                         instance.Position = new Vector2(0, 20);
@@ -111,7 +112,7 @@ public partial class ShowWhileInRadius : Node2D
                         festiveStaffCollected = true;
                         _nearestAlly.SsInventory.AddItem(new Itemstack(Game.Scripts.Items.Material.FestiveStaff, 1));
                     }*/
-                    
+
                     /*
                    if (this.GetName() != "Sprite2D")
                    {
@@ -144,7 +145,8 @@ public partial class ShowWhileInRadius : Node2D
                 }
             }
         }
-        if(GetParent().Name == "Sprite2D"){
+        if (GetParent().Name == "Sprite2D")
+        {
             Sprite2D? sprite = GetParent<Sprite2D>();
             if (sprite != null)
             {

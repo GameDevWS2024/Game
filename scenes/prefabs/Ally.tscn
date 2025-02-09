@@ -160,6 +160,7 @@ _motivation = NodePath("../Motivation")
 script = ExtResource("10_sc05j")
 
 [node name="InventoryUI" parent="." instance=ExtResource("9_hl1go")]
+z_index = 4096
 offset_left = -278.0
 offset_top = -117.0
 offset_right = -184.0

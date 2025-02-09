@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Game.Scripts;
+using Game.Scripts.Items;
 using Game.Scripts.AI;
 using Game.Scripts.Interaction;
 
@@ -27,6 +28,8 @@ public partial class ShowWhileInRadius : Node2D
     Godot.Collections.Array<Node> _entities = null!;
     Ally _nearestAlly = null!;
     private Array<Node> _entitiesList = null!;
+    private bool festiveStaffCollected;
+    private bool copperCollected;
 
     // Load the scene you want to instance.   ONLY FOR CHEST INSIDE BIG HOUSE
     private PackedScene _sceneToInstance = null!;
@@ -88,6 +91,27 @@ public partial class ShowWhileInRadius : Node2D
                          && (NeedsToBeInInventoryName == Game.Scripts.Items.Material.None || (_nearestAlly.SsInventory.ContainsMaterial(NeedsToBeInInventoryName) && _nearestAlly.Lit)))
                 {
                     show = true;
+                    
+                    //creates the festive staff when the chest is spawned 
+                    if(this.Name == "ChestInsideHouse" && !festiveStaffCollected){
+                        PackedScene scene = (PackedScene)ResourceLoader.Load("res://scenes/prefabs/ai_node.tscn");
+                        AiNode instance = scene.Instantiate<AiNode>();
+                        instance.Position = new Vector2(0, 20);
+                        instance.ObjectName = "Festive Staff";
+                        instance.ObjectDescription = "A ceremonial stick which seems to have some cultural background and might have been used for rituals at (8630, -2846)";
+                        instance.AddedMaterial = Game.Scripts.Items.Material.FestiveStaff;
+                        instance.ObjectHint = "Tell the commander about the object you just spotted. You may use the command [GOTO and INTERACT] on this object if the commander explicitly told you to engage with it.";
+                        instance.Amount = 1;
+                        instance.CustomOverrideMessage = "you have picked up the festive staff, it could be useful for something at the rune, you remember that there is a hole there that could be the perfect fit";
+                        AddChild(instance);
+                        festiveStaffCollected = true;
+                    }
+
+                    /*if(!festiveStaffCollected && _nearestAlly.GlobalPosition.DistanceTo(new Vector2(8630, -2846)) < 100){
+                        festiveStaffCollected = true;
+                        _nearestAlly.SsInventory.AddItem(new Itemstack(Game.Scripts.Items.Material.FestiveStaff, 1));
+                    }*/
+                    
                     /*
                    if (this.GetName() != "Sprite2D")
                    {
@@ -120,14 +144,16 @@ public partial class ShowWhileInRadius : Node2D
                 }
             }
         }
-        Sprite2D? sprite = GetParent<Sprite2D>();
-        if (sprite != null)
-        {
-            SetShowSceneState(sprite, show);
-        }
-        else
-        {
-            GD.Print("Sprite2D is null. Can't show chest right now!");
+        if(GetParent().Name == "Sprite2D"){
+            Sprite2D? sprite = GetParent<Sprite2D>();
+            if (sprite != null)
+            {
+                SetShowSceneState(sprite, show);
+            }
+            else
+            {
+                GD.Print("Sprite2D is null. Can't show chest right now!");
+            }
         }
 
 

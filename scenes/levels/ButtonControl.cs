@@ -21,7 +21,7 @@ public partial class ButtonControl : Control
     [Export] private RichTextLabel _ally1ResponseField = null!;
     [Export] private RichTextLabel _ally2ResponseField = null!;
 
-    private int _currentCamera = 1; // Tracks which camera is active (1 = _ally1, 2 = _ally2)
+    public int CurrentCamera = 1; // Tracks which camera is active (1 = _ally1, 2 = _ally2)
     private CharacterBody2D? _activeCharacter = null; // currently active character
     private PathFindingMovement? _activePathfinder = null; // The active character's pathfinding logic
     private Vector2 _targetPosition; // Target position for movement
@@ -71,7 +71,7 @@ public partial class ButtonControl : Control
         base._Process(delta);
 
         // Synchronize UI positions with the camera
-        Vector2 cameraPosition = (_currentCamera == 1) ? _camera1.GlobalPosition : _camera2.GlobalPosition;
+        Vector2 cameraPosition = (CurrentCamera == 1) ? _camera1.GlobalPosition : _camera2.GlobalPosition;
 
         _ally1Chat.GlobalPosition = cameraPosition + new Vector2(519, 168);
         _ally2Chat.GlobalPosition = cameraPosition + new Vector2(519, 168);
@@ -178,7 +178,7 @@ public partial class ButtonControl : Control
 
             _activeCharacter = _ally1;
             _activePathfinder = _ally1Pathfinder;
-            _currentCamera = 1;
+            CurrentCamera = 1;
 
             // Update button states
             _buttonAlly1.SetPressedNoSignal(true);
@@ -197,7 +197,7 @@ public partial class ButtonControl : Control
 
             _activeCharacter = _ally2;
             _activePathfinder = _ally2Pathfinder;
-            _currentCamera = 2;
+            CurrentCamera = 2;
 
             // Update button states
             _buttonAlly1.SetPressedNoSignal(false);
@@ -210,7 +210,7 @@ public partial class ButtonControl : Control
     private void UpdateButtonPositions()
     {
         // Update button positions relative to the active chat's position
-        Chat activeChat = _currentCamera == 1 ? _ally1Chat : _ally2Chat;
+        Chat activeChat = CurrentCamera == 1 ? _ally1Chat : _ally2Chat;
         Vector2 chatGlobalPosition = activeChat.GlobalPosition;
 
         _buttonAlly1.GlobalPosition = chatGlobalPosition - new Vector2(0, 80);
@@ -239,7 +239,7 @@ public partial class ButtonControl : Control
     private void HandleResponse(string response)
     {
         // Handle the response received from the chat
-        int activeAlly = _currentCamera;
+        int activeAlly = CurrentCamera;
         //DisplayResponse(response, activeAlly);
     }
 }

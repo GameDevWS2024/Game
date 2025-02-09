@@ -40,11 +40,14 @@ public partial class Ally : CharacterBody2D
     private GenerativeAI.Methods.ChatSession? _chat;
     private GeminiService? _geminiService;
     private readonly List<string> _interactionHistory = [];
-    AnimationPlayer animPlayer = null!;
+    AnimationPlayer _animPlayer = null!;
+    private PointLight2D _coreLight = null!;
 
     public Boolean Lit = false;
 
     [Export] private int _maxHistory = 5; // Number of interactions to keep
+
+    private PointLight2D _torch = null!;
 
     //Enum with states for ally in darkness, in bigger or smaller circle for map damage system
     public enum AllyState
@@ -58,6 +61,7 @@ public partial class Ally : CharacterBody2D
     private Ally _otherAlly = null!;
     public override void _Ready()
     {
+        _coreLight = GetParent().GetNode<PointLight2D>("%Core/%CoreLight");
         foreach (Ally ally in GetTree().GetNodesInGroup("Entities").OfType<Ally>().ToList())
         {
             if (ally != this)
@@ -68,14 +72,18 @@ public partial class Ally : CharacterBody2D
         /*
 		SsInventory.AddItem(new Itemstack(Game.Scripts.Items.Material.Torch));
 		lit = true; */
-        // SsInventory.AddItem(new Itemstack(Items.Material.Torch, 1));
+        //SsInventory.AddItem(new Itemstack(Items.Material.FestiveStaff, 1));
 
+        _torch = GetNode<PointLight2D>("AllyTorch");
 
         _ally1ResponseField = GetNode<RichTextLabel>("ResponseField");
         _ally2ResponseField = GetNode<RichTextLabel>("ResponseField");
 
         _core = GetTree().GetNodesInGroup("Core").OfType<Core>().FirstOrDefault()!;
         Map = GetTree().Root.GetNode<Map>("Node2D");
+
+        //sorgt dafür dass die zwei allies am Anfang nicht weg rennen
+        PathFindingMovement.TargetPosition = this.GlobalPosition;
 
         _geminiService = Chat.GeminiService;
         _chat = _geminiService!.Chat;
@@ -107,8 +115,8 @@ public partial class Ally : CharacterBody2D
             GD.PrintErr("PathFindingMovement node is not assigned in the editor!");
         }
         Chat.ResponseReceived += HandleResponse;
-        animPlayer = GetNode<AnimationPlayer>("AnimationPlayer2");
-        animPlayer.Play("Walk-Right");
+        _animPlayer = GetNode<AnimationPlayer>("AnimationPlayer2");
+        _animPlayer.Play("Walk-Right");
     }
 
     private void HandleTargetReached()
@@ -145,7 +153,7 @@ public partial class Ally : CharacterBody2D
     public void SetAllyInDarkness()
     {
         // Berechne den Abstand zwischen Ally und Core
-        Vector2 distance = this.GlobalPosition - _core.GlobalPosition;
+        Vector2 distance = this.GlobalPosition - _coreLight.GlobalPosition;
         float distanceLength = distance.Length(); // Berechne die Länge des Vektors
 
         // If ally further away than big circle, he is in the darkness
@@ -175,6 +183,13 @@ public partial class Ally : CharacterBody2D
             _hasSeenOtherAlly = false;
         }
 
+        if (!_torch.Enabled)
+        {
+            if (Lit)
+            {
+                _torch.Enabled = true;
+            }
+        }
 
         if (!_hasSeenOtherAlly)
         {
@@ -196,17 +211,17 @@ public partial class Ally : CharacterBody2D
 
         if (PathFindingMovement.CurrentDirection == PathFindingMovement.WalkingState.Left)
         {
-            animPlayer.Play("Walk-Left");
+            _animPlayer.Play("Walk-Left");
         }
         else if (PathFindingMovement.CurrentDirection == PathFindingMovement.WalkingState.Right)
         {
-            animPlayer.Play("Walk-Right");
+            _animPlayer.Play("Walk-Right");
         }
         else if (PathFindingMovement.CurrentDirection == PathFindingMovement.WalkingState.IdleLeft)
         {
-            animPlayer.Play("Idle-Left");
+            _animPlayer.Play("Idle-Left");
         }
-        else { animPlayer.Play("Idle-Right"); }
+        else { _animPlayer.Play("Idle-Right"); }
 
         _reached = GlobalPosition.DistanceTo(PathFindingMovement.TargetPosition) < 150;
 
@@ -232,13 +247,6 @@ public partial class Ally : CharacterBody2D
 			 GD.Print("Core position" + GetNode<Core>("%Core").GlobalPosition);
 			 GD.Print("Core position" + GetNode<PointLight2D>("%CoreLight").GlobalPosition);
 			 */
-        }
-        if (Lit)
-        {
-            //    GetParent().GetNode<ShowWhileInRadius>("Abandoned Village/HauntedForestVillage/Big House/Sprite2D/InsideBigHouse2/InsideBigHouse/Sprite2D/ChestInsideHouse").ItemActivationStatus = GlobalPosition.DistanceTo(GetParent().GetNode<Node2D>("Abandoned Village/HauntedForestVillage/%Big House").GlobalPosition) < 1000;
-            GetTree().Root.GetNode<ShowWhileInRadius>(
-                    "Node2D/Abandoned Village/HauntedForestVillage/Big House/Sprite2D/InsideBigHouse2/InsideBigHouse/Sprite2D/ChestInsideHouse")
-            .ItemActivationStatus = GlobalPosition.DistanceTo(new Vector2(8650, -1315)) < 1000;
         }
     }//Node2D/Abandoned Village/HauntedForestVillage/Big House/Sprite2D/InsideBigHouse2/InsideBigHouse/Sprite2D/ChestInsideHouse
 

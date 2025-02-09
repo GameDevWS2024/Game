@@ -52,9 +52,23 @@ public partial class IntroScene : Control
     private Timer? _shakeTimer; // Timer for controlling camera shake
     private int _shakeDuration = 30; // Number of shake movements
     private float _shakeIntensity = 50.0f; // Intensity of the shake
+    private Control _button = null!;
+    private RichTextLabel _ally1ResponseField = null!;
+    private Chat _ally1Chat = null!;
+    private RichTextLabel _ally2ResponseField = null!;
+    private AudioStreamPlayer _introMusic = null!;
 
     public override void _Ready()
     {
+        _introMusic = GetParent().GetNode<AudioStreamPlayer>("AudioManager/intro_music");
+        _ally1ResponseField = GetTree().Root.GetNode<RichTextLabel>("Node2D/Ally/ResponseField");
+        _ally2ResponseField = GetTree().Root.GetNode<RichTextLabel>("Node2D/Ally2/ResponseField");
+        _ally1Chat = GetTree().Root.GetNode<Chat>("Node2D/Ally/Ally1Cam/Ally1Chat");
+        _ally1ResponseField.Visible = false;
+        _ally2ResponseField.Visible = false;
+        _ally1Chat.Visible = false;
+        _button = GetTree().Root.GetNode<Control>("Node2D/UI");
+        _button.Visible = false;
         _mainCamera = _ally.GetNode<Camera2D>("Ally1Cam");
 
         // Szene überspringen, wenn sie deaktiviert ist
@@ -109,6 +123,8 @@ public partial class IntroScene : Control
 
         // Pause the game initially
         GetTree().Paused = true;
+
+        _introMusic.Play();
 
         // Display the first line of dialog
         ShowCurrentLine();
@@ -261,9 +277,13 @@ public partial class IntroScene : Control
                 uiButton.MouseFilter = Control.MouseFilterEnum.Stop;
             }
         }
-
+        _button.Visible = true;
+        _ally1ResponseField.Visible = true;
+        _ally2ResponseField.Visible = true;
+        _ally1Chat.Visible = true;
         // Resume the game
         GetTree().Paused = false;
+        _introMusic.Stop();
     }
 
     private void SetBlackoutAlpha(float alpha)

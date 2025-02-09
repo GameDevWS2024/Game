@@ -1,12 +1,14 @@
+using Game.Scenes.Levels;
+
 using Godot;
 
 public partial class PathFindingMovement : Node
 {
     [Signal] public delegate void ReachedTargetEventHandler();
 
-    [Export] private int _minTargetDistance = 300;
+    [Export] private int _minTargetDistance = 30;
     [Export] private int _targetDistanceVariation = 50; // Not currently used, consider removing or implementing variation
-    [Export] private int _speed = 250;
+    [Export] private int _speed = 250; //was 250
     [Export] bool _debug = false;
 
     [Export] CharacterBody2D _character = null!;
@@ -14,9 +16,12 @@ public partial class PathFindingMovement : Node
     [Export] Sprite2D _sprite = null!;
 
     public Vector2 TargetPosition { get; set; }
-
+    private object _lastCollider = null; // Speichert den letzten Kollisionspartner
+    private bool _recentlyBumped = false; // Verhindert Dauersound
     private bool _reachedTarget;
     private int _currentTargetDistance;
+    private AudioStreamPlayer? _bumpSound = null!;
+    private ButtonControl _buttonControl = null!;
 
     public enum WalkingState
     {
@@ -33,6 +38,8 @@ public partial class PathFindingMovement : Node
     {
         _currentTargetDistance = _minTargetDistance;
         this.CallDeferred("ActorSetup"); // Still good to defer setup
+        _bumpSound = GetTree().Root.GetNode<AudioStreamPlayer>("Node2D/AudioManager/bump_sound");
+        _buttonControl = GetTree().Root.GetNode<ButtonControl>("Node2D/UI");
     }
 
     public async void ActorSetup()
@@ -73,13 +80,34 @@ public partial class PathFindingMovement : Node
                 CurrentDirection = WalkingState.Right;
             }
 
-            if (newVel.X != 0)
+            if (newVel.X != 0 && distanceToTarget > 50)
             {
                 _sprite.FlipH = newVel.X > 0;
             }
 
             _character.Velocity = newVel;
-            _character.MoveAndSlide();
+            KinematicCollision2D collision = _character.MoveAndCollide(newVel * (float)delta);
+            if (collision != null)
+            {
+                // Prüfen, ob der Kollisionspartner neu ist
+                if (collision.GetCollider() != _lastCollider)
+                {
+                    if (_character.Name == "Ally" && _buttonControl.CurrentCamera == 1 || _character.Name == "Ally2" && _buttonControl.CurrentCamera == 2)
+                    {
+                        _lastCollider = collision.GetCollider(); // Aktualisieren
+                        _bumpSound.Play();
+                        _recentlyBumped = true;
+                    }
+                }
+            }
+            else
+            {
+                // Keine Kollision mehr, Zustand zurücksetzen
+                _lastCollider = null;
+                _recentlyBumped = false;
+            }
+
+            _character.Velocity = newVel;
         }
         else if (!_reachedTarget) // Only emit and set _reachedTarget once, when the condition is first met
         {

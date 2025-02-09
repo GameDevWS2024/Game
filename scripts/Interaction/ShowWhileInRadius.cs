@@ -5,6 +5,7 @@ using System.Linq;
 using Game.Scripts;
 using Game.Scripts.AI;
 using Game.Scripts.Interaction;
+using Game.Scripts.Items;
 
 using Godot;
 using Godot.Collections;
@@ -27,12 +28,18 @@ public partial class ShowWhileInRadius : Node2D
     Godot.Collections.Array<Node> _entities = null!;
     Ally _nearestAlly = null!;
     private Array<Node> _entitiesList = null!;
+    private bool _festiveStaffCollected;
+    private bool _copperCollected;
+    Boolean _ghostspawned = false;
+    Boolean _notebookspawned = false;
+    AiNode _notebookCode = null!;
 
     // Load the scene you want to instance.   ONLY FOR CHEST INSIDE BIG HOUSE
     private PackedScene _sceneToInstance = null!;
 
     public override void _Ready()
     {
+        _notebookCode = GetTree().Root.GetNode<AiNode>("Node2D/NotebookWithCode");
         _core = GetTree().GetNodesInGroup("Core").Cast<Core>().SingleOrDefault();
         _entitiesList = GetTree().GetNodesInGroup("Entities");
         float dist = float.MaxValue;
@@ -88,6 +95,27 @@ public partial class ShowWhileInRadius : Node2D
                          && (NeedsToBeInInventoryName == Game.Scripts.Items.Material.None || (_nearestAlly.SsInventory.ContainsMaterial(NeedsToBeInInventoryName) && _nearestAlly.Lit)))
                 {
                     show = true;
+
+                    //creates the festive staff when the chest is spawned 
+                    if (this.Name == "ChestInsideHouse" && !_festiveStaffCollected)
+                    {
+                        PackedScene scene = (PackedScene)ResourceLoader.Load("res://scenes/prefabs/ai_node.tscn");
+                        AiNode instance = scene.Instantiate<AiNode>();
+                        instance.Position = new Vector2(0, 20);
+                        instance.ObjectName = "Festive Staff";
+                        instance.Interactable = true;
+                        instance.RemovedAfter = true;
+                        instance.ObjectDescription = "A ceremonial stick which seems to have some cultural background and might have been used for rituals at (8630, -2846)";
+                        instance.ObjectHint = "Tell the commander about the object you just spotted. You may use the command [GOTO and INTERACT] on this object if the commander explicitly told you to engage with it.";
+                        instance.CustomOverrideMessage = "you have picked up the festive staff, it could be useful for something at the rune, you remember that there is a hole there that could be the perfect fit";
+                        ItemAdder itemAdder = instance.GetNode<ItemAdder>("ItemAdder");
+                        itemAdder.ItemToAdd = Game.Scripts.Items.Material.FestiveStaff;
+                        itemAdder.Amount = 1;
+                        itemAdder.ItemToAddName = "Festive Staff";
+                        AddChild(instance);
+                        _festiveStaffCollected = true;
+                    }
+
                     /*
                    if (this.GetName() != "Sprite2D")
                    {
@@ -118,16 +146,54 @@ public partial class ShowWhileInRadius : Node2D
                    */
 
                 }
+
+                if (entity is Ally allyinv)
+                {
+                    Node2D parentNode = this.GetParent<Node2D>();
+                    //GD.Print("Parent Node Name: ", parentNode.Name);
+                    //GD.Print("Distance to RuneHolder: ", allyinv.GlobalPosition.DistanceTo(parentNode.GlobalPosition));
+                    //GD.Print("Ally has FestiveStaff: ", allyinv.SsInventory.ContainsMaterial(Game.Scripts.Items.Material.FestiveStaff));
+                    if (parentNode.Name == "Rune" && allyinv.GlobalPosition.DistanceTo(parentNode.GlobalPosition) < 250 && allyinv.SsInventory.ContainsMaterial(Game.Scripts.Items.Material.FestiveStaff) && !_ghostspawned)
+                    {
+                        GD.Print("Ghost spawned");
+                        PackedScene scene = (PackedScene)ResourceLoader.Load("res://scenes/prefabs/ai_node.tscn");
+                        AiNode instance = scene.Instantiate<AiNode>();
+                        instance.Position = new Vector2(250, 0);
+                        instance.ObjectName = "Ghost";
+                        instance.ObjectDescription = "A ghost appears in front of you and tells you to stay here and command another ally to get some copper";
+                        instance.Interactable = false;
+                        instance.RemovedAfter = false;
+                        AddChild(instance);
+                        _ghostspawned = true;
+                    }
+
+                    if (parentNode.Name == "Rune" && allyinv.GlobalPosition.DistanceTo(GetTree().Root.GetNode<Node2D>("Node2D/Spaceport/Spaceship").GlobalPosition) < 250 && allyinv.SsInventory.ContainsMaterial(Game.Scripts.Items.Material.Copper) && _ghostspawned && !_notebookspawned)
+                    {
+                        GD.Print("Notebook spawned");
+                        _notebookspawned = true;
+                        _notebookCode.Visible = true;
+                        VisibleForAI instance = new VisibleForAI();
+                        instance.NameForAi = "Notebook";
+                        instance.DescriptionForAi = "A Notebook that contains the code for the runeholder which is 1234";
+                        _notebookCode.AddChild(instance);
+                        _notebookCode.ObjectName = "Notebook";
+                        _notebookCode.ObjectDescription = "A Notebook that contains the code for the runeholder";
+                        _notebookCode.CustomOverrideMessage = "Tell the commander that the code for the rune holder is 1234";
+                    }
+                }
             }
         }
-        Sprite2D? sprite = GetParent<Sprite2D>();
-        if (sprite != null)
+        if (GetParent().Name == "Sprite2D")
         {
-            SetShowSceneState(sprite, show);
-        }
-        else
-        {
-            GD.Print("Sprite2D is null. Can't show chest right now!");
+            Sprite2D? sprite = GetParent<Sprite2D>();
+            if (sprite != null)
+            {
+                SetShowSceneState(sprite, show);
+            }
+            else
+            {
+                GD.Print("Sprite2D is null. Can't show chest right now!");
+            }
         }
 
 

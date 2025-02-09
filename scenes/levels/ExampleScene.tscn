@@ -318,6 +318,42 @@ tracks/1/keys = {
 "update": 0,
 "values": [Color(0.332881, 0.332881, 0.332881, 1), Color(1, 1, 1, 1)]
 }
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("FadeToWhite/ColorRect:color")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(),
+"transitions": PackedFloat32Array(),
+"update": 0,
+"values": []
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("FadeToWhite/ColorRect/Label:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("FadeToWhite/ColorRect:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
 
 [sub_resource type="Animation" id="Animation_q5a48"]
 resource_name = "fade_to_white"
@@ -345,6 +381,42 @@ tracks/1/keys = {
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [Color(0.332881, 0.332881, 0.332881, 1), Color(1, 1, 1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("FadeToWhite/ColorRect:color")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.0666667, 3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("FadeToWhite/ColorRect/Label:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(2.96667),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("FadeToWhite/ColorRect:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0.1),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_vaoj4"]
@@ -17588,6 +17660,29 @@ libraries = {
 "": SubResource("AnimationLibrary_vaoj4")
 }
 
+[node name="ColorRect" type="ColorRect" parent="ColorRect/FadeToWhite"]
+visible = false
+z_index = 45
+offset_left = -13988.0
+offset_top = -11942.0
+offset_right = 18466.0
+offset_bottom = 9721.0
+color = Color(1, 1, 1, 0)
+
+[node name="Label" type="Label" parent="ColorRect/FadeToWhite/ColorRect"]
+z_index = 46
+layout_mode = 0
+offset_left = 16925.0
+offset_top = 13566.0
+offset_right = 17768.0
+offset_bottom = 13983.0
+theme_override_colors/font_color = Color(0, 0, 0, 0.87451)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 100
+text = "Victory!
+Excited for more?
+Coming soon!"
+
 [node name="Signs" type="Node" parent="."]
 
 [node name="Grave Runeholder Sign" parent="Signs" instance=ExtResource("13_05imv")]
@@ -17672,22 +17767,24 @@ WalkingObject = NodePath("../../../../Ally")
 WalkingObject2 = NodePath("../../../../Ally2")
 Sound = NodePath("../../../../AudioManager/door_sound")
 
-[node name="VisibleForAi" type="Node2D" parent="Abandoned Village/HauntedForestVillage"]
+[node name="Sprite2D" type="Sprite2D" parent="Abandoned Village/HauntedForestVillage"]
 z_index = 4
 position = Vector2(-16.3333, -339.333)
 scale = Vector2(0.333333, 0.333333)
-script = ExtResource("6_7bcmx")
-NameForAi = "Big house"
 
-[node name="InsideBigHouse" type="Node2D" parent="Abandoned Village/HauntedForestVillage/VisibleForAi"]
+[node name="InsideBigHouse" type="Node2D" parent="Abandoned Village/HauntedForestVillage/Sprite2D"]
 position = Vector2(21, -486.001)
 script = ExtResource("25_0y114")
 SceneToShow = ExtResource("26_vmw0c")
 Radius = 500
 
-[node name="InsideBigHouse2" parent="Abandoned Village/HauntedForestVillage/VisibleForAi" instance=ExtResource("26_vmw0c")]
+[node name="InsideBigHouse2" parent="Abandoned Village/HauntedForestVillage/Sprite2D" instance=ExtResource("26_vmw0c")]
 position = Vector2(-8.99999, -122.001)
 scale = Vector2(2.75, 5)
+
+[node name="VisibleForAI" type="Node2D" parent="Abandoned Village/HauntedForestVillage/Sprite2D"]
+script = ExtResource("6_7bcmx")
+NameForAi = "Big House"
 
 [node name="HauntedForestVillageAiNode" parent="Abandoned Village/HauntedForestVillage" instance=ExtResource("13_05imv")]
 ObjectName = "Haunted Forest Village"
@@ -18443,7 +18540,7 @@ script = ExtResource("48_x4dce")
 
 [node name="CodeInputField" type="LineEdit" parent="RuneHolder"]
 visible = false
-z_index = 4096
+z_index = 44
 offset_left = -412.0
 offset_top = -25.0
 offset_right = -29.0

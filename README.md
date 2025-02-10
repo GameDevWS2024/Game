@@ -6,8 +6,17 @@ This project is a 2D game developed as part of the Games and Visual Effects cour
 
 ---
 
-The game is a puzzle game with an integrated AI that you can chat with through your allies. It can also control the allies and interact with objects. Currently it's just a small demo with only one level but you can try it out yourself, we're sure that it'll be a lot of fun.
-You spawn with two allies which you can talk to, use commands like "go to" and "interact" and which are your eyes (they can spot objects, places and tell you important information oh them). You can switch in between them with the buttons or with the right mouse button. You are also able to control them by clicking with the left mouse button on the map.
+The game is a puzzle game with an integrated AI that you can chat with through your allies. It can also control the allies and interact with objects.    
+Currently it's just a small demo with only one level but you can try it out yourself, we're sure that it'll be a lot of fun.   
+You spawn with two allies which you can talk to, use commands like "go to" and "interact" and which are your eyes (they can spot objects, places and tell you important information about them).
+
+![aicommandsallygif](aicommandsallygif-ezgif.com-video-to-gif-converter.gif)
+
+You can switch in between them with the buttons or with the right mouse button. You are also able to control them by clicking with the left mouse button on the map.
+
+You can open the inventory after removing focus from the chat windows with "Escape" through pressing "E"
+
+![inventorygif](inventory-ezgif.com-video-to-gif-converter.gif)
 
 ---
 
@@ -33,10 +42,13 @@ To get started with the game development, follow these steps:
 5. **Install Git Large File Storage (LFS)**:  
    [Guide to Install Git LFS](https://github.com/git-lfs/git-lfs?utm_source=gitlfs_site&utm_medium=installation_link&utm_campaign=gitlfs#installing)
 
-6. **Get a Gemini API key**  
+6. **Get a Gemini API key**:  
    [Get a key](https://ai.google.dev/gemini-api/docs/api-key)  
    After getting the key, make sure you save it somewhere, since it won't show up again.
    If you start the game without a key, it will prompt you to paste you key to the text field, after that it is safed and you shouldn't have to paste it again.
+
+7. **Insert Gemini API key**:   
+   After starting the game, enter the API key in one of the chat boxes of the allies, close the game and restart.  
 ---
 
 ## Useful Resources

@@ -6,6 +6,11 @@ This project is a 2D game developed as part of the Games and Visual Effects cour
 
 ---
 
+The game is a puzzle game with an integrated AI that you can chat with through your allies. It can also control the allies and interact with objects. Currently it's just a small demo with only one level but you can try it out yourself, we're sure that it'll be a lot of fun.
+You spawn with two allies which you can talk to, use commands like "go to" and "interact" and which are your eyes (they can spot objects, places and tell you important information oh them). You can switch in between them with the buttons or with the right mouse button. You are also able to control them by clicking with the left mouse button on the map.
+
+---
+
 ## Setting Up for Development
 
 To get started with the game development, follow these steps:

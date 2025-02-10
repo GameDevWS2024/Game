@@ -64,19 +64,16 @@ public partial class MouseControl : Control
         if (CurrentCamera == 1)
         {
             _selectedEntityGoto = Ally2;
-            GD.Print("DEBUG: WAS CAMERA 1");
             Camera2.Enabled = true;
             Camera1.Enabled = false;
             Camera1.GetNode<Chat>("Ally1Chat").Visible = false;
             Camera2.GetNode<Chat>("Ally2Chat").GrabFocus();
             Camera2.GetNode<Chat>("Ally2Chat").Visible = true;
-            GD.Print("DEBUG: setting camera to 2");
             CurrentCamera = 2;
         }
         else if (CurrentCamera == 2)
         {
             _selectedEntityGoto = Ally1;
-            GD.Print("DEBUG: WAS CAMERA 2");
             Camera1.Enabled = true;
             Camera2.Enabled = false;
             Camera1.GetNode<Chat>("Ally1Chat").Visible = true;

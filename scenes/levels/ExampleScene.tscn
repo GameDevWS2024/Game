@@ -17480,7 +17480,6 @@ text = "James"
 metadata/_edit_use_anchors_ = true
 
 [node name="ResponseField" type="RichTextLabel" parent="Ally"]
-modulate = Color(0.6, 0.6, 0.6, 0.654902)
 offset_left = 515.0
 offset_top = 371.0
 offset_right = 1115.0
@@ -17572,7 +17571,6 @@ text = "Jones"
 metadata/_edit_use_anchors_ = true
 
 [node name="ResponseField" type="RichTextLabel" parent="Ally2"]
-modulate = Color(0.6, 0.6, 0.6, 0.654902)
 offset_left = 997.0
 offset_top = 1382.0
 offset_right = 1597.0

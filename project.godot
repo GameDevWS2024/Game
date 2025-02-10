@@ -16,6 +16,10 @@ config/features=PackedStringArray("4.3", "C#", "GL Compatibility")
 boot_splash/image="res://assets/sprites/starting-image.png"
 config/icon="res://assets/sprites/icon.svg"
 
+[debug]
+
+shapes/navigation/agent_path_color=Color(1, 0, 0, 0)
+
 [display]
 
 window/size/viewport_width=1920

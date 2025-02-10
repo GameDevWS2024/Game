@@ -40,6 +40,7 @@ public partial class PathFindingMovement : Node
         this.CallDeferred("ActorSetup"); // Still good to defer setup
         _bumpSound = GetTree().Root.GetNode<AudioStreamPlayer>("Node2D/AudioManager/bump_sound");
         _buttonControl = GetTree().Root.GetNode<ButtonControl>("Node2D/UI");
+
     }
 
     public async void ActorSetup()

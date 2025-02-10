@@ -29,9 +29,10 @@ public partial class Core : Node2D
     {
         Vector2 center = new Vector2(500, 2000);
         s_coreLight!.SetPosition(center);
-        DrawArc(center, Core.LightRadiusSmallerCircle, 0, Mathf.Tau, 64, Colors.Red, 4f);
-        DrawArc(center, Core.LightRadiusBiggerCircle, 0, Mathf.Tau, 64, Colors.Blue, 4f);
-        // GD.Print("Drawing circle...");
+        //uncomment to draw circles around core
+        //DrawArc(center, Core.LightRadiusSmallerCircle, 0, Mathf.Tau, 64, Colors.Red, 4f);
+        //DrawArc(center, Core.LightRadiusBiggerCircle, 0, Mathf.Tau, 64, Colors.Blue, 4f);
+
     }
 
     public override void _Draw()

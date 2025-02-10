@@ -1,30 +1,28 @@
-[gd_scene load_steps=105 format=4 uid="uid://dfkwq6qwtxw25"]
+[gd_scene load_steps=103 format=4 uid="uid://dfkwq6qwtxw25"]
 
-[ext_resource type="Script" path="res://scripts/EnemyManager.cs" id="1_bmkfv"]
+[ext_resource type="Script" path="res://scripts/notUsed/EnemyManager.cs" id="1_bmkfv"]
 [ext_resource type="Script" path="res://scripts/Map.cs" id="1_pa1ge"]
 [ext_resource type="PackedScene" uid="uid://dkcg0yrtwyo0k" path="res://scenes/prefabs/PointLight.tscn" id="3_0raeo"]
 [ext_resource type="Script" path="res://scripts/Chat.cs" id="3_m6i6e"]
 [ext_resource type="Texture2D" uid="uid://b74yyhgy3rt5w" path="res://assets/sprites/ScientistAnimationSideways.png" id="4_aap2j"]
 [ext_resource type="Texture2D" uid="uid://cjvg134432gbl" path="res://assets/sprites/CoreWithGhost.png" id="6_3xn4a"]
-[ext_resource type="Script" path="res://scripts/AI/VisibleForAI.cs" id="6_7bcmx"]
+[ext_resource type="Script" path="res://scripts/ai/VisibleForAI.cs" id="6_7bcmx"]
 [ext_resource type="Texture2D" uid="uid://cdwyw32swyohh" path="res://assets/sprites/SoldierAnimationSideways.png" id="6_kjsil"]
 [ext_resource type="PackedScene" uid="uid://6gwtt7kwq2p" path="res://scenes/prefabs/Ally.tscn" id="6_l8h37"]
-[ext_resource type="Script" path="res://scripts/Interaction/Interactable.cs" id="7_ji1nn"]
-[ext_resource type="PackedScene" uid="uid://bgxxp0o5kdpkq" path="res://scenes/prefabs/Enemy.tscn" id="10_tv6x7"]
+[ext_resource type="Script" path="res://scripts/interaction/Interactable.cs" id="7_ji1nn"]
+[ext_resource type="PackedScene" uid="uid://bgxxp0o5kdpkq" path="res://scenes/prefabs/notUsed/Enemy.tscn" id="10_tv6x7"]
 [ext_resource type="Script" path="res://scripts/Core.cs" id="11_wagl7"]
 [ext_resource type="PackedScene" uid="uid://d0natjkfu7hhd" path="res://scenes/prefabs/ai_node.tscn" id="13_05imv"]
 [ext_resource type="Script" path="res://scripts/WalkOverSound.cs" id="16_yq8ar"]
 [ext_resource type="Texture2D" uid="uid://desfy4vbdj1ld" path="res://assets/tilemaps/TX Props.png" id="18_mna0q"]
 [ext_resource type="Texture2D" uid="uid://dtw1kjrq4qor4" path="res://assets/tilemaps/TX Tileset Grass.png" id="19_jd32h"]
 [ext_resource type="Texture2D" uid="uid://cmooytb3c0mki" path="res://assets/sprites/Pasted image.png" id="20_lgqcj"]
-[ext_resource type="Script" path="res://scripts/Interaction/ItemAdder.cs" id="21_2au4o"]
-[ext_resource type="Script" path="res://scripts/AI/AiNode.cs" id="22_8wkxe"]
-[ext_resource type="TileSet" uid="uid://b57mlmhoqye7c" path="res://assets/hauntedForestVillage/Interior.tres" id="23_6wlm7"]
-[ext_resource type="Script" path="res://scripts/Interaction/Removeable.cs" id="24_ex5ip"]
-[ext_resource type="TileSet" uid="uid://c2meivnk57unc" path="res://assets/hauntedForestVillage/HauntedForestVillage.tres" id="24_igx6k"]
+[ext_resource type="Script" path="res://scripts/interaction/ItemAdder.cs" id="21_2au4o"]
+[ext_resource type="Script" path="res://scripts/ai/AiNode.cs" id="22_8wkxe"]
+[ext_resource type="Script" path="res://scripts/interaction/Removeable.cs" id="24_ex5ip"]
 [ext_resource type="Script" path="res://scripts/AudioSwitch.cs" id="24_sabha"]
-[ext_resource type="Script" path="res://scripts/Interaction/ShowWhileInRadius.cs" id="25_0y114"]
-[ext_resource type="Script" path="res://scenes/levels/AudioManager.cs" id="25_fif0r"]
+[ext_resource type="Script" path="res://scripts/interaction/ShowWhileInRadius.cs" id="25_0y114"]
+[ext_resource type="Script" path="res://scripts/AudioManager.cs" id="25_fif0r"]
 [ext_resource type="PackedScene" uid="uid://cg2nij0k76my6" path="res://scenes/levels/HauntedForest/HauntedForestVillage.tscn" id="25_lc565"]
 [ext_resource type="AudioStream" uid="uid://dakeblpcjdlfw" path="res://assets/audio/creepy_music.mp3" id="26_rqvqj"]
 [ext_resource type="PackedScene" uid="uid://dlswxsom74twu" path="res://scenes/levels/HauntedForest/insideBigHouse.tscn" id="26_vmw0c"]
@@ -33,20 +31,20 @@
 [ext_resource type="AudioStream" uid="uid://dk6o3bfgpq5as" path="res://assets/audio/intro_song.mp3" id="28_u8gsi"]
 [ext_resource type="AudioStream" uid="uid://ckepkjqosl80g" path="res://assets/audio/gameOver.mp3" id="29_jcr58"]
 [ext_resource type="AudioStream" uid="uid://dpq5uuhy4kxlo" path="res://assets/audio/victoryScreen.mp3" id="30_4ukal"]
-[ext_resource type="Script" path="res://scenes/levels/ButtonControl.cs" id="30_pwpih"]
+[ext_resource type="Script" path="res://scripts/ButtonControl.cs" id="30_pwpih"]
 [ext_resource type="AudioStream" uid="uid://ccjwwjvfktune" path="res://assets/audio/Damage.mp3" id="31_0ksbt"]
 [ext_resource type="ButtonGroup" uid="uid://canjpaliv4kso" path="res://assets/resources/chat_button_group.tres" id="31_rop2t"]
 [ext_resource type="AudioStream" uid="uid://u1eq84kjmd3i" path="res://assets/audio/Bump.mp3" id="32_2bq74"]
-[ext_resource type="PackedScene" uid="uid://cp62xh0okgxnf" path="res://scenes/levels/intro_scene.tscn" id="32_bdur0"]
+[ext_resource type="PackedScene" uid="uid://cp62xh0okgxnf" path="res://scenes/prefabs/intro_scene.tscn" id="32_bdur0"]
 [ext_resource type="Texture2D" uid="uid://bj4mic7w6ckhv" path="res://assets/tilemaps/Grassland Tileset.png" id="33_xri4x"]
 [ext_resource type="AudioStream" uid="uid://dkxtx430h7ncd" path="res://assets/audio/Door.mp3" id="33_yq2va"]
 [ext_resource type="Texture2D" uid="uid://xvkkbijsncdh" path="res://assets/obstacles/Tree Group.png" id="34_aq6iy"]
 [ext_resource type="AudioStream" uid="uid://nosimi3kpilu" path="res://assets/audio/New_item.mp3" id="36_ue3tg"]
-[ext_resource type="Texture2D" uid="uid://ic4l7t2su0vd" path="res://assets/hauntedForestVillage/TilesetAbandondedVillage.png" id="37_iew8o"]
+[ext_resource type="Texture2D" uid="uid://ic4l7t2su0vd" path="res://assets/tilemaps/hauntedForestVillage/TilesetAbandondedVillage.png" id="37_iew8o"]
 [ext_resource type="Texture2D" uid="uid://d1yvwy2drdwqd" path="res://assets/tilemaps/Reg tree wall.png" id="38_dsao3"]
 [ext_resource type="Texture2D" uid="uid://cn0pcaddy8lcv" path="res://assets/tilemaps/TX Struct.png" id="39_jhhw6"]
 [ext_resource type="Texture2D" uid="uid://bxo85wuubsbn2" path="res://assets/tilemaps/TX Tileset Wall.png" id="40_6y0o1"]
-[ext_resource type="Script" path="res://scripts/Interaction/CodeInput.cs" id="48_x4dce"]
+[ext_resource type="Script" path="res://scripts/interaction/CodeInput.cs" id="48_x4dce"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qwcva"]
 bg_color = Color(0.6, 0.6, 0.6, 0.654902)
@@ -17532,7 +17530,6 @@ zoom = Vector2(0.8, 0.8)
 position_smoothing_speed = 7.0
 
 [node name="Ally2Chat" type="LineEdit" parent="Ally2/Ally2Cam" groups=["Chat"]]
-visible = false
 custom_minimum_size = Vector2(1200, 200)
 offset_left = 2758.0
 offset_top = 599.902
@@ -17732,17 +17729,6 @@ offset_bottom = 40.0
 metadata/_edit_use_anchors_ = true
 
 [node name="Abandoned Village" type="Node" parent="."]
-
-[node name="Tileset Layers" type="Node" parent="Abandoned Village"]
-
-[node name="Interior" type="TileMapLayer" parent="Abandoned Village/Tileset Layers"]
-scale = Vector2(10, 10)
-tile_set = ExtResource("23_6wlm7")
-
-[node name="Abandoned Village" type="TileMapLayer" parent="Abandoned Village/Tileset Layers"]
-position = Vector2(8551, -1941)
-scale = Vector2(4, 4)
-tile_set = ExtResource("24_igx6k")
 
 [node name="HauntedForestVillage" parent="Abandoned Village" instance=ExtResource("25_lc565")]
 position = Vector2(8649, -1315)
@@ -17946,7 +17932,6 @@ button_group = ExtResource("31_rop2t")
 text = "Ally 1"
 
 [node name="IntroScene" parent="." node_paths=PackedStringArray("_ally") instance=ExtResource("32_bdur0")]
-visible = false
 offset_left = -633.0
 offset_top = 1955.0
 offset_right = 1457.0

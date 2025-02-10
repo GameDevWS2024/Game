@@ -5,6 +5,8 @@
 This project is a 2D game developed as part of the Games and Visual Effects course during the winter term of 2023/2025.
 
 ---
+The game is a puzzle game with an integrated AI that you can chat with through your allies. It can also control the allies and interact with objects. Currently it's just a small demo with only one level but you can try it out yourself, we're sure that it'll be a lot of fun.
+---
 
 ## Setting Up for Development
 

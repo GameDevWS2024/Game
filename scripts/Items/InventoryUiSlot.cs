@@ -77,6 +77,10 @@ public partial class InventoryUiSlot : Panel
                 _icon.Texture = GD.Load<Texture2D>("res://assets/items/notebook.png");
                 break;
 
+            case Game.Scripts.Items.Material.FestiveStaff:
+                _icon.Visible = true;
+                _icon.Texture = GD.Load<Texture2D>("res://assets/items/festiveStaff.png");
+                break;
         }
         _count.Text = item.Amount <= 1 ? "" : item.Amount.ToString();
     }

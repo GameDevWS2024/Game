@@ -37,7 +37,10 @@ public class GeminiService
             {
                 throw new InvalidOperationException("API key file is empty");
             }
-            _model = new GenerativeModel(apiKey);
+            _model = new GenerativeModel(apiKey: apiKey, model: "gemini-2.0-pro-exp-02-05");
+
+
+
 
             _model.SafetySettings =
             [
@@ -138,4 +141,3 @@ public class GeminiService
         Chat = _model.StartChat(new StartChatParams());
     }
 }
-

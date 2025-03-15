@@ -40,7 +40,7 @@ public partial class Ally : CharacterBody2D
     private GenerativeAI.Methods.ChatSession? _chat;
     private GeminiService? _geminiService;
     private readonly List<string> _interactionHistory = [];
-    AnimationPlayer _animPlayer = null!;
+    [Export] AnimationPlayer _animPlayer = null!;
     private PointLight2D _coreLight = null!;
 
     public Boolean Lit = false;
@@ -115,7 +115,7 @@ public partial class Ally : CharacterBody2D
             GD.PrintErr("PathFindingMovement node is not assigned in the editor!");
         }
         Chat.ResponseReceived += HandleResponse;
-        _animPlayer = GetNode<AnimationPlayer>("AnimationPlayer2");
+        _animPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
         _animPlayer.Play("Idle-Left");
     }
 

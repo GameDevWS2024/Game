@@ -88,13 +88,14 @@ _data = {
 "RESET": SubResource("Animation_0eag6")
 }
 
-[node name="Ally" type="CharacterBody2D" node_paths=PackedStringArray("PathFindingMovement") groups=["Entities"]]
+[node name="Ally" type="CharacterBody2D" node_paths=PackedStringArray("PathFindingMovement", "_animPlayer") groups=["Entities"]]
 z_index = 50
 safe_margin = 59.554
 script = ExtResource("1_anjrv")
 PathFindingMovement = NodePath("PathFindingMovement")
 _visionRadius = 600
 _interactionRadius = 100
+_animPlayer = NodePath("AnimationPlayer")
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 path_max_distance = 20.0

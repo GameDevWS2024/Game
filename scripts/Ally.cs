@@ -70,8 +70,8 @@ public partial class Ally : CharacterBody2D
             }
         }
         /*
-		SsInventory.AddItem(new Itemstack(Game.Scripts.Items.Material.Torch));
-		lit = true; */
+        SsInventory.AddItem(new Itemstack(Game.Scripts.Items.Material.Torch));
+        lit = true; */
         // SsInventory.AddItem(new Itemstack(Items.Material.FestiveStaff, 1));
         //SsInventory.AddItem(new Itemstack(Items.Material.Copper, 1));
         _torch = GetNode<PointLight2D>("AllyTorch");
@@ -244,9 +244,9 @@ public partial class Ally : CharacterBody2D
 
             //GD.Print("homie hat die Fackel und ist am core");
             /* GD.Print("Distance to core" + GlobalPosition.DistanceTo(GetNode<Core>("%Core").GlobalPosition));
-			 GD.Print("Core position" + GetNode<Core>("%Core").GlobalPosition);
-			 GD.Print("Core position" + GetNode<PointLight2D>("%CoreLight").GlobalPosition);
-			 */
+             GD.Print("Core position" + GetNode<Core>("%Core").GlobalPosition);
+             GD.Print("Core position" + GetNode<PointLight2D>("%CoreLight").GlobalPosition);
+             */
         }
     }//Node2D/Abandoned Village/HauntedForestVillage/Big House/Sprite2D/InsideBigHouse2/InsideBigHouse/Sprite2D/ChestInsideHouse
 
@@ -292,12 +292,12 @@ public partial class Ally : CharacterBody2D
             string response = _responseQueue.Dequeue(); // dequeue response
 
             /*
-			if (_hasSeenOtherAlly)
-			{
-				_otherAlly.Chat.SendSystemMessage("Hello, this is "+this.Name+", the other ally speaking to you. Before, I've said "+response+ ". What do you think about that?]");
-				// Hier Sprechblase einblenden für ms Anzahl: 1000*0.008f*response.Length
-			}
-			*/
+            if (_hasSeenOtherAlly)
+            {
+                _otherAlly.Chat.SendSystemMessage("Hello, this is "+this.Name+", the other ally speaking to you. Before, I've said "+response+ ". What do you think about that?]");
+                // Hier Sprechblase einblenden für ms Anzahl: 1000*0.008f*response.Length
+            }
+            */
 
             _matches = ExtractRelevantLines(response); // Split lines into tuples. Put command in first spot, args in second spot, keep only tuples with an allowed command
             string? richtext = "";
@@ -402,18 +402,18 @@ public partial class Ally : CharacterBody2D
             GD.Print("Interactable null");
         }
         /*GD.Print("Interacted");
-		List<VisibleForAI> visibleItems = GetCurrentlyVisible().Concat(AlwaysVisible).ToList();
-		string visibleItemsFormatted = string.Join<VisibleForAI>("\n", visibleItems);
-		string completeInput = $"Currently Visible:\n\n{visibleItemsFormatted}\n\n";
+        List<VisibleForAI> visibleItems = GetCurrentlyVisible().Concat(AlwaysVisible).ToList();
+        string visibleItemsFormatted = string.Join<VisibleForAI>("\n", visibleItems);
+        string completeInput = $"Currently Visible:\n\n{visibleItemsFormatted}\n\n";
 
-		string originalSystemPrompt = Chat.SystemPrompt;
-		Chat.SystemPrompt =
-			"[System Message] In the following you'll get a list of things you see with coordinates. Respond by telling the commander just what might be important or ask clarifying questions on what to do next. \n";
-		string? arrivalResponse = await _geminiService!.MakeQuery(completeInput + "[System Message End] \n");
-		RichTextLabel label = GetNode<RichTextLabel>("ResponseField");
-		label.Text += "\n" + arrivalResponse;
+        string originalSystemPrompt = Chat.SystemPrompt;
+        Chat.SystemPrompt =
+            "[System Message] In the following you'll get a list of things you see with coordinates. Respond by telling the commander just what might be important or ask clarifying questions on what to do next. \n";
+        string? arrivalResponse = await _geminiService!.MakeQuery(completeInput + "[System Message End] \n");
+        RichTextLabel label = GetNode<RichTextLabel>("ResponseField");
+        label.Text += "\n" + arrivalResponse;
 
-		Chat.SystemPrompt = originalSystemPrompt;*/
+        Chat.SystemPrompt = originalSystemPrompt;*/
         GD.Print("DEBUG: INTERACT Match");
     }
 

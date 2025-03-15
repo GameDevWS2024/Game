@@ -49,8 +49,8 @@ _data = {
 }
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_rn1pq"]
-radius = 21.0
-height = 92.0
+radius = 23.0
+height = 100.0
 
 [sub_resource type="Animation" id="Animation_yikeh"]
 resource_name = "Idle"

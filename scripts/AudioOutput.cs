@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Game.Scripts.AI;
 
 using Godot;
+
 using Microsoft.Win32;
 
 using FileAccess = Godot.FileAccess;
@@ -20,7 +21,7 @@ public partial class AudioOutput : Node
     [Export] public string PythonScriptPath { get; set; } = "Guy.py"; // Dateiname anpassen
 
     private AudioStreamPlayer _audioPlayer = null!;
-    
+
     private GeminiService _geminiService = null!;
 
     public override void _Ready()
@@ -123,7 +124,7 @@ public partial class AudioOutput : Node
         {
             // KORREKTE METHODE zum Laden von WAV in Godot 4:
             using FileAccess file = FileAccess.Open(audioFilePath, FileAccess.ModeFlags.Read);
-            if (file == null) 
+            if (file == null)
             {
                 GD.PrintErr("Error opening WAV file: ", FileAccess.GetOpenError());
                 return;

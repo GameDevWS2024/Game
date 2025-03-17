@@ -28,7 +28,7 @@ namespace Game.Scripts
         private readonly string _apiKeyPath = ProjectSettings.GlobalizePath("res://api_key.secret");
         private const string ChatPlaceholder = "Type here to chat";
         private const string EnterApiPlaceholder = "Enter API key";
-        
+
         private int _responseCount;
         private readonly List<VisibleForAI> _alreadySeen = [];
         private Godot.Collections.Array<Node> _entityList = null!;
@@ -46,7 +46,7 @@ namespace Game.Scripts
             //   string introductionSystemPromptAbsolutePath = ProjectSettings.GlobalizePath(_introductionSystemPromptFile);
 
             _systemPrompt = File.ReadAllText(systemPromptAbsolutePath); // Load system prompt into SystemPrompt
-                                                                       // _introductionSystemPrompt = File.ReadAllText(introductionSystemPromptAbsolutePath); // Load intro prompt
+                                                                        // _introductionSystemPrompt = File.ReadAllText(introductionSystemPromptAbsolutePath); // Load intro prompt
 
             InitializeGeminiService(_systemPrompt); // Pass system prompt to InitializeGeminiService
             /* foreach (Ally ally in GetTree().GetNodesInGroup("Entities").OfType<Ally>())
@@ -144,7 +144,7 @@ namespace Game.Scripts
             }
             catch (Exception e)
             {
-                throw new GenerativeAIException("AI query got an error.", "at system_message: " + systemMessage+" with error message "+e.Message);
+                throw new GenerativeAIException("AI query got an error.", "at system_message: " + systemMessage + " with error message " + e.Message);
             }
         }
 

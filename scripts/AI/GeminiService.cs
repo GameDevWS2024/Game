@@ -40,7 +40,8 @@ public partial class GeminiService : Node
             {
                 throw new InvalidOperationException("API key file is empty");
             }
-            _model = new GenerativeModel(apiKey: apiKey, model: "gemini-2.0-flash-lite") {
+            _model = new GenerativeModel(apiKey: apiKey, model: "gemini-2.0-flash-lite")
+            {
                 // gemini-2.0-pro-exp-02-05
                 SafetySettings =
                 [

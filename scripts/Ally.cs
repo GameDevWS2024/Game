@@ -33,7 +33,7 @@ public partial class Ally : CharacterBody2D
     private RichTextLabel _ally1ResponseField = null!, _ally2ResponseField = null!;
 
     [Export] private int _visionRadius = 300, _interactionRadius = 150;
-    
+
     private bool _interactOnArrival, _busy, _reached, _harvest, _returning;
     public bool IsTextBoxReady = true, Lit;
 
@@ -279,7 +279,7 @@ public partial class Ally : CharacterBody2D
     {
         return _responseQueue;
     }
-    
+
     public async void HandleResponse(string response, Ally sender)
     {
         GD.Print($"{Name} received message from: {(sender == null ? "null" : sender.Name)}, Response: {response}"); // ADD THIS
@@ -287,7 +287,7 @@ public partial class Ally : CharacterBody2D
         {
             return; // Ignore messages from myself to prevent infinite talking loops
         }
-        
+
         // send text to AudioOutput Script
         if (audioOutput.Synthesize)
         {
@@ -305,9 +305,9 @@ public partial class Ally : CharacterBody2D
                 audioOutput.GenerateAndPlaySpeech(spokenResponse);
                 GeminiService? geminiService = new(ProjectSettings.GlobalizePath("res://api_key.secret"), "You will get tasks of choosing an appropriate emotion for a text. Reply ONLY with the responding emotion, nothing else.");
 
-                audioOutput.DefaultStyle = await geminiService.InternalSendMessage("Choose a correct emotion for the following text. \n" + spokenResponse+" \n The emotion options are: newscast, angry, cheerful, sad, excited, friendly, terrified, shouting, unfriendly, whispering, hopeful. Choose one and reply ONLY(!) with that emotion exactly as it is written here.\n");  // retrieve correct style from ai.
+                audioOutput.DefaultStyle = await geminiService.InternalSendMessage("Choose a correct emotion for the following text. \n" + spokenResponse + " \n The emotion options are: newscast, angry, cheerful, sad, excited, friendly, terrified, shouting, unfriendly, whispering, hopeful. Choose one and reply ONLY(!) with that emotion exactly as it is written here.\n");  // retrieve correct style from ai.
                 audioOutput.DefaultStyle = audioOutput!.DefaultStyle.Replace("\n", "").ToLower();
-                GD.Print("\n"+audioOutput.DefaultStyle+" \n");
+                GD.Print("\n" + audioOutput.DefaultStyle + " \n");
             }
             else
             {
@@ -315,14 +315,14 @@ public partial class Ally : CharacterBody2D
             }
         }
         //
-        
+
         _responseQueue.Enqueue(response);
         ProcessResponseQueue();
 
         // probably not necessary here
-         GD.Print("got response of length: " + response.Length + ". Waiting for: " + (int)(1000 * 0.009f * response.Length) + " ms.");
-         await Task.Delay((int)(1000*0.015f * response.Length));
-         
+        GD.Print("got response of length: " + response.Length + ". Waiting for: " + (int)(1000 * 0.009f * response.Length) + " ms.");
+        await Task.Delay((int)(1000 * 0.015f * response.Length));
+
     }
 
     private async void ProcessResponseQueue()
@@ -334,10 +334,10 @@ public partial class Ally : CharacterBody2D
             GD.Print($"{Name}: processing response: {response}");
 
 
-            
-			if (!_hasSeenOtherAlly)
-			{
-				_otherAlly.Chat.SendSystemMessage("Hello, this is "+this.Name+", the other ally speaking to you. Before, I've said "+response+ ". What do you think about that?]", this);
+
+            if (!_hasSeenOtherAlly)
+            {
+                _otherAlly.Chat.SendSystemMessage("Hello, this is " + this.Name + ", the other ally speaking to you. Before, I've said " + response + ". What do you think about that?]", this);
                 _hasSeenOtherAlly = true;
             }
 

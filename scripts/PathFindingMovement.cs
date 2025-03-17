@@ -14,7 +14,7 @@ public partial class PathFindingMovement : Node
     [Export] private int _speed = 250;
     [Export] int _minimumSpeed = 50;
     private int _origMinimumSpeed;
-    
+
     [Export] bool _debug = false;
 
     [Export] CharacterBody2D _character = null!;
@@ -64,7 +64,7 @@ public partial class PathFindingMovement : Node
     public override void _PhysicsProcess(double delta)
     {
         _speed = 250;
-        
+
         _agent.SetTargetPosition(TargetPosition); // Keep this for consistent target setting
 
         if (_debug)
@@ -79,9 +79,9 @@ public partial class PathFindingMovement : Node
         {
             _reachedTarget = false;
             Vector2 currentLocation = _character.GlobalPosition, nextLocation = _agent.GetNextPathPosition();
-            
+
             Motivation motivation = GetParent().GetNode<Motivation>("Motivation");
-            double motivationFactor = (double) motivation.Amount / 10;
+            double motivationFactor = (double)motivation.Amount / 10;
             int modifiedSpeed = (int)(_minimumSpeed + (_speed - _minimumSpeed) * motivationFactor);
             Ally ally = GetParent().GetParent().GetChild<Ally>(0);
             Chat chat = ally.FindChild("Speech").GetParent() as Chat ?? throw new InvalidOperationException();

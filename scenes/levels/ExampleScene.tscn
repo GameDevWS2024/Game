@@ -1,9 +1,10 @@
-[gd_scene load_steps=113 format=4 uid="uid://dfkwq6qwtxw25"]
+[gd_scene load_steps=114 format=4 uid="uid://dfkwq6qwtxw25"]
 
 [ext_resource type="Script" path="res://scripts/EnemyManager.cs" id="1_bmkfv"]
 [ext_resource type="Script" path="res://scripts/Map.cs" id="1_pa1ge"]
 [ext_resource type="PackedScene" uid="uid://dkcg0yrtwyo0k" path="res://scenes/prefabs/PointLight.tscn" id="3_0raeo"]
 [ext_resource type="Script" path="res://scripts/Chat.cs" id="3_m6i6e"]
+[ext_resource type="Script" path="res://scripts/AudioOutput.cs" id="4_4unt6"]
 [ext_resource type="Texture2D" uid="uid://bdxu203edqcb5" path="res://assets/sprites/ScientistAnimationsFull.png" id="4_jwcik"]
 [ext_resource type="Texture2D" uid="uid://cjvg134432gbl" path="res://assets/sprites/CoreWithGhost.png" id="6_3xn4a"]
 [ext_resource type="Script" path="res://scripts/AI/VisibleForAI.cs" id="6_7bcmx"]
@@ -17578,13 +17579,14 @@ script = ExtResource("1_pa1ge")
 _darknessCircleDamage = 1
 _allyHealthChangeIntervall = 5.0
 
-[node name="Ally" parent="." node_paths=PackedStringArray("_responseField", "_nameLabel", "Chat") instance=ExtResource("6_l8h37")]
+[node name="Ally" parent="." node_paths=PackedStringArray("_responseField", "_nameLabel", "Chat", "_animPlayer") instance=ExtResource("6_l8h37")]
 position = Vector2(923, 2052)
 _responseField = NodePath("ResponseField")
 _nameLabel = NodePath("Label")
 _visionRadius = 200
 _interactionRadius = 250
 Chat = NodePath("Ally1Cam/Ally1Chat")
+_animPlayer = NodePath("AnimationPlayer2")
 
 [node name="Ally1Cam" type="Camera2D" parent="Ally"]
 light_mask = 2
@@ -17614,6 +17616,9 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_qwcva")
 script = ExtResource("3_m6i6e")
 _systemPromptFile = "res://assets/prompts/ally_system_prompt.txt"
 metadata/_edit_use_anchors_ = true
+
+[node name="Speech" type="Node" parent="Ally/Ally1Cam/Ally1Chat"]
+script = ExtResource("4_4unt6")
 
 [node name="SpriteAlly1" type="Sprite2D" parent="Ally"]
 scale = Vector2(3, 3)
@@ -17668,12 +17673,13 @@ shadow_filter = 2
 shadow_filter_smooth = 2.3
 texture_scale = 14.0
 
-[node name="Ally2" parent="." node_paths=PackedStringArray("_responseField", "_nameLabel", "Chat") groups=["navigation"] instance=ExtResource("6_l8h37")]
+[node name="Ally2" parent="." node_paths=PackedStringArray("_responseField", "_nameLabel", "Chat", "_animPlayer") groups=["navigation"] instance=ExtResource("6_l8h37")]
 position = Vector2(289, 2015)
 _responseField = NodePath("ResponseField")
 _nameLabel = NodePath("Label")
 _visionRadius = 200
 Chat = NodePath("Ally2Cam/Ally2Chat")
+_animPlayer = NodePath("AnimationPlayer2")
 
 [node name="Ally2Cam" type="Camera2D" parent="Ally2"]
 light_mask = 2
@@ -17704,6 +17710,9 @@ theme_override_font_sizes/font_size = 40
 theme_override_styles/normal = SubResource("StyleBoxFlat_ksed5")
 script = ExtResource("3_m6i6e")
 _systemPromptFile = "res://assets/prompts/ally2_prompt.txt"
+
+[node name="Speech" type="Node" parent="Ally2/Ally2Cam/Ally2Chat"]
+script = ExtResource("4_4unt6")
 
 [node name="SpriteAlly2" type="Sprite2D" parent="Ally2"]
 scale = Vector2(3, 3)
@@ -18002,6 +18011,7 @@ NameForAi = "Torch"
 position = Vector2(5631, -5569)
 ObjectName = "Torch"
 ObjectDescription = "An unlit Torch, engraved with ceremonial runes. It seems to important to just be burned, maybe it functions differently then a regular torch"
+ObjectHint = "Tell the commander about the object you just spotted. You may use the command [GOTO AND INTERACT]."
 AddedMaterial = 7
 
 [node name="AudioManager" type="Node" parent="." node_paths=PackedStringArray("_menuMusic", "_gameMusic", "_gameOverMusic")]
@@ -18707,6 +18717,8 @@ RemovedAfter = false
 [node name="NotebookWithCode" parent="." instance=ExtResource("13_05imv")]
 visible = false
 position = Vector2(-5354, -746)
+ObjectName = "Sign pointing towards the left."
+ObjectDescription = "There might be a rune."
 RemovedAfter = false
 CustomOverrideMessage = "Tell the commander that the code is 1234"
 
@@ -18717,6 +18729,7 @@ scale = Vector2(0.2, 0.2)
 texture = ExtResource("20_lgqcj")
 
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
+position = Vector2(-18, 9)
 navigation_polygon = SubResource("NavigationPolygon_eyy0b")
 
 [node name="Cemetery" type="Node" parent="."]
@@ -18736,3 +18749,9 @@ ObjectDescription = "An altar ruin. It was a place where the spirits of light co
 ObjectHint = "Tell the commander about the place you just spotted. You may use the command [GOTO] on this object if the commander explicitly told you to engage with it. Tell him something about the rituals of  the light Spirits that comforted the humans in their grief."
 Interactable = false
 RemovedAfter = false
+
+[node name="AiNode" parent="." instance=ExtResource("13_05imv")]
+position = Vector2(516, 1737)
+ObjectName = "BEGINNING OF THE GAME"
+ObjectDescription = "Greet the commander in a friendly tone, ask for his name and tell him to move upwards."
+ObjectHint = "Keep explaining to the commander what our missions is for the first few messages but stop if he indicates he understood everything."
